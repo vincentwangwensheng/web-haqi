@@ -1,0 +1,97 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="d-data-all-flex">
+            <form class="d-data-all-form" [formGroup]="dataForm" [autocomplete]="'off'">
+                <!-- 左 -->
+                <div class="d-data-flex-left">
+
+                    <div class="d-data-left-flex pt-24">
+
+                        <ng-container *ngIf="Authed === 'error'">
+                            <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p h-100-p">
+                                <div fxLayout="column" fxLayoutAlign="center center" class="w-50-p" fxLayoutGap="20px"
+                                     [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                                    <mat-icon class="notAuth-mat-close" >close</mat-icon>
+                                    <span class="auth-color-span">您还未进行开发者认证</span>
+                                    <a class="notAuth-a" [routerLink]="'/open/developerAuth'">去认证</a>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="Authed !== 'error'">
+                            <!-- 姓名 -->
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                                <span fxFlex="15">姓名</span>
+                                <span fxFlex="60">{{personalData.username}}</span>
+                            </div>
+
+                            <!-- 邮箱 -->
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                                <span fxFlex="15">邮箱</span>
+                                <span fxFlex="60">{{personalData.email}}</span>
+                            </div>
+
+                            <!-- 电话 -->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">-->
+                            <!--<span fxFlex="15">电话</span>-->
+                            <!--<span fxFlex="60">12345678900</span>-->
+                            <!--</div>-->
+
+                            <!-- 身份认证  -->
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">
+                                <span fxFlex="15">身份认证</span>
+                                <ng-container *ngIf="Authed === 'error'">
+                                    <span fxFlex="10">未认证</span>
+                                    <a fxFlex="50" class="d-data-auth-a" [routerLink]="'/open/developerAuth'">去认证</a>
+                                </ng-container>
+                                <ng-container *ngIf="Authed === 'sum'">
+                                    <span fxFlex="10">被驳回</span>
+                                    <a fxFlex="50" class="d-data-auth-a" [routerLink]="'/open/developerAuth'">重新提交</a>
+                                </ng-container>
+                                <ng-container *ngIf="Authed === 'auth'">
+                                    <span fxFlex="10">已认证</span>
+                                    <a fxFlex="50" class="d-data-auth-a" [routerLink]="'/open/developerAuth'">查看</a>
+                                </ng-container>
+                                <ng-container *ngIf="Authed === 'wait'">
+                                    <span fxFlex="10">待审核</span>
+                                    <a fxFlex="50" class="d-data-auth-a" [routerLink]="'/open/developerAuth'">查看</a>
+                                </ng-container>
+                            </div>
+
+                            <!-- 修改资料 按钮  -->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">-->
+                                <!--<button mat-raised-button fxFlex="16" color="accent"  class="subBtu">修改资料</button>-->
+                            <!--</div>-->
+                        </ng-container>
+
+
+
+                    </div>
+
+                </div>
+
+                <!-- 右 -->
+                <div class="d-data-flex-right">
+                    <div class="d-data-right-flex">
+
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

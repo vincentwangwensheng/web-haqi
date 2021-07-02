@@ -1,0 +1,250 @@
+[
+  {
+    "name": "ROLE_BACKEND_APPS",
+    "description": "应用"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_BRAND",
+    "description": "品牌管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_BRAND_LIST",
+    "description": "品牌列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN",
+    "description": "主档管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_BLOC",
+    "description": "集团管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_MALL",
+    "description": "商场管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_TERMINAL",
+    "description": "街区管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_MAP",
+    "description": "街区地图"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_STORE",
+    "description": "商户管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_TYPE",
+    "description": "业态管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_TYPE_FIRST",
+    "description": "一级业态"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MAIN_TYPE_SECOND",
+    "description": "二级业态"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_STRATEGY",
+    "description": "营销引擎"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_STRATEGY_CREATE",
+    "description": "新建营销引擎"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_STRATEGY_LIST",
+    "description": "营销策略列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_STRATEGY_LIST_VIEW",
+    "description": "营销策略审核"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_COUPON",
+    "description": "活动配置"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_COUPON_LIST",
+    "description": "优惠券列表"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_COUPON_BATCH",
+    "description": "优惠券批次"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_COUPON_RULE",
+    "description": "优惠券规则"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_COUPON_PUSH",
+    "description": "优惠券发放"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_ACTIVITY_LIST",
+    "description": "活动列表"
+  },
+  {
+    "name": "ROLE_BACKSTAGE_APPS_ACTIVITY_REVIEW",
+    "description": "活动审核"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPOINTMENT",
+    "description": "预约报名"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPOINTMENT_LIST",
+    "description": "事件列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPOINTMENT_CREATE",
+    "description": "新建事件"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPOINTMENT_APPLYLIST",
+    "description": "申请列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER",
+    "description": "会员管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER_LIST",
+    "description": "会员列表"
+  },
+  {
+    "name": "ROLE_BACKEND_MEMBER_PORTRAIT",
+    "description": "会员画像"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER_CARD",
+    "description": "会员卡列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER_PICTURE",
+    "description": "拍照积分"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER_GROUP",
+    "description": "会员分群"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_MEMBER_SET",
+    "description": "会员设置"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_PROVIDER",
+    "description": "积分管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_PROVIDER_RULE",
+    "description": "积分规则"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_PROVIDER_ADJUSTMENT",
+    "description": "积分调整"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_TAG",
+    "description": "标签管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_TAG_LIST",
+    "description": "标签列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_REPORT_AGGREGATE",
+    "description": "统计报表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_REPORT_AGGREGATE_MEMBER",
+    "description": "会员报表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_ANALYSIS_MEMBER",
+    "description": "会员统计"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_ANALYSIS_BUSINESS",
+    "description": "小程序统计"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_ACTIVITY_ANALYSIS",
+    "description": "活动统计"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_SYSTEM",
+    "description": "系统设置"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_SYSTEM_ROLE",
+    "description": "角色管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_SYSTEM_ACCOUNT",
+    "description": "账户管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET",
+    "description": "渠道管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_MESSAGE_SUBSCRIBE",
+    "description": "订阅消息管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_CREATEMASK",
+    "description": "新建蒙屏"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_MASKLIST",
+    "description": "蒙屏列表"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_CAROUSEL",
+    "description": "轮播图管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_GAME",
+    "description": "小程序游戏"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET_ADVERTISING",
+    "description": "广告屏管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_PARAMETER_QR_CODE",
+    "description": "带参二维码"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_APPLET",
+    "description": "内容管理"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_CONTENT_MANAGE_MERCHANT_FEEDBACK",
+    "description": "商户反馈"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_CONTENT_MANAGE_STANDARD_QUESTION",
+    "description": "常见问题"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_CONTENT_MANAGE_MEMBER_FEEDBACK",
+    "description": "会员反馈"
+  },
+  {
+    "name": "ROLE_BACKEND_APPS_CONTENT_MANAGE_MERCHANT_NOTICE",
+    "description": "商户公告"
+  },
+  {
+    "name": "ROLE_SUPERADMIN",
+    "description": "系统超级管理员"
+  },
+  {
+    "name": "ROLE_BLOC_SUPERADMIN",
+    "description": "集团超级管理员"
+  }
+]

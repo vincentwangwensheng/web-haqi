@@ -1,0 +1,38 @@
+<app-table-list [title]="'商户反馈'" [rows]="rows" [columns]="columns" [page]="page" (navigateDetail)="getDetail($event, openDialog)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()">
+</app-table-list>
+<ng-template #openDialog>
+    <app-edit-dialog [title]="'商户反馈'" (sureDo)="toSureDo()">
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="height: 315px;padding-top: 20px;">
+            <form [formGroup]="basicForm" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>反馈内容</mat-label>
+                    <input matInput autocomplete="off" formControlName="content">
+                    <mat-error>反馈内容不能为空</mat-error>
+                </mat-form-field>
+                <div fxLayout="column" fxLayoutAlign="flex-start flex-start" fxLayoutGap="4px">
+                    <div>反馈图片</div>
+                    <div>
+                        <div class="content-right-img">
+                            <img src="{{imageBaseUrl}}">
+                            <div class="icon-show" (click)="imgShow = !imgShow;">
+                                <mat-icon class="theme-color input-icon">search</mat-icon>
+                            </div>
+                        </div>
+                        <div class="img-bigger" fxLayout="column" *ngIf="imgShow">
+                            <div fxLayoutAlign="end center">
+                                <button mat-icon-button (click)="imgShow = false;"><mat-icon>clear</mat-icon></button>
+                            </div>
+                            <img src="{{imageBaseUrl}}">
+                        </div>
+                    </div>
+                </div>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>回复</mat-label>
+                    <input matInput autocomplete="off" formControlName="replyContent">
+                    <mat-error>回复不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>

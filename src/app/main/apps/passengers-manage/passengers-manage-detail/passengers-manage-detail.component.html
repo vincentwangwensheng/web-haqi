@@ -1,0 +1,298 @@
+<div class="page-layout carded fullwidth inner-scroll" *ngIf="!responsive">
+    <!-- 内容区域 -->
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+<div class="page-layout carded fullwidth" *ngIf="responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<ng-template #content>
+    <!-- 内容-头部-蓝色背景 -->
+    <div class="top-bg accent"></div>
+    <!-- 内容 -->
+    <div class="center">
+        <!-- 内容-头部 -->
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{tlKey+'detail.title'|translate}}</h2>
+            <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px">
+                <button mat-button [disableRipple]="true" matRipple [matRippleRadius]="15" [matRippleColor]="'#000000'"
+                        color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row"
+                        fxLayoutAlign="space-between center" (click)="goBack()">
+                    <span class="iconfont iconback mat-icon-12 mr-8"></span>
+                    <span>{{tlKey+'detail.returnButton'|translate}}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutGap="24px">
+            <!--左边内容-->
+            <mat-card *ngIf="!responsive" fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start center" class="left-panel px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <mat-card *ngIf="responsive" fxLayout="column" fxLayoutAlign="start center" class="left-panel px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <ng-template #leftContent>
+                <!--基础信息-->
+                <div class="left-base w-100-p" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="18px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="12px">
+                            <span class="font-size-13 detail-info">{{(editFlag?tlKey+'detail.editInfo':tlKey+'detail.baseInfo')|translate}}</span>
+                            <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
+                                <img  src="{{member?.avatar}}" class="base-img border-theme-color">
+                                <span>{{member.nickName?member.nickName:member.name}}</span>
+                            </span>
+                        </div>
+                        <div>
+                            <button *ngIf="!editFlag" mat-raised-button class="accent h-32 w-80" (click)="openEdit()">
+                                <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                                    <span class="iconfont iconcomment font-size-13"></span>
+                                    <span class="font-weight-100">{{tlKey+'detail.editButton'|translate}}</span>
+                                </div>
+                            </button>
+                            <button *ngIf="editFlag" mat-raised-button class="accent h-32 w-80" (click)="saveEdit()">
+                                <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                                    <span class="iconfont iconcomment font-size-13"></span>
+                                    <span class="font-weight-100">{{tlKey+'detail.saveButton'|translate}}</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="24px">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px">
+                            <div class="smaller-img-div border-theme-color" fxLayout="row"
+                                 fxLayoutAlign="center center"><strong style="color:#fff;">积</strong></div>
+                            <span>{{tlKey+'detail.bonus'|translate}}</span>
+                            <span>{{member.point}}</span>
+                            <span class="integral-detail" (click)="onIntegralDetail()">积分详情</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px">
+                            <div class="smaller-img-div border-theme-color" fxLayout="row"
+                                 fxLayoutAlign="center center"><strong style="color:#fff;">EXP</strong></div>
+                            <span>{{tlKey+'detail.growth'|translate}}</span>
+                            <span>{{member.growth}}</span>
+                        </div>
+                    </div>
+                    <form [formGroup]="baseForm" autocomplete="off" class="w-100-p normal-form-fields"
+                          fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.id'|translate}}</mat-label>
+                            <input matInput formControlName="id">
+                        </mat-form-field>
+                        <app-material-date-picker [label]="tlKey+'detail.baseForm.birthday'|translate"
+                                [showCalendar]="false" [config]="config" [timeControl]="baseForm.get('birthday')">
+                        </app-material-date-picker>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.phone'|translate}}</mat-label>
+                            <input matInput formControlName="mobile">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.registerTime'|translate}}</mat-label>
+                            <input matInput formControlName="createdDate">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.carLicense'|translate}}</mat-label>
+                            <input matInput formControlName="idCardNumber">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.source'|translate}}</mat-label>
+                            <input matInput formControlName="source">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.memberLevel'|translate}}</mat-label>
+                            <input matInput formControlName="level">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{tlKey+'detail.baseForm.status'|translate}}</mat-label>
+                            <mat-select matInput formControlName="enabled">
+                                <mat-option *ngFor="let option of options" [value]="option.value">
+                                    {{option.field|translate}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
+                </div>
+                <!--分割线-->
+                <mat-divider></mat-divider>
+                <!--会员标签-->
+                <div class="left-tag w-100-p pt-12" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="font-size-13 detail-info">{{tlKey+'detail.memberTag.title'|translate}}</span>
+                    </div>
+                    <div class="w-100-p tag-scroll" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-chip-list>
+<!--                            <button mat-raised-button class="tag-button" [disabled]="!editFlag" [ngClass]="{'accent':editFlag}" fxLayout="row"-->
+<!--                                    fxLayoutAlign="space-around center" (click)="editTag(tagTemplate)">-->
+<!--                                <span class="iconfont iconedit mr-4"></span>-->
+<!--                                <span>{{tlKey+'detail.memberTag.addOrDelete'|translate}}</span>-->
+<!--                            </button>-->
+<!--                            <mat-chip class="tag-chip" *ngFor="let tag of tags;let i=index" [selectable]="selectable" [removable]="editFlag" (removed)="remove(i)">-->
+<!--                                {{tag.tagName?tag.tagName:tag.name}}-->
+<!--                                <mat-icon *ngIf="editFlag" matChipRemove>cancel</mat-icon>-->
+<!--                            </mat-chip>-->
+                            <mat-chip class="tag-chip" *ngFor="let tag of tags;let i=index" [selectable]="selectable" [removable]="editFlag">
+                                {{tag.tagName?tag.tagName:tag.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+
+                <!--分割线-->
+                <mat-divider></mat-divider>
+                <!--品牌标签(只是展示作用)-->
+                <div class="left-tag w-100-p pt-12" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="font-size-13 detail-info">品牌标签</span>
+                    </div>
+                    <div class="w-100-p tag-scroll" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-chip-list>
+                            <mat-chip class="tag-chip" *ngFor="let tag of storeTags;let i=index" [selectable]="selectable" [removable]="false">
+                                {{tag.tagName?tag.tagName:tag.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+            </ng-template>
+
+            <!--右边内容-->
+            <div fxLayout="column" fxLayoutAlign="space-between center" class="right-panel" fxLayoutGap="18px">
+                <!-- 股份会员 -->
+                <mat-card class="px-24 pt-8" fxLayout="column" fxLayoutAlign="start center">
+                   <div fxLayout="column" fxLayoutGap="start start" class="w-100-p">
+                       <span class="font-size-13 detail-info mb-8">泛会员信息</span>
+                       <mat-divider></mat-divider>
+                   </div>
+                    <div *ngIf="BCIAMember.left.length>0||BCIAMember.right.length>0" class="w-100-p h-48" fxLayout="row" fxLayoutAlign="start center">
+                        <img *ngIf="BCIAMember.img" class="auto-resize-img" [src]="BCIAMember.img">
+                        <span class="info-span" *ngIf="!BCIAMember.img">
+                            {{tlKey+'detail.memberInfo.BCIA'|translate}}
+                        </span>
+                    </div>
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-around start">
+                        <table class="member-table">
+                            <ng-container *ngFor="let item of BCIAMember.left">
+                                <tr>
+                                    <td>{{(tlKey+'detail.memberInfo.'+item.key)|translate}}：</td>
+                                    <td [matTooltip]="item.value" matTooltipPosition="left">{{item.value}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                        <table class="member-table">
+                            <ng-container *ngFor="let item of BCIAMember.right">
+                                <tr>
+                                    <td>{{(tlKey+'detail.memberInfo.'+item.key)|translate}}：</td>
+                                    <td [matTooltip]="item.value" matTooltipPosition="left">{{item.value}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </mat-card>
+                <!-- 日上免税 -->
+                <mat-card class="px-24" fxLayout="column" fxLayoutAlign="start center">
+                    <div *ngIf="sunRiseMember.left.length>0||sunRiseMember.right.length>0" class="w-100-p h-48" fxLayout="row" fxLayoutAlign="start center">
+                        <img *ngIf="sunRiseMember.img" class="auto-resize-img" [src]="sunRiseMember.img">
+                        <span class="info-span" *ngIf="!sunRiseMember.img">{{tlKey+'detail.memberInfo.sunRise'|translate}}</span>
+                    </div>
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-around start">
+                        <table class="member-table">
+                            <ng-container *ngFor="let item of sunRiseMember.left">
+                                <tr>
+                                    <td>{{(tlKey+'detail.memberInfo.'+item.key)|translate}}：</td>
+                                    <td [matTooltip]="item.value" matTooltipPosition="left">{{item.value}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                        <table class="member-table">
+                            <ng-container *ngFor="let item of sunRiseMember.right">
+                                <tr>
+                                    <td>{{(tlKey+'detail.memberInfo.'+item.key)|translate}}：</td>
+                                    <td [matTooltip]="item.value" matTooltipPosition="left">{{item.value}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [tagType]="'MEMBER'"  [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                  (dataSelect)="onSelect($event)"></app-merchants-tag-management>
+</ng-template>
+
+<!--积分详情-->
+<ng-template #integralTemplate>
+    <div class="integral-title" fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="word-color">积分详情</span>
+        <div class="word-color">
+            <button mat-icon-button mat-dialog-close>
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div fxLayout="row" class="start-end-time">
+        <app-material-date-picker #beginTime (sourceDate)="onStartSourceDate($event,endTime)" class="date-picker" [config]="configStart"
+                                  style="margin-right: 5px;margin-left:15px;" [timeControl]="profileForm.get('startTime')"
+                                  [label]="'marketingManage.addMarketing.beginTime'|translate">
+        </app-material-date-picker>
+        <app-material-date-picker #endTime (sourceDate)="onEndSourceDate($event,beginTime)" class="date-picker" [config]="configEnd"
+                                  [timeControl]="profileForm.get('endTime')" [label]="'marketingManage.addMarketing.endTime'|translate">
+        </app-material-date-picker>
+
+        <span class="datepicker-span mt-12 ml-32" (click)="searchIntegral()">查询</span>
+        <span class="datepicker-span mt-12 ml-20" (click)="onClearTime()">清空</span>
+    </div>
+
+    <mat-dialog-content class="px-0 m-0" fxLayout="column" fxLayoutAlign="start center">
+        <ngx-datatable fxFlexFill class="material" [messages]="{emptyMessage:'airport.message.listEmpty'|translate,
+                       selectedMessage:'airport.history.selected'|translate, totalMessage:'airport.history.rowCount'|translate}"
+                [selectionType]="'single'" [selected]="selectStores" [columns]="storeColumns" [footerHeight]="50"
+                [count]="page.count" [offset]="page.page" [limit]="page.size" [externalSorting]="true"
+                [rowHeight]="40" [rows]="coupons" [externalPaging]="true" (page)="onPage($event)">
+            <ngx-datatable-column [name]="'airport.store.no'|translate">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <span>{{coupons.indexOf(row)+1+page.page*page.size}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column *ngFor="let column of storeColumns" [name]="column.name" [canAutoResize]="true" [width]="mCouponColumnWidth">
+                <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                    <span style="cursor: pointer;" (click)="sort()">
+                        {{'marketingManage.mCoupons.'+column.name|translate}}
+                    </span>
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <!--日期-->
+                    <ng-container *ngIf="column.name.toLowerCase().indexOf('date')!==-1||column.name.toLowerCase().indexOf('time')!==-1">
+                        <span class="text-ellipsis user-select" [matTooltip]="value|newDateTransform:'/'"
+                              [matTooltipPosition]="'above'">
+                            {{value|newDateTransform:'/'}}
+                        </span>
+                    </ng-container>
+
+                    <ng-container *ngIf="column.name === 'canGift'||column.name === 'canReturn'">
+                        <span class="text-ellipsis user-select" [matTooltip]="(value?'yes':'no')|translate" [matTooltipPosition]="'above'">
+                            {{(value?'yes':'no')|translate}}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="column.name === 'rule'">
+                        <span class="text-ellipsis user-select" [matTooltip]="'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate" [matTooltipPosition]="'above'">
+                            {{'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate}}
+                        </span>
+                    </ng-container>
+
+                    <!-- 其他直接显示-->
+                    <ng-container *ngIf="column.name.toLowerCase().indexOf('date')===-1&&column.name.toLowerCase().indexOf('time')===-1 && column.name!=='canGift'&& column.name!=='canReturn'&&column.name !== 'rule'">
+                        <span [matTooltip]="value" matTooltipPosition="above">{{value}}</span>
+                    </ng-container>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </mat-dialog-content>
+</ng-template>
+
+

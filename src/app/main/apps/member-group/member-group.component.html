@@ -1,0 +1,6 @@
+<app-table-list [title]="'memberGroup.' + currentProject + '.list'|translate" [rows]="rows" (search)="onSearch()" [detailMenu]="detailMenu"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" [createButton]="createButton" (create)="createBrand()"
+                [overPanel]="overPanel" [checkbox]="checkbox" [selectedRows]="selectedRows">
+
+</app-table-list>

@@ -1,0 +1,337 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{title.get(operation)}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-raised-button *ngIf="operation !== 'create'" (click)="copyProject()" class="w-button purple-button">复制</button>
+                <button mat-raised-button *ngIf="operation === 'detail'" (click)="editProject()" class="w-button shallow-button">编辑</button>
+                <button mat-raised-button *ngIf="operation === 'create'" (click)="saveProject()" [disabled]="!canSave" class="w-button shallow-button">保存</button>
+                <button mat-raised-button *ngIf="operation === 'edit'" (click)="saveProject()" [disabled]="!canSave" class="w-button shallow-button">保存</button>
+                <button mat-raised-button (click)="goBack()" class="w-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="18px" class="left-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+                </mat-card>
+            </div>
+
+            <!--右边-->
+            <div fxLayout="column" fxLayoutAlign="start center" class="right-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-60-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+                </mat-card>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+</div>
+
+<ng-template #leftContent>
+    <form [formGroup]="couponRuleForm" fusePerfectScrollbar autocomplete="off" fxLayout="column" fxLayoutAlign="start start" class="w-100-p overflowControlRightTop normal-form-fields pt-12 pb-12 pr-24">
+        <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'100ms'}}">
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px">
+                <mat-form-field appearance="outline" fxFlex="50">
+                    <mat-label>券规则ID</mat-label>
+                    <input matInput formControlName="id">
+                </mat-form-field>
+                <mat-form-field  appearance="outline" fxFlex="50">
+                    <mat-label>券规则名称</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-error>券规则名称不能为空</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start baseline" class="w-100-p" fxLayoutGap="10px">
+                <mat-form-field  appearance="outline" fxFlex="30">
+                    <mat-label>券类型</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let item of couponTypeList" [value]="item['id']">{{item['name']}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+<!--                <span class="iconfont iconyou font-size-16 youColor" fxFlex="3"></span>-->
+                <div class="securities-rules-keyboard_arrow_right">
+                    <mat-icon color="accent">keyboard_arrow_right</mat-icon>
+                </div>
+                <div class="row" fxLayoutAlign="start baseline" fxFlex="67" fxLayoutGap="10px">
+                    <mat-form-field appearance="outline" fxFlex="30">
+                        <mat-label>数值</mat-label>
+                        <input matInput formControlName="value">
+                        <mat-error>数值不能为空</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="20">
+                        <mat-label>单位</mat-label>
+                        <mat-select disabled [value]="'元'">
+                            <mat-option [value]="'km'">里程(km)</mat-option>
+                            <mat-option [value]="'元'">元</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="30" *ngIf="this.couponRuleForm.value['type'] === 'PARKING'">
+                        <mat-label>抵扣时长(小时)</mat-label>
+                        <input matInput formControlName="parkingTime" (input)="onNumberInput1($event)">
+                        <mat-error>抵扣时长不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px">
+                <mat-form-field appearance="outline" fxFlex="50">
+                    <mat-label>价值</mat-label>
+                       <input matInput formControlName="price">
+                      <span matPrefix class="secondary-text" style="position: relative;top:3px;">￥</span>
+                    <mat-error>价值不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field  appearance="outline" fxFlex="50">
+                    <mat-label>状态</mat-label>
+                    <mat-select formControlName="enabled">
+                        <mat-option [value]="true">已上线</mat-option>
+                        <mat-option [value]="false">已下线</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p">
+                <app-material-date-picker #startDate [timeControl]="couponRuleForm.get('beginTime')" class="w-48-p"  [floatLabel]="'always'"
+                                          [required]="false" (sourceDate)="onSourceDate($event, endDate, startDate, 'startTime')"
+                                          [config]="configStartTime" [label]="'开始领取时间'">
+                </app-material-date-picker>
+                <app-material-date-picker #endDate [timeControl]="couponRuleForm.get('endTime')" class="w-48-p"  [required]="false"  [floatLabel]="'always'"
+                                          (sourceDate)="onSourceDate($event, endDate, startDate, 'endTime')"
+                                          [config]="configEndTime" [label]="'结束领取时间'">
+                </app-material-date-picker>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start baseline" class="w-100-p" fxLayoutGap="10px">
+                <mat-form-field appearance="outline" fxFlex="30">
+                    <mat-label>核销有效期</mat-label>
+                    <mat-select formControlName="periodType">
+                        <mat-option [value]="item['id']" *ngFor="let item of periodTypeList">{{item['name']}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span class="iconfont iconyou font-size-16 youColor" fxFlex="3" *ngIf="couponRuleForm.get('periodType').value === 'FIXED'">
+                    <mat-icon color="accent">keyboard_arrow_right</mat-icon>
+                </span>
+                <div class="row" fxLayoutAlign="start baseline" fxFlex="67" fxLayoutGap="10px" *ngIf="couponRuleForm.get('periodType').value === 'FIXED'">
+                    <app-material-date-picker #startDate class="w-40-p"  [floatLabel]="'always'" [timeControl]="couponRuleForm.get('PeriodBeginTime')"
+                                              [required]="false" (sourceDate)="onSourceDate1($event,endDate , startDate , 'startTime')"
+                                              [config]="configStartTime" [label]="'开始时间'">
+                    </app-material-date-picker>
+                    <app-material-date-picker #endDate class="w-40-p"  [required]="false"  [floatLabel]="'always'" [timeControl]="couponRuleForm.get('PeriodEndTime')"
+                                              (sourceDate)="onSourceDate1($event,endDate , startDate , 'endTime')"
+                                              [config]="configEndTime" [label]="'结束时间'">
+                    </app-material-date-picker>
+                </div>
+                <div *ngIf="couponRuleForm.get('periodType').value === 'AFTERNOW'" class="text-ellipsis">
+                    <input class="input-box w-70" formControlName="Second">
+                    <span>秒</span><br>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px">
+                <mat-form-field appearance="outline" fxFlex="50">
+                    <mat-label>起付金额</mat-label>
+                    <input matInput formControlName="threshold">
+                    <span matPrefix class="secondary-text" style="position: relative;top:3px;">￥</span>
+                    <mat-error>起付金额不能为空</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-divider [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'100ms'}}"></mat-divider>
+
+        <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p mt-20" fxLayoutGap="18px" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'100ms'}}">
+
+            <!-- 活动图片上传 预览 -->
+            <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'400ms'}}" fxLayoutAlign="space-between center" class="activity-photo">
+                <div fxFlex="20" fxLayout="row">
+                    <span>券面图案</span>
+                </div>
+                <div class="ready-upload-part">
+                    <div class="up-input-btu">
+                        <button mat-raised-button color="accent" [disabled]="canEdit" (click)="openUploadImgDiloag(uploadImgDloag)" class="up-input-btu-btu" ngDefaultControl>
+                            <img src="assets/images/cards/upLoad.png">上传
+                        </button>
+                    </div>
+                    <div class="preview-img">
+                        <button [disabled]="!uploadFile.previewImgStatus" mat-raised-button (click)="openPreviewDilog(previewImgDloag)" class="preview-up-input-btu-btu" ngDefaultControl>
+                            <mat-icon color="accent">insert_photo</mat-icon>
+                            <span class="span-accent-color">预览</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                <span fxFlex="20">商户限制</span>
+                <button fxFlex="15" mat-raised-button color="accent" class="pr-in-re-but" [disabled]="canEdit" (click)="openStoreSelect(store)">
+                    <span class="iconfont iconjiajian font-size-16 codeZJ"></span>增减
+                </button>
+                <span class="text-ellipsis ml-8 mr-8 toolSpan" *ngIf="storeShow.length!==0 && storeShow[0]==='__ALL__'">全部</span>
+                <span  class="text-ellipsis ml-8 mr-8 toolSpan" [matTooltip]="storeShow"
+                       *ngIf="storeShow.length===0 || (storeShow.length!==0 && storeShow[0]!=='__ALL__')">
+                        {{storeShow}}
+                    </span>
+                <button fxFlex="15" mat-raised-button (click)="openPreData(PreDetailTe, couponRuleForm.value['store'], 'store')">
+                    预览
+                </button>
+            </div>
+
+<!--            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">-->
+<!--                <span fxFlex="20">领取总量</span>-->
+<!--                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-32">-->
+<!--                    <input class="input-box" formControlName="getTotal">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">-->
+<!--                <span fxFlex="20">单日领取</span>-->
+<!--                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-32">-->
+<!--                    <input class="input-box" formControlName="getEveryDay">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                <span fxFlex="20">退款退券</span>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                    <mat-radio-group formControlName="isReturn">
+                        <mat-radio-button [value]=true>是</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                        <mat-radio-button [value]=false>否</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px">
+                <span fxFlex="20">支持分享</span>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                    <mat-radio-group formControlName="canGift">
+                        <mat-radio-button [value]=true>是</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                        <mat-radio-button [value]=false>否</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div  class="row" fxLayoutAlign="start baseline" fxFlex="100" fxLayoutGap="10px" *ngIf="this.couponRuleForm.value['canGift']===true">
+                <mat-form-field appearance="outline" fxFlex="80">
+                    <mat-label>单人领取分享限制</mat-label>
+                    <input matInput formControlName="giftMax" (input)="onGiftMaxInput($event)">
+                    <mat-error>单人领取分享限制不能为空</mat-error>
+                </mat-form-field>
+            </div>
+
+<!--            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">-->
+<!--                <span fxFlex="20">会员限制</span>-->
+<!--                <button fxFlex="15" mat-raised-button color="accent" class="pr-in-re-but" [disabled]="canEdit" (click)="openLevelLimitList(levelLimitList)">-->
+<!--                    <span class="iconfont iconjiajian font-size-16 codeZJ"></span>增减-->
+<!--                </button>-->
+<!--                <span class="text-ellipsis ml-8 mr-8 toolSpan" [matTooltip]="couponRuleForm.value['level']">全部</span>-->
+<!--                <button fxFlex="15" mat-raised-button (click)="openPreData(PreDetailTe , couponRuleForm.value['level'],'level')">-->
+<!--                    预览-->
+<!--                </button>-->
+<!--            </div>-->
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" *ngIf=" this.operation === 'create'">
+                <span fxFlex="20">默认批次数</span>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-32">
+                    <input class="input-box" formControlName="defaultBatchAmount">
+                    <span class="input-box-hint">张</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #rightContent>
+    <form [formGroup]="couponRuleForm" fusePerfectScrollbar autocomplete="off"
+          class="w-100-p h-100-p normal-form-fields pt-12 pb-12 pr-24" fxFlexFill fxLayout="column"
+          fxLayoutAlign="start start" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+        <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100-p" style="overflow: hidden;">
+            <span class="mb-8">使用说明</span>
+            <quill-editor [placeholder]="'使用说明'" class="w-100-p" (onEditorCreated)="onEditorCreatedPri($event)"
+                          [styles]="{'border-radius':'5px','height':'125px'}" formControlName="ruleText"></quill-editor>
+            <mat-error *ngIf="couponRuleForm.value['ruleText']===''|| couponRuleForm.value['ruleText']=== null">使用说明是必填项</mat-error>
+        </div>
+    </form>
+</ng-template>
+
+<!-- 会员限制 -->
+<ng-template #levelLimitList>
+    默认对所用会员开放，没有限制
+</ng-template>
+
+<!--名称预览-->
+<ng-template #PreDetailTe >
+    <app-data-preview [previewData]="previewData"></app-data-preview>
+</ng-template>
+
+<!--上传的窗口-->
+<ng-template #uploadImgDloag>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="uploadImageClass">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title">
+                <span class="title_dialog_">活动图片</span>
+            </div>
+            <div class="img-close">
+                <button mat-icon-button mat-dialog-close>
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{uploadFile.imgName}}">
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button color="accent" class="btu-file-up">添加文件</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg" class="up_input" (change)="couponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">图片格式为jpg，png，gif，文件大小不大于1MB，尺寸690x300px</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section">
+                            <ng-container *ngIf="uploadFile.uploading===true">
+                                <mat-progress-bar class="example-margin" color="accent" mode="determinate" [value]="uploadFile.progressLoad"></mat-progress-bar>
+                            </ng-container>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent" (click)="onUploadImg()" [disabled]="uploadFile.uploadStatus">上传</button>
+                <button mat-raised-button color="accent" mat-dialog-close [disabled]="uploadFile.finishStatus">完成</button>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+
+<!--上传预览的窗口-->
+<ng-template #previewImgDloag>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+         fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p" *ngIf="!uploadFile.imgPreLoading">
+            <img *ngIf="uploadFile.imgSrc" [src]="uploadFile.imgSrc" class="w-100-p h-100-p" >
+        </div>
+        <mat-spinner color="accent" *ngIf="uploadFile.imgPreLoading" mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>
+
+
+<ng-template #store>
+    <app-store-manage [checkbox]="true" [overPanel]="true" [selectedRows]="storeSource" [popUpYes]="true"
+                     (dataSelect)="onSelectStoreType($event)" [hasCheckAllFlag]="true" (sendCheckInfo)="toGetSendCheckStoreInfo($event)">
+    </app-store-manage>
+</ng-template>

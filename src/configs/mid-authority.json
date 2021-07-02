@@ -1,0 +1,9 @@
+[{
+  "name": "ROLE_SUPERADMIN",
+  "description": "系统超级管理员"
+},
+{
+"name": "ROLE_BLOC_SUPERADMIN",
+"description": "集团超级管理员"
+}
+]

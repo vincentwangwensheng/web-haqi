@@ -1,0 +1,4 @@
+<app-table-list [title]="'消息供应商'" [rows]="rows" (search)="onSearch()" [columns]="columns" [page]="page"
+                (searchClear)="clearSearch()" (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                (navigateDetail)="getDetail($event)" [createButton]="true" (create)="Create()">
+</app-table-list>

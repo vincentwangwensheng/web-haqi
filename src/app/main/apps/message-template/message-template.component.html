@@ -1,0 +1,8 @@
+<app-table-list [title]="'messageTemplate.list'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="createButton"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createActivity()"
+                [checkbox]="checkbox" [selectedRow]="selectedRow" [singleSelect]="singleSelect"
+                [selectedRows]="selectedRows" [overPanel]="overPanel" (dataSelect)="onSelect($event)"
+>
+</app-table-list>

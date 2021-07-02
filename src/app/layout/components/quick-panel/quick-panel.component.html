@@ -1,0 +1,143 @@
+<div fxLayout="column" fxFlex fusePerfectScrollbar>
+
+    <mat-list class="date" cdkFocusRegionStart>
+
+        <h3 matSubheader cdkFocusInit>
+            <span>{{'quickPanel.today'|translate}}</span>
+        </h3>
+
+        <div class="secondary-text mat-display-1 mb-0 p-16 pl-32" fxLayout="column" fxLayoutAlign="center start">
+            <div class="mb-12">
+                {{time}}
+            </div>
+            <div class="mb-12">
+                {{date | date:'EEEE'|translate}}
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <span>{{date | date:'MMMM'|translate}}</span>&nbsp;
+                <span> {{date | date:'d'}}</span>
+                <span class="mat-subheading-2">{{'quickPanel.th'|translate}}</span>
+            </div>
+        </div>
+    </mat-list>
+
+    <!--<mat-divider cdkFocusRegionEnd></mat-divider>-->
+    <!--<mat-list>-->
+        <!--<h3 matSubheader>-->
+            <!--<span>{{'weather.title'|translate}}</span>-->
+        <!--</h3>-->
+        <!--<div class="pl-24 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">-->
+
+            <!--<div class="h4 w-100-p" fxLayout="row" fxLayoutAlign="start start">-->
+                <!--<mat-icon class="secondary-text mr-8">place</mat-icon>-->
+                <!--<span>{{weather?weather.city:''}}</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">-->
+
+            <!--<div fxLayout="row" fxLayoutAlign="center center">-->
+                <!--<mat-icon fontSet="meteocons" matTooltip="{{weather?weather.data[0].wea:''}}"-->
+                          <!--[fontIcon]="weather?weather.data[0].icon:''"-->
+                          <!--class="icon s-40 secondary-text mr-16"></mat-icon>-->
+                <!--<span class="mat-display-2 m-0 font-weight-300 secondary-text">-->
+                                    <!--{{weather?weather.data[0]['tem']:''}}</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="p-16 by" fxLayout="row" fxLayoutAlign="space-between center">-->
+            <!--<div fxLayout="row" fxLayoutAlign="start center" matTooltip="{{'weather.temperature'|translate}}">-->
+                <!--<mat-icon fontSet="meteocons" fontIcon="icon-thermometer"-->
+                          <!--class="s-16 secondary-text mr-8"></mat-icon>-->
+                <!--<span>{{weather?weather.data[0]['tem2']:''}}~{{weather?weather.data[0]['tem1']:''}}</span>-->
+            <!--</div>-->
+
+            <!--<div fxLayout="row" fxLayoutAlign="start center" matTooltip="{{'weather.air'|translate}}">-->
+                <!--<mat-icon fontSet="meteocons" fontIcon="icon-cloud2"-->
+                          <!--class="s-16 secondary-text mr-8"></mat-icon>-->
+                <!--<span>-->
+                                    <!--{{weather?weather.data[0]['air']:''}}-->
+                                <!--</span>-->
+            <!--</div>-->
+
+            <!--<div fxLayout="row" fxLayoutAlign="start center" matTooltip="{{'weather.humidity'|translate}}">-->
+                <!--<mat-icon fontSet="meteocons" fontIcon="icon-rainy"-->
+                          <!--class="s-16 secondary-text mr-8"></mat-icon>-->
+                <!--<span>-->
+                                    <!--{{weather?weather.data[0]['humidity']:''}}-->
+                                <!--</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="py-16">-->
+            <!--<ng-container *ngFor="let day of weather?weather.data:[];let i=index">-->
+                <!--<div *ngIf="i!==0" class="py-16 px-24" fxLayout="row" fxLayoutAlign="space-between center">-->
+                    <!--<div fxLayout="row" class="w-100-p" fxLayoutAlign="space-between center">-->
+                        <!--<span class="h5">{{day.week|translate}}</span>-->
+                        <!--<mat-icon fontSet="meteocons" [fontIcon]="day.icon" matTooltip="{{day['wea']}}"-->
+                                  <!--class="secondary-text s-20"></mat-icon>-->
+                        <!--<span class="h6">-->
+                                         <!--{{day['tem2']}}~{{day['tem1']}}-->
+                                     <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</ng-container>-->
+        <!--</div>-->
+
+
+    <!--</mat-list>-->
+    <!--<mat-divider></mat-divider>-->
+    <!--<mat-list>-->
+        <!--<h3 matSubheader>-->
+            <!--<span>{{'quickPanel.events'|translate}}</span>-->
+        <!--</h3>-->
+
+        <!--<mat-list-item *ngFor="let event of events">-->
+            <!--<h3 matLine>{{event.title}}</h3>-->
+            <!--<p matLine class="secondary-text">{{event.detail}}</p>-->
+        <!--</mat-list-item>-->
+    <!--</mat-list>-->
+
+    <!--<mat-divider></mat-divider>-->
+
+    <!--<mat-list>-->
+        <!--<h3 matSubheader>-->
+            <!--<span>{{'quickPanel.notes'|translate}}</span>-->
+        <!--</h3>-->
+
+        <!--<mat-list-item *ngFor="let note of notes">-->
+            <!--<h3 matLine>{{note.title}}</h3>-->
+            <!--<p matLine class="secondary-text">{{note.detail}}</p>-->
+        <!--</mat-list-item>-->
+    <!--</mat-list>-->
+
+    <!--<mat-divider></mat-divider>-->
+
+    <!--<mat-list>-->
+    <!--<h3 matSubheader>-->
+    <!--<span>Quick Settings</span>-->
+    <!--</h3>-->
+
+    <!--<mat-list-item>-->
+    <!--<mat-slide-toggle fxFlex class="mat-primary" [(ngModel)]="settings.notify" aria-label="Notifications"-->
+    <!--labelPosition="before">-->
+    <!--<h3>Notifications</h3>-->
+    <!--</mat-slide-toggle>-->
+    <!--</mat-list-item>-->
+
+    <!--<mat-list-item>-->
+    <!--<mat-slide-toggle fxFlex class="mat-accent" [(ngModel)]="settings.cloud" aria-label="Cloud"-->
+    <!--labelPosition="before">-->
+    <!--<h3>Cloud Sync</h3>-->
+    <!--</mat-slide-toggle>-->
+    <!--</mat-list-item>-->
+
+    <!--<mat-list-item>-->
+    <!--<mat-slide-toggle fxFlex class="mat-warn" [(ngModel)]="settings.retro" aria-label="Retro Thrusters"-->
+    <!--labelPosition="before">-->
+    <!--<h3>Retro Thrusters</h3>-->
+    <!--</mat-slide-toggle>-->
+    <!--</mat-list-item>-->
+    <!--</mat-list>-->
+
+</div>

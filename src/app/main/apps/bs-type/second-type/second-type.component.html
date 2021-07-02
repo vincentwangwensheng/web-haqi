@@ -1,0 +1,56 @@
+<app-table-list [title]="'二级业态'" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event,editGroup)" [createButton]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                (create)="create(editGroup)"
+>
+</app-table-list>
+<ng-template #editGroup>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+            <span>{{editTitle[editStatus]}}</span>
+            <div class="icon-button" [matDialogClose]="false">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <form [formGroup]="formGroup" autocomplete="off" class="px-24 py-12 mt-12 normal-form-fields w-100-p"
+              fxLayout="row wrap"
+              fxLayoutAlign="space-between center">
+            <mat-form-field *ngIf="editStatus!==0" appearance="outline" class="w-48-p">
+                <mat-label>ID</mat-label>
+                <input matInput formControlName="id">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>业态名称</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="formGroup.get('name').hasError('required')">
+                    <span>业态名称不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <app-auto-select class="w-48-p" [label]="'所属一级业态'" [selectControl]="formGroup.get('businessTypeName')"
+                             [filterOptions]="filterSelect" [showColor]="true"
+                             [notFindMsg]="'当前搜索的一级不存在！'" [showField]="'name'"
+                             [secondaryField]="'color'" (selectionChange)="onSelectionChange($event,'businessTypeId','id')"
+                             [requiredMsg]="'一级业态不能为空！'"
+            ></app-auto-select>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="w-100-p operate-buttons" fxLayout="row-reverse" fxLayoutAlign="start center">
+                <button class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+                    取消
+                </button>
+                <button *ngIf="editStatus===1" class="w-80 h-32" mat-flat-button color="accent" (click)="showEdit()">
+                    编辑
+                </button>
+                <button *ngIf="editStatus===0||editStatus===2" class="w-80 h-32" mat-flat-button color="accent"
+                        (click)="save()">
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

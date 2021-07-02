@@ -1,0 +1,276 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <div class="top-bg accent"></div>
+    <div class="center" fusePerfectScrollbar>
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h3 class="m-0">积分规则新建</h3>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-raised-button *ngIf="operation === 'detail'" (click)="editProject()"
+                        class="w-button shallow-button">
+                    编辑
+                </button>
+                <button *ngIf="operation === 'create'" mat-raised-button (click)="addSaveProject()"
+                        class="w-button shallow-button">
+                    保存
+                </button>
+                <button *ngIf="operation === 'edit'" mat-raised-button (click)="addSaveProject()"
+                        class="w-button shallow-button">
+                    保存
+                </button>
+                 <button mat-raised-button (click)="goBack()" class="w-button">
+                     取消
+                 </button>
+            </div>
+        </div>
+        <div class="content pb-8 h-100-p w-100-p overflow-hidden">
+            <mat-card class="w-100-p h-100-p pt-20 px-24 pl-0">
+                <div class="w-100-p h-100-p" fxLayout="row" fxLayoutAlign="start start">
+                    <!-- 左侧边栏 -->
+                    <div fxFlex="15" class="h-100-p">
+                        <div class="tabsContent">
+                            <div class="itemContent" *ngFor="let item of itemList;let i = index;"
+                                 [ngClass]="itemInfo['index'] === item['index'] ? 'demoActive' : ''">
+                                {{item.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 右侧内容区-->
+                    <div fxFlex="85" class="h-100-p pl-20 overflow-y-auto" id="rightContentList">
+                        <ng-container [ngSwitch]="itemInfo.name" class="h-100-p">
+                            <ng-container *ngSwitchCase="'基础规则设置'">
+                                <div class="w-100-p">
+                                    <ng-container *ngTemplateOutlet="contentFirst"></ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'消费积分规则'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentSecond"></ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'互动积分规则'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentThird"></ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<ng-template #contentFirst>
+    <h3>基础设置</h3>
+    <form fxLayout="column" [formGroup]="profileForm" [autocomplete]="'off'">
+        <div class="contentFirstStyle mb-24">
+            <div>
+                <div>集团：</div>
+                <div class="normal-form-fields">
+                    <mat-form-field appearance="outline">
+                        <input  matInput (focus)="editGroups(groupManageTemplate)" [value]="blocName" [disabled]="operation!=='create'">
+                        <mat-error>数据不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <div>商场：</div>
+                <div class="normal-form-fields">
+                    <mat-form-field appearance="outline">
+                        <input matInput (focus)="editMalls(mallTemplate)" [value]="mallName" [disabled]="operation!=='create'">
+                        <mat-error>数据不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <div class="mb-12">积分有效期</div>
+                <div>
+                    <mat-radio-group  fxLayout="column" (change)="changeClearRule($event)" formControlName="validityType">
+                        <mat-radio-button class="mb-8 font-size-14" value="NOT">不清零</mat-radio-button>
+                        <div fxLayout="row" class="w-100-p">
+                            <mat-radio-button class="font-size-14 fixed-date-clearing" value="TIME">
+                                <span>固定日期清零</span>
+                            </mat-radio-button>
+                            <app-material-date-picker #picker
+                                                      [label]="'清零日期'" [timeControl]="profileForm.get('time')"
+                            ></app-material-date-picker>
+                        </div>
+                        <div fxLayout="row" class="w-100-p">
+                            <mat-radio-button value="ROLL" class="font-size-14 mr-12 mb-24">滚动周期清零</mat-radio-button>
+                            <select class="w-80 mr-12 mb-24" formControlName="rollType">
+                                <option value="MONTH">月初</option>
+                                <option value="YEAR">年初</option>
+                                <option value="DAY">天数</option>
+                            </select>
+                            <div class="integral-rule-form-field">
+                                <mat-form-field appearance="outline">
+                                    <input matInput formControlName="rollDays">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start" class="w-50-p">
+                <div class="mb-12">会员积分</div>
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p">
+                    <div *ngFor="let item of memberLevels; let i = index;" fxLayout="row" class="mb-12 w-100-p">
+                        <span class="member-level-name">{{i+1}}&nbsp;{{item.levelName}}</span>
+                        <input class="member-point-input" [(ngModel)]="memberLevelDTOList[i]['multiple']" [ngModelOptions]="{standalone: true}" [disabled]="operation==='detail'"/>
+                        <span>倍</span>
+                    </div>
+                   <!-- <div fxLayout="row" class="mb-12 w-100-p">
+                        <span>2&nbsp;SSR</span>
+                        <input class="member-point-input ml-12" formControlName="ssrNum"/>
+                        <span>倍</span>
+                    </div>
+                    <div fxLayout="row" class="mb-12 w-100-p">
+                        <span>3&nbsp;SP</span>
+                        <input class="member-point-input" formControlName="spNum"/>
+                        <span>倍</span>
+                    </div>-->
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mb-12 w-100-p">
+                        <span fxLayout="row" class="mr-20">生日多倍积分</span>
+                        <select class="w-200" formControlName="birthdayType">
+                            <option value="DAY">当天</option>
+                            <option value="WEEK">当周</option>
+                            <option value="YEAR">当月</option>
+                            <option value="NULL">无</option>
+                        </select>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                        <span>生日积分倍数</span>
+                        <input class="member-point-input" formControlName="birthdayNum"/>
+                    </div>
+                    <div fxLayout="row" class="mt-12">
+                        <span class="mr-20">策略优先</span>
+                     <mat-slide-toggle [checked]="tacticsStatus"  (change)="changeTacticsStatus()" [disabled]="operation==='detail'"></mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" class="h-32 mb-4" (click)="selectRuleSetting(1)">
+            <button fxLayout="row" fxLayoutAlign="center center" mat-raised-button class="w-100 shallow-button">下一步
+            </button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #contentSecond>
+    <div fxFlex="column" class="content-second w-100-p h-100-p" >
+        <h3 fxLayout="row">消费积分设置</h3>
+        <div *ngFor="let item of consumeRuleDataArray; let i=index" fxLayout="column" class="w-100-p">
+            <div fxLayout="column" class="w-100-p">
+                <span>规则{{i + 1}}</span>
+                <div fxLayout="column" class="rule-div-bottom-border">
+                    <div fxLayout="row" class="w-100-p mt-20 mb-20">
+                        <div fxLayout="row" class="w-70-p" fxLayoutAlign="space-between start">
+                            <input fxLayout="row"  class="consume-point-input" [(ngModel)]="ruleNameArray[i]" [disabled]="operation==='detail'"/>
+                            <div fxLayout="row">
+                                <input class="consume-point-input mr-24" [(ngModel)]="consumePointArray[i]" [disabled]="operation==='detail'"/>
+                                <span>元/分</span>
+                            </div>
+                            <div fxLayout="row" class="store-div"  (click)="editStores(storeTemplate,i)">
+                                <button fxLayout="row" fxLayoutAlign="center center" mat-raised-button class="shallow-button" >±店铺</button>
+                            </div>
+
+                        </div>
+                        <div fxLayout="row-reverse" class="w-30-p">
+                            <div class="delete-button" fxLayout="row" fxLayoutAlign="center center" (click)="deleteConsumeRule(i)">
+                                删除
+                            </div>
+                        </div>
+                    </div>
+                    <div class="store-div-all" fxLayout="row">
+                        <div *ngFor="let item of consumeRuleDataArray[i]['storeDTOS']" fxLayout="row" class="store-single-div" fxLayoutAlign="center center">
+                            <span class="mr-8">{{item.storeName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="add-rule" fxLayout="row" fxLayoutAlign="center center" (click)="addConsumeRules()">
+            <button fxLayout="row" fxLayoutAlign="center center" mat-raised-button class="shallow-button">增加规则</button>
+        </div>
+        <div fxLayout="row">
+            <div fxLayout="row" class="h-32 mb-4 mt-16 mr-24">
+                <button  (click)="selectRuleSetting(0)" fxLayout="row" fxLayoutAlign="center center" mat-raised-button class="w-100 ">上一步
+                </button>
+            </div>
+            <div fxLayout="row" class="h-32 mb-4 mt-16">
+                <button  (click)="selectRuleSetting(2)" fxLayout="row" fxLayoutAlign="center center" mat-raised-button class="w-100 shallow-button">下一步
+                </button>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+<ng-template #contentThird>
+    <h3>互动积分设置</h3>
+    <div fxLayout="column" class="interactive-points w-100-p">
+        <div fxLayout="column" class="w-100-p">
+            <span>线上注册</span>
+            <div fxLayout="row" class="online-registration-div" fxLayoutAlign="space-between center">
+                <div fxLayout="row" class="interactive-points-value-div" fxLayoutAlign="start center">
+                    <input class="interactive-points-value-input" [(ngModel)]="registerPoint" [disabled]="operation==='detail'"/>
+                    <span>分</span>
+                </div>
+                <mat-slide-toggle [disabled]="operation==='detail'" [checked]="onlineRegistrationStatus"  (change)="changeOnlineRegistrationStatus()" ></mat-slide-toggle>
+            </div>
+
+            <span class="mt-20">单日签到</span>
+            <div fxLayout="row" class="online-registration-div" fxLayoutAlign="space-between center">
+                <div fxLayout="row" class="interactive-points-value-div" fxLayoutAlign="start center">
+                    <input class="interactive-points-value-input" [(ngModel)]="signPoint" [disabled]="operation==='detail'"/>
+                    <span>分</span>
+                </div>
+                <mat-slide-toggle [disabled]="operation==='detail'" [checked]="oneDaySignInStatus" (change)="changeOneDaySignInStatus()"></mat-slide-toggle>
+            </div>
+
+            <span class="mt-20">点击领取优惠券</span>
+            <div fxLayout="row" class="online-registration-div" fxLayoutAlign="space-between center">
+                <div fxLayout="row" class="interactive-points-value-div" fxLayoutAlign="start center">
+                    <input class="interactive-points-value-input" [(ngModel)]="clickGetCoupon" [disabled]="operation==='detail'"/>
+                    <span>分</span>
+                </div>
+                <mat-slide-toggle [disabled]="operation==='detail'" [checked]="clickGetCouponStatus" (change)="changeClickGetCouponStatus()"></mat-slide-toggle>
+            </div>
+
+
+            <span class="mt-20">核销优惠券</span>
+            <div fxLayout="row" class="online-registration-div" fxLayoutAlign="space-between center">
+                <div fxLayout="row" class="interactive-points-value-div" fxLayoutAlign="start center">
+                    <input class="interactive-points-value-input" [(ngModel)]="clearCoupon" [disabled]="operation==='detail'"/>
+                    <span>分</span>
+                </div>
+                <mat-slide-toggle [disabled]="operation==='detail'" [checked]="clearCouponStatus" (change)="changeClearCouponStatus()"></mat-slide-toggle>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div fxLayout="row" class="h-32 mb-4 mt-40" (click)="selectRuleSetting(1)">
+        <button  fxLayout="row" fxLayoutAlign="center center"  mat-raised-button class="w-100">上一步
+        </button>
+    </div>
+</ng-template>
+
+
+<!--关联集团-->
+<ng-template #groupManageTemplate>
+    <app-group-manage [createFlag]="false" [overPanel]="true" [checkbox]="false" [popUpYes]="true"
+                      [selectedRow]="selectedGroup" (dataSelect)="onSelectBlocs($event)" [singleSelect]="true"></app-group-manage>
+</ng-template>
+
+<!--商场-->
+<ng-template #mallTemplate>
+    <app-mall-list [singleSelect]="true" [createFlag]="false" [overPanel]="true" [checkbox]="false" [selectedRow]="selectedMall" (dataSelect)="onSelectMalls($event)"></app-mall-list>
+</ng-template>
+
+<!--店铺-->
+<ng-template #storeTemplate>
+    <app-store-manage [selectedFiled]="'storeId'" [disabledRows]="disabledRows" [createButton]="false" [overPanel]="true"  [popUpYes]="true"
+                      [checkbox]="true" [selectedRows]="selectedStores" [integralRuleFlag]="true" [integralRuleMallId]="mallId"
+                      (dataSelect)="onSelectStores($event)"></app-store-manage>
+</ng-template>

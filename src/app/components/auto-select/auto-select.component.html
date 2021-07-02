@@ -1,0 +1,27 @@
+<mat-form-field [appearance]="appearance" class="w-100-p">
+    <mat-label>{{label}}</mat-label>
+    <input autocomplete="off" matInput [matAutocomplete]="auto" [formControl]="selectControl">
+    <mat-icon *ngIf="showIcon" matSuffix>arrow_drop_down</mat-icon>
+    <!--根据错误等级来确定显示等级-->
+    <mat-error *ngIf="selectControl.hasError('isEmpty')">
+        <span>{{isEmptyMsg}}</span>
+    </mat-error>
+    <mat-error *ngIf="selectControl.hasError('notFind')&&!selectControl.hasError('isEmpty')">
+        <span>{{notFindMsg}}</span>
+    </mat-error>
+    <mat-error
+            *ngIf="selectControl.hasError('required')&&!selectControl.hasError('isEmpty')&&!selectControl.hasError('notFind')">
+        <span>{{requiredMsg}}</span>
+    </mat-error>
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filterOptions|async" (click)="onStChange(option)"
+                    [value]="option[showField]">
+            <mat-icon *ngIf="matIcon" class="mat-icon-18">{{matIcon}}</mat-icon>
+            <span>{{option[showField]}}</span>
+            <span *ngIf="option[secondaryField]"
+                  class="secondary-text font-size-14 mx-4">({{option[secondaryField]}})</span>
+            <span *ngIf="option[secondaryField]&&showColor" class="color-block"
+                  [style.background]="option[secondaryField]"></span>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

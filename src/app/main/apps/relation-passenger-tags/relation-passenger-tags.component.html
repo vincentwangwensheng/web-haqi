@@ -1,0 +1,8 @@
+<app-table-list (create)="createActivity()" (dataSelect)="onSelect($event)" (navigateDetail)="getDetail($event)"
+                (search)="onSearch()" (searchClear)="clearSearch()" (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                [checkbox]="checkbox" [columns]="columns" [createButton]="false"
+                [overPanel]="overPanel"
+                [page]="page" [rows]="rows" [selectedRow]="selectedRow"
+                [selectedRows]="selectedRows" [singleSelect]="singleSelect" [title]="''"
+>
+</app-table-list>

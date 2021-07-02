@@ -1,0 +1,57 @@
+<app-table-list [title]="'pictureIntegral.list'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"  (navigateDetail)="getDetail($event, MatDialogFrozen)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                [hasAutomaticReview]="true" [automaticReviewChecked]="autoAdopt" (toAutomaticReview)="automaticReview($event)">
+</app-table-list>
+<ng-template #MatDialogFrozen class="ng-template-me-dialog">
+    <div mat-dialog-title class="dialog-manage-title" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+            <span class="title_dialog_">拍照积分</span>
+        </div>
+        <div>
+            <button mat-icon-button  mat-dialog-close><mat-icon>clear</mat-icon></button>
+        </div>
+    </div>
+    <mat-dialog-content style="position: relative;">
+        <div class="MatDialogFrozenClass" fxLayout="row" fxLayoutAlign="space-between start">
+            <div class="content-left">
+                <ul>
+                    <li>手机号：{{detail['mobile']}}</li>
+                    <li>商场ID：{{detail['mallId']}}</li>
+                    <li>商户ID：{{detail['storeId']}}</li>
+                    <li>一级业态：{{detail['firstLevelBuss']}}</li>
+                    <li>积分：{{detail['point']}}</li>
+                    <li>交易流水：{{detail['serialNumber']}}</li>
+                    <li>状态：{{detail['status']}}</li>
+                    <li>修改时间：{{detail['lastModifiedDate'] | newDateTransform:'/'}}</li>
+                    <li>修改人：{{detail['lastModifiedBy']}}</li>
+                </ul>
+            </div>
+            <div class="content-right">
+                <ul>
+<!--                    <li><a (click)="goToMemberDetail(detail['id'])">查看会员详情</a></li>-->
+                    <li>商场名称：{{detail['mallName']}}</li>
+                    <li>店铺名称：{{detail['storeName']}}</li>
+                    <li>二级业态：{{detail['secondLevelBuss']}}</li>
+                    <li>交易金额：{{detail['amount']}}</li>
+                </ul>
+                <div [appImageShow]="{images:[saveId]}" class="content-right-img">
+                    <img  src="{{imgBaseUrl+ saveId}}">
+                </div>
+            </div>
+        </div>
+        <div class="reason-detail" *ngIf="detail['status'] !== '已审核'">
+            <textarea matInput placeholder="原因描述..." [(ngModel)]="detail['remarks']" [disabled]="detail['status']==='已驳回'"></textarea>
+        </div>
+        <div class="btu_dialog_Frozen" fxLayoutAlign="end center" *ngIf="detail['status'] === '待审核'">
+            <button mat-stroked-button  class="passButton" (click)="approvingPass()">通过</button>
+            <button mat-stroked-button  class="backButton" (click)="approvingReject()">驳回</button>
+        </div>
+    </mat-dialog-content>
+    <div class="img-bigger" fxLayout="column" *ngIf="imgShow">
+        <div fxLayoutAlign="end center">
+            <button mat-icon-button (click)="imgShow = false;"><mat-icon>clear</mat-icon></button>
+        </div>
+        <img src="{{imgBaseUrl+ detail['fileId']}}">
+    </div>
+</ng-template>

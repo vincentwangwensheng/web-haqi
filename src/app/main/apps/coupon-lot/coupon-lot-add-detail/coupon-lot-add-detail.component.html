@@ -1,0 +1,284 @@
+<div  class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/CouponLotComponent'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span *ngIf="sysPara.batchTitle">{{sysPara.batchTitle}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="Member-btu-class-me" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <ng-container *ngIf="sysPara.DetailShow === true">
+                    <div id="return-btu-id">
+                        <button  mat-raised-button (click)="toCancel()" class="btu-bottom" color="accent" [disabled]="btuDis"><mat-icon>reply</mat-icon>{{'merchants.dataDetail.return'|translate}}</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="sysPara.DetailShow !== true">
+                    <div id="save-btu-id">
+                        <button  mat-raised-button   class="btu-bottom" color="accent" (click)="toSave()" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                    </div>
+                    <div id="cancel-btu-id">
+                        <button  mat-raised-button  (click)="toCancel()"  class="btu-bottom" color="accent" [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="Member-allFlex">
+            <div class="Member-left_me">
+                <div class="all-form-class" >
+                    <div class="Member-left-All-flex">
+                        <div class="batch-up">
+                            <div class="batch-up-all">
+                                <div  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="choose-coupon-lot-all">
+                                    <div>
+                                        <span class="span-font-class">{{'ElectronicVoucherManagement.CouponLot.chooseRule'|translate}}</span> <!-- 选择券规则 -->
+                                    </div>
+                                    <div>
+                                        <button mat-raised-button color="accent" (click)="openChooseCouponLot(CouponMaintainDialog)" [disabled]="sysPara.DetailShow">
+                                            <mat-icon>add</mat-icon>{{'ElectronicVoucherManagement.CouponLot.addBut'|translate}}   <!-- 添加 -->
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- <div class="choose-coupon-lot-all mat-point" >
+                                     <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                         <mat-label>优惠券数量</mat-label>
+                                         <input   matInput  required  autocomplete="off"   oninput="value=value.replace(/[^\d]/g,'')"
+                                                  formControlName="quantity">
+                                         &lt;!&ndash;默认数量为100张&ndash;&gt;
+                                         <mat-error class="span-font-class">{{'ElectronicVoucherManagement.BatchNum100'|translate}}</mat-error>
+                                     </mat-form-field>
+                                 </div>-->
+                            </div>
+                        </div>
+                        <div class="batch-down">
+                            <div class="batch-down-all">
+                                <table  class="table-class-batch"  [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}" >
+                                    <ng-container *ngFor="let c of  sysPara.divSource;let i=index">
+                                        <tr   class="table-class-batch-tr"> <!-- @fadeInOut
+                                            [@animate]="{value:'*',params:{y:'100%',duration:'200ms',delay:100*i+'ms'}}"-->
+                                            <td class="span-font-class" [matTooltip]="c.value" matTooltipPosition="left">{{c.name}}</td>
+                                            <td class="span-font-class">
+                                                <ng-container *ngIf="c.type === 'img'">
+                                                    <div class="img-value pb-4" [ngClass]="{'img-value-bg': sysPara.hasChoose , 'img-value-bg-op' : !sysPara.hasChoose}">
+                                                        <ng-container *ngIf="this.sysPara.imgSrc">
+                                                            <img  [src]="this.sysPara.imgSrc" class="img-w-h" (click)="openBigImg(preBigImg)">
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container  *ngIf="c.type === 'text'">
+                                                    <div fxLayout="row" fxLayoutAlign="start start" class="text-value pb-4"  [matTooltip]="c.value" matTooltipPosition="left"
+                                                         [ngClass]="{'text-value-bg': sysPara.hasChoose , 'text-value-bg-op' : !sysPara.hasChoose}">
+                                                        {{c.value}}
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="c.type === 'textBS'">
+                                                    <div fxLayout="row" fxLayoutAlign="start start" class="text-value pb-4"  [matTooltip]="c.value" matTooltipPosition="left"
+                                                         [ngClass]="{'text-value-bg': sysPara.hasChoose , 'text-value-bg-op' : !sysPara.hasChoose}">
+                                                       <span *ngIf="!sysPara.hasChoose" (click)="openPreData(PreDetailTe, c.value)">{{c.value}}</span>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="c.type === 'quillText'">
+                                                    <ng-container *ngIf="sysPara.hasChoose">
+                                                        <div class="text-value text-value-bg"></div>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="!sysPara.hasChoose">
+                                                        <quill-editor  [modules]="quillConfig" [styles]="{height:'100px'}" [theme]="'bubble'"
+                                                                       [(ngModel)]=" c.value" [readOnly]="true">
+                                                        </quill-editor>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Member-right_me " >
+                <form class="all-form-class-r" [formGroup]="options2">
+                    <div class="Member-right-All-flex">
+                        <div class="setAll">
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"  class="title-set">
+                                <span class="span-font-class-title-r">{{'ElectronicVoucherManagement.CouponLot.batchSet'|translate}}</span> <!-- 批次设置 -->
+                            </div>
+                            <!--批次编号-->
+                            <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="body-one-set mr-top">
+
+                                <div class="batchNo mat-point">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'ElectronicVoucherManagement.CouponLot.batchNo'|translate}}</mat-label> <!-- 批次编号 -->
+                                        <input   matInput    autocomplete="off"   oninput="value=value.replace(/[^\d]/g,'')"
+                                                 formControlName="number"  >
+                                    </mat-form-field>
+                                </div>
+                                <div class="batchNo mat-point">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'ElectronicVoucherManagement.CouponLot.Channel'|translate}}</mat-label> <!-- 发放渠道 -->
+                                        <mat-select formControlName="distributionChannels" >
+                                            <mat-option *ngFor="let d of distributionChannels" [value]="d.id" >{{d.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <!--批次描述-->
+                            <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="title-set mr-top">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'ElectronicVoucherManagement.CouponLot.batchDes'|translate}}</mat-label> <!-- 批次描述 -->
+                                    <textarea matInput autocomplete="off"   value=""  formControlName="des" ></textarea>
+                                    <mat-error>{{'ElectronicVoucherManagement.CouponLot.tips_des'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <!-- 导入外部券码 -->
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p mb-20"  *ngIf="this.sysPara.DetailShow !== true"
+                                  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+
+                                <div fxLayout="row" fxLayoutAlign="start center" class="importCodeDiv">
+                                    <button class="importCodeBut" mat-raised-button color="accent" (click)="importCodeChange(UpLoadTxt)" >
+                                        {{'ElectronicVoucherManagement.CouponLot.importCRMCode'|translate}} <!-- 导入外部券码 -->
+                                    </button>
+                                 <!--   <input type="file" value="" accept=".txt" class="importCodeInput" id="BatchImportCodeInput" (change)="changeInputValue($event)" >-->
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="77">
+                                    <input value="{{upTxtUrl}}" id="showInputValue" fxFlex="60">
+                                    <button mat-raised-button  class="w-18-p mr-8" *ngIf="upTxtUrl!== ''" (click)="cancelTxt()">删除</button>
+                                    <!--<button mat-raised-button  class="w-18-p" *ngIf="upTxtUrl!== ''" (click)="">查看</button>-->
+                                </div>
+
+                            </div>
+
+                            <!--数量-->
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"  class="body-one-set">
+                                <div class="batchNo mat-point">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'ElectronicVoucherManagement.CouponLot.batchNum'|translate}}</mat-label>  <!-- 批次数量 -->
+                                        <input    matInput  autocomplete="off"      formControlName="quantity"> <!-- oninput="value=value.replace(/[^\d]/g,'')"  <mat-error>{{'ElectronicVoucherManagement.CouponLot.tips_quantity'|translate}}</mat-error>-->
+                                        <mat-error *ngIf="options2.hasError('forbiddenChNo' , 'quantity')"> {{options2.getError('forbiddenCh' , 'quantity')}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="batchNo mat-point">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'ElectronicVoucherManagement.CouponLot.balance'|translate}}</mat-label>  <!-- 剩余数量 -->
+                                        <input   matInput    autocomplete="off"   oninput="value=value.replace(/[^\d]/g,'')"
+                                                 formControlName="balance">
+
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <!--时间-->
+
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"  class="body-one-set pt-28 normal-form-fields">
+                                <app-material-date-picker #StartTime
+                                                          (sourceDate)="onSourceDate($event,endTime , StartTime , 'timeBegin')"  [config]="configStart"
+                                                          [floatLabel]="'always'"
+                                                          [label]="'ElectronicVoucherManagement.CouponLot.tips_timeBegin'|translate" class="date-picker-w"
+                                                          [timeControl]="options2.get('timeBegin')"
+                                >
+                                </app-material-date-picker>
+                                <app-material-date-picker #endTime
+                                                          (sourceDate)="onSourceDate1($event,endTime , StartTime  , 'timeEnd')"
+                                                          [floatLabel]="'always'"
+                                                          [config]="configEnd" [label]="'ElectronicVoucherManagement.CouponLot.tips_timeEnd'|translate" class="date-picker-w"
+                                                          [timeControl]="options2.get('timeEnd')"
+                                >
+                                </app-material-date-picker>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ng-template #CouponMaintainDialog>
+    <app-coupon-maintain (dataSelect)="MTagSelect($event)" [overPanel]="true" [selectedRow]="selectedTag"
+                         [singleSelect]="true" [selectedRows]="true" [resetSelect]="false"></app-coupon-maintain>
+</ng-template>
+
+<ng-template #UpLoadTxt>
+    <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-12-p upCodeTitle">
+            <div> <span class="mr-8">上传券码</span>   <a (click)="openExImg(ExImg)">查看上传示例</a></div>
+             <button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start center"  class="w-100-p h-90-p oDiv"  id="oDiv">
+
+            <div fxLayout="row" fxLayoutAlign="end center" class="w-80-p  " fxFlex="20">
+
+                <div fxLayout="row" fxLayoutAlign="end center"  class="w-80-p h-100-p">
+                    <span class="mr-8" id="upTxtUrl">{{upTxtUrl}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end center"  class="w-25-p h-100-p upTxtDiv">
+                    <button mat-raised-button  color="accent" class="w-100-p h-60-p chooseTxtBut" >选择文件</button>
+                    <input  type="file"  class="w-100-p h-60-p chooseTxtFile" accept="text/plain,application/vnd.ms-excel,.csv,.xlsx" (change)="realUpload($event)">
+                </div>
+
+            </div>
+            <!-- 展示部分 -->
+            <textarea rows="10" cols="50" id="outTextarea"  class="w-80-p" fxFlex="60" [readonly]="false"
+                      placeholder="点击上传或拖拽文件到此文本框。支持txt、csv、xlsx、xls文件上传" ></textarea>
+
+            <div fxLayout="row" fxLayoutAlign="end center"  class="w-80-p" fxFlex="20">
+                <button mat-raised-button color="accent" class="w-20-p h-60-p mr-8" (click)="DetermineUpload()">确定</button>
+                <button mat-raised-button   mat-dialog-close color="accent" class="w-20-p h-60-p" (click)="cancelTxt()">取消</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #ExImg>
+    <div  cdkDrag cdkDragRootElement=".cdk-overlay-pane" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-10-p ExImgTitle_cou" cdkDragHandle >
+            <span>查看txt或excel内容示例</span>
+            <button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-90-p">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-49-p h-100-p">
+                <img src="assets/images/cards/codeIm.png" class="ExImgUrlClass_cou">
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-49-p h-100-p">
+                <img src="assets/images/cards/excelImg.jpg" class="ExImgUrlClass_cou">
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 图片券预览  -->
+<ng-template #preBigImg>
+    <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <img [src]="this.sysPara.imgSrc"  class="w-100-p h-100-p">
+    </div>
+</ng-template>
+
+
+<!-- 店铺或者业态预览 -->
+<ng-template #PreDetailTe >
+        <div mat-dialog-title class="dialog-cou-title" >
+            <div class="cou-dialog-title-tips">
+                <div ><span class="title_dialog_cou">{{'appointment.CRUD.pre'|translate}}</span></div>  <!-- 预览 -->
+                <div><button  mat-icon-button 	 mat-dialog-close ><mat-icon [color]="'accent'">clear</mat-icon></button></div>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="content-class-cou cou-input-textArea">
+                <mat-form-field>
+                    <textarea matInput autocomplete="off"   value="{{previewData}}" mat-autosize="false"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+</ng-template>

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "ROLE_MERCHANT_USER_WORKTABLE",
+    "description": "工作桌面"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_WORKTABLE_MYSHOP",
+    "description": "我的店铺"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_WORKTABLE_VERIFICATIONASSISTANT",
+    "description": "核销助手"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_WORKTABLE_EVENTCANCEL",
+    "description": "事件核销"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_WORKTABLE_WORKFEEDBACK",
+    "description": "投诉反馈"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_SALESREPORT",
+    "description": "销售上报"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_SALESREPORT_REPORTRECORD",
+    "description": "上报记录"
+  },
+
+  {
+  "name": "ROLE_MERCHANT_USER_ACTIVITY_MANAGE_COUPON_GRANT",
+  "description": "优惠券发放"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_ACTIVITY_MANAGE_APPLY",
+    "description": "活动申请"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_ACTIVITY_MANAGE_SQUARE",
+    "description": "活动广场"
+  },
+  {
+    "name": "ROLE_MERCHANT_USER_ACTIVITY_MANAGE",
+    "description": "活动管理"
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "extraNet": [
+    {
+      "id": "ROLE_BACKEND_APPS",
+      "children": [
+        {
+          "id": "ROLE_BACKEND_APPS_BRAND",
+          "children": [
+            {
+              "id": "ROLE_BACKEND_APPS_BRAND_LIST"
+            }
+          ]
+        },
+        {
+          "id": "ROLE_BACKEND_APPS_MAIN",
+          "children": [
+            {
+              "id": "ROLE_BACKEND_APPS_MAIN_BLOC"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_MAIN_MALL"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_MAIN_TERMINAL"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_MAIN_MAP"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_MAIN_STORE"
+            }
+          ]
+        },
+        {
+          "id": "ROLE_BACKEND_APPS_MARKETING",
+          "children": [
+            {
+              "id": "ROLE_BACKEND_APPS_MARKETING_ACTIVITY"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_MARKETING_ESSAY"
+            }
+          ]
+        },
+        {
+          "id": "ROLE_BACKEND_APPS_COUPON",
+          "children": [
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_CREATEBATCH"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_CREATERULE"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_COUPONLIST"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_BATCHLIST"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_RULELIST"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_WRITEOFFRECORD"
+            },
+            {
+              "id": "ROLE_BACKEND_APPS_COUPON_COUPONREISSUE"
+            }
+          ]
+        },
+        {
+          "id": "ROLE_BACKEND_APPS_APPLET"
+        }
+      ]
+    }
+  ]
+}

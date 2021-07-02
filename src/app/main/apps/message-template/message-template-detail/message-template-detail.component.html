@@ -1,0 +1,204 @@
+<div class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/messageTemplate'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <div class="subtitle secondary-text">
+                        <span *ngIf="pageTitle">{{pageTitle}}</span>
+                    </div>
+                </div>
+            </div>
+            <!--新增时的按钮-->
+            <div class="tag-detail-btu-class-me" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+
+                <!-- 创建-->
+               <ng-container *ngIf="pageFlag==='create'">
+                   <div>
+                       <button mat-raised-button class="btu-bottom header-button" (click)="onSave()" [disabled]="saveButtonStatus"  color="accent">
+                           <mat-icon>save</mat-icon> {{'marketingManage.addMarketing.save'|translate}}</button>
+                   </div>
+                   <div class="mr-20">
+                       <button mat-raised-button class="btu-bottom" color="accent" (click)="goHistory()" [disabled]="saveButtonStatus">
+                           <mat-icon>reply</mat-icon>   {{'merchants.dataDetail.return'|translate}}</button>
+                   </div>
+               </ng-container>
+                <!-- 详情 -->
+                <ng-container *ngIf="pageFlag==='detail'">
+                    <div>
+                        <button mat-raised-button class="btu-bottom header-button" (click)="onEdit()"  color="accent" [disabled]="saveButtonStatus">
+                            <mat-icon>edit</mat-icon>
+                            {{'merchants.dataDetail.edit'|translate}}
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-raised-button [routerLink]="'/apps/messageTemplate'" class="btu-bottom header-button"  color="accent" [disabled]="saveButtonStatus">
+                            <mat-icon>reply</mat-icon>   {{'merchants.dataDetail.return'|translate}}
+                        </button>
+                    </div>
+                </ng-container>
+
+                <!-- 编辑 -->
+                <ng-container *ngIf="pageFlag==='edit'">
+                    <div>
+                        <button mat-raised-button class="btu-bottom header-button" (click)="onUpdate()"  color="accent" [disabled]="saveButtonStatus">
+                            <mat-icon>save</mat-icon>  {{'marketingManage.addMarketing.save'|translate}}
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-raised-button  class="btu-bottom header-button" (click)="onCancel()"  color="accent" [disabled]="saveButtonStatus">
+                            <mat-icon>close</mat-icon> {{'marketingManage.addMarketing.cancel'|translate}}
+                        </button>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <div class="w-100-p h-100-p" fxLayout="row" fxLayoutAlign="space-between center"
+              fxLayout.lt-md="column" fxLayoutAlign.lt-md="start center">
+            <div fxLayout="column" class="content-left ">
+                <form [formGroup]="profileForm" [autocomplete]="'off'" fxLayout="column" fxLayoutAlign="center center" class="w-100-p pt-32">
+
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="template-content-div w-90-p mb-24" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-48-p " [floatLabel]="'always'">
+                            <mat-label> {{'messageTemplate.Name'|translate}}</mat-label> <!-- 模板名称 -->
+                            <input matInput required  formControlName="messageTemplateName">
+                            <mat-error> {{'messageTemplate.tips1'|translate}}</mat-error> <!-- 模板名称不能为空 -->
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-48-p" [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.SendSupport'|translate}}</mat-label> <!-- 短信供应商 -->
+                            <mat-select formControlName="messageSendSupport" required>
+                                <mat-option *ngFor="let d of SendSupport" [value]="d.id" >{{d.value}}</mat-option>
+                            </mat-select>
+                            <mat-error>{{'messageTemplate.tips2'|translate}}</mat-error> <!-- 短信供应商不能为空 -->
+                        </mat-form-field>
+                    </div>
+
+
+                    <div fxLayout="row"  fxLayoutAlign="space-between center" class="template-content-div w-90-p mb-24" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-48-p " [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.Type'|translate}}</mat-label>  <!-- 模板类型 -->
+                            <mat-select formControlName="messageTemplateType" required>
+                                <mat-option *ngFor="let d of TemplateType" [value]="d.id" >{{d.value}}</mat-option>
+                            </mat-select>
+                            <mat-error>{{'messageTemplate.tips3'|translate}}</mat-error>   <!-- 模板类型不能为空 -->
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="w-48-p " [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.Status'|translate}}</mat-label>    <!-- 状态 -->
+                            <mat-select formControlName="templateStatus" required>
+                                <mat-option
+                                        value="NORMAL">{{'messageTemplate.NORMAL'|translate}}</mat-option>  <!-- 正常 -->
+                                <mat-option
+                                        value="FROZEN">{{'messageTemplate.FROZEN'|translate}}</mat-option>  <!-- 冻结 -->
+                            </mat-select>
+                            <mat-error>{{'messageTemplate.tips4'|translate}}</mat-error>   <!-- 状态不能为空 -->
+                        </mat-form-field>
+                    </div>
+
+                    <!-- 选择模板按钮  先是写死的 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-90-p mb-8" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+                        <!-- 选择现有模板内容 -->
+                        <button mat-icon-button fxFlex="7" (click)="openMessageTe(messageTe)"  [matTooltip]="'messageTemplate.tips9'|translate" [matTooltipPosition]="'above'">
+                            <mat-icon [color]="'accent'">add</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="textarea-div" fxLayout="row" class="w-90-p mb-4" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.Content'|translate}}</mat-label>   <!-- 模板内容 -->
+                            <textarea matInput required formControlName="messageTemplateContent"></textarea>
+                            <mat-error>{{'messageTemplate.tips5'|translate}}</mat-error>   <!-- 模板内容不能为空 -->
+                        </mat-form-field>
+                    </div>
+
+                    <div class="textarea-div" fxLayout="row" class="w-90-p mb-4" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.Sign'|translate}}</mat-label>   <!-- 模板签名 -->
+                            <textarea matInput required formControlName="messageTemplateSign"></textarea>
+                            <mat-error>{{'messageTemplate.tips6'|translate}}</mat-error>  <!-- 模板签名不能为空 -->
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row"  fxLayoutAlign="space-between center" class="template-content-div w-90-p" *ngIf="pageFlag === 'detail'" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-48-p " [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.lastModifiedBy'|translate}}</mat-label>  <!-- 修改人 -->
+                            <input matInput   formControlName="lastModifiedBy">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-48-p" [floatLabel]="'always'">
+                            <mat-label>{{'messageTemplate.lastModifiedDate'|translate}}</mat-label>  <!-- 修改时间 -->
+                            <input matInput   formControlName="lastModifiedDate">
+                        </mat-form-field>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="start center" class="content-right">
+
+
+
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p mb-16"  [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}" >
+
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-90-p mb-8 mt-16">
+                        <span fxFlex="20" class="font-ww-mess">{{'messageTemplate.dataDictionary'|translate}}</span>  <!-- 数据字典 -->
+                    </div>
+
+                    <ng-container *ngFor="let p of messageTePra; let i=index">
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-90-p mt-8 mb-8">
+                            <span fxFlex="20">{{p.CNParam}}</span>
+                            <span fxFlex="60">{{p.param}} </span>
+                        </div>
+                    </ng-container>
+
+                    <mat-divider class="w-90-p mt-8"></mat-divider>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-90-p mt-8" >
+                        <span class="note-para-mess">{{'messageTemplate.tips10'|translate}}</span>   <!-- 注: 目前只有上述几种变量参数,暂不支持自定义参数 -->
+                    </div>
+
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<ng-template #messageTe>
+    <div fxLayout="column" fxLayoutAlign="space-between center" class="w-100-p h-100-p" cdkDrag
+         cdkDragRootElement=".cdk-overlay-pane">
+        <!-- 标题 -->
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="12" cdkDragHandle
+             class="w-100-p messageTeTitle">
+            <span fxFlex="15" fxLayoutAlign="center center">{{'messageTemplate.chooseTemplate'|translate}}</span> <!--模板选择 -->
+            <div fxLayout="row" fxFlex="15" fxLayoutAlign="center center">
+                <button mat-icon-button fxFlex="50" fxLayoutAlign="center center">
+                    <mat-icon mat-dialog-close>clear</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start center" fxFlex="88" class="w-100-p messageTeContent">
+
+            <ng-container *ngFor="let m of messageTeSource">
+                <div fxLayout="row" fxLayoutAlign="start center" class="messageTeListContent" (click)="cliMess(m)"
+                    [ngClass]="{'messageTeListContentAC': m.id === messageTeID , 'messageTeListContentNotAc' : m.id !== messageTeID }">
+                    <span [matTooltip]="m.value">{{m.value}}</span>
+                </div>
+            </ng-container>
+
+        </div>
+
+    </div>
+
+</ng-template>

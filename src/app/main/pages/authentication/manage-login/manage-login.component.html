@@ -1,0 +1,130 @@
+<div class="manageCenterAllFlex" fxLayout="row"
+     [ngClass]="{ 'bgMCenterImgTT': currentProject === 'tt' , 'bgMCenterImgHX': currentProject === 'hx' }"
+     fxLayoutAlign="end end">
+
+    <!-- 图片部分 -->
+    <div class="bgMCenterImg"
+         [ngClass]="{'bgMCenterImgBCIA': currentProject === 'hq' }"
+         [@animate]="{value:'*',params:{opacity:0.8,duration:'300ms',delay:'300ms'}}"
+         fxLayout="column" fxLayoutAlign="end center" fxHide fxShow.gt-xs>
+
+
+        <div  fxLayout="column" fxLayoutAlign="end center" class="w-100-p m-img-bg-color" fxFlex="100">
+
+            <div fxLayout="column"
+                 fxLayoutAlign="start start" class="manageBigTitle">
+
+                <!-- logoImg -->
+                <img *ngIf="logo_rectangle" [src]="logo_rectangle" [ngClass]="{'manageBig-logoImg': currentProject === 'hq'   }">
+
+                <!-- 大标题 -->
+                <span  *ngIf="tlKey" class="manageBig-bigTitle">{{(tlKey+'bigTitle')|translate}}</span>
+
+                <ng-container *ngIf="currentProject === 'hq' || currentProject === 'tt'">
+                    <!-- 小标题 -->
+                    <span  *ngIf="tlKey"  class="manageBig-smallTitle">{{(tlKey+'describe')|translate}}</span>
+                </ng-container>
+
+                <ng-container  *ngIf="currentProject === 'hx'">
+                    <div  *ngIf="tlKey" >
+                        <span class="manageBig-smallTitle mr-8"><b>{{(tlKey+'describe1')|translate}}</b></span>
+                        <span class="manageBig-smallTitle mr-12">{{(tlKey+'describe2')|translate}}</span>
+                        <span class="manageBig-smallTitle mr-8"> <b>{{(tlKey+'describe3')|translate}}</b></span>
+                        <span class="manageBig-smallTitle mr-12">{{(tlKey+'describe4')|translate}}</span>
+                    </div>
+                    <div  *ngIf="tlKey" >
+                        <span class="manageBig-smallTitle mr-8"><b>{{(tlKey+'describe5')|translate}}</b></span>
+                        <span class="manageBig-smallTitle mr-12">{{(tlKey+'describe6')|translate}}</span>
+                        <span class="manageBig-smallTitle mr-8"> <b>{{(tlKey+'describe7')|translate}}</b></span>
+                        <span class="manageBig-smallTitle mr-12">{{(tlKey+'describe8')|translate}}</span>
+                    </div>
+                </ng-container>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- 登陆部分 -->
+    <div fxLayout="column" fxLayoutAlign="start center" class="m-loginForm">
+
+        <!--logo 部分 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'400ms'}}" title="{{'manageLogin.tips1'|translate}}" routerLink="home"
+             fxLayout="row" fxLayoutAlign="end center " class="w-100-p pr-20 mLoginLogo cursor-pointer">
+            <img   *ngIf="logo_login" [src]="logo_login" >
+        </div>
+
+        <!--标题 部分 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'200ms'}}" fxLayout="row"
+             fxLayoutAlign="start end"
+             class="mLoginTitle">
+
+            <span  *ngIf="tlKey"  class="mLoginSpan">{{(tlKey+'loginTitle')|translate}}</span>
+
+        </div>
+
+        <!--登陆 部分 -->
+        <div fxLayout="column" fxLayoutAlign="start center" class="mLoginPut">
+
+            <form [@animate]="{value:'*',params:{scale:0.5,duration:'300ms',delay:'300ms'}}" [formGroup]="loginForm"
+                  novalidate
+                  fxLayout="column" fxLayoutAlign="end center" class="mLoginPutF ">
+
+                <!-- 登陆填写框 -->
+                <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p m-name-pwd">
+                    <mat-form-field appearance="outline" class="w-100-p"  [floatLabel]="'always'">
+                        <mat-label>{{'loginPage.username'|translate}}</mat-label>
+                        <input matInput formControlName="username" autocomplete="on">
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                            {{'loginPage.usernameM'|translate}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100-p"  [floatLabel]="'always'">
+                        <mat-label>{{'loginPage.password'|translate}}</mat-label>
+                        <input matInput type="password" autocomplete="on" formControlName="password">
+                        <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                        <mat-error *ngIf="loginForm.get('password').errors">
+                            {{'loginPage.passwordM'|translate}}
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <!-- 记住密码 -->
+                <!--<div fxLayout="row" fxLayoutAlign="start end" class="w-100-p m-RePa">-->
+                <!--<mat-checkbox  aria-label="记住密码" class="rememberCheck">-->
+                <!--记住密码-->
+                <!--</mat-checkbox>-->
+                <!--</div>-->
+
+                <!-- 登陆取消 按钮-->
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p m-loginBut">
+
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p m-login-confirm-but">
+                        <button mat-raised-button aria-label="LOGIN"
+                                [disabled]="loginForm.invalid||loginDisabled" (click)="login()">
+                            {{'loginPage.login'|translate}}
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+        <!-- 版本号 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'600ms'}}" fxLayout="row"
+             fxLayoutAlign="end end " class="versionD pr-12">
+            <span>{{'version'|translate}}</span>
+            <span hidden>f1a8c62f</span><span>0.3.61</span>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,65 @@
+
+// 弹框整体设置,#frozenTips为打开弹框时的id，其所在位置就是mat-dialog-container标签
+::ng-deep {
+  #frozenTips{
+    margin: 0px;
+    padding: 0 0 24px 0!important;
+    overflow: visible;
+    .mat-form-field-wrapper{
+      padding-bottom: 0;
+    }
+  }
+}
+.closeOrderDialogStyle {
+  .dialogTitle {
+    background-color: #02A5EF;
+    margin-bottom: 0px;
+    height: 45px;
+    color: white;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-left: 24px;
+    border-radius: 3px 3px 0 0;
+  }
+  .dialogContent {
+    margin: 0;
+    width:100%;
+    p{
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+    mat-form-field{
+      width:100%;
+      textarea{
+        width:100%;
+      }
+    }
+  }
+  .dialogAction {
+    float: right;
+    padding-right: 24px;
+    padding-bottom:16px;
+    button:first-child{
+      background-color: #02A5EF;
+      color: white;
+    }
+    button:last-child{
+      color: #02A5EF;
+    }
+  }
+}
+
+.customFiled{
+  ::ng-deep {
+    mat-form-field {
+      height: 70px;
+      .mat-form-field-flex {
+        height: 42px;
+      }
+      .mat-form-field-subscript-wrapper{
+        margin-top: 24px;
+      }
+    }
+  }
+}
+

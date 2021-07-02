@@ -1,0 +1,74 @@
+@import "src/@fuse/scss/fuse";
+// 整体布局
+.content {
+  overflow-y: scroll;
+  min-width: 1000px;
+
+}
+
+.titleSpan {
+  font-size: 16px;
+  color: #797979;
+}
+.titleNum{
+  font-size: 24px;
+  font-weight: 700;
+}
+.titleNumUnit{
+  font-weight: 400;
+  font-size: 14px;
+  color: #797979;
+}
+.rightDateChecked{
+  p {
+    margin: 9px 0 0 0;
+    width: 42px;
+    text-align: center;
+    border-radius: 4px;
+    height: 24px;
+    line-height: 24px;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .selectBg{
+    background-color: #039BE5!important;
+    color: white;
+  }
+}
+
+.textOverflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.re-select-but{
+  mat-form-field{
+    width: 100%;
+    height: 34px;
+    color: #000000;
+    .mat-form-field-wrapper{
+      height: 40px;
+    }
+    ::ng-deep {
+      .mat-form-field-flex{
+        background-color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #cccccc;
+        height: 34px;
+      }
+      .mat-select{
+        margin-bottom: 10px;
+      }
+      .mat-form-field-underline{
+        background-color: rgba(255 , 255 ,255 , 0);
+      }
+    }
+  }
+}
+.header-title-color{
+  color: #FFFFFF;
+}
+.header-bg-color{
+  background-color: #039BE5!important;
+}

@@ -1,0 +1,16 @@
+<app-table-list #tableList [title]="title" [rows]="rows" [page]="page" [columns]="columns" [createButton]="createButton" [hasDetail]="hasDetail"
+                [customButtons]="customButtons" [selectedRow]="selectedRow" [singleSelect]="singleSelect"
+                [overPanel]="overPanel" [detailMenu]="detailMenu" [selectedRows]="selectedRows" [checkbox]="checkbox"
+                [detailText]="detailText" [hasEnabled]="hasEnabled" [hasCopy]="hasCopy" [initOpacity]="initOpacity"
+                [hasHeader]="hasHeader" [stick]="stick" [noScrollPaging]="noScrollPaging"
+                [hasStatistics]="hasStatistics" [hasClear]="hasClear"
+                [selectedField]="selectedField" [resetSelect]="resetSelect" (create)="onCreate()"
+                (dataSelect)="onDataSelect($event)"
+                (navigateDetail)="navigateDetail($event)" (tableSort)="onSort($event)"
+                (tablePaging)="onPage($event)" (search)="onSearch()"
+                (searchClear)="onSearch()"
+                [editPermissions]="editPermissions"
+                [createPermissions]="createPermissions"
+                [searchPermissions]="searchPermissions"
+
+></app-table-list>

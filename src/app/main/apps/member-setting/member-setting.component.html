@@ -1,0 +1,266 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <div class="top-bg accent"></div>
+    <div class="center" fusePerfectScrollbar>
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">会员设置</h2>
+        </div>
+        <div class="content pb-8 h-100-p w-100-p">
+            <mat-card class="w-100-p h-100-p pt-20 px-24 pl-0">
+                <div class="w-100-p h-100-p" fxLayout="row" fxLayoutAlign="start start">
+                    <!-- 左侧边栏 -->
+                    <div fxFlex="15" class="h-100-p">
+                        <app-tabs-vertical [itemInfo]="itemInfo" [itemList]="itemList" (sendItemInfo)="sendItemInfo($event)"></app-tabs-vertical>
+                    </div>
+                    <!-- 右侧内容区-->
+                    <div fxFlex="85" class="h-100-p pl-20" style="position: relative;">
+                        <ng-container [ngSwitch]="itemInfo.name">
+                            <ng-container *ngSwitchCase="'等级设置'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentFirst"></ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'卡样设置'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentSecond"></ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'权益设置'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentThird"></ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'停车到场'">
+                                <div class="w-100-p h-100-p">
+                                    <ng-container *ngTemplateOutlet="contentFourth"></ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<ng-template #contentFirst>
+    <h3>等级设置</h3>
+    <div class="content" fxLayout="row">
+        <div class="content-left" fxLayout="column">
+<!--            <div fxLayout="row" fxLayoutAlign="start center">-->
+<!--                <p class="pr-12 pb-24 pt-0">起始号段</p>-->
+<!--                <div class="normal-form-fields">-->
+<!--                    <form [formGroup]="myForm">-->
+<!--                        <mat-form-field appearance="outline">-->
+<!--                            <input matInput formControlName="levelNumStart">-->
+<!--                            <mat-error>起始号段不能为空</mat-error>-->
+<!--                        </mat-form-field>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <p class="pb-24 pt-0" style="opacity: 0.8;font-size: 0.5rem;">&nbsp;(城市简称+01补位+八位流水,eg:CQ010000001)</p>-->
+<!--            </div>-->
+            <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                <div class="name-number" fxLayout="row" fxLayoutAlign="center start">卡等级</div>
+                <div class="name-title-left" fxLayout="row">卡名称</div>
+                <div class="name-title-right pl-32" fxLayout="row">积分门槛</div>
+            </div>
+            <div fusePerfectScrollbar style="max-height: 308px;overflow-y: scroll;">
+                <div class="w-100-p mb-20" fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of initialData; let i = index;">
+                    <div class="name-number" fxLayout="row" fxLayoutAlign="center center">{{initialData[i]['id']}}</div>
+                    <div class="name-title-left" fxLayout="row">
+                        <input class="card-content-input" [(ngModel)]="initialData[i]['levelName']">
+                    </div>
+                    <div class="name-title-right" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="symbol">≥</span>
+                        <input class="value-content-input mr-8" (input)="cardValueInput($event)" [(ngModel)]="initialData[i]['levelMin']" *ngIf="i===0" [disabled]="true">
+                        <input class="value-content-input mr-8" (input)="cardValueInput($event)" [(ngModel)]="initialData[i]['levelMin']" *ngIf="i!==0">
+                        <mat-slide-toggle [labelPosition]="'after'" [(ngModel)]="initialData[i]['enable']">
+                            {{initialData[i]['enable']?'启用':'禁用'}}
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="saveButton">
+        <button mat-raised-button class="w-120 shallow-button" (click)="onSaveBasic(closeOrderDialog)" >更新等级设置</button>
+    </div>
+</ng-template>
+<ng-template #contentSecond>
+    <h3>卡样设置</h3>
+    <div class="w-100-p">
+        <p>会员卡名称</p>
+        <div style="display:flex; flex-direction: row;flex-wrap: wrap;height: calc(100vh - 300px);" fusePerfectScrollbar>
+            <div fxLayout="column" fxLayoutAlign="start start" class="mr-30" *ngIf="initialDataInfo.length === 0">
+                <p class="mt-0 mb-8">(空)}</p>
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-240 h-160 card-model" disabled="true">
+                    <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p">
+                        <div fxLayout="row" fxLayoutAlign="center center"><mat-icon>cloud_upload</mat-icon><span>(请先设置卡等级)</span></div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start" class="mr-30 mt-12" *ngFor="let item of initialDataInfo">
+                <p class="mt-0 mb-8">{{item.levelName}}</p>
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-240 h-160 card-model" (click)="uploadImage(item)" >
+                    <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p" *ngIf="!item.levelpic">
+                        <div fxLayout="row" fxLayoutAlign="center center"><mat-icon>cloud_upload</mat-icon><span>&nbsp;添加卡片</span></div>
+                        <span class="imgType">建议图片尺寸：1200x800</span>
+                        <span class="imgType">支持文件格式JPG,PNG,SVG</span>
+                    </div>
+                    <img [src]="imageUrl + item.levelpicChange" class="w-100-p h-100-p" *ngIf="item.levelpic && item.levelpicChange">
+                </div>
+            </div>
+        </div>
+        <div class="saveButton">
+            <button mat-raised-button class="w-120 shallow-button" (click)="updateCardStyleSet(closeOrderDialog)" [disabled]="initialDataInfo.length === 0">更新卡样设置</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #contentThird>
+    <h3>权益设置</h3>
+    <div class="w-100-p" style="overflow: hidden;">
+        <div style="display:flex; flex-direction: row;flex-wrap: wrap;max-height: 200px;" fusePerfectScrollbar>
+            <div fxLayout="column" fxLayoutAlign="start end" class="mr-30" *ngIf="initialData.length===0" style="cursor: auto;">
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-180 h-120 card-model" disabled="true" style="cursor: auto!important;">
+                    <div fxLayout="row" fxLayoutAlign="center center"><span>(请先设置卡等级)</span></div>
+                </div>
+                <div class="titleBottom">(空)</div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start end" class="mr-30" class="mt-12" *ngFor="let item of initialData">
+                <div fxLayout="column" fxLayoutAlign="center center" class="w-180 h-120 card-model" style="cursor: auto!important;">
+                    <img [src]="imageUrl + item.levelpic['fileId']" class="w-100-p h-100-p" *ngIf="item.levelpic && item.levelpic['fileId']">
+<!--                    <img [src]="''" class="w-100-p h-100-p" *ngIf="!item.levelpic">-->
+                </div>
+                <div class="titleBottom">{{item.levelName}}</div>
+            </div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start" class="w-60-p mb-20" style="overflow: hidden;max-height: 260px;">
+            <p>权益说明</p>
+            <form [formGroup]="myForm"  class="w-100-p">
+                <quill-editor [placeholder]="'权益说明'" class="w-100-p" (onEditorCreated)="onEditorCreatedPri($event)"
+                              [styles]="{'border-radius':'5px','height':'100px','max-height':'160px'}" formControlName="equityInfo"></quill-editor>
+                <mat-error *ngIf="!myForm.get('equityInfo').valid">权益说明是必填项</mat-error>
+            </form>
+        </div>
+        <div class="saveButton">
+            <button mat-raised-button class="w-120 shallow-button" (click)="updateEquitySet(closeOrderDialog)" [disabled]="initialData.length === 0">更新权益设置</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #contentFourth>
+    <h3>停车到场</h3>
+    <div *ngIf="!currentCouponRule">
+        当前券ID：{{parkingForm.value['parkCouponId']}}
+    </div>
+    <div class="w-100-p" fxLayout="row wrap" fxLayoutAlign="start start">
+        <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMemberSelect(ruleTemplate)" *ngIf="!currentCouponRule">
+            <mat-icon>add_circle_outline</mat-icon>
+            <span class="ml-4">选择券规则</span>
+        </div>
+        <div class="member-cell p-8" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="2px" *ngIf="currentCouponRule">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p">
+                <span>券名称:{{currentCouponRule?.name}}</span>
+                <button mat-icon-button (click)="removeMember()" fxLayout="row" fxLayoutAlign="center center" class="w-24 h-24 remove-button">
+                    <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                </button>
+            </div>
+            <span class="w-100-p" style="word-break: break-all;">券ID:{{currentCouponRule?.id}}</span>
+            <span class="w-100-p">有效期:
+                    <span>{{currentCouponRule?.validity}}</span>
+                </span>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p mt-20">
+        <app-material-date-picker #startDate [timeControl]="parkingForm.get('beginTime')" class="w-48-p"  [floatLabel]="'always'"
+                                  [required]="false" (sourceDate)="onSourceDate($event, endDate, startDate, 'startTime')"
+                                  [config]="configBeginTime" [label]="'开始时间'">
+        </app-material-date-picker>
+        <app-material-date-picker #endDate [timeControl]="parkingForm.get('endTime')" class="w-48-p"  [required]="false"  [floatLabel]="'always'"
+                                  (sourceDate)="onSourceDate($event, endDate, startDate, 'endTime')"
+                                  [config]="configEndTime" [label]="'结束时间'">
+        </app-material-date-picker>
+    </div>
+    <div class="saveButton">
+        <button mat-raised-button class="w-120 shallow-button" (click)="updateParkingSet(closeOrderDialog)" [disabled]="initialData.length === 0">更新停车设置</button>
+    </div>
+</ng-template>
+
+<ng-template #closeOrderDialog>
+    <div class="closeOrderDialogStyle">
+        <h1 class="dialogTitle" mat-dialog-title>系统提示</h1>
+        <div fxLayout="row" fxLayoutAlign="start start" class="hintContent">
+            <div fxFlex="10" class="hintContentLeft">
+                <img [src]="'assets/icons/member/tishi.png'">
+            </div>
+            <div fxFlex="90" class="dialogContent p-0" mat-dialog-content>
+                <p>刚刚更改的<strong>&nbsp;
+                        <span *ngIf="dialogFlag==='basics'">基础设置</span>
+                        <span *ngIf="dialogFlag==='cardStyle'">卡样设置</span>
+                        <span *ngIf="dialogFlag==='equity'">权益设置</span>&nbsp;
+                        <span *ngIf="dialogFlag==='parking'">停车到场</span>
+                    </strong>是否为您保存？</p>
+            </div>
+        </div>
+        <div class="dialogAction" mat-dialog-actions>
+            <button mat-stroked-button (click)="toSureOrderCreate()">确认</button>
+            <button mat-stroked-button [mat-dialog-close]="false">取消</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ruleTemplate>
+    <app-coupon-rule [overPanel]="true" [createBut]="false" [singleSelect]="true" [selectedRow]="selectedCouponRule"
+                     [isPackage]="false" [isParking]="true" (dataSelect)="onMemberSelect($event)"></app-coupon-rule>
+</ng-template>
+
+<!--<ng-template #contentFirst>-->
+<!--    <h3>等级设置</h3>-->
+<!--    <div class="content" fxLayout="row">-->
+<!--        <div class="content-left" fxLayout="column">-->
+<!--            <div fxLayout="row" fxLayoutAlign="start center">-->
+<!--                <p class="pr-12 pb-24 pt-0">起始号段</p>-->
+<!--                <div class="normal-form-fields">-->
+<!--                    <form [formGroup]="myForm">-->
+<!--                        <mat-form-field appearance="outline">-->
+<!--                            <input matInput formControlName="levelNumStart">-->
+<!--                            <mat-error>起始号段不能为空</mat-error>-->
+<!--                        </mat-form-field>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <p class="pb-24 pt-0" style="opacity: 0.8;font-size: 0.5rem;">&nbsp;(城市简称+01补位+八位流水,eg:CQ010000001)</p>-->
+<!--            </div>-->
+<!--            <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">-->
+<!--                <div class="name-number" fxLayout="row" fxLayoutAlign="center start">卡等级</div>-->
+<!--                <div class="name-title-left" fxLayout="row">卡名称</div>-->
+<!--                <div class="name-title-right pl-32" fxLayout="row">积分门槛</div>-->
+<!--            </div>-->
+<!--            <div fusePerfectScrollbar style="max-height: 308px;overflow-y: scroll;">-->
+<!--                <div class="w-100-p mb-20" fxLayout="row" fxLayoutAlign="start center">-->
+<!--                    <div class="name-number" fxLayout="row" fxLayoutAlign="center center">1</div>-->
+<!--                    <div class="name-title-left" fxLayout="row">-->
+<!--                        <input [(ngModel)]="firstCardName" class="card-content-input" [readOnly]="cardValue.length > 0">-->
+<!--                    </div>-->
+<!--                    <div class="name-title-right" fxLayout="row" fxLayoutAlign="start center">-->
+<!--                        <span class="symbol">≥</span>-->
+<!--                        <input class="value-content-input" value="0" readonly>-->
+<!--                        <mat-icon (click)="addCard('firstCard')" *ngIf="cardValue.length === 0" class="add-button" style="color:#2395DB;">add_circle</mat-icon>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="w-100-p mb-20" fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of cardValue; let i = index;">-->
+<!--                    <div class="name-number" fxLayout="row" fxLayoutAlign="center center">{{i+2}}</div>-->
+<!--                    <div class="name-title-left" fxLayout="row">-->
+<!--                        <input class="card-content-input" [(ngModel)]="cardValue[i]['name']" [readOnly]="i < cardValue.length - 1">-->
+<!--                    </div>-->
+<!--                    <div class="name-title-right" fxLayout="row" fxLayoutAlign="start center">-->
+<!--                        <span class="symbol">≥</span>-->
+<!--                        <input class="value-content-input" (input)="cardValueInput($event)" [(ngModel)]="cardValue[i]['value']" [readOnly]="i < cardValue.length - 1">-->
+<!--                        <mat-icon (click)="addCard('cardValue')" *ngIf="i === (cardValue.length - 1)" class="add-button" style="color:#2395DB;">add_circle</mat-icon>-->
+<!--                        <mat-icon (click)="deleteCard(i)" *ngIf="i === (cardValue.length - 1)" class="add-button" style="color:red;">remove_circle</mat-icon>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="saveButton">-->
+<!--        <button mat-raised-button class="w-120 shallow-button" (click)="onSaveBasic(closeOrderDialog)">更新等级设置</button>-->
+<!--    </div>-->
+<!--</ng-template>-->

@@ -1,0 +1,1015 @@
+@mixin global($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $is-dark: map-get($theme, is-dark);
+  $DEF2FF: #DEF2FF;
+  $EAF7FF: #EAF7FF;
+  //#039be5  theme color
+
+  // 修复quill空格
+  quill-editor {
+    white-space: pre-wrap;
+  }
+
+  // 浅色盒子阴影
+  .light-box-shadow {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+  }
+  // 深色盒子阴影
+  .dark-box-shadow {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12) !important;
+  }
+  // 浅色盒子阴影-hover
+  .light-box-shadow-hover {
+    &:hover {
+      @extend .light-box-shadow
+    }
+  }
+  // 深色盒子阴影-hover
+  .dark-box-shadow-hover {
+    &:hover {
+      @extend .dark-box-shadow
+    }
+  }
+  // 边框主题颜色
+  .border-theme-color {
+    border-color: mat-color($accent, 600) !important;
+  }
+
+  // 主题主颜色-对应蓝色
+  .theme-color {
+    color: mat-color($accent, 600) !important;
+
+    & * {
+      color: inherit !important;
+    }
+  }
+  // 主题警告颜色-对应红色
+  .warn-color {
+    color: mat-color($warn, 600) !important;
+  }
+  // 警告-hover
+  .warn-hover {
+    &:hover {
+      color: mat-color($warn, 600) !important;
+    }
+  }
+  // hover时显示matIcon
+  .show-icon-hover {
+    mat-icon {
+      opacity: 0 !important;
+      transition: opacity 0.5s 0.1s ease-in-out;
+    }
+
+    &:hover {
+      mat-icon {
+        opacity: 1 !important;
+      }
+    }
+  }
+  // 背景主题色
+  .theme-background {
+    background: mat-color($accent, 600);
+    color: white;
+  }
+  // 自适应等比缩放图片
+  .auto-resize-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  // 解决fuse容器class兼容性问题
+  .content-card {
+    height: 100%;
+  }
+
+  // 绝对100%容器
+  .absolute-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  // icon的按钮效果
+  .icon-button {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+    -webkit-appearance: unset;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease-in-out;
+
+    &:hover {
+      background: #FFFFFF50;
+    }
+  }
+
+  // 列表子组件
+  app-table-list {
+    width: 100%;
+    height: 100%;
+  }
+
+  // 布局右边栏头部高度
+  .sidebar-header {
+    padding: 24px 24px 0 24px;
+    height: 130px;
+    max-height: 130px;
+    min-height: 130px;
+  }
+
+  // 透明动画
+  .opacity-animation {
+    opacity: 0.6;
+    transition: opacity 0.3s 0.1s ease-in-out, color 0.3s 0.1s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  // 编辑按钮div容器
+  .operate-buttons {
+    button {
+      transition: opacity 0.3s 0.1s ease-in-out;
+      opacity: 0.7;
+      @extend .light-box-shadow;
+      font-weight: normal;
+      margin: 0 5px;
+      padding: 0 12px;
+
+      &:hover {
+        opacity: 1;
+        @extend .dark-box-shadow;
+      }
+
+      mat-icon {
+        font-size: 20px;
+        min-height: 20px;
+        min-width: 20px;
+        max-width: 20px;
+        max-height: 20px;
+      }
+
+      span:not(.iconfont) {
+        position: relative;
+        margin-left: 5px;
+        bottom: 1px;
+      }
+    }
+  }
+  // 设计师提供的icon
+  .iconfont {
+    font-size: 13px;
+  }
+
+  // 按钮的颜色
+  .yellow-button {
+    background: #C8C01A !important;
+    color: white !important;
+  }
+
+  // 深黄色按钮
+  .dark-yellow-button {
+    background: #F19B18 !important;
+    color: white !important;
+  }
+
+  // 绿色按钮
+  .green-button {
+    background: #4EAE57 !important;
+    color: white !important;
+  }
+
+  // 深蓝色
+  .deep-blue-button {
+    background: #4E94AE !important;
+    color: white !important;
+  }
+
+  // 浅蓝色
+  .shallow-button {
+    background-color: #6BD5FF !important;
+    color: white !important;
+  }
+
+  // 红色按钮
+  .red-button {
+    background: #FF8888 !important;
+    color: white !important;
+  }
+
+  // 紫色按钮
+  .purple-button {
+    background: #7380EA !important;
+    color: white !important;
+  }
+  .w-button {
+    width: 80px;
+  }
+
+  // formField调节
+  .mat-form-field-flex {
+    align-items: center !important;
+  }
+
+  // 颜色展示块
+  .color-block {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+  }
+
+  // 方块
+  .rect-block {
+    @extend .color-block;
+    width: 6px;
+    height: 18px
+  }
+
+  // overflow的样式
+  .overflow-auto {
+    overflow: auto;
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  .overflow-x-auto {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .overflow-y-auto {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  // 文字超出隐藏为...
+  .text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // 通知栏长度 默认最大长度字数过多时候会超出
+  .snack-custom {
+    max-width: 65vw;
+  }
+
+  // 快捷键弹框
+  .keyboard {
+    tr {
+      &:nth-child(1) {
+        font-size: 30px;
+      }
+
+      width: 100%;
+
+      & td:nth-child(1) {
+        width: 50%;
+        padding: 5px 5px 5px 20px;
+      }
+    }
+  }
+
+  // 颜色选择器的按钮
+  %color-button {
+    cursor: pointer;
+    border: 0;
+    padding: 6px 16px;
+    margin-left: 5px;
+    border-radius: 5px;
+
+    &:hover {
+      @extend .dark-box-shadow;
+    }
+  }
+  .ok-button {
+    @extend .mat-raised-button;
+    @extend .mat-accent;
+    @extend %color-button;
+    @extend .light-box-shadow;
+  }
+  .cancel-button {
+    @extend .mat-button;
+    @extend .mat-accent;
+    @extend %color-button;
+    @extend .light-box-shadow;
+  }
+
+  /*电子券单元样式*/
+  .common-cell {
+    background: white;
+    width: 150px;
+    min-width: 150px;
+    height: 100px;
+    min-height: 100px;
+    user-select: text;
+    padding: 0 8px;
+    margin: 4px;
+    border: 1px dashed mat-color($accent, 600);
+    border-radius: 5px;
+    font-size: 10px;
+
+    .operate-button {
+      bottom: 6px;
+      left: 6px;
+      position: relative;
+    }
+  }
+  .coupon-cell {
+    @extend .common-cell;
+    background: url("/assets/jinmao/bg_coupon.png") no-repeat;
+    background-size: 100% 100%;
+  }
+  .group-cell {
+    @extend .coupon-cell;
+    height: 120px
+  }
+
+  // 日期弹框
+  .flatpickr-calendar {
+    background: map-get($background, card);
+    @if ($is-dark) {
+      span, input, select {
+        color: white
+      }
+      span.arrowUp::after {
+        border-bottom-color: white;
+      }
+      span.arrowDown::after {
+        border-top-color: white;
+      }
+      svg {
+        fill: white
+      }
+      .flatpickr-day {
+        &:hover {
+          background: #959ea9;
+          border-color: #959ea9;
+        }
+      }
+      .today {
+        background: white !important;
+        border-color: white !important;
+        color: #000000;
+      }
+    }
+    // 取消默认不显示time的状态
+    &.hasTime .flatpickr-time {
+      height: 40px;
+      border-top: 1px solid #e6e6e6;
+    }
+  }
+
+  /*
+    .orangeF19B10-button{
+      background-color: #F19B10;
+      color:white;
+      border-radius: 10px;
+      @extend %button
+  }
+
+    .green27B403-button{
+      background-color: #27B403;
+      color: white;
+      border-radius: 10px;
+      @extend %button
+
+    }
+
+    .writeFFFAEB-button{
+      background-color: #FFFAEB;
+      color: #3F80A7;
+      border-radius: 10px;
+      @extend %button
+    }
+
+    .borderbule-button{
+      border: 1px dashed #32A8EE;
+      border-radius: 15px;
+      color: #32A8EE;
+      width: 40px;
+      @extend %button
+    }
+    .bule32A8EE-button{
+      background-color: #32A8EE;
+      color: #FFFFFF;
+      border-radius: 15px;
+      font-size: 10px;
+      @extend %button
+    }
+  */
+
+  $height: 45px;
+  $minHeight: 40px;
+
+  // ngx-dataTable背景继承主题  样式改造
+  .ngx-datatable-custom {
+    cursor: auto;
+    overflow-y: hidden;
+    box-shadow: initial;
+    height: initial;
+    min-height: initial;
+    //height: calc(100% - 12px) !important;
+    //min-height: calc(100% - 12px) !important;
+    background: inherit !important;
+
+    &::-webkit-scrollbar {
+      scroll-behavior: smooth;
+    }
+
+    // resize handle
+    .resize-handle {
+      border-right: 1px solid #aaaaaa !important;
+      opacity: 0.1;
+      transition: opacity 0.8s;
+      visibility: visible !important;
+
+      &:hover {
+        opacity: 0.8;
+        transition: opacity 0.8s;
+      }
+    }
+
+    .datatable-header {
+      display: initial !important;
+    }
+
+    .sort-btn {
+      display: none !important;
+    }
+
+    // 行
+    .datatable-body-row {
+      .datatable-row-group {
+        height: 100%;
+        min-height: $minHeight !important;
+      }
+
+      &.active .datatable-row-group {
+        background: $DEF2FF !important;
+        @extend .dark-box-shadow;
+      }
+
+      &:not(.active) .datatable-row-group:hover {
+        background: #ECF7FD50 !important;
+        @extend .dark-box-shadow;
+      }
+    }
+
+    // 头部单元
+    .datatable-header-cell {
+      min-height: $minHeight !important;
+      border-radius: 5px;
+
+      &:hover {
+        @extend .theme-color;
+        @extend .light-box-shadow;
+      }
+    }
+
+    // 列表体单元
+    .datatable-body-cell {
+      &:not(:last-child) {
+        // 文本超出隐藏为...
+        .datatable-body-cell-label {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+
+          span {
+            height: 20px;
+            @extend .text-ellipsis;
+          }
+
+          .align-left {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+          }
+
+          .align-center {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+
+          }
+
+          .align-right {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+          }
+
+          @extend .text-ellipsis;
+        }
+      }
+
+      &:last-child {
+        .datatable-body-cell-label {
+          @extend .text-ellipsis;
+        }
+      }
+
+    }
+
+    .datatable-header-cell, .datatable-body-cell {
+      padding: 0 !important;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .datatable-header-cell-template-wrap {
+      display: flex;
+      flex-direction: column;
+      place-content: space-around center;
+      height: 100% !important;
+      width: 100% !important;
+    }
+
+    // 页脚
+    datatable-footer {
+      min-height: $height !important;
+      height: $height !important;
+    }
+
+    .page-count {
+      height: $height !important;
+    }
+
+    .datatable-pager {
+      // 可点击的
+      li:not(.disabled) {
+        & a {
+          &:hover {
+            background: inherit !important;
+            @extend .theme-color;
+            @extend .dark-box-shadow;
+
+            & i {
+              @extend .theme-color
+            }
+          }
+        }
+      }
+
+      // 选中
+      li.active {
+        & a {
+          background: inherit !important;
+          @extend .theme-color;
+          @extend .dark-box-shadow;
+        }
+      }
+    }
+  }
+
+  // table footer
+  .ngx-datatable-custom .datatable-footer .datatable-footer-inner {
+    height: $height !important;
+    padding: 0 18px !important;
+  }
+  @media screen and (max-width: 959px) and (min-width: 600px) {
+    .ngx-datatable-custom .datatable-footer .datatable-footer-inner {
+      height: $height !important;
+      padding: 0 18px !important;
+      display: flex;
+      flex-direction: row;
+      place-content: space-between center;
+    }
+  }
+
+  // 列表选中时改变鼠标为pointer
+  .table-select {
+    .datatable-body-row {
+      cursor: pointer;
+    }
+  }
+
+  /*helper classes*/
+
+  @for $i from 1 through 100 {
+    .w-#{$i}-p {
+      width: $i*1% !important;
+    }
+  }
+
+  @for $i from 1 through 10 {
+    .opacity-#{$i} {
+      opacity: 0.1*$i !important;
+    }
+  }
+
+  // w-40-p --- w-50-p
+  @for $i from 40 through 50 {
+    .w-#{$i}-p {
+      width: $i*1% !important;
+      min-width: $i*1% !important;
+      max-width: $i*1% !important;
+    }
+  }
+
+  // 10-40px
+  @for $i from 10 through 40 {
+    .mat-icon-#{$i} {
+      font-size: $i+px !important;
+      width: $i+px !important;
+      height: $i+px !important;
+      min-height: $i+px !important;
+      min-width: $i+px !important;
+    }
+    .font-size-#{$i} {
+      font-size: $i+px !important;
+    }
+  }
+  // 24-40px buttons
+  @for $i from 24 through 40 {
+    .mat-button-#{$i} {
+      width: $i+px !important;
+      height: $i+px !important;
+      min-height: $i+px !important;
+      min-width: $i+px !important;
+    }
+    .mat-button-h-#{$i} {
+      height: $i+px !important;
+      min-height: $i+px !important;
+    }
+    .mat-buttons-#{$i} {
+      button {
+        width: $i+px !important;
+        height: $i+px !important;
+        min-height: $i+px !important;
+        min-width: $i+px !important;
+      }
+    }
+    .mat-buttons-h-#{$i} {
+      button {
+        height: $i+px;
+        min-height: $i+px;
+      }
+    }
+  }
+
+  // 设计大小的form-field
+  .normal-form-field {
+    height: 70px;
+
+    .mat-form-field-flex {
+      height: 42px;
+      padding: 8px 8px 12px 8px;
+    }
+
+    .mat-form-field-infix {
+      height: 60px
+    }
+
+    .mat-form-field-wrapper {
+      padding-bottom: 16px;
+      margin-bottom: 10px;
+    }
+  }
+  /* ngx-color-picker preset-area class样式修改*/
+  .preset-area {
+    height: 55px;
+    padding: 0 8px !important;
+
+    & > div:nth-child(2) {
+      display: block;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    & > div:nth-child(3) {
+      width: 100%;
+      display: flex;
+      place-content: space-around;
+      align-items: center;
+    }
+  }
+
+  // 正常高度的formField
+  .normal-form-fields {
+    mat-form-field:not(.text-area) {
+      @extend .normal-form-field
+    }
+  }
+
+  // normal-input
+  .normal-input {
+    border: 1px solid #aaaaaa;
+    opacity: 0.8;
+    transition-delay: 0.5s;
+    padding: 0 8px;
+    transition: opacity 0.8s, padding-right 0.1s;
+    border-radius: 5px;
+
+    &:hover, &:focus {
+      border: 2px solid #00000090;
+      opacity: 1;
+      //border-color: mat-color($accent, 600);
+      @extend .light-box-shadow;
+
+      & + .input-icon {
+        opacity: 1;
+        @extend .theme-color
+      }
+    }
+  }
+
+  // input-box
+  .input-box {
+    border: 2px solid #aaaaaa;
+    opacity: 0.8;
+    transition-delay: 0.5s;
+    transition: opacity 0.8s, padding-right 0.1s;
+    border-radius: 5px;
+
+    &:hover, &:focus {
+      border: 2px solid #00000090;
+      opacity: 1;
+      //border-color: mat-color($accent, 600);
+      @extend .light-box-shadow;
+
+      & + .input-icon {
+        opacity: 1;
+        @extend .theme-color
+      }
+    }
+
+    &:focus {
+      & + .input-icon {
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform 0.5s, opacity 0.5s;
+      }
+    }
+  }
+  .search-suffix {
+    position: relative;
+    top: -26px;
+    left: calc(100% - 28px);
+  }
+  @media screen and (max-width: 599px) {
+    .input-icon {
+      display: none;
+    }
+  }
+
+  // 搜索图标
+  .input-icon {
+    opacity: 0.5;
+    transition-delay: 0.3s;
+    transition: opacity 0.8s;
+
+    &:hover {
+      opacity: 1;
+      transition-delay: 0.3s;
+      transition: opacity 0.8s;
+      @extend .theme-color
+    }
+  }
+  // 选择框
+  .select-box {
+    border: 1px solid #aaaaaa;
+    opacity: 0.5;
+    transition-delay: 0.5s;
+    transition: opacity 0.8s;
+    border-radius: 5px;
+
+    &:hover, &:focus {
+      border: 1px solid #000000;
+      opacity: 1;
+      //border-color: mat-color($accent, 600);
+      @extend .light-box-shadow;
+
+      & + .input-icon {
+        opacity: 1;
+        @extend .theme-color
+      }
+    }
+  }
+
+  // hover时变色
+  .theme-hover {
+    &:hover {
+      @extend .theme-color
+    }
+  }
+  // opacity 80%
+  .opacity-80 {
+    opacity: 0.8;
+  }
+
+  // tableList
+  .column-select {
+    & > div {
+      &:hover {
+        @extend .dark-box-shadow;
+        @extend .theme-color
+      }
+    }
+  }
+
+  // mat-chip
+  .custom-chip {
+    span {
+      height: 100%;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // mat-select
+  .theme-select {
+    .mat-select-arrow {
+      @extend .theme-color
+    }
+  }
+  // hide arrow
+  .select-custom-arrow {
+    .mat-select-trigger {
+    }
+
+    .mat-select-arrow-wrapper {
+      visibility: hidden;
+    }
+  }
+
+  // background-color
+  .bg-white {
+    background: white;
+  }
+
+  /*翻页动画*/
+  %transition {
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+    transition-timing-function: ease-in-out;
+    transform-style: preserve-3d;
+  }
+
+  .page-left {
+    transform: translateX(-100%);
+    @extend %transition;
+  }
+
+  .page-right {
+    transform: translateX(100%);
+    @extend %transition;
+  }
+  .page-top {
+    transform: translateY(-100%);
+    @extend %transition
+  }
+  .page-bottom {
+    transform: translateY(100%);
+    @extend %transition
+  }
+  .faded {
+    @extend %transition
+  }
+
+  // 双卡片布局
+  .two-card {
+    .left-panel {
+      width: 50%;
+      height: 100%;
+      @include media-breakpoint('lt-md') {
+        width: 100%;
+        height: 100vh
+      }
+    }
+
+    .right-panel {
+      width: 50%;
+      height: 100%;
+      @include media-breakpoint('lt-md') {
+        width: 100%;
+        height: 100vh;
+      }
+    }
+
+    .left-content {
+      max-height: 40vh;
+    }
+
+    .right-content {
+      max-height: 40vh;
+    }
+
+    .save-button {
+      background-color: #6BD5FF !important;
+      width: 80px;
+    }
+
+    .back-button {
+      width: 80px;
+    }
+
+    .on-loading {
+      background: initial !important;
+      border: unset !important;
+    }
+
+    .w-48-p {
+      width: 48%
+    }
+  }
+
+  // 上传卡片样式
+  .card-style {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    color: #039be5 !important;
+    background: #ECF7FD !important;
+    border: 1px dashed #039be5 !important;
+  }
+
+  // 禁用样式
+  .card-style-disabled {
+    color: #aaaaaa !important;
+    background: #cccccc50 !important;
+    border: 1px dashed #aaaaaa !important;
+  }
+
+  // 紫色卡片
+  .second-card-style {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    color: #7380EA !important;
+    background: #ECF7FD !important;
+    border: 1px dashed #7380EA !important;
+  }
+
+  // 标签按钮
+  .tag-button {
+    height: 28px;
+    min-height: 24px;
+    font-size: 13px;
+    padding: 0 12px;
+    font-weight: normal;
+    border-radius: 5px;
+  }
+
+  // 标签
+  .tag-chip {
+    @extend .tag-button;
+    color: #039be5 !important;
+    background: #ECF7FD !important;
+    border: 1px dashed #039be5 !important;
+
+    & mat-icon {
+      color: red !important;
+    }
+  }
+
+  .tag-chip-disabled {
+    @extend .tag-button;
+    color: #cccccc !important;
+    background: #FFFFFF !important;
+    border: 1px dashed #cccccc !important;
+  }
+
+  // 标签边框
+  .chip-div {
+    width: 100%;
+    min-height: 200px;
+    padding: 4px;
+    border: 1px dashed #cccccc;
+    border-radius: 5px;
+  }
+
+  //  鼠标禁止
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
+
+}

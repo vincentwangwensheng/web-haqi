@@ -1,0 +1,107 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-100-p" id="detail_table_list">
+    <!--[scrollbarH]="DetailTableParam.scrollbarH"-->
+    <ngx-datatable
+            fxFlexFill   #datatable
+            [ngStyle]="{'opacity':DetailTableParam.initOpacity?1:0}"
+            class="material ngx-datatable-custom"
+            [messages]="{emptyMessage:'列表为空',totalMessage: '共计'}"
+            [selectionType]="'single'"
+            [columns]="DetailTableParam.dataColumns"
+            [footerHeight]="50"
+            [count]="DetailTableParam.page.count"
+            [offset]="DetailTableParam.page.page"
+            [limit]="DetailTableParam.page.size"
+            [externalSorting]="true"
+            [rowHeight]="40"
+            [scrollbarH]="DetailTableParam.scrollbarH"
+            [rows]="DetailTableParam.dataRecords"
+            [externalPaging]="true"
+            (resize)="resizing($event)"
+            (page)="onPage($event)"
+    >
+        <ngx-datatable-column [name]="'序号'" [width]="tableColumnWidth">
+            <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                <span class="text-ellipsis user-select_m">{{DetailTableParam.dataRecords.indexOf(row)+1+DetailTableParam.page.page*DetailTableParam.page.size}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column *ngFor="let column of DetailTableParam.dataColumns" [name]="column?.name" [canAutoResize]="true"
+                              [width]="tableColumnWidth">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span style="cursor: pointer;">{{DetailTableParam.dataHeaders.get(column.name)}}</span>
+            </ng-template>
+            <ng-template let-value="value"  let-row="row" ngx-datatable-cell-template >
+                <!--日期-->
+                <ng-container
+                        *ngIf="column?.name.toLowerCase().indexOf('date')!==-1||column?.name.toLowerCase().indexOf('time')!==-1">
+                    <ng-container *ngIf="column?.transDate && column?.transDate === 'onlyDate'"> <!--日期类型-->
+                        <span class="user-select_m  text-ellipsis" [matTooltip]="value|dateTransform:'-'" [matTooltipPosition]="'above'">
+                           {{(value|dateTransform:'-')?(value|dateTransform:'-'):'无'}}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="column?.transDate && column?.transDate === 'notTrans'"> <!--日期类型-->
+                        <span class="user-select_m  text-ellipsis" [matTooltip]="value|dateTransform:'-'" [matTooltipPosition]="'above'">
+                           {{value?value:'无'}}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="!column?.transDate"> <!--time-->
+                        <span class=" text-ellipsis user-select_m" [matTooltip]="value|newDateTransform:'-'" [matTooltipPosition]="'above'">
+                           {{(value|newDateTransform:'-')?(value|newDateTransform:'-'):'无'}}
+                        </span>
+                    </ng-container>
+
+                </ng-container>
+
+                <!-- 详情-->
+                <ng-container *ngIf="column?.name === 'operation'">
+                    <a class="cursor-pointer_m text_underline" (click)="goToDetail(row)">详情</a>
+                </ng-container>
+
+                <!-- 其他直接显示-->
+                <ng-container *ngIf="column?.name!=='operation' && column?.name.toLowerCase().indexOf('time') === -1
+                                     && column?.name.toLowerCase().indexOf('date') === -1 ">
+                    <ng-container *ngIf="column?.style && column?.style?.length > 0">
+                        <ng-container *ngFor="let s of column?.style">
+                        <span *ngIf="s.text === value"
+                              [matTooltip]="s.textCh"
+                              [ngStyle]="{'color': s.color?s.color: 'rgba(0, 0, 0, 0.87)' }"
+                              class=" text-ellipsis user-select_m"
+                              matTooltipPosition="above">
+                            <ng-container *ngIf="!column?.type">
+                                 {{s.textCh}}
+                            </ng-container>
+                             <ng-container *ngIf="column?.type">
+                                  <ng-container *ngIf="column?.type === 'string'">
+                                       {{s.textCh ? s.textCh : '无' }}
+                                  </ng-container>
+                                  <ng-container *ngIf="column?.type === 'number'">
+                                       {{s.textCh ? s.textCh : 0 }}
+                                  </ng-container>
+                            </ng-container>
+
+                        </span>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container  *ngIf="!column?.style && column?.style?.length <= 0">
+                        <span [matTooltip]="value" matTooltipPosition="above"   class="text-ellipsis user-select_m">
+                            <!--{{value}}-->
+                            <ng-container *ngIf="!column?.type">
+                                 {{value}}
+                            </ng-container>
+                             <ng-container *ngIf="column?.type">
+                                  <ng-container *ngIf="column?.type === 'string'">
+                                       {{value ? value : '无' }}
+                                  </ng-container>
+                                  <ng-container *ngIf="column?.type === 'number'">
+                                       {{value ? value : 0 }}
+                                  </ng-container>
+                            </ng-container>
+                        </span>
+                    </ng-container>
+                </ng-container>
+            </ng-template>
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</div>
+

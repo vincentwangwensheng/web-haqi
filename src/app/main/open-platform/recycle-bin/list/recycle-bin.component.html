@@ -1,0 +1,29 @@
+<app-table-list [title]="'openCenter.recycle.treeTitle'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"  [createButton]="false"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)"
+                (create)="createMyAPP()"
+
+>
+</app-table-list>
+
+
+<ng-template #deleteApp>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+         fxLayout="column" fxLayoutAlign="center center" class="w-100-p h-100-p">
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p delTitleColor" fxFlex="25">
+            <div  fxFlex="15" fxLayout="row" fxLayoutAlign="center center"><span>提示</span></div>
+            <button  mat-icon-button 	 mat-dialog-close fxFlex="12"><mat-icon>clear</mat-icon></button>
+        </div>
+
+        <div  fxLayout="row" fxLayoutAlign="center center"  class="w-100-p" fxFlex="40">
+            <span class="delContentSpan">确定要恢复吗？</span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="end center" class="w-100-p operate-buttons" fxFlex="35">
+            <button   mat-flat-button (click)="delDialogClose()" fxFlex="15" color="accent" class="mr-5">确认</button>
+            <button  mat-flat-button  mat-dialog-close  fxFlex="15" >取消</button>
+        </div>
+
+    </div>
+</ng-template>

@@ -1,0 +1,83 @@
+
+::ng-deep {
+  #frozenTips{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      overflow: visible;
+    }
+  }
+}
+
+.dialog-manage-title{
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .mat-dialog-title-tips{
+    display: flex;
+    width: 93%;
+    height: 100%;
+    margin-left: 5%;
+    justify-content: space-between;
+    align-items: center;
+    .title_dialog_{
+      font-size: 1.3rem;
+      color: #ffffff;
+    }
+    button{
+      mat-icon{
+        color: #ffffff;
+      }
+    }
+  }
+
+}
+.MatDialogFrozenClass{
+  height: 240px;
+  div{
+    width:100%;
+    height: 25px;
+    margin-bottom: 7px;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    span {
+      &:nth-child(odd) {
+        width: 20%;
+      }
+      &:nth-child(even) {
+        width: 80%;
+      }
+    }
+  }
+}
+.btu_dialog_Frozen{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  button{
+    height: 28px;
+    line-height: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .closeButton{
+    background-color: #FFFFFF!important;
+  }
+  .passButton{
+    background-color: #039BE5!important;
+    color: white;
+  }
+}
+.replyStyle{
+  resize: none;
+  width: 80%!important;
+  height: 36px!important;
+  padding: 8px;
+  border-radius: 5px;
+
+}

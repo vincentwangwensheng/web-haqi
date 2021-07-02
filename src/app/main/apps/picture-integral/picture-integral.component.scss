@@ -1,0 +1,119 @@
+// 弹框整体设置
+::ng-deep {
+  #frozenTips{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      overflow: visible;
+    }
+  }
+}
+
+// 弹框标题
+.dialog-manage-title{
+  width: 100%;
+  height: 50px;
+  background-color: #2B96D8;
+  padding: 10px;
+  margin-bottom: 4px;
+  .title_dialog_{
+    font-size: 1.3rem;
+    color: #ffffff;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+// 弹框内容
+.MatDialogFrozenClass{
+  height: 285px;
+  width: 100%;
+  padding: 10px;
+  .content-left{
+    width: 50%;
+  }
+  .content-right{
+    width: 50%;
+    .content-right-img {
+      width: 100px;
+      height: 110px;
+      margin-top: 20px;
+      background-color: #F9FDFF;
+      border: 1px #C6D1D3 dashed;
+      border-radius: 5px;
+      padding: 2px;
+      position: relative;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+      .icon-show{
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+  ul{
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    li{
+      margin-bottom: 8px;
+      a{
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.reason-detail{
+  height: 70px;
+  padding: 0 10px;
+  textarea{
+    resize: none;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px solid #A1A1A1;
+  }
+}
+.btu_dialog_Frozen{
+  button{
+    background-color: red!important;
+    color: white;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .closeButton{
+    background-color: #E3384E!important;
+  }
+  .passButton{
+    background-color: #56A402!important;
+  }
+  .backButton{
+    background-color: #E3384E!important;
+  }
+}
+.img-bigger {
+  width: 300px;
+  height: 330px;
+  background-color: #F9FDFF;
+  border: 1px #C6D1D3 solid;
+  border-radius: 5px;
+  padding: 0px 8px 8px 8px;
+  position: absolute;
+  top: 220px;
+  right: 226px;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+}

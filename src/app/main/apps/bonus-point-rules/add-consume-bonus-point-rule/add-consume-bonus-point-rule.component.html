@@ -1,0 +1,180 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16"  (click)="toReturn()" >
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{sysPara.consume_title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="Member-btu-class-me" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <ng-container *ngIf="sysPara.SAVE_CANCEL">
+                    <div id="save-btu-id" >
+                        <button  mat-raised-button   class="btu-bottom" color="accent" (click)="toSave()" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                    </div>
+                </ng-container>
+               <ng-container *ngIf="sysPara.EDIT_RETURN">
+                   <div id="edit-btu-id">
+                       <button  mat-raised-button   class="btu-bottom" color="accent" (click)="changeEditStruts()" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.edit'|translate}}</button>
+                   </div>
+               </ng-container>
+              <ng-container  *ngIf="sysPara.SAVE_CANCEL">
+                  <div id="cancel-btu-id">
+                      <button  mat-raised-button   class="btu-bottom" (click)="toCancel()" color="accent" [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                  </div>
+              </ng-container>
+              <ng-container *ngIf="sysPara.EDIT_RETURN">
+                  <div id="return-btu-id">
+                      <button  mat-raised-button  (click)="toReturn()" class="btu-bottom" color="accent" [disabled]="btuDis"><mat-icon>reply</mat-icon>{{'merchants.dataDetail.return'|translate}}</button>
+                  </div>
+              </ng-container>
+            </div>
+        </div>
+
+        <div class="Member-allFlex">
+            <div class="Member-left_me " >
+                <div class="Member-left-All-flex ">
+                    <form class="formClass" [formGroup]="options">
+                    <div class="le-up" >
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"  class="lim-name ">
+                            <div class="rule-name-la normal-form-fields">
+                                <mat-form-field appearance="outline"    [floatLabel]="'always'">
+                                    <mat-label>{{'BonusPointUnion.BonusPointRules.ruleName'|translate}}</mat-label><!--规则名称-->
+                                    <input   matInput  autocomplete="off" required value="" formControlName="ruleName">
+                                    <mat-error  >{{'BonusPointUnion.tips.ruleNameNotNull'|translate}}</mat-error><!--规则名称不能为空-->
+                                </mat-form-field>
+                            </div>
+                            <div class="rule-enable normal-form-fields">
+                                <mat-form-field appearance="outline" >
+                                    <mat-label>{{'BonusPointUnion.enabled'|translate}}</mat-label><!--状态-->
+                                    <mat-select  formControlName="enabled"  >
+                                        <mat-option *ngFor="let d of sysPara.RuleStrutsList" [value]="d.viewValue" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"  class="lim-des">
+                            <mat-form-field appearance="outline"    [floatLabel]="'always'">
+                                <mat-label>{{'BonusPointUnion.BonusPointRules.ruleDesc'|translate}}</mat-label><!--规则简介-->
+                                <textarea   matInput  autocomplete="off" required value="" formControlName="desc" ></textarea>
+                                <mat-error  >{{'BonusPointUnion.tips.ruleDescNotNull'|translate}}</mat-error><!--规则简介不能为空-->
+                            </mat-form-field>
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="lim-hzl" >
+                            <div class="hzl-name">
+                                <span class="con-font-size-color">{{'BonusPointUnion.BonusPointRules.IntegralRatio'|translate}}</span><!--积分比例-->
+                            </div>
+                            <div class="input-yuan-bonus-point mat-point">
+                                <div class="field-w-h">
+                                    <mat-form-field appearance="outline" >
+                                        <input   matInput  autocomplete="off" required value=""  oninput="value=value.replace(/[^\d]/g,'')"  formControlName="amount" >
+                                        <mat-error  >{{'BonusPointUnion.tips.amountNotNull'|translate}}</mat-error><!--元不能为空-->
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="text-w-h">
+                                    <span class="yuan-bonus-point">{{'BonusPointUnion.BonusPointRules.amountEqual'|translate}}</span><!--元=-->
+                                </div>
+                                <div class="field-w-h">
+                                    <mat-form-field appearance="outline" >
+                                        <input   matInput  autocomplete="off" required value=""  oninput="value=value.replace(/[^\d]/g,'')"  formControlName="point" >
+                                        <mat-error  >{{'BonusPointUnion.tips.pointNotNull'|translate}}</mat-error><!--多少积分不能为空-->
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="text-w-h">
+                                    <span class="yuan-bonus-point">{{'BonusPointUnion.BonusPointRules.point'|translate}}</span><!--积分 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="ra-down ">
+                       <!-- <div class="lim-hzl" [ngClass]="{'lim-hzl-13': ResponsiveStruts_H , 'lim-hzl-none': !ResponsiveStruts_H}">
+                            <div class="hzl-name">
+                                <span class="con-font-size-color">{{'BonusPointUnion.BonusPointRules.chooseBizType'|translate}}</span>&lt;!&ndash;选择业态 &ndash;&gt;
+                            </div>
+                            <div class="select-btu">
+                                <div class="btu-chooseStore">
+                                    <button mat-raised-button color="accent"   ngDefaultControl  [disabled]="sysPara.BTU_BIZTYPE"
+                                            (click)="openFormLimitationDialog(FormLimitationDialog)" >
+                                        <img src="assets/images/cards/insertAndReduce.png">
+                                        {{'ElectronicVoucherManagement.AddSecuritiesRules.IncreaseAndReduce'|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>-->
+
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" class="lim-hzl" >
+                            <div class="hzl-name">
+                                <span class="con-font-size-color">{{'BonusPointUnion.BonusPointRules.chooseStore'|translate}}</span><!--选择店铺 -->
+                            </div>
+                            <div class="select-btu">
+                                <div class="btu-chooseStore">
+                                    <button mat-raised-button color="accent"   ngDefaultControl  [disabled]="sysPara.BTU_DIS"
+                                            (click)="openBonusPointDialog(consumeBonusPointDialog)" >
+                                        <img src="assets/images/cards/insertAndReduce.png">
+                                        {{'ElectronicVoucherManagement.AddSecuritiesRules.IncreaseAndReduce'|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="storeShow" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}">
+                            <ng-container *ngIf="sysPara.StoreDis === true">
+                                <ng-container *ngFor="let store of StoreNameList; index as k;"> <!-- @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'400ms',delay:200*k+'ms'}}"  -->
+                                    <div  class="storeShow-name" >
+                                        <div class="span-name">
+                                            <span> {{store.storeName}}</span>
+                                        </div>
+                                        <div class="btu-icon">
+                                            <button mat-icon-button (click)="removeStore(k , store)"><mat-icon>cancel</mat-icon></button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+                           <!-- <ng-container *ngIf="sysPara.StoreDis !== true">
+                                <ng-container *ngFor="let tag of bussiness.BusinessTag; index as k;">
+                                    <div class="storeShow-name"  [ngClass]="{'storeShow-name-15': ResponsiveStruts_H , 'storeShow-name-none': !ResponsiveStruts_H}">
+                                        <div class="span-name">
+                                            <span> {{tag.name}}</span>
+                                        </div>
+                                        <div class="btu-icon">
+                                            <button mat-icon-button (click)="removeTag(k , tag)"><mat-icon>cancel</mat-icon></button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="Member-right_me" hidden="true">
+                <div class="Member-right-All-flex">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--店铺限制-->
+<ng-template #consumeBonusPointDialog >
+    <app-store-manage (dataSelect)="SelectDialog($event)" [overPanel]="true" [createButton]="false"
+                      [selectedRows]="NumberTag" [selectedFiled]="'storeNo'" [checkbox]="true"></app-store-manage>
+</ng-template>
+
+
+<!--业态限制-->
+<ng-template #FormLimitationDialog >
+    <app-business-type (dataSelect)="businessTagSelect($event)" [overPanel]="true"  [selectedFiled]="'name'"
+                       [selectedRows]="bussiness.BusinessNumberTag"></app-business-type>
+</ng-template>

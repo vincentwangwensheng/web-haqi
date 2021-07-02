@@ -1,0 +1,55 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div class="subtitle secondary-text">
+                    <span>会员基础设置</span>
+                </div>
+            </div>
+            <div fxLayout="row">
+                <button (click)="onSave()" class="mr-20" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="saveButton" fxLayout="row">
+                    <span style="color:#fff">保存</span>
+                </button>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="content" fxLayout="row">
+            <div class="content-left" fxLayout="column">
+                <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                    <div class="name-title-left" fxLayout="row">会员卡名称</div>
+                    <div class="name-title-right" fxLayout="row">成长值区间</div>
+                </div>
+                <div class="w-100-p mb-20" fxLayout="row" fxLayoutAlign="start center">
+                    <div class="name-title-left" fxLayout="row">
+                        <input [(ngModel)]="firstCardName" class="card-content-input" [readOnly]="cardValue.length > 0">
+                    </div>
+                    <div class="name-title-right" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="symbol">≥</span>
+                        <input class="value-content-input" value="0" readonly>
+                        <mat-icon (click)="addCard('firstCard')" *ngIf="cardValue.length === 0" class="add-button" style="color:#2395DB;">add_circle</mat-icon>
+                    </div>
+                </div>
+                <div class="w-100-p mb-20" fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of cardValue; let i = index;">
+                    <div class="name-title-left" fxLayout="row">
+                        <input class="card-content-input" [(ngModel)]="cardValue[i]['name']" [readOnly]="i < cardValue.length - 1">
+                    </div>
+                    <div class="name-title-right" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="symbol">≥</span>
+                        <input class="value-content-input" (input)="cardValueInput($event)" [(ngModel)]="cardValue[i]['value']" [readOnly]="i < cardValue.length - 1">
+                        <mat-icon (click)="addCard('cardValue')" *ngIf="i === (cardValue.length - 1)" class="add-button" style="color:#2395DB;">add_circle</mat-icon>
+                        <mat-icon (click)="deleteCard(i)" *ngIf="i === (cardValue.length - 1)" class="add-button" style="color:red;">remove_circle</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
+</div>
+

@@ -1,0 +1,54 @@
+@import "src/@fuse/scss/fuse";
+
+#saveButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+
+#cancelButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+.content{
+  width:100%;
+
+
+  .content-left{
+    width: 50%;
+    padding:20px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    background-color: #fff;
+    .name-title-left{
+      width: 40%;
+      height: 40px;
+      margin-right: 40px;
+      .card-content-input{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+    }
+    .name-title-right{
+      width:40%;
+      height: 40px;
+      .symbol{
+        font-size: 18px;
+        margin-right: 20px;
+      }
+      .value-content-input{
+        width:50%;
+        height: 40px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+      .add-button{
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+}

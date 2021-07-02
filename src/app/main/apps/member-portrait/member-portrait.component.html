@@ -1,0 +1,150 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span *ngIf="title">{{title}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portrait-all-flex">
+            <form class="portrait-all-form" [formGroup]="form" [autocomplete]="'off'">
+                <!-- 左 -->
+                <div class="portrait-flex-left">
+
+                    <div class="portrait-left-flex">
+
+                        <!-- 生成规则 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" >
+                            <div fxLayout="row" fxLayoutAlign="start start" fxFlex="15">
+                                <span *ngIf="tlKey">{{(tlKey + 'BuildRule')|translate}}</span> <!-- 生成规则-->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85"  class="portrait-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42">
+                                    <mat-select [(value)]="ruleStr" (selectionChange)="ruleChange()">
+                                        <mat-option *ngFor="let d of GeneratingRule" [value]="d.id" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 注册来源 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                            <div fxLayout="row" fxLayoutAlign="start start" fxFlex="15">
+                                <span  *ngIf="tlKey">{{(tlKey + 'reSource')|translate}}</span> <!-- 注册来源-->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="portrait-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42">
+                                    <mat-select formControlName="source">
+                                        <mat-option *ngFor="let d of reSource" [value]="d.value" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 到场时间 -->
+                        <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" >-->
+                                <!--<span>到场时间</span>-->
+                            <!--</div>-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="portrait-mat-point">-->
+                                <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42">-->
+                                    <!--<mat-select formControlName="presentTime">-->
+                                        <!--<mat-option *ngFor="let d of presentTime" [value]="d.id" >{{d.value}}</mat-option>-->
+                                    <!--</mat-select>-->
+                                <!--</mat-form-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!-- 消费时间 -->
+                        <div fxLayout="row" fxLayoutAlign="start start" class="w-92-p pt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                            <div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" class="pt-24">
+                                <span  *ngIf="tlKey">{{(tlKey + 'salesTime')|translate}}</span> <!-- 消费时间-->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="normal-form-fields pt-12">
+                                <app-material-date-picker #salesTimeBegin fxFlex="42"  class="mr-8"
+                                                          (sourceDate)="onSourceDate($event,salesTimeEnd , salesTimeBegin , 'timeBegin')"
+                                                          [config]="configStart"
+                                                          [label]="'开始时间'"
+                                                          [timeControl]="form.get('salesTimeBegin')"
+                                >
+                                </app-material-date-picker>
+                                <app-material-date-picker #salesTimeEnd fxFlex="42"
+                                                          (sourceDate)="onSourceDate1($event,salesTimeEnd , salesTimeBegin , 'timeEnd')"
+                                                          [config]="configEnd"
+                                                          [label]="'结束时间'"
+                                                          [timeControl]="form.get('salesTimeEnd')"
+                                >
+                                </app-material-date-picker>
+                            </div>
+                        </div>
+
+
+                        <!-- 消费业态  -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mb-4"  [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}">
+                            <div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" class="pt-4">
+                                <span  *ngIf="tlKey">{{(tlKey + 'bizType')|translate}}</span> <!-- 消费业态 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="portrait-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42" class="mr-8">
+                                    <mat-select formControlName="bizTypeOne" (selectionChange)="bizTypeOneChange($event)">
+                                        <mat-option *ngFor="let d of bizTypeOne" [value]="d.id" >{{d.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42">
+                                    <mat-select formControlName="bizTypeTwo">
+                                        <mat-option *ngFor="let d of bizTypeTwo" [value]="d.id" >{{d.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 消费金额  -->
+                        <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'1100ms',duration:'600ms'}}">-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" class="pt-4">-->
+                                <!--<span>消费金额</span>-->
+                            <!--</div>-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="85"  class="portrait-mat-point">-->
+                                <!--<span fxFlex="10" >大于</span>-->
+                                <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="32">-->
+                                    <!--<input matInput formControlName="amount">-->
+                                <!--</mat-form-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!-- 提交按钮  -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}">
+                            <div fxLayout="row" fxLayoutAlign="center center" fxFlex="100">
+                                <button mat-raised-button fxFlex="17" color="accent" class="c-portrait-but"
+                                        (click)="generatePortrait()">
+                                     <ng-container *ngIf="tlKey">
+                                         {{(tlKey + 'generatePortrait')|translate}} <!-- 生成画像 -->
+                                     </ng-container>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <!-- 右 -->
+                <div class="portrait-flex-right">
+                    <div class="portrait-right-flex">
+
+                     <div id="testWord" class="wordWoldWH">
+
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

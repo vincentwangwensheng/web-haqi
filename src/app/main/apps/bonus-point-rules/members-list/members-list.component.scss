@@ -1,0 +1,14 @@
+
+
+
+::ng-deep {
+  #MembersListDetailDialogClass{
+    padding: 0!important;
+    .mat-dialog-title{
+      margin-bottom: 0px;
+    }
+    mat-dialog-content{
+      margin: 0px;
+    }
+  }
+}

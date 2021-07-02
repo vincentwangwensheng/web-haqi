@@ -1,0 +1,6 @@
+<app-table-list [title]="'小程序轮播'" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createCarouselPhoto()"
+>
+</app-table-list>

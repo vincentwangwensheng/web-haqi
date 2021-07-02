@@ -1,0 +1,370 @@
+
+<div fxLayout="row" class="bigPageTwo">
+     <img src="assets/images/backgrounds/bigBusinessData-bg.jpg" class="allBgImg">
+     <div fxLayout="row" class="two-all-flex">
+
+              <div fxLayout="column" fxLayoutAlign="space-around center" class="pageTwoLeft">
+                  <!--占比 环形图-->
+                  <div fxLayout="row"  class="circleChart">
+                      <img src="assets/images/backgrounds/gifBorder.gif" class="circleChartImg">
+                      <div fxLayout="column" fxLayoutAlign="start center" class="TwoChart">
+                         <!-- 上一层放图表-->
+                         <div fxLayout="row" class="up-chart">
+                             <!--销售额业态占比-->
+                             <div fxLayout="column" class="SalesBizTypePro">
+                                 <div  fxLayout="row" class="SalesBizTypePro-Title">
+                                     <span class="chartTitleColorSize">销售额业态占比</span>
+                                 </div>
+                                 <div class="SalesBizTypePro-chart" #SalesBizTypePro ></div>
+                             </div>
+                             <!--支付方式占比-->
+                             <div fxLayout="column" class="PayTypePro">
+                                 <div fxLayout="row" class="PayTypePro-title">
+                                     <span class="chartTitleColorSize">支付方式占比</span>
+                                 </div>
+                                 <div class="PayTypePro-chart" #PayTypePro ></div>
+                             </div>
+                         </div>
+                          <!--下一层放文字-->
+                         <div fxLayout="row" fxLayoutAlign="end center" class="down-text">
+                              <span class="chartDes">这个是说明</span>
+                         </div>
+
+                      </div>
+                  </div>
+
+                  <!-- 客单价与提袋率-->
+                  <div fxLayout="row" fxLayoutAlign="space-between" class="circularChart">
+                      <img src="assets/images/backgrounds/gifBorder.gif" class="circularChartImg">
+                      <div fxLayout="column" fxLayoutAlign="start center" class="TwoPie">
+                          <!--标题-->
+                          <div fxLayout="row"  fxLayoutAlign="start center" class="circular-title">
+                               <span class="chartTitleColorSize">客单价与提袋率</span>
+                          </div>
+                          <!-- 图表 -->
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="circular-chart">
+                                <!-- 客单价图表 -->
+                                  <div  fxLayout="column" class="CustomerUnitPriceBagRate" >
+                                      <div  class="UnitPrice-BagRate-W-H" #CustomerUnitPrice ></div>
+                                      <div  fxLayout="row"  fxLayoutAlign="center center" class="UnitPrice-BagRate-Text"><span>免税</span></div>
+                                  </div>
+                                <!--提袋率图表-->
+                                  <div  fxLayout="column" class="CustomerUnitPriceBagRate" >
+                                      <div  class="UnitPrice-BagRate-W-H" #BagRate></div>
+                                      <div  fxLayout="row"  fxLayoutAlign="center center" class="UnitPrice-BagRate-Text"><span>零售</span></div>
+                                  </div>
+                            </div>
+                          <!--说明-->
+                            <div fxLayout="row"  fxLayoutAlign="end center" class="circular-des">
+                                <span class="chartDes">这个是说明</span>
+                            </div>
+                      </div>
+                  </div>
+
+                  <!-- 零售品牌top5-->
+                  <div fxLayout="column" fxLayoutAlign="space-between" class="listChart">
+                      <div fxLayout="row" fxLayoutAlign="start center" class="listTitle">
+                          <span class=" Top5Title chartTitleColorSize">零售品牌TOP5</span>
+                          <span class="AmountPrice listTitleSpan">销售额（元）</span>
+                          <span class="AmountPrice listTitleSpan">客单价（元）</span>
+                      </div>
+                      <ng-container *ngFor="let store of listData">
+                      <div fxLayout="row" fxLayoutAlign="start center" class="listContent">
+                                  <span fxLayout="row"  fxLayoutAlign="start center" class="contentOne chartTitleColorSize pl-8">{{store.storeName  }}</span>
+                                  <span fxLayout="row"  fxLayoutAlign="start center"  class="contentOther listTitleSpan">{{store.amountNum | number:'1.2-2' }}</span>
+                                  <span fxLayout="row"  fxLayoutAlign="start center" class="contentOther listTitleSpan">{{store.price | number:'1.2-2' }}</span>
+                      </div>
+                      </ng-container>
+                      <div fxLayout="row" fxLayoutAlign="end center" class="listDes"><span class="chartDes">这个是说明</span></div>
+                  </div>
+              </div>
+
+
+              <div fxLayout="column"  class="pageTwoCenter">
+                  <!--3D图片部分-->
+                  <div fxLayout="column"  fxLayoutAlign="start center" class="page3D">
+                      <div fxLayout="row" class="none3DTitle"></div>
+                      <div fxLayout="row" fxLayoutAlign="center center" class="div3DImg">
+                           <img src="assets/images/backgrounds/center3DBg.jpg" class="center3DBg">
+                       </div>
+                  </div>
+
+                  <!-- 有内容部分-->
+                  <div fxLayout="column" class="otherContent3D">
+                      <!-- 开头空的部分-->
+                      <div fxLayout="row" class="noneTitle"></div>
+
+                      <!-- 中间文字部分-->
+                      <div fxLayout="column" class="rollNum">
+
+                          <div fxLayout="row"  class="rollNumPartOne">
+                                 <div  fxLayout="column" fxLayoutAlign="end end"  class="oneNum">
+                                      <div  fxLayout="row" fxLayoutAlign="start center" class="btuFont1 pl-92">
+                                          <mat-icon class="matArrowRight">arrow_right</mat-icon>
+                                          <span class="TitleFont3d">销售额</span>
+                                      </div>
+                                      <div fxLayout="row" fxLayoutAlign="end end" class="btuFont2">
+                                          <div fxLayout="row"  fxLayoutAlign="end end" class="rollSum4">
+                                              <div class="content_s4">
+                                                  <div>
+                                                      <p class="box-item_s4">
+                                                          <span id="Number4_1">0123456789</span>
+                                                      </p>
+                                                  </div>
+                                                  <div>
+                                                      <p class="box-item_s4">
+                                                          <span id="Number4_2">0123456789</span>
+                                                      </p>
+                                                  </div>
+                                                  <div class="d4_div">
+                                                      <p class="box-item_d4">
+                                                          <span id="Number4_3">,</span>
+                                                      </p>
+                                                  </div>
+                                                  <div>
+                                                      <p class="box-item_s4">
+                                                          <span id="Number4_4">0123456789</span>
+                                                      </p>
+                                                  </div>
+                                                  <div>
+                                                      <p class="box-item_s4">
+                                                          <span id="Number4_5">0123456789</span>
+                                                      </p>
+                                                  </div>
+                                                  <div>
+                                                      <p class="box-item_s4">
+                                                          <span id="Number4_6">0123456789</span>
+                                                      </p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div fxLayout="row"  fxLayoutAlign="start start"  class="rollSumUntil4">
+                                              <span class="rollNumberUnit ">万元</span>
+                                          </div>
+                                      </div>
+                                 </div>
+                                 <div fxLayout="column"  fxLayoutAlign="end end"  class="twoNum">
+                                     <div  fxLayout="row" fxLayoutAlign="start center" class="btuFont3 pl-48">
+                                         <mat-icon class="matArrowRight">arrow_right</mat-icon>
+                                         <span class="TitleFont3d">常旅客会员</span>
+                                     </div>
+                                     <div fxLayout="row" fxLayoutAlign="start end" class="btuFont4 pl-72">
+                                         <div fxLayout="row"  fxLayoutAlign="end end" class="rollSum3">
+                                             <div class="content_s3">
+                                                 <div>
+                                                     <p class="box-item_s3">
+                                                         <span id="Number3_1">0123456789</span>
+                                                     </p>
+                                                 </div>
+                                                 <div>
+                                                     <p class="box-item_s3">
+                                                         <span id="Number3_2">0123456789</span>
+                                                     </p>
+                                                 </div>
+                                                 <div>
+                                                     <p class="box-item_s3">
+                                                         <span id="Number3_3">0123456789</span>
+                                                     </p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div fxLayout="row"  fxLayoutAlign="start start"  class="rollSumUntil3">
+                                             <span class="rollNumberUnit ">万人</span>
+                                         </div>
+                                     </div>
+                                 </div>
+                          </div>
+
+                          <div fxLayout="row"  fxLayoutAlign="center end" class="rollNumPartTwo">
+                              <div  fxLayout="column" fxLayoutAlign="center end"  class="rollNumContent">
+                                  <div  fxLayout="row" fxLayoutAlign="center center" class="btuFont5 pr-16">
+                                      <mat-icon class="matArrowRight">arrow_right</mat-icon>
+                                      <span class="TitleFont3d">会员交易额</span>
+                                  </div>
+                                  <div fxLayout="row" fxLayoutAlign="center center" class="btuFont6">
+                                      <div fxLayout="row"  fxLayoutAlign="end end" class="rollSum2">
+                                          <div class="content_s2">
+                                              <div>
+                                                  <p class="box-item_s2">
+                                                      <span id="Number2_1">0123456789</span>
+                                                  </p>
+                                              </div>
+                                              <div>
+                                                  <p class="box-item_s2">
+                                                      <span id="Number2_2">0123456789</span>
+                                                  </p>
+                                              </div>
+                                              <div>
+                                                  <p class="box-item_s2">
+                                                      <span id="Number2_3">0123456789</span>
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div fxLayout="row"  fxLayoutAlign="start start"  class="rollSumUntil2">
+                                          <span class="rollNumberUnit pt-36 ">万元</span>
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div  fxLayout="row"  fxLayoutAlign="center end" class="rollNumPartThree ">
+                              <div  fxLayout="column" fxLayoutAlign="center end"  class="rollNumThreeContent">
+                                  <div  fxLayout="row" fxLayoutAlign="center center" class="btuFont7 pr-220 pb-28">
+                                      <mat-icon class="matArrowRight">arrow_right</mat-icon>
+                                      <span class="TitleFont3d">旅客总量</span>
+                                  </div>
+                                  <div fxLayout="row" fxLayoutAlign="center center" class="btuFont8 pr-192 pb-40">
+                                      <div fxLayout="row"  fxLayoutAlign="end end" class="rollSum">
+                                          <div class="content_s1">
+                                              <div>
+                                                  <p class="box-item_s1">
+                                                      <span id="Number8_1">0123456789</span>
+                                                  </p>
+                                              </div>
+                                              <div>
+                                                  <p class="box-item_s1">
+                                                      <span id="Number8_2">0123456789</span>
+                                                  </p>
+                                              </div>
+                                              <div>
+                                                  <p class="box-item_s1">
+                                                      <span id="Number8_3">0123456789</span>
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div fxLayout="row"  fxLayoutAlign="start start"  class="rollSumUntil">
+                                          <span class="rollNumberUnit pt-36">万人</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- 必吃排行榜-->
+                      <div fxLayout="row" class="eatTop5">
+                          <img src="assets/images/backgrounds/gifBorder.gif" class="eatTop5Bg">
+                          <div fxLayout="column" class="eatTopContent">
+                              <div fxLayout="row" fxLayoutAlign="start center" class="eatTitle"><span class="chartTitleColorSizeTwo">必吃排行榜</span></div>
+
+                              <!--主体部分-->
+                              <div fxLayout="column" fxLayoutAlign="start center" class="eatImg">
+                                   <div fxLayout="row" fxLayoutAlign="center center" class="upEatImg">
+                                       <ng-container *ngFor="let im of eatTop.bizTop5Array">
+                                           <div fxLayout="row" fxLayoutAlign="center center" class="imgAndDes">
+                                               <div fxLayout="row" fxLayoutAlign="center end"  class="eat-img-w-h">
+                                                   <img [src]="im.imgSrc" [ngClass]="{'eat-img1': im.id_b === '1' , 'eat-img2': im.id_b === '2' , 'eat-img3': im.id_b === '3' ,
+                                                                                'eat-img4': im.id_b === '4' , 'eat-img5': im.id_b === '5' }" >
+                                               </div>
+                                           </div>
+                                       </ng-container>
+                                   </div>
+                                   <div fxLayout="row" fxLayoutAlign="center center" class="downEatImg">
+                                       <ng-container *ngFor="let text of eatTop.bizTop5ArrayBf">
+                                           <div fxLayout="row" fxLayoutAlign="center center"  class="eat-des-w-h">
+                                               <span>{{text.bizName}}</span>
+                                           </div>
+                                       </ng-container>
+                                   </div>
+
+                              </div>
+
+                              <div fxLayout="row" fxLayoutAlign="end center" class="eatDes"> <span class="chartDes"> 这是说明</span></div>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+
+
+              <div fxLayout="column" fxLayoutAlign="space-around center" class="pageTwoRight">
+
+                  <!-- 性别占比 两个框-->
+                <div fxLayout="row" class="sexPro">
+                    <img src="assets/images/backgrounds/gifBorder.gif" class="sexProImg">
+                    <div fxLayout="column" class="sexProContent">
+                        <!--标题-->
+                        <div fxLayout="row"  fxLayoutAlign="start center" class="sexPro-title">
+                            <span class="chartTitleColorSize">常旅客性别占比</span>
+                        </div>
+                        <!-- 性别占比 -->
+                        <div fxLayout="row"  fxLayoutAlign="start center" class="sexPro-number">
+                             <!-- 男-->
+                             <div fxLayout="row" fxLayoutAlign="space-between center" class="maleContent">
+                                   <div fxLayout="row" fxLayoutAlign="center center" class="maleImg">
+                                    <img src="assets/images/backgrounds/maleImage.png">
+                                   </div>
+                                   <div  fxLayout="column" fxLayoutAlign="center center" class="maleText">
+                                         <div fxLayout="row" fxLayoutAlign="start baseline"  class="maleTextCh1">
+                                             <span class="sexProT">{{sexPro.malePro | number:'1.0-0' }}</span><span class="sexProT2">%</span>
+                                         </div>
+                                         <div fxLayout="row" fxLayoutAlign="start center"  class="maleTextCh2">
+                                           <span class="sexProT3">占常旅客</span>
+                                         </div>
+                                         <div  fxLayout="row" fxLayoutAlign="start center" class="maleTextCh3">
+                                            <span class="sexProT4">{{sexPro.maleNum |currency:'':'':'1.0-0' }}</span>
+                                         </div>
+                                   </div>
+                             </div>
+
+                             <!-- 女 -->
+                             <div fxLayout="row" fxLayoutAlign="space-between center" class="femaleContent">
+                                 <div fxLayout="row" fxLayoutAlign="center center" class="femaleImg">
+                                     <img src="assets/images/backgrounds/femaleImage.png">
+                                 </div>
+                                 <div  fxLayout="column" fxLayoutAlign="center center" class="femaleText">
+                                     <div fxLayout="row" fxLayoutAlign="start baseline"  class="femaleTextCh1">
+                                         <span class="sexProT">{{sexPro.femalePro | number:'1.0-0' }}</span><span class="sexProT2">%</span>
+                                     </div>
+                                     <div fxLayout="row" fxLayoutAlign="start center"  class="femaleTextCh2">
+                                         <span class="sexProT3">占常旅客</span>
+                                     </div>
+                                     <div  fxLayout="row" fxLayoutAlign="start center" class="femaleTextCh3">
+                                         <span class="sexProT4">{{sexPro.femaleNum |currency:'':'':'1.0-0' }}</span>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                        <!--说明-->
+                        <div fxLayout="row"  fxLayoutAlign="end center" class="sexPro-des">
+                            <span class="chartDes">这个是说明</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                  <!--年龄占比 玫瑰图-->
+                <div fxLayout="row" class="agePro">
+                    <img src="assets/images/backgrounds/gifBorder.gif" class="ageProImg">
+                    <div fxLayout="column" class="ageProContent">
+                        <!-- 标题-->
+                        <div  fxLayout="row"  fxLayoutAlign="start center" class="agePro-title"><span class="chartTitleColorSize">年龄占比</span></div>
+                        <!-- 图表-->
+                        <div fxLayout="row"  fxLayoutAlign="center center"    class="agePro-chart">
+                            <div #ageProChart class="agePro-real-chart"></div>
+                        </div>
+                        <!-- 说明-->
+                        <div fxLayout="row"  fxLayoutAlign="end center" class="agePro-des"><span class="chartDes">这个是说明</span></div>
+                    </div>
+                </div>
+
+
+                  <!-- 品牌偏好-->
+                <div fxLayout="row" class="PartialityBrand">
+                    <img src="assets/images/backgrounds/gifBorder.gif" class="brandImg">
+                    <div fxLayout="column" class="brandContent">
+                        <!-- 标题-->
+                        <div  fxLayout="row"  fxLayoutAlign="start center" class="brand-title"><span class="chartTitleColorSize">品牌偏好</span></div>
+                        <!-- 文字云图表-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" class="brand-chart">
+                            <div #brandCloud class="brand-real-chart"></div>
+                        </div>
+                        <!-- 说明-->
+                        <div fxLayout="row"  fxLayoutAlign="end center" class="brand-des"><span class="chartDes">这个是说明</span></div>
+                    </div>
+                </div>
+              </div>
+     </div>
+</div>

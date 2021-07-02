@@ -1,0 +1,9 @@
+<app-table-list [title]="'会员卡列表'" [rows]="rows" (search)="onSearch()"
+
+                [columns]="columns" [page]="page"    (navigateDetail)="getDetail($event)"   [checkbox]="overPanel"
+                [selectedRows]="selectedRows"  [overPanel]="overPanel"  [selectedField]="selectedFiled"
+                  (dataSelect)="onSelect($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createActivity()"
+>
+</app-table-list>

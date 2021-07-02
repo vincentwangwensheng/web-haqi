@@ -1,0 +1,545 @@
+@import "src/@fuse/scss/fuse";
+
+.appointmentAdd-btu-class {
+  display: flex;
+  justify-content: space-around;
+  margin-right: 5px;
+  button {
+    margin-right: 12px;
+  }
+  button:hover {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+}
+
+.appointmentAdd-all-flex {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .appointmentAddForm {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .appointmentAdd-left {
+      width: 48%;
+      height: 97%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 5px;
+      // overflow-y: auto;
+      @include media-breakpoint('lt-md') {
+        width: 96%;
+        overflow-y: hidden;
+        margin-bottom: 20px;
+      }
+
+      .appointmentAdd-real-left {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        border: 1px solid #6C6C6C;
+        max-height: 81vh;
+        overflow: auto;
+        @include media-breakpoint('lt-md') {
+          //   min-width: 566px;
+          //  margin-right: 5px;
+          overflow-y: hidden;
+          max-height: none;
+          margin-bottom: 15px;
+          // margin-left: 5px;
+        }
+      }
+    }
+
+    .appointmentAdd-right {
+      width: 48%;
+      height: 97%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      border-radius: 5px;
+      @include media-breakpoint('lt-md') {
+        width: 96%;
+        height: auto;
+        overflow-y: hidden;
+      }
+      .appointmentAdd-real-right {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        border: 1px solid #6C6C6C;
+        max-height: 81vh;
+        overflow: auto;
+        @include media-breakpoint('lt-md') {
+          //  width: 96%;
+          height: auto;
+          overflow-y: hidden;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+  }
+
+}
+
+.app-left-space-input {
+  width: 96%;
+  height: 70px;
+  .app-left-part1 {
+    margin-top: 15px;
+    width: 100%;
+    height: 100%;
+    mat-form-field {
+      width: 48%;
+    }
+  }
+  .app-left-space-input-btu {
+    width: 48%;
+    .app-left-space-input-btu-ch {
+      width: 60%;
+      .app-left-input-text {
+        width: 45%;
+      }
+      .app-left-input-section {
+        width: 55%;
+        .section-mat-checkbox {
+          width: 100%;
+          // 设置当前的选择项是灰色
+          ::ng-deep {
+            .mat-checkbox-background {
+              background-color: #D8D8D8;
+            }
+            .mat-checkbox-checkmark-path {
+              stroke: #000000 !important;
+            }
+            .mat-checkbox-frame {
+              border-color: rgba(0, 0, 0, 1);
+            }
+            .mat-checkbox-inner-container {
+              border: 1px solid;
+            }
+          }
+        }
+      }
+    }
+    .app-left-space-input-btu-ch2 {
+      width: 40%;
+      mat-form-field {
+        width: 90%;
+      }
+    }
+  }
+  .app-left-space-input-btu1 {
+    width: 48%;
+    mat-form-field {
+      width: 100%;
+    }
+    .appAddStore {
+      line-height: 28px;
+      border-radius: 8px;
+      //background-color: #D8D8D8;
+      //border: 1px solid #6C6C6C;
+      //color: #000000;
+      font-weight: 500;
+    }
+
+
+    .appAddStorePre {
+      line-height: 28px;
+      border-radius: 8px;
+      background-color: #ffffff;
+      border: 1px solid #6C6C6C;
+      color: #000000;
+      font-weight: 500;
+    }
+  }
+
+}
+
+
+.app-left-des {
+  width: 96%;
+  height: 260px;
+  .app-left-quill-des {
+    width: 100%;
+    height: 100%;
+    .te-des {
+      width: 100%;
+    }
+  }
+}
+
+.app-left-btu {
+  width: 96%;
+  height: 70px;
+  .app-left-btu-text {
+    width: 15%;
+  }
+  .app-left-icon-btu {
+    width: 85%;
+    .left-icon-add-re {
+      line-height: 28px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    .left-icon-add-pre {
+      line-height: 28px;
+      border-radius: 8px;
+      background-color: #FFFFFF;
+      // border: 1px solid #6C6C6C;
+      color: #000000;
+      font-weight: 500;
+    }
+
+
+  }
+
+}
+
+.app-date-picker {
+  width: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.font-title-c {
+  font-size: 14px;
+}
+
+.cou-font-title-c {
+  font-size: 11px;
+}
+
+.start-color {
+  color: red;
+}
+
+.appAddStoreTextOver {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.appointmentAdd-mat-point {
+  mat-form-field {
+    height: 40px;
+    .mat-form-field-wrapper {
+      height: 40px;
+    }
+  }
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      height: 40px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0em;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0em;
+    }
+    .mat-form-field-flex {
+      height: 40px;
+    }
+    .mat-form-field-label-wrapper {
+      top: -1.14375em;
+      padding-top: 1.04375em;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-label {
+      top: 2.404375em;
+      margin-top: -0.9em;
+    }
+  }
+}
+
+.dialog-Incident-title {
+  display: flex;
+  width: 100%;
+  height: 12%;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: #2B96D8;
+  .Incident-dialog-title-tips {
+    display: flex;
+    width: 98%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .title_dialog_Incident {
+      font-size: 1.3rem;
+      color: #000000;
+    }
+  }
+
+}
+
+.content-class-Incident {
+  width: 100%;
+  height: 400px;
+  //  overflow: auto;
+}
+
+::ng-deep {
+  #PreDetailTeClass {
+    .mat-dialog-title {
+      margin: 0px;
+    }
+    .mat-dialog-content {
+      overflow: hidden;
+    }
+  }
+}
+
+.Incident-input-textArea {
+  mat-form-field {
+    width: 100%;
+    height: 400px;
+    .mat-form-field-wrapper {
+      height: 400px;
+    }
+    textarea {
+      height: 350px;
+      overflow: auto;
+    }
+  }
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      height: 400px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0em;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0em;
+    }
+    .mat-form-field-flex {
+      //  height: 35px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-label {
+      top: 2.884375em;
+      margin-top: -0.7em;
+    }
+  }
+}
+
+::ng-deep{
+  #UpLoadImgClassC{
+    padding: 0px!important;
+  }
+  #upImgPreClass{
+    padding: 0px!important;
+  }
+}
+
+
+
+
+
+//-------------------------放弃？
+
+::ng-deep {
+  #appAddCalendarDialogClass {
+    padding: 0 !important;
+    .mat-dialog-title {
+      margin-bottom: 0px;
+    }
+    mat-dialog-container {
+      padding: 0 !important;
+    }
+    mat-dialog-content {
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 92%;
+      max-height: none;
+      overflow: auto;
+      .app-calendar-mat-point {
+
+        ::ng-deep {
+          mat-form-field {
+            height: 40px;
+            .mat-form-field-wrapper {
+              height: 40px;
+              .mat-form-field-appearance-outline .mat-form-field-infix {
+                padding: 0.1em 0 0.3em 0;
+              }
+            }
+          }
+          .mat-form-field-appearance-outline .mat-form-field-outline {
+            height: 40px;
+          }
+          .mat-form-field-appearance-outline .mat-form-field-infix {
+            padding: 0em;
+          }
+          .mat-form-field-appearance-outline .mat-form-field-wrapper {
+            margin: 0em;
+          }
+          .mat-form-field-flex {
+            height: 40px;
+          }
+          .mat-form-field-label-wrapper {
+            top: -1.14375em;
+            padding-top: 1.04375em;
+          }
+          .mat-form-field-appearance-outline .mat-form-field-label {
+            top: 2.404375em;
+            margin-top: -0.9em;
+          }
+        }
+      }
+
+      .app-calendar-des {
+        mat-form-field {
+          width: 100%;
+          height: 75px;
+        }
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-outline {
+            height: 75px;
+          }
+          textarea.mat-input-element {
+            padding: 0px 0;
+            margin: -6px 0;
+            height: 48px;
+          }
+        }
+      }
+      .add-cou-mb12 {
+        margin-bottom: 12px;
+      }
+    }
+  }
+}
+
+.app-right-all {
+  width: 96%;
+  height: 100%;
+  .app-right-title {
+    width: 100%;
+    height: 7%;
+  }
+}
+
+.app-right-fixed {
+  width: 100%;
+  // height: 20%;
+  .app-fixed-time {
+    width: 100%;
+  }
+  .app-right-cou-title {
+    width: 100%;
+    height: 20px;
+  }
+}
+
+.app-right-calendar {
+  width: 100%;
+  max-height: 460px;
+  overflow: auto;
+  .app-right-calendar-ch {
+    width: 100%;
+  }
+}
+
+.app-right-showCou {
+  width: 100%;
+  max-height: 320px;
+  flex-wrap: wrap;
+  overflow: auto;
+  .coupon-show-detail {
+    width: 220px;
+    height: 128px;
+    border-radius: 10px;
+    //border: 1px dashed #2392D6;
+    //background-color: rgba(35,146,214,0.2);
+    position: relative;
+    z-index: 1;
+    .coupon-bgImg {
+      width: 100%;
+      height: 100%;
+    }
+    .coupon-show-detail-ch {
+      width: 92%;
+      height: 95%;
+      position: absolute;
+      z-index: 2;
+      .child-div1 {
+        width: 100%;
+        height: 90%;
+        .child-div {
+          width: 100%;
+        }
+      }
+      .child-div2 {
+        width: 100%;
+        height: 10%;
+        .removeCouBtu {
+          width: 24px;
+          height: 24px;
+          mat-icon {
+            color: red;
+          }
+          mat-icon:hover {
+            border-radius: 35px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+          }
+        }
+
+      }
+    }
+  }
+  .coupon-add-detail {
+    width: 220px;
+    height: 128px;
+    border-radius: 10px;
+    border: 1px dashed #2392D6;
+    background-color: rgba(35, 146, 214, 0.1);
+    cursor: pointer;
+    span {
+      color: #3DA5E7;
+    }
+  }
+}
+
+.app-right-space-input {
+  width: 100%;
+  height: 12%;
+  mat-form-field {
+    width: 48%;
+  }
+  @include media-breakpoint('lt-md') {
+    margin-bottom: 5px;
+  }
+}

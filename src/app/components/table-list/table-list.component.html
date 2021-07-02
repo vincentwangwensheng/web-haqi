@@ -1,0 +1,484 @@
+<div class="page-layout carded fullwidth inner-scroll w-100-p h-100-p" (window:resize)="windowResize()" tabindex="-1"
+     id="tableList" (keyup)="onKeyUp($event)" (wheel)="onWheel($event)">
+
+    <!-- TOP BACKGROUND -->
+    <div *ngIf="!overPanel" class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" [ngClass]="{'no-padding':overPanel}">
+
+        <!-- CONTENT HEADER -->
+        <div *ngIf="!overPanel" class="header accent py-24" fxLayout="row" fxLayoutAlign="start center">
+            <h2 class="m-0">{{title}}</h2>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT TOOLBAR -->
+            <div *ngIf="hasHeader" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 class="toolbar px-8 py-8" fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxFlex="1 1 auto" fxLayoutAlign="start center">
+                    <button *ngIf="!stick" class="mr-8 theme-hover dark-box-shadow-hover" mat-icon-button
+                            (click)="showSelect()"
+                            [matTooltip]="'tableList.selectColumns'|translate"
+                            [matTooltipPosition]="'above'">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <ng-container *ngFor="let column of columns;let i=index">
+                        <ng-container [ngSwitch]="column.type">
+                            <ng-container *ngSwitchCase="'input'">
+                                <div class="h-32 w-30-p" fxFlexOrder="0">
+                                    <input class="input-box w-100-p h-100-p pl-12 pr-28" [(ngModel)]="column.value"
+                                           (keyup.enter)="onSearch($event,column)"
+                                           (input)="inputClear($event)"
+                                           [placeholder]="('tableList.placeholder'|translate)+(column.translate|translate)+'...'">
+                                    <mat-icon class="search-suffix theme-color input-icon">search</mat-icon>
+                                </div>
+                                <mat-divider [vertical]="true" fxFlexOrder="0"
+                                             class="h-32 mx-8"></mat-divider>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'select'">
+                                <mat-select fxFlexOrder="1"
+                                            class="theme-select select-box fix-select h-32 w-15-p pl-12"
+                                            [placeholder]="column.translate|translate" [(value)]="column.value"
+                                            (valueChange)="onSelect(column,$event)"
+                                >
+                                    <ng-container *ngFor="let option of column.options">
+                                        <mat-option *ngIf="option.value!==undefined" [value]="option.value">
+                                            {{option.translate|translate}}
+                                        </mat-option>
+                                        <mat-option *ngIf="option.value===undefined" [value]="option">
+                                            {{option==='all'?(option|translate):option}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-divider [vertical]="true" fxFlexOrder="1"
+                                             class="h-32 mx-8"></mat-divider>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'filter'">
+                                <div class=" h-32 w-15-p" fxFlexOrder="2" (click)="filter.open()">
+                                    <mat-select #filter
+                                                class="select-custom-arrow select-box fix-select w-100-p h-100-p pl-12"
+                                                [placeholder]="column.translate|translate" [(value)]="column.value"
+                                                (valueChange)="onSelect(column,$event)"
+                                    >
+                                        <ng-container *ngFor="let option of column.options">
+                                            <mat-option *ngIf="option.value!==undefined" [value]="option.value">
+                                                {{option.translate|translate}}
+                                            </mat-option>
+                                            <mat-option *ngIf="option.value===undefined" [value]="option">
+                                                {{option==='all'?(option|translate):option}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-icon class="select-suffix theme-color input-icon">filter_list</mat-icon>
+                                </div>
+                                <mat-divider [vertical]="true" fxFlexOrder="2"
+                                             class="h-32 mx-8"></mat-divider>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'date'">
+                                <div class="h-32 w-30-p mr-4" fxFlexOrder="3">
+                                    <!--选择所有calendar-input作为日期实体-->
+                                    <input [id]="column.name+'Start'" [value]="column.startDate?column.startDate:''"
+                                           class="calendar-start input-box w-100-p h-100-p pl-12 pr-28"
+                                           readonly (change)="onStartDate($event,column)"
+                                           [placeholder]="('tableList.startDate'|translate)+(column.translate|translate)+'...'">
+                                    <mat-icon class="search-suffix theme-color input-icon">date_range</mat-icon>
+                                </div>
+                                <div class="h-32 w-30-p" fxFlexOrder="3">
+                                    <!--选择所有calendar-input作为日期实体-->
+                                    <input [id]="column.name+'End'" [value]="column.endDate?column.endDate:''"
+                                           class="calendar-end input-box w-100-p h-100-p pl-12 pr-28"
+                                           readonly (change)="onEndDate($event,column)"
+                                           [placeholder]="('tableList.endDate'|translate)+(column.translate|translate)+'...'">
+                                    <mat-icon class="search-suffix theme-color input-icon">date_range</mat-icon>
+                                </div>
+                                <mat-divider [vertical]="true" fxFlexOrder="3"
+                                             class="h-32 mx-8"></mat-divider>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <div *ngIf="columns.length>0" fxFlexOrder="3" fxLayout="row" fxLayoutGap="space-around center">
+                        <button (click)="clearAll()" class="clear-filter theme-hover dark-box-shadow-hover"
+                                mat-flat-button>
+                            <span *ngIf="!noFilter" class="iconfont iconclear mr-8 theme-color"></span>
+                            <span *ngIf="!noFilter">{{'tableList.clearFilter'|translate}}</span>
+                            <mat-icon *ngIf="noFilter" class="mat-icon-20 theme-color mr-4">refresh</mat-icon>
+                            <span *ngIf="noFilter">{{'tableList.refresh'|translate}}</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="operate-buttons" fxLayout="row"
+                     fxLayoutAlign="space-around center">
+                    <!--自定义按钮-->
+                    <ng-container *ngIf="customButton" [ngSwitch]="customButtonColor">
+                        <button *ngSwitchCase="'blue'" color="accent" mat-raised-button (click)="onCustomClick()">
+                            <span class="iconfont iconadd1 mr-8"></span>
+                            <span>{{customButtonText?customButtonText:('tableList.create'|translate)}}</span>
+                        </button>
+                        <button *ngSwitchCase="'yellow'" class="dark-yellow-button" mat-raised-button
+                                (click)="onCustomClick()">
+                            <span class="iconfont iconadd1 mr-8"></span>
+                            <span>{{customButtonText?customButtonText:('tableList.create'|translate)}}</span>
+                        </button>
+                        <button *ngSwitchCase="'red'" mat-raised-button color="warn" (click)="onCustomClick()">
+                            <span class="iconfont iconadd1 mr-8"></span>
+                            <span>{{customButtonText?customButtonText:('tableList.create'|translate)}}</span>
+                        </button>
+                    </ng-container>
+                    <!--自定义按钮组-->
+                    <ng-container *ngFor="let button of customButtons">
+                        <button mat-raised-button (click)="button.fn()" [appAddClassToElement]="button.class" class="customButtonStyle">
+                            <span *ngIf="button.iconFont" [class]="'font-size-16 iconfont '+ button.iconFont"></span>
+                            <mat-icon *ngIf="button.matIcon">{{button.matIcon}}</mat-icon>
+                            <span>{{button.name}}</span>
+                        </button>
+                    </ng-container>
+                    <button *ngIf="createRuleButton" mat-raised-button class="accent" (click)="onCreateRule()">
+                        <span class="iconfont iconadd1 mr-8"></span>
+                        <span>{{'tableList.createRule'|translate}}</span>
+                    </button>
+                    <button *ngIf="createButton" mat-raised-button class="dark-yellow-button" (click)="onCreate()">
+                        <span class="iconfont iconadd1 mr-8"></span>
+                        <span>{{'tableList.create'|translate}}</span>
+                    </button>
+                    <input #input type="file" [accept]="'.csv'" hidden (change)="onImport($event)">
+                    <button *ngIf="importButton" mat-raised-button class="green-button" (click)="input.click()">
+                        <span class="iconfont iconimport mr-8"></span>
+                        <span>{{'tableList.import'|translate}}</span>
+                    </button>
+                    <button *ngIf="downloadButton" mat-raised-button class="yellow-button" (click)="onDownload()">
+                        <span class="iconfont icondownload mr-8"></span>
+                        <span>{{'tableList.downloadTemplate'|translate}}</span>
+                    </button>
+                    <button *ngIf="exportButton" [disabled]="exportFilterDisabled" (click)="exportFilterData()"
+                            mat-raised-button color="accent">
+                        <span>{{'tableList.exportFilter'|translate}}</span>
+                    </button>
+                    <button *ngIf="exportButton" [disabled]="exportAllDisabled" (click)="exportAllData()"
+                            mat-raised-button color="accent">
+                        <span>{{'tableList.exportAll'|translate}}</span>
+                    </button>
+                    <button *ngIf="checkbox||singleSelect" mat-raised-button [mat-dialog-close]="true" color="accent">
+                        <span class="iconfont iconpass  mr-8"></span>
+                        <span>{{'tableList.confirm'|translate}}</span>
+                    </button>
+                    <button *ngIf="checkbox||singleSelect" mat-raised-button [mat-dialog-close]="false" color="accent">
+                        <span class="iconfont iconreject mr-8"></span>
+                        <span>{{'tableList.cancel'|translate}}</span>
+                    </button>
+                    <button *ngIf="singleSelect&&resetSelect" (click)="resetSelected()" mat-raised-button
+                            [mat-dialog-close]="true" class="dark-yellow-button">
+                        <span class="iconfont iconback mr-8"></span>
+                        <span>{{'tableList.reset'|translate}}</span>
+                    </button>
+                    <mat-slide-toggle *ngIf="hasAutomaticReview" (click)="automaticReview()"
+                                      [(ngModel)]="automaticReviewChecked">
+                        开启自动审核(每日会员首次申请将自动审核通过)
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content" id="table-container" fxLayout="column"
+                 fxLayoutAlign="start center"
+                 [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'300ms'}}">
+                <div class="w-100-p">
+                    <ng-template #selectTemplate>
+                        <div *ngIf="selectShow" id="selectPanel" @fadeInOut class="column-select light-box-shadow"
+                             [ngStyle]="{'left':overPanel?'':selectLeft}"
+                             [ngClass]="{'overlay-column-select':overPanel}" fxLayout="column"
+                             fxLayoutAlign="start center">
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p px-24 py-8">
+                                <mat-checkbox (change)="selectColumn(true)"
+                                              [labelPosition]="'after'"
+                                              [checked]="allSelect"
+                                >
+                                    {{'all'|translate}}
+                                </mat-checkbox>
+                            </div>
+                            <mat-divider class="w-100-p"></mat-divider>
+                            <ng-container *ngFor="let column of totalColumns">
+                                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p px-24 py-8">
+                                    <mat-checkbox (change)="selectColumn()"
+                                                  [(ngModel)]="column.selected"
+                                                  [labelPosition]="'after'"
+                                    >
+                                        {{column.translate|translate}}
+                                    </mat-checkbox>
+                                </div>
+                                <mat-divider class="w-100-p"></mat-divider>
+                            </ng-container>
+                        </div>
+                    </ng-template>
+                    <ngx-datatable #datatable [ngStyle]="{'opacity':initOpacity?1:0}"
+                                   fxFlexFill class="material ngx-datatable-custom"
+                                   [ngClass]="{'table-select':checkbox||singleSelect}"
+                                   [columns]="columns"
+                                   [messages]="{emptyMessage:''}"
+                                   [footerHeight]="0"
+                                   [selectionType]="singleSelect&&!checkbox?'single':''"
+                                   [count]="page.count"
+                                   [externalPaging]="true"
+                                   [offset]="page.page"
+                                   [limit]="page.size"
+                                   [headerHeight]="45"
+                                   [rowHeight]="44"
+                                   [reorderable]="false"
+                                   (activate)="onActivate($event)"
+                                   [externalSorting]="true"
+                                   [rows]="rows"
+                                   [selected]="selected"
+                                   (select)="onSingleSelect($event)"
+                                   (resize)="resizing($event)"
+                                   (sort)="sorting($event)"
+                    >
+                        <!--选择列-->
+                        <ngx-datatable-column
+                                *ngIf="checkbox"
+                                [width]="50"
+                                [maxWidth]="50"
+                                [sortable]="false"
+                                [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template let-row="row">
+                                <mat-checkbox
+                                        [checked]="totalSelected"
+                                        [disabled]="totalDisabled"
+                                        (change)="selectAllOrNot($event)"></mat-checkbox>
+                            </ng-template>
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <mat-checkbox style="position: absolute;left:17px" [checked]="row.selected"
+                                              [disabled]="row.disabled"
+                                              (change)="rowSelect(row,$event)"></mat-checkbox>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [sortable]="false" [resizeable]="false" [canAutoResize]="false"
+                                              [width]="50">
+                            <ng-template let-column="column"
+                                         ngx-datatable-header-template>
+                                <div fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
+                                <span class="cursor-pointer font-size-12 text-ellipsis py-8"
+                                >{{'tableList.no'|translate}}</span>
+                                    <!--<button mat-icon-button class="fix-button" (click)="showSelect()">-->
+                                    <!--<mat-icon class="mat-icon-20 theme-hover"-->
+                                    <!--[matTooltip]="'tableList.selectColumns'|translate"-->
+                                    <!--[matTooltipPosition]="'above'"-->
+                                    <!--&gt;menu-->
+                                    <!--</mat-icon>-->
+                                    <!--</button>-->
+                                </div>
+                            </ng-template>
+                            <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                            <span [matTooltip]="rows.indexOf(row)+1+page.page*page.size"
+                                  [matTooltipPosition]="'above'"
+                            >{{rows.indexOf(row)+1+page.page*page.size}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column *ngFor="let column of columns" [width]="column.width"
+                                              [canAutoResize]="false" [name]="column.name"
+                        >
+                            <ng-template let-sort="sortFn"
+                                         ngx-datatable-header-template>
+                                <div fxFlexFill fxLayout="column" fxLayoutAlign="center center" class="user-select-none">
+                                    <!--是否排序-->
+                                    <span *ngIf="column.sort===undefined||column.sort===true"
+                                          class="cursor-pointer font-size-12 text-ellipsis py-8"
+                                          (click)="sort()">
+                                    {{column.translate|translate}}
+                                        <mat-icon *ngIf="column.name===sortColumn" class="mat-icon-15 fix-arrow">{{sortAsc?'arrow_drop_up':'arrow_drop_down'}}</mat-icon>
+                                </span>
+                                    <span *ngIf="column.sort===false"
+                                          class="cursor-pointer font-size-12 text-ellipsis py-8"
+                                    >
+                                    {{column.translate|translate}}
+                                </span>
+                                </div>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <!--格式化显示-->
+                                <!--商户冻结-->
+                                <ng-container
+                                        *ngIf="(row[column.name]===true||row[column.name]===false)&&column.name==='enabled'">
+                                    <!--true false 值翻译为正常和冻结-->
+                                    <span *ngIf="!(column.enabled&&column.disabled)" class="text-ellipsis user-select"
+                                          [matTooltip]="(row[column.name]?'normal':'frozen')|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{(row[column.name]?'normal':'frozen')|translate}}
+                                    </span>
+                                    <!--true false 其他翻译 如是、否等-->
+                                    <span *ngIf="column.enabled&&column.disabled" class="text-ellipsis user-select"
+                                          [matTooltip]="(row[column.name]?column.enabled:column.disabled)|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{(row[column.name]?column.enabled:column.disabled)|translate}}
+                                    </span>
+                                </ng-container>
+                                <!--不是enabled字段时候为是否-->
+                                <ng-container
+                                        *ngIf="column.name!=='enabled'&&(row[column.name]===true||row[column.name]===false)">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="(row[column.name]?'yes':'no')|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{(row[column.name]?'yes':'no')|translate}}
+                                    </span>
+                                </ng-container>
+                                <!--日期-->
+                                <ng-container
+                                        *ngIf="column.name.toLowerCase().indexOf('date')!==-1||column.name.toLowerCase().indexOf('time')!==-1">
+                                    <span class="user-select" [matTooltip]="row[column.name]|newDateTransform:'/'"
+                                          [matTooltipPosition]="'above'">
+                                        {{row[column.name]|newDateTransform:'/'}}
+                                    </span>
+                                </ng-container>
+                                <!--不同项目中翻译不同的字段-->
+                                <ng-container *ngIf="column['needTranslateProject']">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="currentProject+'.'+row[column.name]|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{currentProject+'.'+row[column.name]|translate}}
+                                    </span>
+                                </ng-container>
+                                <!--将值作为翻译的key进行翻译-->
+                                <ng-container *ngIf="column['needTranslate']">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="row[column.name]|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{row[column.name]|translate}}
+                                    </span>
+                                </ng-container>
+                                <!--其他直接显示-->
+                                <ng-container
+                                        *ngIf="column.name.toLowerCase().indexOf('date')===-1&&column.name.toLowerCase().indexOf('time')===-1
+                                        &&row[column.name]!==true&&row[column.name]!==false&&!column['needTranslateProject']&&!column['needTranslate']">
+                                    <ng-container [ngSwitch]="column.type">
+                                        <ng-container *ngSwitchCase="'color'">
+                                            <span class="text-ellipsis user-select" [matTooltip]="row[column.name]"
+                                                  [matTooltipPosition]="'above'">
+                                        {{row[column.name]}}
+                                    </span>
+                                            <span class="span-block" [style.background]="row[column.name]"></span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                         <span class="text-ellipsis user-select" [matTooltip]="row[column.name]"
+                                               [matTooltipPosition]="'above'">
+                                        {{row[column.name]}}
+                                    </span>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <!--详情操作列-->
+                        <ngx-datatable-column *ngIf="!overPanel&&(hasDetail||hasStatistics)" [sortable]="false"
+                                              [width]="50*((hasDetail?1:0)+(hasStatistics?1:0))"
+                                              [resizeable]="false"
+                                              [canAutoResize]="false">
+                            <ng-template ngx-datatable-header-template>
+                                <div fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
+                                    <span class="cursor-pointer font-size-12 text-ellipsis py-8">{{'tableList.operate'|translate}}</span>
+                                </div>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <!--多操作折叠菜单-->
+                                <ng-container *ngIf="hasDetail&&detailMenu.length>0">
+                                    <mat-menu #menu="matMenu">
+                                        <button *ngFor="let item of detailMenu" (click)="item.fn(row)"
+                                                class="theme-hover" mat-menu-item>
+                                            <mat-icon *ngIf="item.icon">{{item.icon}}</mat-icon>
+                                            <span>{{item.translate|translate}}</span>
+                                        </button>
+                                    </mat-menu>
+                                    <mat-icon class="cursor-pointer theme-hover" [matMenuTriggerFor]="menu">more_vert
+                                    </mat-icon>
+                                </ng-container>
+                                <!--单个操作及相关情况-->
+                                <span *ngIf="hasDetail&&detailMenu.length===0" class="theme-color cursor-pointer"
+                                      (click)="getDetail(row)">
+                                    <ng-container
+                                            *ngIf="!hasCopy&&!hasEnabled">{{'tableList.detail'|translate}}</ng-container>
+                                    <ng-container *ngIf="hasEnabled&&row.enabled">
+                                        <span>{{'tableList.froze'|translate}}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="hasEnabled&&!row.enabled">
+                                        <span class="red-font">{{'tableList.thaw'|translate}}</span>
+                                    </ng-container>
+                                    <ng-container
+                                            *ngIf="hasCopy&&!row.enabled">{{'tableList.edit'|translate}}</ng-container>
+                                    <ng-container
+                                            *ngIf="hasCopy&&row.enabled">{{'tableList.copy'|translate}}</ng-container>
+                                </span>
+                                <span *ngIf="hasStatistics" class="theme-color cursor-pointer ml-8"
+                                      (click)="getStatistics(row)">{{'tableList.statistics'|translate}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+                <div *ngIf="pagers.maxPage>0&&rows.length>0" class="custom-footer h-40 w-100-p" fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <span *ngIf="checkbox">{{selectedRows.length}}&nbsp;{{'tableList.selected'|translate}}&nbsp;/&nbsp;</span>
+                        <span>{{page.count}}&nbsp;{{'tableList.rowCount'|translate}}</span>
+                        <mat-slide-toggle [matTooltip]="'tableList.pageAnimation'|translate" matTooltipPosition="above"
+                                          class="ml-12" (change)="onPageAnimation()" [(ngModel)]="pageAnimation">
+                        </mat-slide-toggle>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="2px"
+                         class="pager-buttons pr-8">
+                        <mat-form-field [ngStyle]="{'width':inputPage?inputPage.length*8+8+'px':'16px'}">
+                            <input class="font-size-12 px-4" (keyup.enter)="selectPage($event)" matInput
+                                   autocomplete="off" (input)="pageInput($event)" [value]="inputPage">
+                        </mat-form-field>
+                        <span class="mr-24">/{{pagers.maxPage}}&nbsp;{{'tableList.page'|translate}}</span>
+                        <ng-container>
+                            <button mat-stroked-button (click)="lastPaging(false)"
+                                    [ngStyle]="{'cursor':page.page===0?'not-allowed':'pointer'}"
+                                    [disabled]="page.page===0" fxLayout="row"
+                                    fxLayoutAlign="space-around center">
+                                <mat-icon>skip_previous</mat-icon>
+                            </button>
+                            <button mat-stroked-button (click)="onePaging(false)"
+                                    [ngStyle]="{'cursor':page.page===0?'not-allowed':'pointer'}"
+                                    [disabled]="page.page===0" fxLayout="row"
+                                    fxLayoutAlign="space-around center">
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                            <ng-container *ngFor="let pager of pagers.pages">
+                                <button mat-stroked-button
+                                        [ngStyle]="{'width':((pager.page+1).toString().length-1)*8+32+'px'}"
+                                        class="dark-box-shadow-hover theme-hover"
+                                        [ngClass]="{'theme-color':pager.page===page.page,'dark-box-shadow':pager.page===page.page}"
+                                        fxLayout="row" (click)="onPager(pager)"
+                                        fxLayoutAlign="space-around center">
+                                    <span>{{pager.page+1}}</span>
+                                </button>
+                            </ng-container>
+                            <button mat-stroked-button (click)="onePaging(true)"
+                                    [ngStyle]="{'cursor':page.page===pagers.maxPage-1?'not-allowed':'pointer'}"
+                                    [disabled]="page.page===pagers.maxPage-1" fxLayout="row"
+                                    fxLayoutAlign="space-around center">
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                            <button mat-stroked-button (click)="lastPaging(true)"
+                                    [ngStyle]="{'cursor':page.page===pagers.maxPage-1?'not-allowed':'pointer'}"
+                                    [disabled]="page.page===pagers.maxPage-1" fxLayout="row"
+                                    fxLayoutAlign="space-around center">
+                                <mat-icon>skip_next</mat-icon>
+                            </button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

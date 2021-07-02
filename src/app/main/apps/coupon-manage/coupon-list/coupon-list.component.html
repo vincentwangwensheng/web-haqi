@@ -1,0 +1,6 @@
+<app-table-list [title]="'优惠券列表'" [rows]="rows" [columns]="columns" [page]="page" [hasDetail]="false" [customButtons]="customButtons"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()">
+</app-table-list>
+<ng-template #loadTg>
+    <app-spinner-loading [showData]="loadingShowData"></app-spinner-loading>
+</ng-template>

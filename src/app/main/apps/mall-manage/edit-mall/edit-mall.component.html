@@ -1,0 +1,234 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button *ngIf="editFlag===1" mat-stroked-button (click)="showEdit()"
+                        class="save-button">编辑
+                </button>
+                <button *ngIf="editFlag===2||editFlag===0" mat-stroked-button [disabled]="onSaving"
+                        (click)="onSaveClick()"
+                        class="save-button">保存
+                </button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <form [formGroup]="mallGroup" id="infoForm" fusePerfectScrollbar
+          autocomplete="off"
+          class="normal-form-fields info-form" fxFlexFill fxLayout="column"
+          fxLayoutAlign="start start">
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p part-1"
+             fxLayout="row wrap" fxLayoutAlign="space-between center">
+            <mat-form-field *ngIf="editFlag" appearance="outline">
+                <mat-label>商场ID</mat-label>
+                <input matInput formControlName="mallId">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>商场名称</mat-label>
+                <input matInput formControlName="mallName">
+                <mat-error *ngIf="mallGroup.get('mallName').invalid">
+                    <span>商场名称不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <app-auto-select class="w-48-p" [label]="'所属集团'" [matIcon]="'business'" [requiredMsg]="'所属集团不能为空！'"
+                             [notFindMsg]="'当前搜索的集团不存在！'" (selectionChange)="onStChange($event)"
+                             [showField]="'blocName'" [secondaryField]="'blocId'" [filterOptions]="filterBlocs"
+                             [selectControl]="mallGroup.get('blocName')"></app-auto-select>
+            <mat-form-field appearance="outline">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>商场简码</mat-label>
+                <input matInput formControlName="brevityCode">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>商场简称</mat-label>
+                <input matInput formControlName="mallShortName">
+            </mat-form-field>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="w-100-p"
+             fxLayoutAlign="space-between center">
+            <div id="allMap" [ngStyle]="{'visibility':positioningEnd?'visible':'hidden'}"
+                 (click)="showMapSelect(overlayMap)"
+                 class="w-48-p h-90-p">
+            </div>
+            <div class="position-loading" *ngIf="!positioningEnd"
+                 fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <mat-progress-spinner
+                        color="accent"
+                        mode="indeterminate">
+                </mat-progress-spinner>
+                <b class="theme-color">获取当前定位中...</b>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start" class="w-48-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>经纬</mat-label>
+                    <input matInput formControlName="position">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>省</mat-label>
+                    <input matInput formControlName="province">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>市</mat-label>
+                    <input matInput formControlName="city">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>街道</mat-label>
+                    <input matInput formControlName="street">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>电话</mat-label>
+                    <input matInput formControlName="mobile">
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="w-100-p mt-12"
+             fxLayout="column" fxLayoutAlign="start start">
+            <mat-label class="secondary-text font-size-13">商场简介</mat-label>
+            <quill-editor [placeholder]="'商场简介'" class="w-100-p"
+                          (onEditorCreated)="onEditorCreated($event)"
+                          [styles]="{'border-radius':'5px','height':'200px'}"
+                          formControlName="desc"></quill-editor>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="w-100-p mt-24"
+             fxLayout="column" fxLayoutAlign="start start">
+            <mat-label class="secondary-text font-size-13">交通出行</mat-label>
+            <quill-editor [placeholder]="'交通出行'" class="w-100-p"
+                          (onEditorCreated)="onEditorCreated($event)"
+                          [styles]="{'border-radius':'5px','height':'200px'}"
+                          formControlName="transportation"></quill-editor>
+        </div>
+    </form>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content"
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{opacity:0,delay:'500ms',duration:'2000ms'}}" class="w-100-p mb-12"
+             fxLayout="row" fxLayoutAlign="start center">
+            <mat-checkbox [disabled]="editFlag===1" labelPosition="after" (change)="selectAllOrNot()"
+                          [(ngModel)]="allChecked"
+                          class="font-size-17">
+                业态范围
+            </mat-checkbox>&nbsp;
+            <button (click)="foldAllOrNot()" class="w-32 h-32 dark-box-shadow-hover" mat-icon-button fxLayout="row"
+                    fxLayoutAlign="space-around center">
+                <mat-icon *ngIf="!allFolded" class="mat-icon-18" style="margin-bottom: 2px">arrow_drop_up</mat-icon>
+                <mat-icon *ngIf="allFolded" class="mat-icon-18" style="margin-bottom: 2px">arrow_drop_down</mat-icon>
+            </button>
+            <div (click)="foldAllOrNot()" fxLayout="row" fxLayoutAlign="start center" class="h-32 cursor-pointer"
+                 fxFlex="1 1 auto"></div>
+        </div>
+        <div class="type-panel w-100-p" fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start"
+             fxLayoutGap="8px">
+            <ng-container *ngFor="let type of totalTypes;let i=index">
+                <div [@animate]="{value:'*',params:{y:'100%',delay:100*(i+1)+'ms',duration:'300ms'}}"
+                     class="w-100-p type-content dark-box-shadow-hover"
+                     fxLayout="column" fxLayoutAlign="start start">
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                        <mat-checkbox [disabled]="editFlag===1" labelPosition="after"
+                                      (change)="onTypeChange($event,type)"
+                                      [(ngModel)]="type.checked"
+                                      class="font-size-14 font-weight-600">
+                            {{type.name}}
+                        </mat-checkbox>&nbsp;
+                        <button (click)="type.folded=!type.folded" class="w-32 h-32 dark-box-shadow-hover"
+                                mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                            <mat-icon *ngIf="!type.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                arrow_drop_up
+                            </mat-icon>
+                            <mat-icon *ngIf="type.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                arrow_drop_down
+                            </mat-icon>
+                        </button>
+                        <div (click)="type.folded=!type.folded" fxLayout="row" fxLayoutAlign="start center"
+                             class="h-32 cursor-pointer" fxFlex="1 1 auto"></div>
+                    </div>
+                    <div @fadeInOut *ngIf="!type.folded" class="py-12" fxLayout="row wrap" fxLayoutAlign="start center">
+                        <ng-container *ngFor="let secondType of type.children">
+                            <mat-checkbox [disabled]="editFlag===1" labelPosition="after"
+                                          [(ngModel)]="secondType.checked"
+                                          class="type-checkbox secondary-text font-size-13 mt-4">
+                                {{secondType.name}}
+                            </mat-checkbox>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #overlayMap>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="w-50-p" fxLayout="row" fxLayoutAlign="start center">
+                <span>商场定位</span>
+                <div class="h-32 ml-24 w-50-p">
+                    <input id="autoInput" class="input-box w-100-p h-100-p pl-12 pr-28"
+                           placeholder="请输入地址..." (keyup.enter)="onSearch($event)" [matAutocomplete]="auto"
+                           [value]="aiValue">
+                    <mat-icon class="search-suffix theme-color input-icon">search</mat-icon>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let item of autoSearch" (onSelectionChange)="onSelectionChange(item)">
+                            <mat-icon class="mat-icon-18">search</mat-icon>
+                            <span>{{item.business}}</span><span
+                                class="secondary-text font-size-14">{{(item.province + item.city + item.district + item.street) ? ('(' + item.province + item.city + item.district + item.street + ')') : ''}}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+            <div class="icon-button" [matDialogClose]="false">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <div id="olMap"></div>
+        <div class="w-100-p px-24 py-12 operate-buttons" fxLayout="row-reverse" fxLayoutAlign="start center">
+            <button class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+                <span>{{'dialog.cancel'|translate}}</span>
+            </button>
+            <button class="w-80 h-32" mat-flat-button color="accent"
+                    [matDialogClose]="true">
+                <span>{{'dialog.ensure'|translate}}</span>
+            </button>
+        </div>
+    </div>
+
+</ng-template>

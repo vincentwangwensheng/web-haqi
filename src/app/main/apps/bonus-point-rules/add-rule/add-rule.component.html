@@ -1,0 +1,27 @@
+
+<app-table-list [title]="'BonusPointUnion.BonusPointRules.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+>
+</app-table-list>
+<ng-template #SelectAddWhich>
+    <div fxLayout="column" fxLayoutAlign="center center" class="addRuleTe" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title" cdkDragHandle>
+            <div class="mat-dialog-title-tips">
+                <div ><span class="title_dialog_">{{'BonusPointUnion.BonusPointRules.AddRuleTitle'|translate}}</span></div>
+                <div><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+            </div>
+        </div>
+        <div class="DialogAllClass">
+            <div class="DialogClass ConsumeClass"    (click)="toConsume()"   ><!--消费积分-->
+                <img src="assets/images/cards/consumption.png" class="imgClass">
+                <span>{{'BonusPointUnion.BonusPointRules.ConsumeBonusPoint'|translate}}</span>
+            </div>
+            <div class="DialogClass InteractsClass"  (click)="toInteracts()" ><!--互动积分-->
+                <img src="assets/images/cards/interactive.png"  class="imgClass">
+                <span>{{'BonusPointUnion.BonusPointRules.InteractsBonusPoint'|translate}}</span>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

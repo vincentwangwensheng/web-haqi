@@ -1,0 +1,205 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <div class="top-bg accent"></div>
+    <div class="center" fusePerfectScrollbar>
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{title.get(operation)}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-raised-button *ngIf="operation === 'detail'" (click)="editProject()" class="w-button shallow-button">
+                    编辑
+                </button>
+                <button *ngIf="operation === 'create'" mat-raised-button (click)="addSaveProject()" class="w-button shallow-button"
+                        [disabled]="!(itemInfo['index']===itemList.length)" [style.cursor]="itemInfo['index']===itemList.length? 'pointer': 'not-allowed'">
+                    保存
+                </button>
+                <button *ngIf="operation === 'edit'" mat-raised-button (click)="editSaveProject()" class="w-button shallow-button">
+                    保存
+                </button>
+                <button mat-raised-button (click)="goBack()" class="w-button">
+                    取消
+                </button>
+            </div>
+        </div>
+        <div class="content pb-8 h-100-p w-100-p">
+          <mat-card class="w-100-p h-100-p pt-20 px-24 pl-0">
+            <div class="w-100-p h-100-p" fxLayout="row" fxLayoutAlign="start start">
+                <!-- 左侧边栏 -->
+                <div fxFlex="15" class="h-100-p">
+                    <div class="tabsContent">
+                        <app-tabs-vertical #verticalComponent [itemInfo]="itemInfo" [itemList]="itemList" [tabsForbid]="true" (sendItemInfo)="sendItemInfo($event)"></app-tabs-vertical>
+                    </div>
+                </div>
+                <!-- 右侧内容区-->
+                <div fxFlex="85" class="h-100-p pl-20" id="rightContentList"  style="position: relative;">
+                    <ng-container [ngSwitch]="itemInfo.name">
+                        <ng-container *ngSwitchCase="'供应商配置'">
+                            <div class="w-100-p h-100-p">
+                                <ng-container *ngTemplateOutlet="contentFirst"></ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'库模板'">
+                            <div class="w-100-p h-100-p">
+                                <ng-container *ngTemplateOutlet="contentSecond"></ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'配置模板'">
+                            <div class="w-100-p h-100-p">
+                                <ng-container *ngTemplateOutlet="contentThird"></ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </mat-card>
+        </div>
+    </div>
+</div>
+<ng-template #contentFirst>
+    <h3>供应商</h3>
+    <form [formGroup]="templateForm">
+        <div class="contentFirstStyle">
+            <div>
+                <div>供应商：</div>
+                <div class="normal-form-fields">
+                    <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                        <mat-select formControlName="templatePluginWay">
+                            <mat-option *ngFor="let item of providerTypeList" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <div>模板名称：</div>
+                <div class="normal-form-fields">
+                    <mat-form-field appearance="outline">
+                        <input matInput formControlName="templateName">
+                        <mat-error>模板名称不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <div>模板状态：</div>
+                <div class="normal-form-fields mb-24">
+                    <mat-slide-toggle [labelPosition]="'before'" formControlName="templateStatus">
+                        {{templateForm.value['templateStatus']?'正常':'冻结'}}
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            <div style="align-items: flex-start;">
+                <div class="mb-0">关联事件：</div>
+                <div class="normal-form-fields w-60-p" style="display: flex; flex-wrap: wrap;">
+                    <ng-container *ngFor="let item of eventList">
+                        <mat-checkbox [(ngModel)]="item['value']" [ngModelOptions]="{standalone: true}" class="mr-32 mb-24">{{item['name']}}</mat-checkbox>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="saveButton">
+        <button mat-raised-button class="w-80 shallow-button" (click)="nextStep()">下一步</button>
+    </div>
+</ng-template>
+<ng-template #contentSecond>
+    <h3>公共模板库</h3>
+    <div class="h-32 w-30-p">
+        <input class="input-box w-100-p h-100-p pl-12 pr-28" [(ngModel)]="titleSearch"
+               (keyup.enter)="search($event)" (input)="search($event)" [placeholder]="'请输入标题...'">
+        <mat-icon class="search-suffix theme-color input-icon">search</mat-icon>
+    </div>
+    <div fxLayout="row" class="w-100-p">
+        <ngx-datatable #datatable fxFlexFill class="material ngx-datatable-custom" [messages]="{emptyMessage:'列表为空',totalMessage: '共计'}"
+                       [columns]="rowKey" [rows]="pageList" [offset]="page.page" [count]="page.count" [limit]="page.size"
+                       (page)="onPage($event)" [rowHeight]="40" [footerHeight]="50"
+                       [selectionType]="'single'" [externalSorting]="true" [externalPaging]="true">
+            <ngx-datatable-column [width]="100">
+                <ng-template ngx-datatable-header-template let-row="row">
+                    选用
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-row="row">
+                    <mat-radio-group [(ngModel)]="templateChecked" (ngModelChange)="getTemplateCheckedInfo()" [disabled]="operation === 'detail'">
+                        <mat-radio-button value="{{row.priTmplId}}"></mat-radio-button>
+                    </mat-radio-group>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'序号'" [width]="100">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <span>{{pageList.indexOf(row)+1+page.page*page.size}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngFor="let column of rowKey" [name]="column?.name" [canAutoResize]="true" [width]="recordColumnWidth">
+                <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                    <span style="cursor: pointer;">{{rowHeader.get(column.name)}}</span>
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <ng-container *ngIf="column?.name !== 'state'  && column?.name!=='operation'">
+                        <div>
+                            <span [matTooltip]="value" matTooltipPosition="above" >{{value + ''}}</span>
+                        </div>
+                    </ng-container>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div class="saveButton">
+        <button mat-raised-button (click)="lastStep()" class="w-80 w-button mr-12">上一步</button>
+        <button mat-raised-button class="w-80 shallow-button" (click)="nextStep()">下一步</button>
+    </div>
+</ng-template>
+<ng-template #contentThird>
+    <h3>配置模板</h3>
+    <div class="contentThirdStyle" *ngIf="templateForm.value['templatePluginWay']  === 'SUBMSGWX'">
+        <div>
+            <div>
+                <p class="mt-0"><strong>场景说明</strong></p>
+                <form [formGroup]="templateForm">
+                    <div class="normal-form-fields">
+                        <mat-form-field appearance="outline" class="w-60-p">
+                            <input matInput formControlName="templateContent">
+                            <mat-error>场景说明不能为空</mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <p class="mt-0"><strong>配置关键字</strong></p>
+                <div class="normal-form-fields w-60-p" style="display: flex; flex-wrap: wrap;flex-direction: row;">
+                    <ng-container *ngFor="let item of keyWordList">
+                        <mat-checkbox [(ngModel)]="item['value']" class="mr-44 mb-16" (ngModelChange)="getKeyWordListchecked()">{{item['name']}}</mat-checkbox>
+                    </ng-container>
+                </div>
+            </div>
+            <div>
+                <p class="mt-8"><strong>已选关键字</strong></p>
+                <div class="normal-form-fields w-60-p" style="display: flex; flex-wrap: wrap;flex-direction: row;">
+                    <ng-container *ngFor="let item of keyWordListChecked">
+                        <mat-checkbox [(ngModel)]="item['value']" class="mr-44 mb-16">{{item['name']}}</mat-checkbox>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="templateForm.value['templatePluginWay'] !== 'SUBMSGWX'">
+        <div class="w-100-p mb-32" style="max-height: 200px;overflow: hidden;">
+            <form [formGroup]="templateForm">
+                <mat-form-field class="normal-form-fields w-65-p" appearance="outline">
+                    <textarea matInput placeholder="请输入短信信息..." formControlName="templateContent"></textarea>
+                    <mat-error>信息不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+        <div class="w-100-p h-10">
+            <mat-divider class="w-98-p ml-20"></mat-divider>
+        </div>
+        <div class="w-100-p">
+            <p class="mb-8 pt-20"><strong>数据字典</strong></p>
+            <div class="w-40-p" style="max-height: 210px;background-color: #f9f8f8;padding: 10px 10px;" fusePerfectScrollbar>
+                <div fxLayout="row" fxLayoutAlign="start start" class="w-100-p" *ngFor="let item of dataDictionary;">
+                    <p fxFlex="40" class="mb-0 mt-12">{{item.name}}</p>
+                    <p fxFlex="60" class="mb-0 mt-12">{{item.value}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="saveButton">
+        <button mat-raised-button (click)="lastStep()" class="w-80 w-button">上一步</button>
+    </div>
+</ng-template>

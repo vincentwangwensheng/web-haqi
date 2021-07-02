@@ -1,0 +1,124 @@
+@import "src/@fuse/scss/fuse";
+@keyframes MyOP
+{
+  from {
+    opacity: 0.1;
+    color: #ffffff;
+  }
+  to {
+    opacity: 1;
+    color: #000000;
+  }
+}
+
+.all-Apply-de{
+  width: 100%;
+  height: 100%;
+}
+
+.dialog-application-detail-title{
+  display: flex;
+  width: 100%;
+  height: 9%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8; // #6C6C6C;
+  .app-detail-dialog-title-tips{
+    display: flex;
+    width: 93%;
+    height: 100%;
+    margin-left: 5%;
+    justify-content: space-between;
+    align-items: center;
+    .app-detail-title_dialog_{
+      font-size: 16px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+    mat-icon{
+      // cursor: pointer;
+      color: #ffffff;
+    }
+  /*  mat-icon:hover{
+      -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+      -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+    }*/
+  }
+}
+
+.application-de-form{
+  width: 100%;
+  height: 88%;
+  background-color: #FFFFFF;//#D8D8D8;
+}
+
+.application-de-form-all{
+  width: 90%;
+  height: 100%;
+  .apply-part1{
+    width: 100%;
+    height: 8%;
+  }
+  .apply-part2{
+    width: 100%;
+    height: 80px;
+    animation: MyOP 1s linear;
+    transition-duration: 1s;
+    animation-iteration-count: 1;
+  }
+  .apply-part3{
+    width: 100%;
+    height: 40px;
+    animation: MyOP 1s linear;
+    transition-duration: 1s;
+    animation-iteration-count: 1;
+    .confirm-but{
+      line-height: 28px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    button:hover{
+      box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+    }
+    .reject-but{
+      line-height: 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      background-color: #E1394E;
+      color: #FFFFFF;
+    }
+    .close-but{
+      line-height: 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      background-color: #ffffff;
+      border: 1px solid #5AB9EE;
+      color: #5AB9EE;
+    }
+  }
+}
+
+.applyContent{
+  animation: MyOP 1s linear;
+  transition-duration: 1s;
+  animation-iteration-count: 1;
+}
+
+
+.apply-des{
+  mat-form-field{
+    width: 100%;
+    height: 75px;
+  }
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      height: 75px;
+    }
+    textarea.mat-input-element {
+      padding: 0px 0;
+      margin: -6px 0;
+      height: 48px;
+    }
+  }
+}

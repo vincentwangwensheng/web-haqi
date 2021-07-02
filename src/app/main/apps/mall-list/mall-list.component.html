@@ -1,0 +1,7 @@
+<app-table-list [title]="'TagManagement.MarketingTagManagement.title'|translate" [rows]="rows" (search)="onSearch()" [checkbox]="checkbox"
+                [columns]="columns" [page]="page" [selectedRows]="selectedRows" [overPanel]="overPanel"  (dataSelect)="onSelect($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                [hasDetail]="true" (navigateDetail)="navigateDetail($event)" [createButton]="createFlag" (create)="createActivity()"
+                [selectedField]="'mallId'" [singleSelect]="singleSelect" [selectedRow]="selectedRow"
+>
+</app-table-list>

@@ -1,0 +1,111 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="allFlexMemberTe" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div class="dialog-manage-title" cdkDragHandle>
+        <div class="mat-dialog-title-tips">
+            <div ><span class="title_dialog_">{{MemberListTitle}}</span></div>
+            <div><button  mat-icon-button  id="clear_btu"	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+    </div>
+    <form [formGroup]="options" class="form-class-memberTe-all">
+        <div class="all-flex  normal-form-fields">
+            <div class="members-name">
+                <mat-form-field appearance="outline"    [floatLabel]="'always'">
+                    <mat-label>{{'BonusPointUnion.MembersList.memberName'|translate}}</mat-label><!--成员名称-->
+                    <input   matInput  autocomplete="off" required value="{{memberListSource?.memberName}}" formControlName="memberName">
+                    <mat-error  >{{'BonusPointUnion.tips.memberNameNotNull'|translate}}</mat-error><!--成员名称不能为空-->
+                </mat-form-field>
+                <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                    <mat-label>{{'BonusPointUnion.enabled'|translate}}</mat-label><!--状态-->
+                    <mat-select formControlName="enabled" >
+                        <mat-option *ngFor="let d of sysPara.StrutsSource"  [value]="d.id">{{d.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="members-ID-way ">
+                <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                    <mat-label>{{'BonusPointUnion.MembersList.memberId'|translate}}</mat-label><!--成员ID-->
+                    <input   matInput  autocomplete="off" [disabled]="true"  value="{{memberListSource?.id}}">
+                    <mat-error  >{{'BonusPointUnion.tips.memberIdNotNull'|translate}}</mat-error><!--成员ID不能为空-->
+                </mat-form-field>
+                <ng-container  *ngIf="sysPara.EditStruts !== true">
+                    <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.authMethod'|translate}}</mat-label><!--认证方式-->
+                        <input   matInput  autocomplete="off"  required value="{{memberListSource?.authMethod}}" formControlName="authMethod">
+                    </mat-form-field>
+                </ng-container>
+                <ng-container  *ngIf="sysPara.EditStruts === true">
+                    <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.authMethod'|translate}}</mat-label><!--认证方式-->
+                        <mat-select [(value)]="sysPara.authMethodName" (selectionChange)="selectAuthMethodChange()">
+                            <mat-option *ngFor="let d of sysPara.authMethodTypes"  [value]="d.name">{{d.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
+
+            </div>
+            <div class="members-url">
+                <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                    <mat-label>{{'BonusPointUnion.MembersList.urlDomainName'|translate}}</mat-label><!--接口地址/域名-->
+                    <input   matInput  autocomplete="off"  required
+                             value="{{memberListSource?.url}}" formControlName="url"
+                             onkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\u4E00-\u9FA5]/g,''))">
+                    <mat-error  >{{'BonusPointUnion.tips.urlDomainNameNotNull'|translate}}</mat-error><!--接口地址/域名不能为空-->
+                </mat-form-field>
+            </div>
+            <div class="members-ID-way">
+                <ng-container *ngIf="sysPara.selectAuthMethodStruts !== true">
+                    <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.username'|translate}}</mat-label><!--用户名-->
+                        <input   matInput  autocomplete="off"  required value="{{memberListSource?.username}}" formControlName="username">
+                        <mat-error  >{{'BonusPointUnion.tips.usernameNotNull'|translate}}</mat-error><!--用户名不能为空-->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.pwd'|translate}}</mat-label><!--密码-->
+                        <input   matInput  autocomplete="new-password"  required  [type]="sysPara.pwdType"  value="{{memberListSource?.password}}"
+                                 formControlName="password"   onkeyup="value=value.replace(/[\W]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                        <mat-icon matSuffix  color="accent" class="mat-icon-list-p" (click)="ChangePwdStruts()">
+                            <ng-container  *ngIf="sysPara.ShowPwd === true">
+                                visibility
+                            </ng-container>
+                            <ng-container  *ngIf="sysPara.ShowPwd !== true">
+                                visibility_off
+                            </ng-container>
+                        </mat-icon>
+                        <mat-error  >{{'BonusPointUnion.tips.usernameNotNull'|translate}}</mat-error><!--密码不能为空且密码最少6位-->
+                    </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="sysPara.selectAuthMethodStruts === true">
+                    <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.APPID'|translate}}</mat-label><!--APPID-->
+                        <input   matInput  autocomplete="off"  required value="{{memberListSource?.appID}}"
+                                 formControlName="appID" oninput="value=value.replace(/[\u4e00-\u9fa5]/ig,'')">
+                        <mat-error  >{{'BonusPointUnion.tips.APPIDNotNull'|translate}}</mat-error><!--APPID不能为空-->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline"   [floatLabel]="'always'" >
+                        <mat-label>{{'BonusPointUnion.MembersList.AppSecret'|translate}}</mat-label><!--AppSecret-->
+                        <input   matInput  autocomplete="new-password"  required value="{{memberListSource?.appSecret}}" [type]="sysPara.AppSecretType"
+                                 formControlName="appSecret" oninput="value=value.replace(/[\u4e00-\u9fa5]/ig,'')">
+                        <mat-icon matSuffix  color="accent" class="mat-icon-list-p" (click)="ChangeAppSecretStruts()">
+                            <ng-container  *ngIf="sysPara.showAppSecret === true">
+                                visibility
+                            </ng-container>
+                            <ng-container  *ngIf="sysPara.showAppSecret !== true">
+                                visibility_off
+                            </ng-container>
+                        </mat-icon>
+                        <mat-error  >{{'BonusPointUnion.tips.AppSecretNotNull'|translate}}</mat-error><!--AppSecret不能为空-->
+                    </mat-form-field>
+                </ng-container>
+            </div>
+            <div class="members-btu ">
+                <!--<ng-container *ngIf="sysPara.EditStruts !== true" >-->
+                    <!--<button   mat-raised-button color="accent"  (click)="changeEditSave()" [disabled]="btuDis"  fxFlex="15">{{'BonusPointUnion.edit'|translate}}</button>&lt;!&ndash;编辑&ndash;&gt;-->
+                <!--</ng-container>-->
+                <ng-container  *ngIf="sysPara.EditStruts === true">
+                    <button   mat-raised-button color="accent" (click)="toSaveEdit()" [disabled]="btuDis" fxFlex="15">{{'BonusPointUnion.save'|translate}}</button><!--保存-->
+                </ng-container>
+                <button   mat-raised-button color="accent" mat-dialog-close fxFlex="15" class="ml-12">{{'BonusPointUnion.cancel'|translate}}</button><!--取消-->
+            </div>
+        </div>
+    </form>
+</div>
+

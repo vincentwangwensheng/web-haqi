@@ -1,0 +1,573 @@
+
+<div class="template-allFlex-content">
+    <form class="cou-form" [formGroup]="options">
+    <div class="template-content-left_me ">
+
+        <div class="template-left-coupon-up " >
+            <!--券来源-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="securities-rules-coupon-source normal-form-fields">
+                <ng-container *ngIf="systemParameter.CouponAdd === false">
+                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                        <mat-label>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.source'|translate}}</mat-label>
+                        <input   matInput  formControlName="source"  [disabled]="true"> <!-- value="{{CouponMaintainDataSource?.source}}"  -->
+                    </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="systemParameter.CouponAdd === true">
+                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                        <mat-label>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.source'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                        <mat-select formControlName="source"  (selectionChange)="ChangeSourceType()" > <!-- [(ngModel)]="systemParameter.CouponMaintainSource"  -->
+                            <mat-option *ngFor="let d of CouponSource" [value]="d.id">{{d.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
+
+            </div>
+        </div>
+        <div class="template-left-coupon-down ">
+
+
+                <!--左侧上半部分-->
+                <div class="securities-rules-left-down-up-f">
+                    <!--外部ID和名称-->
+                    <div   [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="securities-rules-id-name normal-form-fields">
+                        <mat-form-field appearance="outline" [floatLabel]="'always'">
+                            <mat-label>{{'ElectronicVoucherManagement.PageTwice.name'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                            <input   matInput    autocomplete="off"  value="{{CouponMaintainDataSource?.name}}"  formControlName="name">
+                            <mat-error  >{{'ElectronicVoucherManagement.AddSecuritiesRules.Tips_name'|translate}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                            <mat-label>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.OutId'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                            <input  matInput   autocomplete="off" id="CouponMaintainOutId"  value="{{CouponMaintainDataSource?.outId}}"  formControlName="outId">
+                            <mat-error  >{{'ElectronicVoucherManagement.AddSecuritiesRules.Tips_OutId'|translate}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- 券满减相关-->
+                    <div   [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="securities-rules-coupon-amount">
+                        <div  class="securities-rules-coupon-amount-select normal-form-fields" >
+                            <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                                <mat-label>{{'ElectronicVoucherManagement.PageTwice.rule'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                <mat-select  (selectionChange)="changeRuleTypeDesc()"  formControlName="rule"><!-- RuleType -->
+                                    <mat-option *ngFor="let d of CouponType" [value]="d.id" >{{d.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="securities-rules-keyboard_arrow_right">
+                            <mat-icon color="accent">keyboard_arrow_right</mat-icon>
+                        </div>
+                        <!-- 满减券 -->
+                        <ng-container *ngIf="CouponMaintainDataSource?.rule === 'FULL_BREAK_DISCOUNT'">
+                            <div class="securities-rules-coupon-amount-input normal-form-fields" >
+                                <mat-form-field appearance="outline" [floatLabel]="'always'"  >
+                                    <mat-label>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.FullAmount'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                    <input   matInput   autocomplete="off" value="{{CouponMaintainDataSource?.threshold}}" oninput="value=value.replace(/[^\d]/g,'')" formControlName="threshold">
+                                    <mat-error  >{{'ElectronicVoucherManagement.AddSecuritiesRules.Tips_Threshold'|translate}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                                    <mat-label>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.Reduction'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                    <input   matInput  autocomplete="off" value="{{CouponMaintainDataSource?.amount}}" oninput="value=value.replace(/[^\d]/g,'')" formControlName="amount">
+                                    <mat-error  >{{'ElectronicVoucherManagement.AddSecuritiesRules.Tips_amount'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                        <!-- 现金券 -->
+                        <ng-container *ngIf="CouponMaintainDataSource?.rule === 'CASH'">
+                            <div class="securities-rules-coupon-Reduction-amount-input normal-form-fields">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                                    <mat-label>{{'ElectronicVoucherManagement.AddSecuritiesRules.CouponAmount'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                    <input   matInput   autocomplete="off" value="{{CouponMaintainDataSource?.amount}}"  oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="amount">
+                                    <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                        <!-- 商品券 -->
+                        <ng-container *ngIf="CouponMaintainDataSource?.rule === 'COUPON_OF_GOODS'">
+                            <div class="securities-rules-coupon-Reduction-amount-input normal-form-fields">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" >
+                                    <mat-label>￥{{'ElectronicVoucherManagement.AddSecuritiesRules.value'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                    <input   matInput   autocomplete="off" value="{{CouponMaintainDataSource?.amount}}"  oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="amount">
+                                    <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--领取有效期-->
+                    <div  [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}"  class="securities-rules-coupon-ReceiveTime normal-form-fields">
+                         <app-material-date-picker #StartTime
+                                                   (sourceDate)="onSourceDate($event,endTime , StartTime  , 'timeBegin')"
+                                                   [floatLabel]="'always'" [config]="configStartTwo"
+                                                   [label]="'ElectronicVoucherManagement.PageTwice.timeBegin'|translate" class="date-picker-w"
+                                                   [timeControl]="options.get('timeBegin')"
+                         >
+                         </app-material-date-picker>
+                         <app-material-date-picker #endTime
+                                                   (sourceDate)="onSourceDate($event,endTime , StartTime  , 'timeEnd')" [floatLabel]="'always'"
+                                                   [config]="configEndTwo" [label]="'ElectronicVoucherManagement.PageTwice.timeEnd'|translate" class="date-picker-w"
+                                                   [timeControl]="options.get('timeEnd')"
+                         >
+                         </app-material-date-picker>
+                     </div>
+                    <!--固定核销期限相关-->
+                    <div [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" class="securities-rules-coupon-time ">
+                        <div class="securities-rules-coupon-time-select normal-form-fields" id="securities-rules-coupon-time-select-id">
+                            <mat-form-field appearance="outline" [floatLabel]="'always'" ><!--电子券核销有效期-->
+                                <mat-label>{{'ElectronicVoucherManagement.AddSecuritiesRules.CouponTermOfValidity'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                <mat-select (selectionChange)="changeCouponTermOfValidity()"  formControlName="expireRule">
+                                    <mat-option *ngFor="let d of CouponTermOfValiditySource" [value]="d.id" >{{d.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="securities-rules-coupon-time-keyboard_arrow_right">
+                            <mat-icon color="accent">keyboard_arrow_right</mat-icon>
+                        </div>
+                        <div class="securities-rules-coupon-time-input-time ">
+                            <ng-container *ngIf="systemParameter?.timeOrDay">
+                                <div class="securities-rules-coupon-time-input-time-mat-form-filed normal-form-fields" id="mat_form_field_input_date_StartTime" >
+
+                                    <app-material-date-picker #expireRuleTimeBegin
+                                                              (sourceDate)="onSourceDate($event,expireRuleTimeEnd , expireRuleTimeBegin , 'timeBegin')"
+                                                              [config]="configStart" [floatLabel]="'always'"
+                                                              [label]="'ElectronicVoucherManagement.PageTwice.expireRuleTimeBegin'|translate"
+                                                              class="date-picker-w"
+                                                              [timeControl]="options.get('expireRuleTimeBegin')"
+                                    >
+                                    </app-material-date-picker>
+                                    <app-material-date-picker #expireRuleTimeEnd
+                                                              (sourceDate)="onSourceDate($event,expireRuleTimeEnd , expireRuleTimeBegin  , 'timeEnd')"
+                                                              [floatLabel]="'always'"
+                                                              [config]="configEnd"
+                                                              [label]="'ElectronicVoucherManagement.PageTwice.expireRuleTimeEnd'|translate"
+                                                              class="date-picker-w"
+                                                              [timeControl]="options.get('expireRuleTimeEnd')"
+                                    >
+                                    </app-material-date-picker>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="!systemParameter?.timeOrDay">
+                                <div class="securities-rules-coupon-time-input-time-slot"  >
+                                    <span  id="time-slot-display-x-y"  >{{'ElectronicVoucherManagement.AddSecuritiesRules.AfterIssuance'|translate}}</span>
+                                    <div class="number-add-remove normal-form-fields "   id="number-add-remove-">
+                                        <input type="text" id="inputCouponNumber"  autocomplete="off" oninput="value=value.replace(/[^\d]/g,'')"
+                                               value="{{AfterAddSource?.inputCouponNumber===0? '': AfterAddSource?.inputCouponNumber }}"
+                                               ngDefaultControl  formControlName="expireRuleMinute">
+                                        <div class="mat-display-color-2"   [ngClass]="{'disable-point': systemParameter.divDisabled}">
+                                            <mat-icon class="mat-display-color-4"  id="mat-icon-id-remove"
+                                                      (mousedown)="AddCouponNumber('removeDown')" (mouseup)="AddCouponNumber('removeUp')" (mouseleave)="AddCouponNumber('removeUp')"  (click)="AddCouponNumber('remove')">
+                                                remove
+                                            </mat-icon>
+                                        </div>
+                                        <div class="mat-display-color-1"   [ngClass]="{'disable-point': systemParameter.divDisabled}" >
+                                            <mat-icon class="mat-display-color-3" id="mat-icon-id-add"
+                                                      (mousedown)="AddCouponNumber('AddDown')" (mouseup)="AddCouponNumber('AddUp')" (mouseleave)="AddCouponNumber('AddUp')"   (click)="AddCouponNumber('add')">
+                                                add
+                                            </mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="securities-rules-coupon-time-input-date normal-form-fields">
+                                    <mat-form-field appearance="outline"  [floatLabel]="'always'" id="mat-form-field-input-date" >
+                                        <mat-label>{{'ElectronicVoucherManagement.AddSecuritiesRules.Cycle'|translate}}<!--<span class="start-color-w-h">*</span>--></mat-label>
+                                        <mat-select  formControlName="expireRuleDays">
+                                            <mat-option *ngFor="let d of CouponDays" [value]="d.id" >{{d.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--左侧下半部分-->
+                <div class="securities-rules-left-down-down-f">
+                    <div class="template-left-down-down-f-w">
+                      <!--  <mat-divider></mat-divider>-->
+                        <!--券面图案-->
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}"  class="securities-rules-left-down-down-upload-img v-c-p-t">
+                            <div class="securities-rules-left-down-down-upload-img-title">
+                                <span class="securities-rules-left-down-down-span-color">
+                                    {{'ElectronicVoucherManagement.AddSecuritiesRules.CouponPattern'|translate}}</span><!--<span class="start-color-w-h">*</span>-->
+                            </div>
+                            <div class="ready-upload-part">
+                                <div class="up-input-btu" ><!--上传-->
+                                    <button mat-raised-button color="accent"
+                                            (click)="openUploadImgDialog(uploadImgDialog)" class="up-input-btu-btu"  ngDefaultControl
+                                            [disabled]="systemParameter?.CouponMaintainUPIMGisabled"><img src="assets/images/cards/upLoad.png" >
+                                        {{'ElectronicVoucherManagement.AddSecuritiesRules.upload'|translate}}</button>
+                                </div>
+                                <div class="preview-img"><!--预览-->
+                                    <button mat-raised-button (click)="openPreviewDialog(previewImgDialog)"  class="preview-up-input-btu-btu"  ngDefaultControl
+                                            [disabled]="systemParameter?.imgShow"><mat-icon color="accent">insert_photo</mat-icon>
+                                        <span class="span-accent-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.preview'|translate}}</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--会员标签 改会员限制-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}" class="securities-rules-left-down-down-MembershipTag">
+                            <div class="securities-rules-left-down-down-MembershipTag-title"><!--会员标签改会员限制-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.NumberLimit'|translate}}</span>
+                            </div>
+                            <div class="insert-reduce-btu">
+                                <div class="insert-reduce-btu-btu">
+                                    <!--
+                                    openNumberAndOperationDialog(MemberTagDialog)
+                                    openDialog(FormLimitationDialog , 'FormLimitationDialog_' , 'BusinessNumberTag' , 'BusinessLabel' , 'BusinessString' , 'BusinessLabelPre' , 'bizType')
+                                    couponNumberTag
+                                    -->
+                                    <button mat-raised-button color="accent"
+                                            (click)="openDialog(MemberTagDialog , 'MemberTagDialog_' , 'CouponNumberTag' , 'NumberLabel' , 'NumberString' , 'NumberLabelPre' , 'level' , 'levelName')"
+                                            ngDefaultControl
+                                            [disabled]="systemParameter?.CouponMaintainOutIdDisabled">
+                                        <img src="assets/images/cards/insertAndReduce.png">{{'ElectronicVoucherManagement.AddSecuritiesRules.IncreaseAndReduce'|translate}}</button>
+                                </div>
+                                <div class="insert-reduce-label"  >
+                                        <span  [matTooltip]="tagSource.NumberString">
+                                         <ng-container  *ngFor="let label of tagSource.NumberLabel ; index as k; ">
+
+                                            <ng-container *ngIf="k !== (tagSource.NumberLabel.length - 1)">
+                                               {{label.levelName}},
+                                            </ng-container>
+                                            <ng-container *ngIf="k === (tagSource.NumberLabel.length - 1)">
+                                                {{label.levelName}}
+                                            </ng-container>
+                                         </ng-container>
+                                        </span>
+                                </div>
+                                <ng-container *ngIf="tagSource?.NumberLabelPre === true">
+                                    <div class="insert-reduce-preview">
+                                        <button  mat-raised-button (click)="openPreDetailMatDialog(PreDetailMatDialog , tagSource?.NumberString)">预览</button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                    </div>
+                        <!--领取总量-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1100ms',duration:'600ms'}}" class="cou-batch ">
+                            <div class="batch-one"><!--领取总量-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.TotalCollection'|translate}}</span>
+                            </div>
+                            <div class="batch-two mat-point-s">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput autocomplete="off" required value="" oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="maxPickup">
+                                    <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--单日领取-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}" class="cou-batch ">
+                            <div class="batch-one"><!--单日领取-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.SingleDayCollection'|translate}}</span>
+                            </div>
+                            <div class="batch-two mat-point-s">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput autocomplete="off" required value="" oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="maxPickupDaily">
+                                    <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 退款退券-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1300ms',duration:'600ms'}}" class="securities-rules-left-down-down-LimitationOfReceipt">
+                            <div class="securities-rules-left-down-down-LimitationOfReceipt-title"> <!--退款退券-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.returnAfterRefund'|translate}}</span><!--<span class="start-color-w-h">*</span>-->
+                            </div>
+                            <div class="securities-rules-left-down-down-radio-group">
+                                <section class="section-mat-checkbox">
+                                    <mat-checkbox
+                                            [checked]="CheckBoxStruts?.returnAfterRefundFalse"
+                                            [labelPosition]="'before'"
+                                            (change)="changeCheckBox('no', $event , 'returnAfterRefundTrue' , 'returnAfterRefundFalse' , 'canRefund')"
+                                            [disabled]="systemParameter?.CouponMaintainOutIdDisabled"
+                                    >
+                                        {{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.no'|translate}}
+                                    </mat-checkbox>
+                                    <mat-checkbox
+                                            class="mat-checkbox-yes-no"
+                                            [checked]="CheckBoxStruts?.returnAfterRefundTrue"
+                                            [labelPosition]="'before'"
+                                            (change)="changeCheckBox('yes', $event , 'returnAfterRefundTrue' , 'returnAfterRefundFalse' , 'canRefund')"
+                                            [disabled]="systemParameter?.CouponMaintainOutIdDisabled"
+                                    >
+                                        {{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.yes'|translate}}
+                                    </mat-checkbox>
+
+                                </section>
+                            </div>
+                        </div>
+
+                        <!-- 支持转送-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1400ms',duration:'600ms'}}"  class="securities-rules-left-down-down-LimitationOfReceipt">
+                            <div class="securities-rules-left-down-down-LimitationOfReceipt-title"> <!--支持转送-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.CanGif'|translate}}</span><!--<span class="start-color-w-h">*</span>-->
+                            </div>
+                            <div class="securities-rules-left-down-down-radio-group">
+                                <section  id="CanGift" class="section-mat-checkbox">
+                                    <mat-checkbox
+
+                                            [checked]="CheckBoxStruts?.CouponCanGifNO"
+                                            [labelPosition]="'before'"
+                                            (change)="changeCheckBox('no', $event , 'CouponCanGifYes' , 'CouponCanGifNO' , 'CanGif')"
+                                            [disabled]="systemParameter?.CouponMaintainOutIdDisabled"
+                                    >
+                                        {{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.no'|translate}}
+                                    </mat-checkbox>
+                                    <mat-checkbox
+                                            class="mat-checkbox-yes-no"
+                                            [checked]="CheckBoxStruts?.CouponCanGifYes"
+                                            [labelPosition]="'before'"
+                                            (change)="changeCheckBox('yes', $event , 'CouponCanGifYes' , 'CouponCanGifNO' , 'CanGif')"
+                                            [disabled]="systemParameter?.CouponMaintainOutIdDisabled"
+                                    >
+                                        {{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.yes'|translate}}
+                                    </mat-checkbox>
+
+                                </section>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-60-p">
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="30">
+                                    <span class="securities-rules-left-down-down-span-color">领取转送次数</span>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="45" class="mat-point-s">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'" class="w-100-p">
+                                        <input   matInput autocomplete="off"  oninput="value=value.replace(/[^\d]/g,'')"
+                                                 formControlName="maxGift">
+                                        <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <!--支持回收-->
+                        <!--<div [@animate]="{value:'*',params:{y:'100%',delay:'1500ms',duration:'600ms'}}"  class="securities-rules-left-down-down-LimitationOfReceipt">-->
+                            <!--<div class="securities-rules-left-down-down-LimitationOfReceipt-title">&lt;!&ndash;支持回收&ndash;&gt;-->
+                                <!--<span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.CanReturn'|translate}}</span>&lt;!&ndash;<span class="start-color-w-h">*</span>&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--<div class="securities-rules-left-down-down-radio-group">-->
+                                <!--<section  id="Recycling" class="section-mat-checkbox">-->
+                                    <!--<mat-checkbox-->
+                                            <!--[checked] = "CheckBoxStruts?.CouponCanReturnNo"-->
+                                            <!--[labelPosition]="'before'"-->
+                                            <!--(change)="changeCheckBox('no', $event , 'CouponCanReturnYes' , 'CouponCanReturnNo' , 'CanReturn')"-->
+                                            <!--[disabled]="systemParameter?.CouponMaintainOutIdDisabled"-->
+
+                                    <!--&gt;-->
+                                        <!--{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.no'|translate}}-->
+                                    <!--</mat-checkbox>-->
+                                    <!--<mat-checkbox-->
+                                            <!--class="mat-checkbox-yes-no"-->
+                                            <!--[checked]="CheckBoxStruts?.CouponCanReturnYes"-->
+                                            <!--[labelPosition]="'before'"-->
+                                            <!--(change)=" changeCheckBox('yes', $event , 'CouponCanReturnYes' , 'CouponCanReturnNo', 'CanReturn')"-->
+                                            <!--[disabled]="systemParameter?.CouponMaintainOutIdDisabled"-->
+                                    <!--&gt;-->
+                                        <!--{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.yes'|translate}}-->
+                                    <!--</mat-checkbox>-->
+
+                                <!--</section>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--业态限制-->
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1600ms',duration:'600ms'}}" class="securities-rules-left-down-down-MembershipTag">
+                            <div class="securities-rules-left-down-down-MembershipTag-title"><!--业态限制-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.bizTypeLimit'|translate}}</span><!--<span class="start-color-w-h">*</span>-->
+                            </div>
+                            <div class="insert-reduce-btu">
+                                <div class="insert-reduce-btu-btu" >
+                                    <!--  openDialog(Dialog , styleClass)     openFormLimitationDialog(FormLimitationDialog)-->
+                                    <button mat-raised-button color="accent"
+                                            (click)="openDialog(FormLimitationDialog , 'FormLimitationDialog_' , 'BusinessNumberTag' , 'BusinessLabel' , 'BusinessString' , 'BusinessLabelPre' , 'bizType' , 'name')"
+                                             ngDefaultControl
+                                            [disabled]="systemParameter?.bizTypeDis">
+                                        <img src="assets/images/cards/insertAndReduce.png">{{'ElectronicVoucherManagement.AddSecuritiesRules.IncreaseAndReduce'|translate}}</button>
+                                </div>
+                                <div class="insert-reduce-label">
+                                    <!--bussiness 是原本的变量  改成 tagSource -->
+                                     <span  [matTooltip]="tagSource.BusinessString"  matTooltipPosition="left">
+                                         <ng-container  *ngFor="let label of tagSource.BusinessLabel ; index as k; ">
+
+                                            <ng-container *ngIf="k !== (tagSource.BusinessLabel.length - 1)">
+                                               {{label.name}},
+                                            </ng-container>
+                                            <ng-container *ngIf="k === (tagSource.BusinessLabel.length - 1)">
+                                                {{label.name}}
+                                            </ng-container>
+                                         </ng-container>
+                                        </span>
+                                </div>
+                                <ng-container *ngIf="tagSource.BusinessLabelPre === true">
+                                    <div class="insert-reduce-preview">
+                                        <button  mat-raised-button (click)="openPreDetailMatDialog(PreDetailMatDialog , tagSource.BusinessString)">预览</button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <!--店铺限制-->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1700ms',duration:'600ms'}}"  class="securities-rules-left-down-down-MembershipTag">
+                            <div class="securities-rules-left-down-down-MembershipTag-title"><!--店铺限制-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.AddSecuritiesRules.storeLimit'|translate}}</span><!--<span class="start-color-w-h">*</span>-->
+                            </div>
+                            <div class="insert-reduce-btu">
+                                <div class="insert-reduce-btu-btu" >
+                                    <!--
+                                     openStoreLimitationDialog(StoreLimitationDialog)
+                                     openDialog(FormLimitationDialog , 'FormLimitationDialog_' , 'BusinessNumberTag' , 'BusinessLabel' , 'BusinessString' , 'BusinessLabelPre' , 'bizType' , 'name')
+                                     storeTag
+                                     -->
+                                    <button mat-raised-button color="accent"
+                                            (click)="openDialog(StoreLimitationDialog , 'StoreLimitationDialog_' , 'StoreNumberTag' , 'StoreLabel' , 'StoreString' , 'StoreLabelPre' , 'store' , 'storeName')" ngDefaultControl
+                                            [disabled]="systemParameter?.StoreDis">
+                                        <img src="assets/images/cards/insertAndReduce.png">{{'ElectronicVoucherManagement.AddSecuritiesRules.IncreaseAndReduce'|translate}}</button>
+                                </div>
+                                <div class="insert-reduce-label">
+                                        <span  [matTooltip]="tagSource.StoreString" >
+                                         <ng-container  *ngFor="let label of tagSource.StoreLabel ; index as k; ">
+                                            <ng-container *ngIf="k !== (tagSource.StoreLabel.length - 1)">
+                                               {{label.storeName}},
+                                            </ng-container>
+                                            <ng-container *ngIf="k === (tagSource.StoreLabel.length - 1)">
+                                                {{label.storeName}}
+                                            </ng-container>
+                                         </ng-container>
+                                        </span>
+                                </div>
+                                 <ng-container *ngIf="tagSource.StoreLabelPre === true">
+                                     <div class="insert-reduce-preview">
+                                         <button  mat-raised-button (click)="openPreDetailMatDialog(PreDetailMatDialog , tagSource.StoreString)">预览</button>
+                                     </div>
+                                 </ng-container>
+                            </div>
+                        </div>
+                        <!--每单限用-->
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1800ms',duration:'600ms'}}" class="cou-batch ">
+                            <div class="batch-one"><!--单日领取-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.PerRestrictedUse'|translate}}</span>
+                            </div>
+                            <div class="batch-two mat-point-s">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput autocomplete="off" required value="" oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="limitPerOrder">
+                                    <mat-error>{{'ElectronicVoucherManagement.MustFill'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--默认券批次数量-->
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1900ms',duration:'600ms'}}"  class="cou-batch ">
+                            <div class="batch-one"><!--默认券批次数量-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.BatchNum'|translate}}</span>
+                            </div>
+                            <div class="batch-two mat-point-s">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput autocomplete="off" required  oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="capacity">
+                                    <!--默认数量为100张-->
+                                    <mat-error>{{'ElectronicVoucherManagement.BatchNum100'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.BatchNumUnit'|translate}}</span>
+                        </div>
+                        <!--券码展示有效期-->
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'2000ms',duration:'600ms'}}"  class="cou-batch">
+                            <div class="batch-one"><!--券码展示有效期-->
+                                <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.showValidity'|translate}}</span>
+                            </div>
+                            <div class="batch-two mat-point-s">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput autocomplete="off" required  oninput="value=value.replace(/[^\d]/g,'')"
+                                             formControlName="showValidity">
+                                    <!--默认数量为100张-->
+                                    <mat-error>{{'ElectronicVoucherManagement.showValidity500'|translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="securities-rules-left-down-down-span-color">{{'ElectronicVoucherManagement.showValidityUnit'|translate}}</span>
+                            <div class="cou-switch">
+                                <mat-slide-toggle
+                                        [disabled]="systemParameter.slideDisabled"
+                                        [checked]="systemParameter.slideOnOff"
+                                        (change)="changeSlide($event)">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="template-content-right_me">
+        <div  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"  class="securities-rules-right-All-flex-c">
+            <div class="quill-editor-class" >
+                <div><span>{{'ElectronicVoucherManagement.PageTwice.PageFirstAdd.CouponDesc'|translate}}</span><!--<span class="start-color-w-h">*</span>--></div>
+                <quill-editor #quillEdit [modules]="quillConfig" [styles]="{height:'160px'}" (onEditorCreated)="EditorCreated($event)"
+                               [placeholder]="'ElectronicVoucherManagement.PageTwice.PageFirstAdd.CouponDesc'|translate" formControlName="description"
+                               >
+                </quill-editor>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+
+
+<!--上传的窗口-->
+<ng-template #uploadImgDialog>
+    <app-upload-img (ImgUploadData)="realUpload($event)" [upImgSource]="upImgSource"
+                    [upTitle]="'ElectronicVoucherManagement.AddSecuritiesRules.CouponPattern'|translate"></app-upload-img>
+</ng-template>
+
+
+
+<!--上传预览的窗口-->
+<ng-template #previewImgDialog >
+    <div  cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="w-100-p h-100-p">
+        <mat-dialog-content>
+            <div class="MatDialogImgPreview_tips">
+                <img [src]="upImgSource.imgSrc" *ngIf="!upImgSource.imgLoding">
+                <mat-spinner color="accent" *ngIf="upImgSource.imgLoding"
+                             mode="indeterminate"></mat-spinner>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+
+<!--会员标签  couponNumberTag  -->
+<ng-template #MemberTagDialog >
+     <app-member-card (dataSelect)="MTagSelect($event)" [overPanel]="true"  [selectedFiled]="'levelName'"
+                      [selectedRows]="tagSource.CouponNumberTag"  [createButton]="false" ></app-member-card>
+</ng-template>
+
+<!--业态限制 bussiness tagSource-->
+<ng-template #FormLimitationDialog >
+    <app-business-type (dataSelect)="businessTagSelect($event)" [overPanel]="true"  [selectedFiled]="'name'"
+                       [selectedRows]="tagSource.BusinessNumberTag"></app-business-type>
+</ng-template>
+
+<!--店铺限制  storeTag-->
+<ng-template #StoreLimitationDialog >
+   <app-store-manage (dataSelect)="StoreSelect($event)" [overPanel]="true" [createButton]="false"  [selectedFiled]="'storeNo'"
+                       [selectedRows]="tagSource.StoreNumberTag" [checkbox]="true"></app-store-manage>
+</ng-template>
+
+
+
+<!--名称预览-->
+<ng-template #PreDetailMatDialog class="ng-template-me-dialog">
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title" cdkDragHandle>
+            <div class="mat-dialog-title-tips">
+                <div ><span class="title_dialog_">{{'ElectronicVoucherManagement.NamePreview'|translate}}</span></div> <!-- 名称预览 -->
+                <div><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="content-class mat-input-te">
+                <mat-form-field>
+                    <textarea matInput autocomplete="off"   value="{{systemParameter.ChooseLabelPre}}"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>

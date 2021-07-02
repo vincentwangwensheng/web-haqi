@@ -1,0 +1,17 @@
+@import "src/@fuse/scss/fuse";
+
+.type-panel {
+  max-height: calc(100%);
+  padding: 0 20px 0 0;
+}
+
+.type-checkbox {
+  min-width: 120px
+
+}
+
+.type-content {
+  border: 1px #cccccc solid;
+  padding: 0 12px;
+  border-radius: 5px;
+}

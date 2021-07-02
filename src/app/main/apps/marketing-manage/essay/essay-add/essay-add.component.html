@@ -1,0 +1,354 @@
+<div class="page-layout carded right-sidebar" >
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <div class="header accent p-24 title-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text" *ngIf="pageTitle == 'create'">
+                        <span>{{'marketingManage.essay.essayAdd.pageTitle'|translate}}</span>
+                    </div>
+                    <div class="subtitle secondary-text" *ngIf="pageTitle == 'detail'">
+                        <span>{{'marketingManage.essay.essayDetail.pageTitle'|translate}}</span>
+                    </div>
+                    <div class="subtitle secondary-text" *ngIf="pageTitle == 'edit'">
+                        <span>{{'marketingManage.essay.essayEdit.pageTitle'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 头部按钮 -->
+            <div class="btu-class-me"  [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <!--新建部分 *ngIf="pageTitle === 'create'"-->
+                <ng-container  *ngIf="pageTitle === 'create'">
+                    <div class="header-button">
+                        <button  mat-raised-button class="btu-bottom" color="fff" (click)="preArticle(essayPreTe)">
+                            <mat-icon style="color: #039BE5">find_in_page</mat-icon>
+                            <span style="color:#039BE5">{{'marketingManage.addMarketing.preview'|translate}}</span>
+                        </button>
+                    </div>
+                    <div class="header-button">
+                        <button (click)="onSave()" mat-raised-button class="btu-bottom" color="fff"  [disabled]="saveButtonStatus"> <mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.save'|translate}}</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button  mat-raised-button [routerLink]="'/apps/marketingManageComponent/essay'" class="btu-bottom" color="fff"  [disabled]="saveButtonStatus"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.cancel'|translate}}</span></button>
+                    </div>
+                </ng-container>
+                <!--详情部分-->
+                <ng-container  *ngIf="pageTitle === 'detail'">
+                    <div class="header-button">
+                        <button  mat-raised-button class="btu-bottom" color="fff"  (click)="preArticle(essayPreTe)">
+                            <mat-icon style="color: #039BE5">find_in_page</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.preview'|translate}}</span>
+                        </button>
+                    </div>
+                    <div class="header-button" >
+                        <button (click)="articlesAudited()" [disabled]="saveButtonStatus"  mat-raised-button  class="mManageAuditPass" color="fff">
+                            审核通过
+                        </button>
+                    </div>
+                    <div class="header-button" >
+                        <button (click)="articlesRejected(RejectReason)"  [disabled]="saveButtonStatus"  mat-raised-button  class="mManageReject" color="fff">
+                            驳回
+                        </button>
+                    </div>
+                    <div class="header-button">
+                        <button (click)="linkToEdit()"  mat-raised-button class="btu-bottom" color="fff" [disabled]="saveButtonStatus"> <mat-icon style="color: #039BE5">create</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.edit'|translate}}</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button  mat-raised-button [routerLink]="'/apps/marketingManageComponent/essay'" class="btu-bottom" color="fff" [disabled]="saveButtonStatus"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>
+                    </div>
+                </ng-container>
+                <!--编辑部分-->
+                <ng-container  *ngIf="pageTitle === 'edit'">
+                    <div class="header-button">
+                        <button  mat-raised-button class="btu-bottom" color="fff"  (click)="preArticle(essayPreTe)" >
+                            <mat-icon style="color: #039BE5">find_in_page</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.preview'|translate}}</span>
+                        </button>
+                    </div>
+                    <div class="header-button" >
+                        <button (click)="articlesAudited()" [disabled]="saveButtonStatus"  mat-raised-button  class="mManageAuditPass" color="fff">
+                            审核通过
+                        </button>
+                    </div>
+                    <div class="header-button" >
+                        <button (click)="articlesRejected(RejectReason)" [disabled]="saveButtonStatus"  mat-raised-button  class="mManageReject" color="fff">
+                            驳回
+                        </button>
+                    </div>
+                    <div class="header-button">
+                        <button (click)="onSave()"  [disabled]="saveButtonStatus"  mat-raised-button class="btu-bottom" color="fff"> <mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.save'|translate}}</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button  (click)="linkToDetail()" [disabled]="saveButtonStatus"  mat-raised-button  class="btu-bottom" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.cancel'|translate}}</span></button>
+                    </div>
+                </ng-container>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+        <!-- CONTENT -->
+        <div class="content-all" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+            <div class="content-left" fxLayout="column">
+                <div class="content-input-down" fxLayout="column">
+
+                    <form fxLayout="column"  [formGroup]="profileForm" [autocomplete]="'off'">
+                        <button style="display: none" (click)="pseudoSubmit()">pseudoSubmit</button>
+
+                        <!-- 文章名称 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="content-divClass">
+                            <mat-form-field appearance="outline" class="w-100-p" [color]="'warn'">
+                                <mat-label>{{'marketingManage.essay.essayAdd.essayTitle'|translate}}</mat-label>
+                                <input matInput  required  formControlName="articleTitle" value="{{essayDetailJson?.articleTitle}}" [readonly]="pageTitle==='detail'">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 开始时间  结束时间 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="start-end-time">
+                            <app-material-date-picker #beginTime (sourceDate)="onStartSourceDate($event,endTime)" class="w-50-p"  style="margin-right: 5px"
+                                                      [timeControl]="profileForm.get('articleStartTime')"
+                                                      [label]="'marketingManage.addMarketing.beginTime'|translate"
+                                                      [config]="configStart"
+                            ></app-material-date-picker>
+                            <app-material-date-picker #endTime (sourceDate)="onEndSourceDate($event,beginTime)" class="w-50-p"
+                                                      [timeControl]="profileForm.get('articleEndTime')"
+                                                      [label]="'marketingManage.addMarketing.endTime'|translate"
+                                                      [config]="configEnd"
+                            ></app-material-date-picker>
+                        </div>
+
+                        <!-- 文章内容 新建-->
+                        <div class="activity-regulation"  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  *ngIf="pageTitle==='create'">
+                            <quill-editor [modules]="quillConfigEssay" [styles]="{height:'160px'}" (onEditorCreated)="EditorCreatedEssay($event)"
+                                    [styles]="{height:'160px'}"
+                                    formControlName="mainBody" [(ngModel)]="editorContent"
+                            ></quill-editor>
+                        </div>
+
+                        <!-- 文章内容 详情-->
+                        <div class="activity-regulation" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" *ngIf="pageTitle!='create'">
+                            <quill-editor  [styles]="{height:'160px'}"  [modules]="quillConfigEssayDetail"  (onEditorCreated)="EditorCreatedEssayDetail($event)"
+                                           formControlName="mainBody" [(ngModel)]="editorContent" [readOnly]="pageTitle==='detail'"
+                            ></quill-editor>
+                        </div>
+
+                        <!-- 封面和摘要 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" >
+                            <p>{{'marketingManage.essay.CoverAbstract'|translate}}</p><!-- 封面和摘要-->
+                        </div>
+                        <div class="cover-abstract-div" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" fxLayout="row">
+                            <div class="cover-div" fxLayout="row" fxLayoutAlign="center center" matRipple>
+                                <!-- (click)="openUploadImgDialog(uploadImgDialog)" -->
+
+                                <div fxLayout="column" fxLayoutAlign="center center"
+                                     class="w-100-p h-100-p cover-div1">
+
+                                    <mat-icon *ngIf="!imgSrc&&pageTitle != 'detail'&&!coverImgLoading">add_circle</mat-icon>
+                                    <span *ngIf="!imgSrc&&pageTitle != 'detail'&&!coverImgLoading">{{'marketingManage.essay.AddCover'|translate}}</span>   <!-- 添加封面 -->
+                                    <img class="w-100-p h-100-p" [src]="imgSrc" *ngIf="imgSrc&&!coverImgLoading">
+                                    <mat-spinner color="accent" *ngIf="coverImgLoading"
+                                                 mode="indeterminate"></mat-spinner>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start end"
+                                     class="w-100-p h-100-p cover-div2 show-icon-hover">
+                                    <input type="file" class="w-100-p h-100-p upCoverFile" accept="image/jpg,image/png,image/gif,image/jpeg" (change)="upCoverImg($event)"
+                                           *ngIf="pageTitle != 'detail'">
+                                </div>
+
+                            </div>
+                            <!-- 选填，如果不填写会默认抓取正文的前30个字 -->
+                            <textarea [readOnly]="pageTitle === 'detail'" formControlName="fileAbstract" placeholder="{{'marketingManage.essay.tips1'|translate}}" class="abstract-textarea"></textarea>
+                        </div>
+
+                        <!-- 创建人  创建时间-->
+                        <div class="create-info" fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}" *ngIf="pageTitle == 'detail'">
+                            <mat-form-field appearance="outline" class="w-50-p" [color]="'warn'" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.essay.createdBy'|translate}}</mat-label><!-- 创建人 -->
+                                <input matInput  required value="{{essayDetailJson?.createdBy}}" readonly>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-50-p" [color]="'warn'">
+                                <mat-label>{{'marketingManage.essay.createDate'|translate}}</mat-label> <!-- 创建时间 -->
+                                <input matInput  required value="{{essayDetailJson?.createDate}}" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 修改人  修改时间-->
+                        <div class="modify-info" fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}" *ngIf="pageTitle == 'detail'">
+                            <mat-form-field appearance="outline" class="w-50-p" [color]="'warn'" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.essay.lastModifiedBy'|translate}}</mat-label>  <!-- 修改人 -->
+                                <input matInput  required value="{{essayDetailJson?.lastModifiedBy}}" readonly>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-50-p" [color]="'warn'">
+                                <mat-label>{{'marketingManage.essay.lastModifiedDate'|translate}}</mat-label><!-- 修改时间 -->
+                                <input matInput  required value="{{essayDetailJson?.lastModifiedDate}}" readonly>
+                            </mat-form-field>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="content-right" fxLayout="column">
+                <!--<div class="activity-des" fxLayout="column">-->
+                   <!--&lt;!&ndash; 支持推送 &ndash;&gt;-->
+                    <!--<div fxLayout="row" fxLayoutAlign="start center"  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="engine-push">-->
+                        <!--<div fxLayout="row" class="push-flag">-->
+                            <!--<span>{{'marketingManage.addMarketing.supportPush'|translate}}</span>-->
+                        <!--</div>-->
+                        <!--<mat-radio-group aria-label="Select an option" >-->
+                            <!--<mat-radio-button class="radio-button-right-margin" value="1" checked [labelPosition]="'before'">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>-->
+                            <!--<mat-radio-button class="radio-button-right-margin" value="2" [labelPosition]="'before'">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>-->
+                        <!--</mat-radio-group>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; 选择标签 &ndash;&gt;-->
+                    <!--<div class="activity-lable" fxLayout="row"  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">-->
+                        <!--<span style="margin-right:30px">{{'marketingManage.addMarketing.activityLabel'|translate}}</span>-->
+                        <!--<div *ngIf="pageTitle != 'detail'"  fxLayout="row" class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="editMarketingTags(tagTemplate)">-->
+                            <!--<img src="assets/images/cards/insertAndReduce.png">-->
+                            <!--<span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>-->
+                        <!--</div>-->
+                        <!--<div fxLayout="row" fxLayoutAlign="center center" class="label-content mb-16" *ngFor="let marketingTag of marketingTags; let i = index;">-->
+                            <!--<span class="mr-8 color-font">{{marketingTag.tagName}}</span><mat-icon *ngIf="pageTitle != 'detail'" class="color-font select-icon" (click)="deleteLabel(i)">cancel</mat-icon>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+            </div>
+        </div>
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+<!--封面上传的窗口-->
+<ng-template #uploadImgDialog>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title"><span class="title_dialog_">{{'marketingManage.essay.coverImg'|translate}}</span></div>
+            <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{activityImgName}}" >
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg" class="up_input" (change)="CouponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">{{'marketingManage.addMarketing.imageHints'|translate}}</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section" >
+                            <ng-container *ngIf="notUploading===false">
+                                <mat-progress-bar
+                                        class="example-margin"
+                                        color="accent"
+                                        mode="determinate"
+                                        [value]="progressLoad"
+                                >
+                                </mat-progress-bar>
+                            </ng-container>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+                <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+
+<!--营销标签页面-->
+<ng-template #tagTemplate>
+
+    <app-merchants-tag-management [tagType]="'ACTIVITY'"  [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                  (dataSelect)="onSelectTags($event)"></app-merchants-tag-management>
+</ng-template>
+
+
+<!-- 文章预览  -->
+<ng-template #essayPreTe>
+    <div fxLayout="column" fxLayoutAlign="start center" class="essayPreTeAllF" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div fxLayout="row" fxLayoutAlign="end center" class="essayPreTeTitle" cdkDragHandle>
+            <button  mat-icon-button  mat-dialog-close ><mat-icon>clear</mat-icon></button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="essayPreD">
+            <div fxLayout="row" fxLayoutAlign="center center" class="essayPreTeAll">
+                <img src="assets/images/cards/phoneImg.png" class="essayPreImg">
+                <div fxLayout="column" fxLayoutAlign="center center" class="essayPreContent">
+                    <div fxLayout="row" fxLayoutAlign="center center" class="essayPreNull1"><!-- 空div --></div>
+
+                    <!-- 主要内容项 -->
+                    <div fxLayout="column" fxLayoutAlign="start center" class="essayWeChatContent">
+
+                        <!-- 标题 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="essayTeTitle">
+                            <span class="essay-title-s">{{previewArticle.articleTitle}}</span>
+                        </div>
+
+                        <!-- 阅读量 和转发 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="essayTeReadForWard mb-8">
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="15" class=" mr-8">
+                                <img   src="assets/images/cards/eye_protection.png" fxFlex="50" class="ReadForWardImg">
+                                <span class="essayReadSpanColor" fxFlex="50">217</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  fxFlex="15">
+                                <img src="assets/images/cards/yeShare.png" fxFlex="50" class="ReadForWardImg">
+                                <span class="essayForWardSpanColor" fxFlex="50">76</span>
+                            </div>
+                        </div>
+
+                        <!-- 文章封面 -->
+                        <div fxLayout="row" fxLayoutAlign="center center" class="essayFileId mb-8">
+                            <img [src]="previewArticle.fileSrc" class="essayFileIdImg">
+                        </div>
+
+                        <!-- 内容 -->
+                        <div fxLayout="column" fxLayoutAlign="start start" class="essayTeTextContent" id="essayTeTextContent">
+                            {{previewArticle.content}}
+                        </div>
+
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="center center" class="essayPreNull2"><!-- 空div --></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 驳回原因框 -->
+<ng-template #RejectReason>
+  <div  cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+        fxLayout="column" fxLayoutAlign="start center" class="w-100-p h-100-p">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-9-p RejectReasonTitle">
+            <div fxLayout="row" fxLayoutAlign="end center"  fxFlex="16.5"><span>驳回原因</span></div>
+            <button mat-icon-button mat-dialog-close fxFlex="10" ><mat-icon>clear</mat-icon></button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center end" class="w-100-p h-65-p ReasonContent">
+            <textarea placeholder="请描述驳回原因,内容不超过200字" id="rejectReason"></textarea>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-26-p">
+            <div  fxLayout="row" fxLayoutAlign="end center"  fxFlex="90" class="h-100-p butColorClass pt-4">
+                <button mat-raised-button mat-dialog-close >驳回</button>
+            </div>
+        </div>
+  </div>
+</ng-template>

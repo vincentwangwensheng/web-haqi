@@ -1,0 +1,6 @@
+<app-table-list [title]="'积分规则'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createIntegralRule()"
+>
+</app-table-list>

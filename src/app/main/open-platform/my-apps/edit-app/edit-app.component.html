@@ -1,0 +1,248 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+            </div>
+          <div class="edit-app-btu-class"  [@animate]="{value:'*',params:{x:'100%',delay:'500ms',duration:'600ms'}}">
+                <ng-container *ngIf="ADD_DE_AUTH === 'DETAIL'">
+                    <button mat-raised-button class="btu-bottom-c" color="accent" (click)="goBack()" [disabled]="btuDis">
+                        {{'merchants.dataDetail.return'|translate}}
+                    </button>
+                </ng-container>
+            </div>
+        </div>
+        <div class="edit-app-all-flex">
+            <form class="edit-app-all-form" [formGroup]="editAppForm" [autocomplete]="'off'">
+                <!-- 左 -->
+                <div class="edit-app-flex-left">
+                    <!-- 未认证 -->
+                    <ng-container *ngIf="ADD_DE_AUTH === 'notAuth'">
+                        <div class="edit-app-left-flex">
+                            <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p h-100-p">
+                                <div fxLayout="column" fxLayoutAlign="center center" class="w-50-p" fxLayoutGap="20px"
+                                      [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                                    <mat-icon class="notAuth-mat-close" >close</mat-icon>
+                                    <span class="auth-color-span">您还未进行开发者认证</span>
+                                    <a class="notAuth-a" (click)="toAuth()">去认证</a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- 已认证 -->
+                    <ng-container *ngIf="ADD_DE_AUTH !== 'notAuth'">
+                        <div class="edit-app-left-flex">
+
+                            <!-- tocken -->
+                            <ng-container *ngIf="ADD_DE_AUTH !== 'ADD'">
+                                <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                                    <div fxLayout="row" fxLayoutAlign="start start" fxFlex="19">
+                                        <span>TokenID</span>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="edit-app-mat-point">
+                                        <span>{{Tocken}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <!-- 过期时间 -->
+                            <div fxLayout="row" fxLayoutAlign="start baseline" class="w-92-p mt-16"
+                                 [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                                <div fxLayout="row" fxLayoutAlign="start start" fxFlex="19">
+                                    <span>token过期时间</span>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="normal-form-fields">
+                                    <app-material-date-picker #expiredTime [timeControl]="editAppForm.get('expiredTime')"
+                                                              class="w-48-p pt-8"  (sourceDate)="onSourceDate(expiredTime)"
+                                                              [required]="true"  [config]="configExpiredTime"
+                                                              [label]="'过期时间'">
+
+                                    </app-material-date-picker>
+                                    <span class="ml-4 expiredTimeFont">过期时间必须大于当前时间</span>
+                                </div>
+                            </div>
+
+                            <!--&lt;!&ndash; 应用名称 &ndash;&gt;-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start start" fxFlex="15">-->
+                                    <!--<span>应用名称</span>-->
+                                <!--</div>-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="edit-app-mat-point">-->
+                                    <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="62">-->
+                                        <!--<input  matInput  >-->
+                                    <!--</mat-form-field>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash; 应用类型 &ndash;&gt;-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" >-->
+                                    <!--<span>应用类型</span>-->
+                                <!--</div>-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="edit-app-mat-point" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">-->
+                                    <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="42">-->
+                                        <!--<mat-select formControlName="type">-->
+                                            <!--<mat-option *ngFor="let d of appType" [value]="d.id" >{{d.value}}</mat-option>-->
+                                        <!--</mat-select>-->
+                                    <!--</mat-form-field>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!-- 应用接口 -->
+                            <div fxLayout="row" fxLayoutAlign="start start" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+                                <div fxLayout="row" fxLayoutAlign="start start" fxFlex="19" class="pt-12">
+                                    <span>应用接口</span>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" >
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="54" class="app-inter">
+                                        <ng-container *ngFor="let inter of appInterface">
+                                            <mat-checkbox
+                                                    class="p-8"
+                                                    [checked]="inter.checked"
+                                                    [disabled]="checkboxDis"
+                                                    (change)="appInterChange($event , inter)"
+                                            >
+                                                {{inter.value}}
+                                            </mat-checkbox>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 白名单  -->
+                            <!--<div fxLayout="row" fxLayoutAlign="start start" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}">-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start start" fxFlex="15" class="pt-4">-->
+                                    <!--<span>白名单</span>-->
+                                <!--</div>-->
+                                <!--<div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" >-->
+                                    <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="100" class="edit-app-des">-->
+                                        <!--<textarea matInput mat-autosize="false"  ></textarea>-->
+                                    <!--</mat-form-field>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!-- 提交按钮  -->
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                                <div fxLayout="row" fxLayoutAlign="start start" fxFlex="15">
+                                    <!--占位div-->
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" >
+
+                                    <!-- 新增 -->
+                                    <ng-container *ngIf="ADD_DETAIL_AUTH === 'add'">
+                                          <div fxLayout="row" fxLayoutAlign="center center" class="app-sub"  fxFlex="19" >
+                                        <button mat-raised-button fxFlex="100" color="accent" (click)="openapiSubmit()">提交</button>
+                                         </div>
+
+                                        <ng-container *ngIf="modifyA">
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-modify"  fxFlex="19">
+                                                <button mat-raised-button fxFlex="100" color="accent" (click)="cancelModify()">取消重申</button>
+                                            </div>
+
+                                        </ng-container>
+
+                                    </ng-container>
+
+                                    <!-- 待审核 -->
+                                    <ng-container *ngIf="ADD_DETAIL_AUTH === 'AUDIT'">
+                                        <ng-container *ngIf="ADD_DE_AUTH === 'DETAIL'">
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-pass"  fxFlex="19" >
+                                                <button mat-raised-button fxFlex="90" color="accent" (click)="ToExamine('pass')">通过</button>
+                                            </div>
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-reject"  fxFlex="19">
+                                                <button mat-raised-button fxFlex="90" color="accent" (click)="ToExamine('reject')">驳回</button>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="ADD_DE_AUTH !== 'DETAIL'">
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-sub"  fxFlex="19" >
+                                                <button mat-raised-button fxFlex="100" color="accent" [disabled]="true">待审核</button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <!-- 已驳回 -->
+                                    <ng-container *ngIf="ADD_DETAIL_AUTH === 'REJECTED'"> <!-- ADD_DETAIL_AUTH === 'edit'  -->
+                                        <ng-container *ngIf="ADD_DE_AUTH !== 'EDIT'">
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-sub"  fxFlex="19" >
+                                                <button mat-raised-button fxFlex="100" color="accent" [disabled]="true">已驳回</button>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="ADD_DE_AUTH === 'EDIT'">
+                                            <div fxLayout="row" fxLayoutAlign="center center" class="app-sub"  fxFlex="19" >
+                                                <button mat-raised-button fxFlex="100" color="accent" (click)="openapiSubmit()">提交</button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <!-- CERTIFIED1 -->
+                                    <ng-container *ngIf="ADD_DETAIL_AUTH === 'CERTIFIED1'"> <!-- ADD_DETAIL_AUTH === 'edit'  -->
+
+                                           <ng-container *ngIf="ADD_DE_AUTH === 'DETAIL'">
+                                               <div fxLayout="row" fxLayoutAlign="center center" class="app-activation"  fxFlex="25" >
+                                               <button mat-raised-button fxFlex="100" color="accent" >
+                                                   <mat-icon>check_circle</mat-icon>已激活
+                                               </button>
+                                                </div>
+                                           </ng-container>
+                                           <ng-container *ngIf="ADD_DE_AUTH !== 'DETAIL'">
+                                               <div fxLayout="row" fxLayoutAlign="center center" class="app-activation"  fxFlex="25" >
+                                                   <button mat-raised-button fxFlex="100" color="accent" >
+                                                       <mat-icon>check_circle</mat-icon>已激活
+                                                   </button>
+                                               </div>
+                                               <div fxLayout="row" fxLayoutAlign="center center" class="app-modify"  fxFlex="25" >
+                                                   <button mat-raised-button fxFlex="100" color="accent" (click)="modifyApp()">
+                                                       重新申请
+                                                   </button>
+                                               </div>
+                                           </ng-container>
+
+
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+
+
+                </div>
+
+                <!-- 右 -->
+                <div class="edit-app-flex-right">
+                    <div class="edit-app-right-flex">
+
+                        <ng-container *ngIf="ADD_DE_AUTH !== 'notAuth'">
+
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16"  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                                <span>Authorization(token)：</span>
+                            </div>
+                            <ng-container *ngIf="tokenDetail">
+                                <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16 "  [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">
+                                    <span class="w-100-p tokenW">{{tokenDetail}}</span>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="!tokenDetail">
+                                <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-16" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">
+                                    <span class="passFont">只有审核通过才有token</span>
+                                </div>
+                            </ng-container>
+
+
+                        </ng-container>
+
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

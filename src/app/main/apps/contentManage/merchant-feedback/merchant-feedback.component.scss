@@ -1,0 +1,46 @@
+.content-right-img {
+  width: 100px;
+  height: 110px;
+  margin-bottom: 22px;
+  background-color: #F9FDFF;
+  border: 1px #C6D1D3 dashed;
+  border-radius: 5px;
+  padding: 2px;
+  position: relative;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+  .icon-show{
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    cursor: pointer;
+  }
+}
+.reason-detail{
+  height: 70px;
+  padding: 0 10px;
+  textarea{
+    resize: none;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px solid #A1A1A1;
+  }
+}
+.img-bigger {
+  width: 300px;
+  height: 330px;
+  background-color: #F9FDFF;
+  border: 1px #C6D1D3 solid;
+  border-radius: 5px;
+  padding: 0px 8px 8px 8px;
+  position: absolute;
+  top: 220px;
+  right: 226px;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+}

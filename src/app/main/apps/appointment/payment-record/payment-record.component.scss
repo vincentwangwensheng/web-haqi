@@ -1,0 +1,12 @@
+::ng-deep {
+  #paymentRecordTeClass{
+    padding: 0!important;
+    border-radius: 8px;
+    .mat-dialog-title{
+      margin-bottom: 0px;
+    }
+    mat-dialog-content{
+      margin: 0px;
+    }
+  }
+}

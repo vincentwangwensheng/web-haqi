@@ -1,0 +1,13 @@
+
+
+
+
+
+
+
+<app-table-list [title]="'ElectronicVoucherManagement.PageTwice.title'|translate" [rows]="rows" (search)="onSearch()"
+                [singleSelect]="singleSelect" [selectedRow]="selectedRow" [resetSelect]="resetSelect"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"  [overPanel]="overPanel"  [checkbox]="checkbox" [selectedRows]="selectedRows"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)" (dataSelect)="onDataSelect($event)"
+>
+</app-table-list>

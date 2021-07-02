@@ -1,0 +1,52 @@
+<div class="page-layout carded fullwidth inner-scroll two-card">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-stroked-button [disabled]="onSaving" (click)="onSaveClick()" class="save-button">保存</button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <div class="left-content" fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p part-1"
+             fxLayout="row wrap" fxLayoutAlign="space-between start">
+        </div>
+    </div>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content"
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+    </div>
+</ng-template>

@@ -1,0 +1,94 @@
+<app-table-list [title]="'商户公告'" [rows]="rows" [columns]="columns" [page]="page" [hasDetail]="true" (navigateDetail)="getDetail($event, openDialog)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()"
+                [createButton]="true" (create)="createData(openDialog)">
+</app-table-list>
+<ng-template #openDialog>
+    <app-edit-dialog [title]="'商户公告'" (sureDo)="toSureDo()">
+        <div class="w-100-p" style="padding-top: 10px;">
+            <form [formGroup]="basicForm" class="w-100-p" fxLayout="column" fxLayoutAlign="start center">
+                <div fxLayout="row" fxLayoutAlign="space-between start" class="w-100-p">
+                    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="44">
+                        <div>公告标题</div>
+                        <mat-form-field appearance="outline" class="w-100-p">
+                            <input matInput formControlName="title">
+                            <mat-error>公告标题不能为空</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="44">
+                        <div>统治范围</div>
+                        <mat-radio-group formControlName="isAll" (ngModelChange)="getIsAll()" class="mt-8">
+                            <mat-radio-button class="mr-12" [value]=true>全体发送</mat-radio-button>
+                            <mat-radio-button class="mr-12" [value]=false [checked]="true">指定范围</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" class="w-100-p">
+                    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="44">
+                        <div>公告类型</div>
+                        <mat-form-field appearance="outline" class="w-100-p">
+                            <mat-select formControlName="informType">
+                                <mat-option [value]="'ACTIVITY'">活动</mat-option>
+                                <mat-option [value]="'INFORM'">通知</mat-option>
+                                <mat-option [value]="'OTHER'">其它</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="44">
+                        <div>通知商场</div>
+                        <mat-form-field appearance="outline" class="w-100-p">
+                            <input matInput autocomplete="off" formControlName="mallName" (click)="selectMall(mall)">
+                            <mat-error>商场不能为空</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" class="w-100-p">
+                    <div fxLayout="column" fxLayoutAlign="start start"  fxLayoutGap="10px" fxFlex="44">
+                        <div class="mb-0">发布时间</div>
+                        <app-material-date-picker #time class="datepicker mr-8" class="w-100-p" [required]="true"
+                                                  [label]="''" [config]="config" [timeControl]="basicForm.get('time')">
+                        </app-material-date-picker>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="44">
+                        <div style="margin-bottom: 6px;">通知商户</div>
+                        <div>
+                            <button fxFlex="15" mat-raised-button color="accent" class="pr-in-re-but mr-8" (click)="openStoreSelect(store)" [disabled]="!basicForm.value['mallId']">
+                                <span class="iconfont iconjiajian font-size-16 codeZJ"></span>增减
+                            </button>
+                            <span class="text-ellipsis toolSpan" style="max-width: 130px;margin-top:10px;" [matTooltip]="storeShow">
+                                {{storeShow}}
+                            </span>
+                            <button fxFlex="15" mat-raised-button (click)="openPreData(PreDetailTe)" class="ml-8">
+                                预览
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100 normal-form-fields myTextarer">
+                    <div>公告内容</div>
+                    <mat-form-field appearance="outline" class="w-100-p">
+                        <textarea matInput placeholder="请输入公告内容..." formControlName="content" class="w-100-p h-100-p"></textarea>
+                        <mat-error>公告内容不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>
+
+<ng-template #mall>
+    <app-mall-manage [singleSelect]="true" [overPanel]="true" [selectedRow]="mallSource" (dataSelect)="onSelectMallType($event)">
+    </app-mall-manage>
+</ng-template>
+
+<ng-template #store>
+    <app-store-manage [checkbox]="true" [overPanel]="true" [selectedRows]="storeSource" (dataSelect)="onSelectStoreType($event)" [mallID]="basicForm.value['mallId']">
+    </app-store-manage>
+</ng-template>
+
+<!--名称预览-->
+<ng-template #PreDetailTe >
+    <app-data-preview [previewData]="previewData"></app-data-preview>
+</ng-template>

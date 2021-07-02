@@ -1,0 +1,29 @@
+<app-table-list [title]="'ElectronicVoucherManagement.purchaseHistory.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"  (navigateDetail)="getDetail($event, MatDialogFrozen)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)">
+</app-table-list>
+<ng-template #MatDialogFrozen class="ng-template-me-dialog">
+    <div mat-dialog-title class="dialog-manage-title" [ngStyle]="{'height': hasStatus?'17%':'23%'}">
+        <div class="mat-dialog-title-tips">
+            <div><span class="title_dialog_">购买详情</span></div>
+            <div><button mat-icon-button  mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+    </div>
+    <mat-dialog-content [ngStyle]="{'height': hasStatus?'225px':'125px'}">
+        <div class="MatDialogFrozenClass" [ngStyle]="{'height': hasStatus?'177px':'77px'}">
+            <div>电子卷名称：{{detail['couponName']}}</div>
+            <div>手机号：{{detail['phone']}}</div>
+            <div>状态：{{examineStatus}}</div>
+            <div *ngIf="hasStatus">操作人：{{operator}}</div>
+            <div *ngIf="hasStatus">
+                <textarea matInput placeholder="原因描述" style="resize: none;"
+                          [(ngModel)]="detail['refundReason']" [disabled]="detail['examineStatus']==='已退款'"></textarea>
+            </div>
+        </div>
+        <div class="btu_dialog_Frozen">
+            <button mat-stroked-button class="closeButton"  mat-dialog-close  *ngIf="detail['examineStatus']!=='SUBMIT'">关闭</button>
+            <button mat-stroked-button  class="passButton" *ngIf="detail['examineStatus']==='SUBMIT'" (click)="approvingPass()">通过</button>
+            <button mat-stroked-button  class="backButton" *ngIf="detail['examineStatus']==='SUBMIT'" (click)="approvingReject()">驳回</button>
+        </div>
+    </mat-dialog-content>
+</ng-template>

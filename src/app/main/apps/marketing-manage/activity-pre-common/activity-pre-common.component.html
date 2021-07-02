@@ -1,0 +1,42 @@
+<div fxLayout="column" fxLayoutAlign="start center" class="acPreTeAllF"  cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div fxLayout="row" fxLayoutAlign="end center" class="acPreTeTitle" cdkDragHandle>
+        <button  mat-icon-button  mat-dialog-close ><mat-icon>clear</mat-icon></button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="acPreD">
+        <div fxLayout="row" fxLayoutAlign="center center" class="acPreTeAll">
+            <img src="assets/images/cards/phoneImg.png" class="acPreImg">
+            <div fxLayout="column" fxLayoutAlign="center center" class="acPreContent">
+                <div fxLayout="row" fxLayoutAlign="center center" class="acPreNull1"><!-- 空div --></div>
+
+                <!-- 主要内容项 -->
+                <div fxLayout="column" fxLayoutAlign="start center" class="acWeChatContent">
+
+                    <!-- 文章封面 -->
+                    <div fxLayout="row" fxLayoutAlign="center center" class="acFileId mb-8">
+                        <img src="{{AcPre.cover}}" class="acFileIdImg">
+                    </div>
+
+                    <!-- 标题 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" class="acTeTitle">
+                        <span class="ac-title-s">{{AcPre.name}}</span>
+                    </div>
+
+                    <!-- 优惠券-->
+                    <div fxLayout="column" fxLayoutAlign="center center" class="acCouImg">
+                      <ng-container *ngFor="let couImg of preImgSource">
+                          <img src="{{couImg.useImgBg}}" class="acCouImgPre">
+                      </ng-container>
+                    </div>
+
+                    <!-- 内容 -->
+                    <div fxLayout="column" fxLayoutAlign="start start" class="acTeTextContent" id="acTeTextContent">
+                        {{AcPre.content}}
+                    </div>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="center center" class="acPreNull2"><!-- 空div --></div>
+            </div>
+        </div>
+    </div>
+</div>

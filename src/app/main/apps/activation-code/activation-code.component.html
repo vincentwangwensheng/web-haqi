@@ -1,0 +1,84 @@
+<app-table-list #tableList [title]="'nav.terminalManage.activation'|translate" [rows]="rows" [columns]="columns"
+                [customButton]="true" [customButtonText]="'activation.create'|translate" [customButtonColor]="'blue'"
+                [page]="page" (searchClear)="onSearch()" [hasDetail]="true" [hasEnabled]="true" (search)="onSearch()"
+                (tablePaging)="onPage($event)" (navigateDetail)="onDetail($event)" (tableSort)="onSort($event)" (customButtonClick)="onCustomClick()"
+
+></app-table-list>
+<ng-template #createCode>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div
+                class="w-100-p h-48 theme-background px-12" fxLayout="row" fxLayoutAlign="start center">
+            <span>{{'activation.create'|translate}}</span>
+            <div class="h-32 w-20-p ml-32">
+                <input class="input-box w-100-p h-100-p pl-12 pr-28"
+                       (keyup.enter)="headerSearch(merchantsData)"
+                       (input)="headerSearchInput($event,merchantsData)"
+                       [placeholder]="('tableList.placeholder'|translate)+('activation.list.storeName'|translate)+'...'">
+                <mat-icon class="search-suffix theme-color input-icon">search</mat-icon>
+            </div>
+        </div>
+        <div class="w-100-p" fxLayout="row" fxLayoutAlign="start start">
+            <!--<app-table-list class="w-60-p" [overPanel]="true"-->
+            <!--[rows]="createRows"-->
+            <!--[hasHeader]="false" [columns]="createColumns" [page]="createPage" [hasDetail]="false"-->
+            <!--(search)="onCreateSearch()"-->
+            <!--(searchClear)="onCreateSearch()" (tablePaging)="onCreatePage($event)"-->
+            <!--(tableSort)="onCreateSort($event)"></app-table-list>-->
+            <app-store-manage #merchantsData class="w-60-p" [createButton]="false" [hasHeader]="false" [singleSelect]="true" (dataSelect)="onSelect($event)"
+                                [columns]="createColumns" [selectedRow]="selectedRow"
+                                [overPanel]="true"></app-store-manage>
+            <div class="w-40-p p-24">
+                <table class="right-table">
+                    <tr>
+                        <td>MallID：</td>
+                        <td>{{selectedRow?.mallId}}</td>
+                    </tr>
+                    <tr>
+                        <td>StoreId：</td>
+                        <td>{{selectedRow?.storeNo}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'activation.storeName'|translate}}</td>
+                        <td>{{selectedRow?.storeName}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'activation.count'|translate}}</td>
+                        <td>
+                            <input class="input-box"
+                                   [value]="selectedCount" (input)="onNumberInput($event)">
+                            <span class="font-size-13">
+                                &nbsp;&nbsp;{{'activation.countHolder'|translate}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{'activation.function'|translate}}</td>
+                        <td>
+                            <mat-radio-group class="radio-group w-100-p" [value]="applyApp" fxLayout="row wrap"
+                                             fxLayoutAlign="start center">
+                                <mat-radio-button *ngFor="let item of functions" [value]="item.value">
+                                    {{item.translate|translate}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </td>
+                    </tr>
+                </table>
+                <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" class="w-100-p"
+                     fxLayout="row-reverse" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <button mat-stroked-button (click)="cancel()">{{'activation.cancel'|translate}}</button>
+                    <button mat-stroked-button (click)="ensure(tableList)" class="blue-button">
+                        {{'activation.ensure'|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #frozeConfirm>
+    <app-confirm-dialog [title]="'confirmTip'|translate"
+                        [content]="'activation.frozeConfirm'|translate"></app-confirm-dialog>
+</ng-template>
+<ng-template #thawConfirm>
+    <app-confirm-dialog [title]="'confirmTip'|translate"
+                        [content]="'activation.thawConfirm'|translate"></app-confirm-dialog>
+</ng-template>

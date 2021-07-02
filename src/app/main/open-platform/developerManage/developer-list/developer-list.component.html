@@ -1,0 +1,7 @@
+<app-table-list [title]="'open.developer.list'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()" [createButton]="createButton"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)"
+
+>
+</app-table-list>
+<!--  (create)="createAuth()" -->

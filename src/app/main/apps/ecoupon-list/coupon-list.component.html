@@ -1,0 +1,8 @@
+
+<app-table-list [title]="'ElectronicVoucherManagement.PageFirst.title'|translate" [rows]="rows"
+                 [hasDetail]="false" (search)="onSearch()" (tableSort)="onSort($event)"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)"
+
+>
+</app-table-list>

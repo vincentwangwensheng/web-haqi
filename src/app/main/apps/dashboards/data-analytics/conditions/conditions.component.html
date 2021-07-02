@@ -1,0 +1,54 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="p-0">
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <!--<button mat-icon-button disabled></button>-->
+        <!--{{node.name}}-->
+        <ng-container *ngIf="node.name === 'dateFlag'">
+            <p>
+                parameter: 日期
+                <input #input id="days" value="" class="w-160 my-4 p-0"/>
+                <button (click)="onClick(input.value)">提交</button>
+            </p>
+        </ng-container>
+       <ng-container *ngIf="node.name === 'yearFlag'">
+           <p>
+               <mat-form-field>
+                   <input #inputYear matInput [matDatepicker]="dp" placeholder="Year" [formControl]="date" readonly>
+                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                   <mat-datepicker #dp
+                                   startView="multi-year"
+                                   (yearSelected)="chosenYearHandler($event, dp)">
+                   </mat-datepicker>
+               </mat-form-field>
+               <button (click)="onClickYear(inputYear.value)">提交</button>
+           </p>
+        </ng-container>
+        <ng-container *ngIf="node.name === 'yearWeekFlag'">
+            <p>
+                <mat-form-field>
+                    <input #inputYearWeek matInput [matDatepicker]="dp1" placeholder="Year" [formControl]="date1" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                    <mat-datepicker #dp1
+                                    startView="multi-year"
+                                    (yearSelected)="chosenYearWeekHandler($event, dp1)">
+                    </mat-datepicker>
+                </mat-form-field>
+                <button (click)="onClickYearWeek(inputYearWeek.value)">提交</button>
+            </p>
+        </ng-container>
+    <!--  <div>
+      <input value="20190102"/>
+      </div>-->
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button>
+        {{node.name}}
+    </mat-tree-node>
+</mat-tree>

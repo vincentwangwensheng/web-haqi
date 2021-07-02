@@ -1,0 +1,316 @@
+<div class="page-layout carded fullwidth inner-scroll two-card">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">商业预测分析</h2>
+            <!--<div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">-->
+            <!--<button mat-stroked-button [disabled]="onSaving" (click)="onSaveClick()" class="save-button">保存</button>-->
+            <!--<button mat-raised-button (click)="goBack()" class="back-button">取消</button>-->
+            <!--</div>-->
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card fusePerfectScrollbar
+                      fxLayout="column"
+                      fxLayoutAlign="start start"
+                      class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card fusePerfectScrollbar
+                      fxLayout="column"
+                      fxLayoutAlign="start start"
+                      class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <div class="left-content" fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p part-1"
+             fxLayout="column" fxLayoutAlign="start start">
+            <div class="normal-form-fields w-100-p" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+                <span class="font-size-16 secondary-text">参考历史</span>
+                <div class="w-100-p" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <mat-form-field appearance="outline" class="w-48-p">
+                        <mat-label>活动类型</mat-label>
+                        <mat-select [value]="'DEFAULT'" (selectionChange)="onSelectChange($event)">
+                            <mat-option *ngFor="let option of activityTypes" [value]="option.type">
+                                {{option.translate}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-48-p">
+                        <mat-label>活动名称</mat-label>
+                        <input type="text" class="cursor-pointer" (focus)="openActivitySelect(activity)" matInput
+                               [formControl]="activityControl" [value]="currentActivity?.name" readonly>
+                        <mat-error *ngIf="activityControl.hasError('required')">请选择一个历史活动！</mat-error>
+                    </mat-form-field>
+                    <div *ngIf="currentActivity" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="secondary-text mr-24">活动时间</span>
+                        <span>{{currentActivity.beginTime|newDateTransform:'/'}}-{{currentActivity.endTime|newDateTransform:'/'}}</span>
+                    </div>
+                </div>
+            </div>
+            <mat-divider class="w-100-p" style="position: relative"></mat-divider>
+            <div fxLayout="row" fxLayoutAlign="start start" class="w-100-p mt-24">
+                <span class="secondary-text font-size-16 mr-24 coupon-title">电子券规则</span>
+                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <ng-container *ngFor="let coupon of currentActivity?.coupons;let i=index">
+                        <div *ngIf="!coupon['notCorrect']"
+                             [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                             class="coupon-cell cursor-pointer" [ngClass]="{'group-cell':coupon.group}"
+                             (click)="coupon.checked=!!!coupon.checked"
+                             fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                            <span *ngIf="coupon.group" class="w-100-p">分组&nbsp;:{{coupon.group}}</span>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'strategy.editInfo.couponName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                                <button mat-icon-button class="w-24 h-24 operate-button"
+                                        fxLayout="row"
+                                        fxLayoutAlign="center center">
+                                    <mat-icon class="mat-icon-20 font-weight-600"
+                                              [ngStyle]="{'color':coupon.checked?'#37a8ed':'#cccccc'}">
+                                        check_circle
+                                    </mat-icon>
+                                </button>
+                            </div>
+                            <span class="w-100-p">{{'strategy.editInfo.couponCoding'|translate}}&nbsp;:</span>
+                            <span class="w-100-p">{{coupon.number}}</span>
+                            <span class="w-100-p">{{'strategy.editInfo.couponSource'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;
+                            <ng-container [ngSwitch]="coupon.source">
+                            <span *ngSwitchCase="'BCIA_TT_CRM_30'">股份会员</span>
+                            <span *ngSwitchCase="'DEFAULT'">精准营销</span>
+                            <span *ngSwitchDefault>{{coupon.source}}</span>
+                            </ng-container>
+                        </span>
+                        </div>
+                    </ng-container>
+
+                </div>
+            </div>
+            <mat-divider class="w-100-p my-24" style="position: relative"></mat-divider>
+            <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p">
+                <span class="secondary-text font-size-16 mb-8">活动参数</span>
+                <ng-container *ngFor="let coupon of currentActivity?.coupons;let i=index">
+                    <div *ngIf="coupon.checked&&!coupon.notCorrect"
+                         [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                         class="w-100-p" fxLayout="row"
+                         fxLayoutAlign="start center">
+                        <div class="coupon-cell" [ngClass]="{'group-cell':coupon.group}"
+                             fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                            <span *ngIf="coupon.group" class="w-100-p">分组&nbsp;:{{coupon.group}}</span>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'strategy.editInfo.couponName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                            </div>
+                            <span class="w-100-p">{{'strategy.editInfo.couponCoding'|translate}}&nbsp;:</span>
+                            <span class="w-100-p">{{coupon.number}}</span>
+                            <span class="w-100-p">{{'strategy.editInfo.couponSource'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;
+                            <ng-container [ngSwitch]="coupon.source">
+                                <span class="w-100-p" *ngSwitchCase="'BCIA_TT_CRM_30'">股份会员</span>
+                                <span class="w-100-p" *ngSwitchCase="'DEFAULT'">精准营销</span>
+                                <span class="w-100-p" *ngSwitchDefault>{{coupon.source}}</span>
+                            </ng-container>
+                                </span>
+                            <!--<span class="w-100-p">有效期&nbsp;:</span>-->
+                            <!--<span class="w-100-p">{{coupon.timeBegin}}-{{coupon.timeEnd}}</span>-->
+                        </div>
+                        <div fxFlex="1 1 auto" class="h-100-p" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">发券量</span>
+                                <div fxFlex="1 1 auto">
+                                    <input #issue class="normal-input h-28 w-100-p"
+                                           (input)="filterInt($event,coupon,'customIssue')"
+                                           [value]="coupon['issue']?coupon['issue']:''">
+                                </div>
+                                <mat-icon *ngIf="coupon['customIssue']!==coupon['issue']"
+                                          (click)="resetIssue(issue,coupon)"
+                                          class="theme-hover cursor-pointer mat-icon-20">refresh
+                                </mat-icon>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">核销率</span>
+                                <div fxFlex="1 1 auto">
+                                    <input #ratio class="normal-input h-28 w-100-p"
+                                           (input)="filterFloat($event,coupon,'customRatio')"
+                                           [value]="coupon['writeOffRatio']?coupon['writeOffRatio']:''">
+                                </div>
+                                <mat-icon *ngIf="coupon['customRatio']+'%'!==coupon['writeOffRatio']"
+                                          (click)="resetRatio(ratio,coupon)"
+                                          class="theme-hover cursor-pointer mat-icon-20">refresh
+                                </mat-icon>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">券面价值</span>
+                                <span fxFlex="1 1 auto" class="text-ellipsis" [matTooltip]="(coupon.amount?coupon.amount:'')|currency:'CNY': '￥':
+                                    '1.0-0'">{{(coupon.amount?coupon.amount:'')|currency:'CNY': '￥':
+                                    '1.0-0'}}</span>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">促销金额</span>
+                                <span fxFlex="1 1 auto" [matTooltip]="(coupon['promotionAmount']?coupon['promotionAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'" class=" text-ellipsis">{{(coupon['promotionAmount']?coupon['promotionAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'}}</span>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">带动比</span>
+                                <span>{{coupon['driveRatio']?coupon['driveRatio']+'%':''}}</span>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="font-size-13 w-60">促销占比</span>
+                                <span>{{coupon['saleRatio']?coupon['saleRatio']+'%':''}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-container>
+            </div>
+            <mat-divider class="w-100-p my-24" style="position: relative"></mat-divider>
+            <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p mb-24">
+                <span class="secondary-text font-size-16 mb-8">客流参数</span>
+                <div *ngIf="currentActivity" class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                    <span *ngIf="currentActivity?.totalMembers" class="mr-24">客流量</span>
+                    <span *ngIf="currentActivity?.totalMembers" class="mr-24">{{currentActivity?.totalMembers}}</span>
+                    <!--<span class="mr-24">{{(currentActivity?.totalMembers*currentActivity?.customRatio).toFixed(0)}}</span>-->
+                    <span class="mr-24">客流变动</span>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                        <input #ratio class="normal-input h-28 w-80"
+                               (input)="filterMemberFloat($event,currentActivity,'customRatio')"
+                               [value]="currentActivity['customRatio']?currentActivity['customRatio']:''">
+                        <mat-icon *ngIf="currentActivity['customRatio']!=='1.0'"
+                                  (click)="currentActivity['customRatio']='1.0'"
+                                  class="theme-hover cursor-pointer mat-icon-20">refresh
+                        </mat-icon>
+                    </div>
+                </div>
+                <div *ngIf="currentActivity" fxLayout="row" class="w-100-p mt-16" fxLayoutAlign="space-around center">
+                    <button mat-flat-button class="operate-button" (click)="onResultClick()" color="accent">生成结果
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content"
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p part-1"
+             fxLayout="column" fxLayoutAlign="start start">
+            <div class="normal-form-fields w-100-p" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+                <span class="font-size-16 secondary-text mb-8">预测结果</span>
+                <div *ngIf="isResult" [@animate]="{value:'*',params:{opacity:0,delay:'200ms',duration:'600ms'}}"
+                     class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div *ngIf="currentActivity?.totalDriveAmount" class="w-45-p" fxLayout="column"
+                         fxLayoutAlign="start start">
+                        <span class="font-size-20 mb-24">预计带动销售额</span>
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="center center">
+                            <span class="font-size-35 text-super font-weight-600 warn-color" matTooltipPosition="above"
+                                  [matTooltip]="currentActivity?.totalDriveAmount|currency:'CNY': '￥':
+                                    '1.0-0'">{{currentActivity?.totalDriveAmount/10000000|currency:'CNY': '￥':
+                                    '1.0-2'}}</span>
+                            <span class="ml-4 font-size-13 amount-suffix">千万元</span>
+                        </div>
+                    </div>
+                    <mat-divider *ngIf="currentActivity?.totalSaleAmount||currentActivity?.totalDriveAmount"
+                                 [vertical]="true" class="h-100" style="position: relative"></mat-divider>
+                    <div *ngIf="currentActivity?.totalSaleAmount" class="w-45-p" fxLayout="column"
+                         fxLayoutAlign="start start">
+                        <span class="font-size-20 mb-8">预计销售额</span>
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="center center">
+                            <span class="font-size-35 font-weight-600 warn-color" matTooltipPosition="above"
+                                  [matTooltip]="currentActivity?.totalSaleAmount|currency:'CNY': '￥':
+                                    '1.0-0'">{{currentActivity?.totalSaleAmount/10000000|currency:'CNY': '￥':
+                                    '1.0-2'}}</span>
+                            <span class="ml-4 font-size-13 amount-suffix">千万元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-divider *ngIf="isResult" class="w-100-p my-24" style="position: relative"></mat-divider>
+            <div *ngIf="isResult" fxLayout="column" fxLayoutAlign="start start" class="w-100-p mb-24">
+                <ng-container *ngFor="let coupon of currentActivity?.selectedCoupons;let i=index">
+                    <div *ngIf="coupon.checked"
+                         [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                         class="w-100-p" fxLayout="row"
+                         fxLayoutAlign="start center">
+                        <div class="coupon-cell" [ngClass]="{'group-cell':coupon.group}"
+                             fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                            <span *ngIf="coupon.group" class="w-100-p">分组&nbsp;:{{coupon.group}}</span>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'strategy.editInfo.couponName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                            </div>
+                            <span class="w-100-p">{{'strategy.editInfo.couponCoding'|translate}}&nbsp;:</span>
+                            <span class="w-100-p">{{coupon.number}}</span>
+                            <span class="w-100-p">{{'strategy.editInfo.couponSource'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;
+                            <ng-container [ngSwitch]="coupon.source">
+                                <span class="w-100-p" *ngSwitchCase="'BCIA_TT_CRM_30'">股份会员</span>
+                                <span class="w-100-p" *ngSwitchCase="'DEFAULT'">精准营销</span>
+                                <span class="w-100-p" *ngSwitchDefault>{{coupon.source}}</span>
+                            </ng-container>
+                                </span>
+                            <!--<span class="w-100-p">有效期&nbsp;:</span>-->
+                            <!--<span class="w-100-p">{{coupon.timeBegin}}-{{coupon.timeEnd}}</span>-->
+                        </div>
+                        <div fxFlex="1 1 auto" class="h-100-p" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                            <div class="w-48-p my-4" fxLayout="column" fxLayoutAlign="start start">
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="font-size-13 w-60">发券量</span>
+                                    <span fxFlex="1 1 auto" class="text-ellipsis">{{coupon['customIssue']?coupon['customIssue']:''}}</span>
+                                </div>
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="font-size-13 w-60">券面价值</span>
+                                    <span fxFlex="1 1 auto" class="text-ellipsis" matTooltipPosition="above"
+                                          [matTooltip]="(coupon.amount?coupon.amount:'')|currency:'CNY': '￥':
+                                    '1.0-0'">{{(coupon.amount?coupon.amount:'')|currency:'CNY': '￥':
+                                    '1.0-0'}}</span>
+                                </div>
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="font-size-13 w-60">带动比</span>
+                                    <span>{{coupon['driveRatio']?coupon['driveRatio']+'%':''}}</span>
+                                </div>
+                            </div>
+                            <div class="w-48-p my-4" fxLayout="column" fxLayoutAlign="start start">
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="font-size-13 w-60">核销率</span>
+                                    <span fxFlex="1 1 auto" class="text-ellipsis">{{coupon['customRatio']?coupon['customRatio']+'%':''}}</span>
+                                </div>
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="w-60">带动销售</span>
+                                    <span fxFlex="1 1 auto" matTooltipPosition="above" [matTooltip]="(coupon['customDriveAmount']?coupon['customDriveAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'" class="warn-color text-ellipsis">{{(coupon['customDriveAmount']?coupon['customDriveAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'}}</span>
+                                </div>
+                                <div class="w-100-p my-4" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="w-60">销售额</span>
+                                    <span fxFlex="1 1 auto" matTooltipPosition="above" [matTooltip]="(coupon['customSaleAmount']?coupon['customSaleAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'" class="warn-color text-ellipsis">{{(coupon['customSaleAmount']?coupon['customSaleAmount']:'')|currency:'CNY': '￥':
+                                    '1.0-0'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #activity>
+    <app-marketing-manage [columns]="columns" [overPanel]="true" [activityType]="selectedType" [singleSelect]="true"
+                          [createButton]="false"
+                          (dataSelect)="onDataSelect($event)" [ids]="totalReviewIds" [emptyMsg]="emptyMsg"
+                          [selectedRow]="currentActivity"></app-marketing-manage>
+</ng-template>

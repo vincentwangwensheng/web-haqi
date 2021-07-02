@@ -1,0 +1,8 @@
+<app-table-list [title]="tlKey+'title'|translate" [rows]="rows" (search)="onSearch()" [checkbox]="checkbox"
+                [columns]="columns" [page]="page" [selectedRows]="selectedRows" [selectedRow]="selectedRow"
+                [singleSelect]="singleSelect" [overPanel]="overPanel" (dataSelect)="onSelect($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                [hasDetail]="true" (navigateDetail)="navigateDetail($event)" [createButton]="createButton"
+                (create)="createActivity()"
+>
+</app-table-list>

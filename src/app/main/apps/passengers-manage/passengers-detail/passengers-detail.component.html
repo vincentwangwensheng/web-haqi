@@ -1,0 +1,233 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <div class="top-bg accent"></div>
+    <div class="center" fusePerfectScrollbar>
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">会员详情</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-raised-button (click)="editProject(openDialog)" class="w-button shallow-button">
+                    编辑
+                </button>
+                <button mat-raised-button (click)="goBack()" class="w-button">
+                    取消
+                </button>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px" class="pb-8 h-100-p w-100-p">
+            <div fxFlex="28" class="h-100-p" style="overflow-x: hidden;">
+                <mat-card class="w-100-p h-100-p p-24">
+                    <ng-container *ngTemplateOutlet="contentLeft"></ng-container>
+                </mat-card>
+            </div>
+            <div fxFlex="32" class="h-100-p" style="overflow-x: hidden;">
+                <mat-card class="w-100-p h-100-p p-24">
+                    <ng-container *ngTemplateOutlet="contentCenter"></ng-container>
+                </mat-card>
+            </div>
+            <div fxFlex="40" class="h-100-p" style="overflow-x: hidden;">
+                <mat-card class="w-100-p h-100-p p-24">
+                    <ng-container *ngTemplateOutlet="contentRight"></ng-container>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #contentLeft>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px" class="w-100-p">
+        <div fxLayout="column" fxLayoutAlign="center center" class="w-100-p">
+            <div fxLayout="column" fxLayoutAlign="center center" class="w-75-p">
+                <div class="headPhoto">
+                    <img [src]="detailForm.value['avatar']" class="w-100-p h-100-p">
+                </div>
+                <p class="mb-0"><strong>{{detailForm.value['name']}}</strong></p>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-70-p">
+                <p>{{detailForm.value['id']}}</p>
+                <p>{{detailForm.value['level']}}</p>
+                <mat-slide-toggle [labelPosition]="'before'" [disabled]="true" [(ngModel)]="detailForm.value['enabled']">
+                    {{detailForm.value['enabled']?'正常':'冻结'}}
+                </mat-slide-toggle>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="basicInfo">
+                <div><img [src]="'assets/icons/member/phone.svg'" width="18" height="14">{{detailForm.value['mobile']}}</div>
+                <div><img [src]="'assets/icons/member/birthday.svg'" width="18" height="14">{{detailForm.value['birthday']}}</div>
+<!--                <div><img [src]="'assets/icons/member/store.svg'" width="16" height="12">{{detailForm.value['sourceStore']}}</div>-->
+                <div><img [src]="'assets/icons/member/fen.svg'" width="16" height="12">
+                    <span *ngIf="currentPointInfo?.point">{{currentPointInfo?.point | dataThousands}}&nbsp;分</span>
+                    <span *ngIf="!currentPointInfo?.point">0&nbsp;分</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-100-p">
+            <p><strong>标签</strong></p>
+            <div class="w-100-p tag-scroll" fxLayout="row" fxLayoutAlign="start center">
+                <mat-chip-list>
+                    <mat-chip class="tag-chip" *ngFor="let tag of detailForm.value['labs'];let i=index" [removable]="tag.selfSign" (removed)="remove(tag)">
+                        {{tag.tagName}}<mat-icon *ngIf="tag.selfSign" matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                    <button mat-raised-button class="tag-button" style="background-color: #6BD5FF!important;"
+                            fxLayout="row" fxLayoutAlign="space-around center" (click)="selectTag(tagTemplate)">
+                        <span class="iconfont iconedit mr-4"></span>
+                        <span>添加标签</span>
+                    </button>
+                </mat-chip-list>
+            </div>
+        </div>
+        <div class="w-100-p">
+            <p><strong>快捷操作</strong></p>
+            <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button class="urlButton" (click)="getRouterTo('couponPush')">优惠券发放</button>
+                <button mat-raised-button class="urlButton" (click)="getRouterTo('integralAdjustment')">积分调整</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #contentCenter>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px" class="overflowControlStoreItem" fusePerfectScrollbar>
+        <nav class="couponNav">
+            <a (click)="filterCouponInfoList(true)" [style.color]="showCoupon?'#64A4FF':'inherit'" class="mr-20">持券</a>
+            <a (click)="filterCouponInfoList(false)" [style.color]="showCoupon?'inherit':'#64A4FF'">失效</a>
+        </nav>
+        <div class="couponNavContent" *ngFor="let item of couponInfoListFilter">
+            <div>
+                <p class="mt-0">优惠券名称：</p>
+                <p class="mt-0" [matTooltip]="item['coupon']['name']" [matTooltipPosition]="'above'">{{item['coupon']['name']}}</p>
+            </div>
+            <div>
+                <p>规则ID：</p>
+                <p>{{item['coupon']['id']}}</p>
+            </div>
+            <div>
+                <p>批次ID：</p>
+                <p [matTooltip]="item['batchNumber']" [matTooltipPosition]="'above'">{{item['batchNumber']}}</p>
+            </div>
+            <div>
+                <p>领取时间：</p>
+                <p [matTooltip]="item['pickupTime']" [matTooltipPosition]="'above'">{{item['pickupTime'] | newDateTransform}}</p>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #contentRight>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="14" style="margin-bottom: 22px;">
+            请选择
+        </div>
+        <div fxFlex="76" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="normal-form-fields">
+            <app-material-date-picker #salesTimeBegin fxFlex="49"  class="mr-8" (sourceDate)="onSourceDate($event,salesTimeEnd , salesTimeBegin , 'timeBegin')"
+                                      [config]="configStart" [label]="'开始时间'" [timeControl]="form.get('salesTimeBegin')" (inputValue)="getSalesTimeBegin($event)">
+            </app-material-date-picker>
+            <app-material-date-picker #salesTimeEnd fxFlex="49" (sourceDate)="onSourceDate($event,salesTimeEnd , salesTimeBegin , 'timeEnd')"
+                                      [config]="configEnd" [label]="'结束时间'" [timeControl]="form.get('salesTimeEnd')" (inputValue)="getSalesTimeEnd($event)">
+            </app-material-date-picker>
+        </div>
+        <div fxFlex="12" class="mb-24">
+            <button (click)="cleanSearch()" class="cleanSearchButton">清空</button>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px" class="overflowControlStoreDetailItem" fusePerfectScrollbar>
+        <ng-container *ngFor="let item of pointHistoryList">
+            <div class="storeDetailItem">
+                <div fxLayout="row" fxLayoutAlign="space-between start">
+                    <p>过期时间: {{item['validTime']}}</p>
+                    <p>{{item['provider']}}</p>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-around start">
+                    <p><strong>{{item['type']}}</strong></p>
+                    <p><strong>{{item['storeId']}}</strong></p>
+                    <p [style.color]="item['changePoint']<0?'red':'inherit'"><strong>{{item['changePoint'] | dataThousands}}</strong></p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>
+
+<ng-template #openDialog>
+    <app-edit-dialog [title]="'资料变更'" (sureDo)="toSureDo()">
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="padding-top: 20px;">
+            <form [formGroup]="basicForm" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>昵称</mat-label>
+                    <input matInput autocomplete="off" formControlName="name">
+                    <mat-error>昵称不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>性别</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option [value]="'男'">男</mat-option>
+                        <mat-option [value]="'女'">女</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div fxLayout="row" class="w-100-p" fxLayoutAlign="start center" fxLayoutGap="18px">
+                    <app-material-date-picker #time class="datepicker mr-8" fxFlex="50" [required]="true"
+                                              [label]="'出生日期'" [config]="config" [timeControl]="basicForm.get('birthday')">
+                    </app-material-date-picker>
+                    <mat-slide-toggle [labelPosition]="'before'" formControlName="enabled" class="ml-24 mb-24">
+                        {{detailForm.value['enabled']?'正常':'冻结'}}
+                    </mat-slide-toggle>
+                </div>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>证件类型</mat-label>
+                    <mat-select formControlName="identity">
+                        <mat-option [value]="'identity'">身份证</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>证件号码</mat-label>
+                    <input matInput autocomplete="off" formControlName="identityNumber">
+                    <mat-error>昵称不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>
+
+<!--<div class="storeItem">-->
+<!--    <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="20px" class="itemTop">-->
+<!--        <div>-->
+<!--            <div class="storeLog"></div>-->
+<!--        </div>-->
+<!--        <div style="width:100%;">-->
+<!--            <p class="m-0"><strong>{{currentPointInfo?.mallId}}</strong></p>-->
+<!--            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px" style="width:100%;">-->
+<!--                <div fxFlex="50" style="text-align: center;">-->
+<!--                    <p>会员等级</p>-->
+<!--                    <p><strong>{{detailForm.value['level']}}</strong></p>-->
+<!--                </div>-->
+<!--                <div fxFlex="50" style="text-align: center;">-->
+<!--                    <p>会员积分</p>-->
+<!--                    <p style="font-size: 16px;"><strong>{{currentPointInfo?.point | dataThousands}}</strong></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div fxLayout="row" fxLayoutAlign="start center" class="itemBottom">-->
+<!--        <div></div><span>|</span>-->
+<!--        <div></div><span>|</span>-->
+<!--        <div></div><span>|</span>-->
+<!--        <div class="showDetailStyle"><a (click)="showDetail=!showDetail">...</a></div>-->
+<!--    </div>-->
+<!--    <div class="itemDetail" [ngClass]="showDetail?'showDesc':'hiddenDesc'" fusePerfectScrollbar>-->
+<!--        <div class="p-8">-->
+<!--            暂无详情...-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<ng-template #openDialog111>-->
+<!--    <app-edit-dialog [title]="'自定义标签'" (sureDo)="toSureDoSaveTag()">-->
+<!--        <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="height: 90px;padding-top: 20px;">-->
+<!--            <div fxFlex="25" class="mb-32">-->
+<!--                标签名称：-->
+<!--            </div>-->
+<!--            <mat-form-field appearance="outline" fxFlex="75">-->
+<!--                <input matInput autocomplete="off" [formControl]="tagName" (click)="selectTag(tagTemplate)">-->
+<!--                <mat-error>标签名称不能为空</mat-error>-->
+<!--            </mat-form-field>-->
+<!--        </div>-->
+<!--    </app-edit-dialog>-->
+<!--</ng-template>-->
+
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [tagType]="''" [isCustomTag]="true" [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                  (dataSelect)="onSelect($event)"></app-merchants-tag-management>
+</ng-template>

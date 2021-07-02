@@ -1,0 +1,10 @@
+<app-table-list [title]="'活动列表'" [rows]="rows" [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (search)="onSearch()" [customButtons]="customButtons"
+                [createButton]="createButton" [overPanel]="overPanel"
+                [selectedRow]="selectedRow" [singleSelect]="singleSelect"
+                (create)="createActivity()" (dataSelect)="onDataSelect($event)">
+</app-table-list>
+<ng-template #loadTg>
+    <app-spinner-loading [showData]="loadingShowData"></app-spinner-loading>
+</ng-template>

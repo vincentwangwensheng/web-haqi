@@ -1,0 +1,21 @@
+<app-table-list [title]="'会员反馈'" [rows]="rows" [columns]="columns" [page]="page" (navigateDetail)="getDetail($event, openDialog)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()">
+</app-table-list>
+<ng-template #openDialog>
+    <app-edit-dialog [title]="'会员反馈'" (sureDo)="toSureDo()">
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="height: 170px;padding-top: 20px;">
+            <form [formGroup]="basicForm" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>反馈内容</mat-label>
+                    <input matInput autocomplete="off" formControlName="content">
+                    <mat-error>反馈内容不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>回复</mat-label>
+                    <input matInput autocomplete="off" formControlName="replyContent">
+                    <mat-error>回复不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>

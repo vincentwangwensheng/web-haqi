@@ -1,0 +1,16 @@
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-15-p" cdkDragHandle>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-100-p">
+            <div ><span class="title_dialog_Incident">预览</span></div>  <!-- 预览 -->
+            <div><button  mat-icon-button 	 mat-dialog-close ><mat-icon [color]="'accent'">clear</mat-icon></button></div>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div class="w-100-p h-100-p input-textArea">
+            <mat-form-field>
+                <textarea matInput autocomplete="off"   value="{{previewData}}" mat-autosize="false"></textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+</div>
+

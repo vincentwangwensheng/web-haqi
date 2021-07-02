@@ -1,0 +1,285 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button *ngIf="editFlag===1" mat-stroked-button (click)="showEdit()"
+                        class="save-button">编辑
+                </button>
+                <button *ngIf="editFlag===2||editFlag===0" mat-stroked-button [disabled]="onSaving"
+                        (click)="onSaveClick()"
+                        class="save-button">保存
+                </button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <form id="infoForm" [formGroup]="storeGroup" fusePerfectScrollbar
+          autocomplete="off"
+          class="normal-form-fields left-content" fxFlexFill fxLayout="column"
+          fxLayoutAlign="start start">
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p part-1"
+             fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <mat-form-field appearance="outline">
+                <mat-label>商户POS编号</mat-label>
+                <input matInput formControlName="storeNo">
+                <mat-error *ngIf="storeGroup.get('storeNo').hasError('required')">
+                    <span>商户POS编号不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <app-auto-select class="w-48-p" [label]="'品牌名称'" [selectControl]="storeGroup.get('brandCN')"
+                             [filterOptions]="filterBrands" [secondaryField]="'english'"
+                             (selectionChange)="onSelectionChange($event,'brandEN','english')"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的品牌名称不存在！'" [requiredMsg]="'品牌名称不能为空！'"
+            ></app-auto-select>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="w-100-p part-2"
+             fxLayoutAlign="space-between start">
+            <div id="logoContent" fxLayout="row" fxLayoutAlign="start start"
+                 class="w-48-p">
+                <div [ngClass]="{'on-loading':logo.loading}"
+                     class="logo-div light-box-shadow cursor-pointer show-icon-hover">
+                    <span class="font-size-13 secondary-text"
+                          *ngIf="!storeGroup.get('logo').value&&!logo.loading">Logo</span>
+                    <img [id]="logo.id" [ngStyle]="{'display':logo.loading?'none':'block'}" class="w-100-p h-100-p"
+                         (click)="uploadImage(logo)">
+                    <mat-spinner class="w-80 h-80" color="accent" *ngIf="logo.loading"
+                                 mode="indeterminate"></mat-spinner>
+                    <mat-icon *ngIf="storeGroup.get('logo').value&&editFlag!==1&&!logo.loading" color="warn"
+                              class="logo-delete"
+                              (click)="deleteImage(logo.id)">close
+                    </mat-icon>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start start" class="w-48-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>商户名称</mat-label>
+                    <input matInput formControlName="storeName">
+                    <mat-error *ngIf="storeGroup.get('storeName').hasError('required')">
+                        <span>商户名称不能为空！</span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>显示名称</mat-label>
+                    <input matInput formControlName="showName">
+                </mat-form-field>
+            </div>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="w-100-p part-3"
+             fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <!--从权限中获取 如果商场即为该商场 如果是集团则可选旗下商场-->
+            <app-auto-select class="w-48-p" [label]="'商场编号'" [selectControl]="storeGroup.get('mallId')"
+                             [filterOptions]="filterMallById"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场编号不存在！'" [showField]="'mallId'"
+                             (selectionChange)="onSelectionChange($event,'mallName','mallName')"
+                             [secondaryField]="'mallName'" [requiredMsg]="'商场编号不能为空！'"
+            ></app-auto-select>
+            <app-auto-select class="w-48-p" [label]="'商场名称'" [selectControl]="storeGroup.get('mallName')"
+                             [filterOptions]="filterMallByName"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                             [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId','mallId')"
+                             [requiredMsg]="'商场名称不能为空！'"
+            ></app-auto-select>
+
+            <mat-form-field *ngIf="editFlag!==0" appearance="outline" class="w-48-p">
+                <mat-label>商户状态</mat-label>
+                <mat-select formControlName="rentStatus">
+                    <mat-option [value]="'LONG'">长期</mat-option>
+                    <mat-option [value]="'SHORT'">有效</mat-option>
+                    <mat-option [value]="'END'">终止</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <app-material-date-picker *ngIf="editFlag!==0" class="w-48-p"
+                                      [timeControl]="storeGroup.get('validityDate')"
+                                      [label]="'租赁结束时间'">
+            </app-material-date-picker>
+            <app-auto-select class="w-48-p" [label]="'一级业态'" [isEmptyMsg]="'当前商场下无业态！'"
+                             [selectControl]="storeGroup.get('businessType')"
+                             [filterOptions]="filterBusinessTypes"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的一级业态不存在！'" [requiredMsg]="'一级业态不能为空！'"
+                             (selectionChange)="onSelectionChange($event,'businessTypeId','id')"
+            ></app-auto-select>
+            <app-auto-select class="w-48-p" [label]="'二级业态'" [selectControl]="storeGroup.get('secondType')"
+                             [filterOptions]="filterSecondTypes" [isEmptyMsg]="'当前一级业态下无二级业态！'"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的二级业态不存在！'" [requiredMsg]="'二级业态不能为空！'"
+                             (selectionChange)="onSelectionChange($event,'secondTypeId','id')"
+            ></app-auto-select>
+            <app-auto-select class="w-48-p" [label]="'街区编号'" [selectControl]="storeGroup.get('terminalNo')"
+                             [filterOptions]="filterTerminalByNo" [isEmptyMsg]="'当前商场下无街区！'"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的街区编号不存在！'" [showField]="'terminalNo'"
+                             (selectionChange)="onSelectionChange($event,'terminalName','terminalName')"
+                             [secondaryField]="'terminalName'" [requiredMsg]="'街区编号不能为空！'"
+            ></app-auto-select>
+            <app-auto-select class="w-48-p" [label]="'街区名称'" [selectControl]="storeGroup.get('terminalName')"
+                             [filterOptions]="filterTerminalByName" [isEmptyMsg]="'当前商场下无街区！'"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的街区名称不存在！'" [showField]="'terminalName'"
+                             [secondaryField]="'terminalNo'"
+                             (selectionChange)="onSelectionChange($event,'terminalNo','terminalNo')"
+                             [requiredMsg]="'街区名称不能为空！'"
+            ></app-auto-select>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>楼层</mat-label>
+                <input matInput formControlName="floor">
+            </mat-form-field>
+            <app-auto-select class="w-48-p" [label]="'单元号'" [selectControl]="storeGroup.get('areaNo')"
+                             [filterOptions]="filterAreaNos"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的单元号不存在！'" [showField]="'areaNo'"
+                             [secondaryField]="'floor'" (selectionChange)="onSelectionChange($event,'floor','floor')"
+                             [requiredMsg]="'单元号不能为空！'"
+            ></app-auto-select>
+            <mat-form-field class="text-area w-100-p" appearance="outline">
+                <mat-label>地址描述</mat-label>
+                <textarea matInput cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="2"
+                          cdkAutosizeMaxRows="3"
+                          formControlName="addressDesc"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>商户状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>店铺评分</mat-label>
+                <mat-icon matPrefix class="mat-icon-18 mt-8">star_border</mat-icon>
+                <input matInput formControlName="score">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>客单价</mat-label>
+                <input matInput formControlName="customerPrice">
+            </mat-form-field>
+            <div class="w-48-p" fxLayout="row" fxLayoutAlign="space-between start">
+                <app-material-date-picker [config]="openConfig" [timeControl]="openTimeControl"
+                                          (inputValue)="openTimeSelect($event,'open')" class="w-40-p"
+                                          [label]="'营业时间'"></app-material-date-picker>
+                <span class="mt-12 secondary-text">至</span>
+                <app-material-date-picker [config]="closeConfig" [timeControl]="closeTimeControl"
+                                          (inputValue)="openTimeSelect($event,'close')" class="w-40-p"
+                                          [label]="'歇业时间'"></app-material-date-picker>
+            </div>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>排序权重</mat-label>
+                <input matInput formControlName="sortWeight">
+            </mat-form-field>
+            <div class="w-48-p h-48" fxLayout="row" fxLayoutAlign="start center">
+                <span class="font-size-16 secondary-text mr-12">首页置顶</span>
+                <mat-slide-toggle formControlName="overhead"></mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content" fusePerfectScrollbar
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="w-100-p mt-12"
+             fxLayout="column" fxLayoutAlign="start start">
+            <span class="secondary-text font-size-13">品牌简介</span>
+            <quill-editor [modules]="modules" [placeholder]="'品牌简介(默认继承选择品牌)'" class="w-100-p"
+                          (onEditorCreated)="onEditorCreated($event)"
+                          [formControl]="storeGroup.get('desc')"
+                          [styles]="{'border-radius':'5px',height:'200px'}"
+            ></quill-editor>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="w-100-p mt-12"
+             fxLayout="column" fxLayoutAlign="start start">
+            <span class="font-size-16">新品图</span>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="w-100-p py-4 image-content">
+                <div class="image-div show-icon-hover" *ngFor="let image of images"
+                     [ngClass]="{'on-loading':image.loading}"
+                >
+                    <img [id]="image.id" [ngStyle]="{'display':image.loading?'none':'block'}"
+                         (click)="uploadImage(image)" class="cursor-pointer w-100-p h-100-p">
+                    <mat-spinner class="image-loading" color="accent" *ngIf="image.loading"
+                                 mode="indeterminate"></mat-spinner>
+                    <mat-icon *ngIf="storeGroup.get(image.id).value&&editFlag!==1&&!image.loading" color="warn"
+                              class="image-delete cursor-pointer"
+                              (click)="deleteImage(image.id)">close
+                    </mat-icon>
+                </div>
+            </div>
+            <span class="font-size-12 secondary-text">上传图片建议比例为4：3</span>
+        </div>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" class="w-100-p mt-12"
+             fxLayout="column" fxLayoutAlign="start start">
+            <div class="w-100-p mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="secondary-text font-size-17">
+                    <span>标签</span>
+                    <span *ngIf="tags&&tags.length>0" class="font-size-15">(已选：{{tags.length}})</span>
+                </div>
+                <!--<div class="secondary-text font-size-17 mr-48">计算参考权重</div>-->
+            </div>
+            <button [disabled]="editFlag===1" class="label-button my-8 h-36" (click)="openTagSelect(tagTemplate)"
+                    color="accent"
+                    mat-raised-button>
+                <mat-icon class="mat-icon-28">add</mat-icon>
+            </button>
+            <ng-container *ngFor="let tag of tags;let i =index">
+                <div class="w-100-p my-8" fxLayout="row" fxLayoutAlign="space-between center">
+                    <button [disabled]="editFlag===1" class="label-button h-40" mat-raised-button color="accent">
+                        {{tag.tagName}}
+                    </button>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <!--<input (input)="onInput($event)">-->
+                        <button *ngIf="editFlag!==1" mat-icon-button (click)="deleteTag(i)" class="warn-hover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="w-100-p">
+            <p class="mb-0">导航图片：</p>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="w-100-p py-4 image-content">
+                <div class="image-div show-icon-hover w-300 h-240" [ngClass]="{'on-loading':navigationImage.loading}">
+                    <img [id]="navigationImage.id" [ngStyle]="{'display':navigationImage.loading?'none':'block'}"
+                         (click)="uploadNavigationImage()" class="cursor-pointer w-100-p h-100-p">
+                    <mat-spinner class="image-loading" color="accent" *ngIf="navigationImage.loading" mode="indeterminate"></mat-spinner>
+                    <mat-icon *ngIf="storeGroup.get('mapImage').value&&editFlag!==1&&!navigationImage.loading" color="warn"
+                              class="image-delete cursor-pointer" style="top: -236px; left: 273px;" (click)="deleteNavigationImage()">close
+                    </mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!--商户标签页面-->
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [selectedRows]="selectedTags" [checkbox]="true" [tagType]="'STORE'" [overPanel]="true"
+                                  [showButton]="false"
+                                  (dataSelect)="onSelectTags($event)"></app-merchants-tag-management>
+</ng-template>

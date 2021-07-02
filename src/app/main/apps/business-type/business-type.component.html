@@ -1,0 +1,6 @@
+<app-table-list [title]="'merchants.data.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page"  [selectedField]="selectedFiled"
+                [checkbox]="overPanel"  [selectedRows]="selectedRows" [overPanel]="overPanel"  (dataSelect)="onSelect($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+>
+</app-table-list>

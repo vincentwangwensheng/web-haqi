@@ -1,0 +1,7 @@
+.myTextarer{
+  ::ng-deep{
+    .mat-form-field-infix{
+      border-top-width: 6px!important;
+    }
+  }
+}

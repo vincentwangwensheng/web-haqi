@@ -1,0 +1,696 @@
+@import "src/@fuse/scss/fuse";
+@import '@swimlane/ngx-datatable/release/index.css';
+@import '@swimlane/ngx-datatable/release/themes/material.css';
+@import '@swimlane/ngx-datatable/release/assets/icons.css';
+
+%auto-resize-img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// 卡片容器
+.content-card {
+  user-select: none;
+  .h-50 {
+    height: 50px;
+  }
+}
+
+.sidebar {
+  width: 260px !important;
+  min-width: 240px !important;
+  max-width: 280px !important;
+}
+
+.toolbar {
+  z-index: 999;
+}
+
+// 取消toolbar的下划线
+.cancel-border {
+  border-bottom-color: transparent !important;
+}
+
+// 超出不滚动
+.mallContainer {
+  overflow: hidden !important;
+  position: relative;
+  transition: width 1s;
+  transition-delay: 0.5s;
+  width: 100%;
+  height: 100%;
+}
+
+/*默认情况下的transition*/
+.transition {
+  transition: transform 1.2s, opacity 0.8s;
+  transition-delay: 0.5s;
+  //transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+/** 缩放时的transition*/
+.transition-scale {
+  transition: transform 0.8s, opacity 0.8s;
+  //transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+/*mall容器长宽属性*/
+%mallCommon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/*容器下的svg打点隐藏*/
+%mallSvg {
+  svg {
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.6s;
+    //transition-delay: 0.5s;
+    //transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    transform-style: preserve-3d;
+    //隐藏地点图标
+    //& g > g {
+    //  opacity: 0;
+    //}
+    & > use {
+      transition: opacity 0.3s, transform 0.8s;
+      transform: translateY(-1000px);
+      transform-style: preserve-3d;
+      opacity: 0;
+    }
+  }
+}
+
+// 基础旋转
+.mall-basic-transform {
+  // 45度旋转
+  //transform: rotateX(70deg) rotateZ(-45deg) scale3d(0.7, 0.7, 0.7);
+  // 正北下南
+  transform: rotateX(65deg) skewX(-5deg) scale(0.7);
+  @include media-breakpoint('md') {
+    transform: rotateX(65deg) skewX(-5deg) scale(0.6);
+  }
+  @include media-breakpoint('sm') {
+    transform: rotateX(65deg) skewX(-5deg) scale(0.5);
+  }
+  @include media-breakpoint('xs') {
+    transform: rotateX(65deg) skewX(-5deg) scale(0.3);
+  }
+}
+
+// 选择地图后总体旋转
+.mall-selected {
+  transform: scale(0.7);
+  @include media-breakpoint('md') {
+    transform: scale3d(0.6, 0.6, 0.6);
+  }
+  @include media-breakpoint('sm') {
+    transform: scale3d(0.5, 0.5, 0.5);
+  }
+  @include media-breakpoint('xs') {
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+}
+
+// 基本容器样式
+:host(::ng-deep #mall) {
+  @extend %mallCommon;
+  @extend %mallSvg;
+  // svg容器样式
+  .svg-content {
+    position: absolute !important;
+    transition: transform 0.8s, top 1s ease-in-out 0.2s, opacity 0.5s;
+    transform-style: preserve-3d;
+    & > svg {
+      width: 100%
+    }
+  }
+  // svg容器选中
+  .svg-content-select {
+    top: -250px !important;
+  }
+}
+
+// 控制svg中地点标识显示
+:host(::ng-deep .display-show) {
+  svg use {
+    transition: opacity 0.8s, transform 0.8s !important;
+    transition-delay: 0.5s !important;
+    transform-style: preserve-3d !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+// 地图操作按钮
+.nav-buttons {
+  transition: transform 0.5s, visibility 0.3s;
+  transition-timing-function: ease-in-out;
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  z-index: 1000;
+  //#nav-2 {
+  //  width: 100%
+  //}
+}
+
+// 旋转控制按钮
+.rotate-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 1000;
+}
+
+// 快捷键样式
+.shortcut-keys {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  z-index: 1000;
+}
+
+// 楼层切换按钮
+.upDown-buttons {
+  position: absolute;
+  right: 0;
+  top: 100px;
+  z-index: 1000;
+
+}
+
+// 切换航站楼按钮
+.terminal-buttons {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  & button {
+    z-index: 1001;
+  }
+  & mat-icon {
+    font-size: 28px;
+    margin-right: 5px;
+  }
+}
+
+// 楼层显示和控制按钮
+.floor-buttons {
+  position: absolute;
+  z-index: 1000;
+  bottom: 20px;
+}
+
+.hide-navigation {
+  transform: translateY(60%) !important;
+  //visibility: hidden
+  button + div {
+    visibility: hidden !important;
+  }
+}
+
+.place-holder {
+  position: absolute;
+  width: 100%;
+  transition: width 0.8s;
+  transition-delay: 0.3s;
+  z-index: 998;
+  height: 100%;
+  & button {
+    width: 200px;
+    height: 200px;
+    div {
+      height: 100%;
+      width: 100%;
+      mat-icon {
+        font-size: 56px;
+        width: 56px;
+        height: 56px;
+      }
+    }
+  }
+}
+
+// 编辑时候占一半
+.place-edit {
+  width: 50%;
+  transition: width 0.8s;
+  transition-delay: 0.3s;
+}
+
+// 信息编辑时地图占1/2
+.edit-mall {
+  transition: width 1s;
+  transition-delay: 0.5s;
+  width: 50%;
+  //& #mall {
+  //  transform:  scale(1);
+  //}
+}
+
+// 编辑面板
+.edit-panel {
+  transition: width 1s, opacity 0.5s;
+  transition-delay: 0.5s;
+  position: relative;
+  width: 50%;
+  opacity: 1;
+  height: 100%;
+  overflow: auto;
+  mat-expansion-panel {
+    transition: opacity 0.5s;
+    transition-delay: 1s;
+    opacity: 1;
+  }
+}
+
+// 隐藏状态
+.edit-hidden {
+  transition: width 1s, opacity 0.5s;
+  transition-delay: 0.5s;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  opacity: 0;
+  width: 0;
+  mat-expansion-panel {
+    transition: opacity 1s;
+    opacity: 0;
+  }
+}
+
+// 选中单元号编辑模式
+.edit-map {
+  transition: width 1s;
+  transition-delay: 0.5s;
+  width: 50%;
+  & #mall {
+    transform: scale(1);
+  }
+}
+
+.map-show {
+  transition: width 1s, opacity 0.5s;
+  transition-delay: 0.5s;
+  position: relative;
+  width: 50%;
+  opacity: 1;
+  height: 100%;
+  overflow: hidden;
+  & > div {
+    transition: opacity 1s;
+    transition-delay: 1s;
+    opacity: 1;
+    mat-chip {
+      transition: opacity 1s;
+      transition-delay: 1s;
+      opacity: 1;
+    }
+  }
+}
+
+.map-hidden {
+  transition: width 1s, opacity 0.5s;
+  transition-delay: 0.5s;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  width: 0;
+  & > div {
+    transition: opacity 1s;
+    opacity: 0;
+    mat-chip {
+      transition: opacity 1s;
+      opacity: 0;
+    }
+  }
+}
+
+//// formField 宽度
+//:host(::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix) {
+//  padding: 8px;
+//  bottom: 5px;
+//}
+
+//:host(::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper) {
+//margin: 0;
+//}
+
+// 表单
+.edit-form {
+  width: 100%;
+  overflow: auto;
+  //& > mat-form-field {
+  //  width: 90%;
+  //}
+  .form-header {
+    width: 100%;
+    margin-top: 10px;
+    //display: inline-flex;
+    mat-form-field {
+      width: 48%;
+    }
+  }
+}
+
+// 上传预览
+.edit-upload {
+  width: 100%;
+  height: 70px;
+  img {
+    @extend %auto-resize-img;
+  }
+  span:nth-child(3) {
+    height: 100%;
+  }
+  //width: 150px;
+  //height: 150px;
+  //margin: 0 10px 10px 0;
+  //border-radius: 5px;
+  //span:nth-child(2), div > span:nth-child(2) {
+  //  width: 100%;
+  //  text-align: center;
+  //  overflow: hidden;
+  //  text-overflow: ellipsis;
+  //}
+  //span:nth-child(3) {
+  //  position: absolute;
+  //}
+  //mat-icon + span {
+  //  margin-top: 10px;
+  //}
+}
+
+// svg地图预览左移右移
+.left-transform {
+  transition: transform 0.6s !important;
+  transform-style: preserve-3d !important;
+  transform: translateX(-160px);
+
+}
+
+.right-transform {
+  transition: transform 0.6s !important;
+  transform-style: preserve-3d !important;
+  transform: translateX(160px);
+}
+
+// 右侧搜索框按钮
+.search-buttons {
+  button {
+    padding: 5px 0;
+    width: 100%;
+  }
+}
+
+// 地图商户编辑头
+.edit-header {
+  width: 100%;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  mat-chip {
+    position: relative;
+    top: 8px;
+  }
+  button:nth-child(1) {
+    width: 102px;
+    min-width: 102px;
+    max-width: 102px;
+    height: 102px;
+    min-height: 102px;
+    max-height: 102px;
+    padding: 0;
+    border-radius: 8px;
+    //border-radius: 50%;
+    img {
+      width: 100px;
+      height: 100px;
+      //border-radius: 50%;
+    }
+    mat-icon {
+      font-size: 50px;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 30px;
+      right: 25px;
+    }
+  }
+  button:nth-child(2) {
+    top: 8px;
+    width: 90px;
+    min-width: 90px;
+    height: 32px;
+    padding: 0;
+    border: 1px dashed;
+    border-radius: 100px;
+    mat-icon {
+      position: relative;
+      bottom: 4px;
+      font-size: 20px;
+      width: 20px;
+      min-width: 20px;
+      max-width: 20px;
+      height: 20px;
+      min-height: 20px;
+      max-height: 20px;
+    }
+    span {
+      position: relative;
+      bottom: 5px;
+    }
+  }
+}
+
+// 按钮里div样式
+.button-div {
+  width: 100%;
+  height: 40px;
+}
+
+// 更新弹框
+.update-title {
+  width: 100%;
+  .add-block {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    position: relative;
+  }
+  .disabled-block {
+    @extend .add-block;
+  }
+}
+
+.update-content {
+  width: 100%;
+  .content {
+    text-indent: 5px;
+    line-height: 2;
+  }
+}
+
+.operate-button {
+  padding: 3px 0 0 0 !important;
+  margin: 0 !important;
+  button {
+    width: 50%;
+    margin: 0 !important;
+    &:nth-child(1) {
+      border-radius: 0 0 0 5px;
+    }
+    &:nth-child(2) {
+      border-radius: 0 5px 0 0;
+    }
+  }
+}
+
+// 删除业态
+.delete-button {
+  opacity: 0.2;
+  transition: opacity 0.5s;
+  transition-delay: 0.1s;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/** 以上为旧航站楼样式 新增*/
+.left-panel {
+  width: 50%;
+  height: 100%;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: 100vh
+  }
+}
+
+.right-panel {
+  width: 50%;
+  height: 100%;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+.left-content {
+  padding-top: 10px;
+  padding-right: 20px;
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.right-content {
+  max-height: 40vh;
+  overflow-x: hidden !important;
+}
+
+.save-button {
+  background-color: #6BD5FF !important;
+  width: 80px;
+}
+
+.back-button {
+  width: 80px;
+}
+
+.on-loading {
+  background: initial !important;
+  border: unset !important;
+}
+
+.w-48-p {
+  width: 48%
+}
+
+.floors-manage {
+  .floor-no {
+    font-family: initial;
+    mat-icon {
+      opacity: 0;
+    }
+    &:hover {
+      span {
+        display: none;
+      }
+      mat-icon {
+        opacity: 1;
+      }
+    }
+
+  }
+  .floor-input {
+    width: 80px;
+    min-width: 80px;
+    max-width: 100%;
+    height: 32px;
+
+  }
+  .svg-input {
+    min-width: 80px !important;
+    width: 200px !important;
+    max-width: 100% !important;
+    height: 32px;
+  }
+}
+
+.w-23-p {
+  width: 23%
+}
+
+.w-14-p {
+  width: 14%
+}
+
+.add-button {
+  border: 1px dashed #039be5 !important;
+}
+
+.terminal-upload {
+  min-height: 45vh;
+}
+
+@keyframes rotating-center {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-animation {
+  animation: rotating-center 30s linear 1.5s infinite;
+}
+
+/* cdk drag drop*/
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 300px;
+  height: 300px;
+  position: relative;
+  top: -100px !important;
+  left: -100px !important;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+// 父级ui组件样式
+:host {
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.sort-list.cdk-drop-list-dragging .svg-preview:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+// 单元详情弹框
+#area-info {
+  position: absolute;
+  min-width: 250px;
+  min-height: 400px;
+  top: 150px;
+  opacity: 0.9 !important;
+  background: white;
+
+}
+
+$green: #0EC055;
+$red: #E90101;
+.triangle-div {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.red-triangle {
+  @extend .triangle-div;
+  border-top: 8px solid $red;
+}
+
+.green-triangle {
+  @extend .triangle-div;
+  border-bottom: 8px solid $green;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}

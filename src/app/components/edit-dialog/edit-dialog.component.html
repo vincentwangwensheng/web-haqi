@@ -1,0 +1,10 @@
+<div class="closeOrderDialogStyle">
+    <h1 class="dialogTitle" mat-dialog-title>{{title}}</h1>
+    <div class="dialogContent customFiled" mat-dialog-content>
+        <ng-content></ng-content>
+    </div>
+    <div class="dialogAction" mat-dialog-actions>
+        <button mat-stroked-button (click)="toSure()">保存</button>
+        <button mat-stroked-button [mat-dialog-close]="false">取消</button>
+    </div>
+</div>

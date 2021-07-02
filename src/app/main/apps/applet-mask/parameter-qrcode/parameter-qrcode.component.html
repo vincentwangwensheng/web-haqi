@@ -1,0 +1,88 @@
+<app-table-list [title]="'带参二维码'" [rows]="rows" [columns]="columns" [page]="page" [detailMenu]="detailMenu" [hasDetail]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()"
+                [createButton]="true" (create)="createData(openDialog)">
+</app-table-list>
+<ng-template #openDialog>
+    <app-edit-dialog [title]="'带参二维码新增'" (sureDo)="toSureDo()">
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="padding-top: 20px;height: 452px;">
+            <form [formGroup]="basicForm" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>二维码名称</mat-label>
+                    <input matInput autocomplete="off" formControlName="qrName">
+                    <mat-error>二维码名称不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>商场</mat-label>
+                    <input matInput autocomplete="off" (click)="selectMall(mall)" formControlName="mallName">
+                    <mat-error>商场不能为空</mat-error>
+                </mat-form-field>
+<!--                <mat-form-field appearance="outline" class="w-100-p">-->
+<!--                    <mat-label>二维码类型</mat-label>-->
+<!--                    <mat-select formControlName="type">-->
+<!--                        <mat-option [value]="'活动二维码'">活动二维码</mat-option>-->
+<!--                        <mat-option [value]="'店铺二维码'">店铺二维码</mat-option>-->
+<!--                        <mat-option [value]="'活动二维码'">活动二维码</mat-option>-->
+<!--                        <mat-option [value]="'店铺二维码'">店铺二维码</mat-option>-->
+<!--                        <mat-option [value]="'活动二维码'">活动二维码</mat-option>-->
+<!--                        <mat-option [value]="'店铺二维码'">店铺二维码</mat-option>-->
+<!--                    </mat-select>-->
+<!--                    <mat-error>二维码类型不能为空</mat-error>-->
+<!--                </mat-form-field>-->
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>二维码类型</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let item of typeList" [value]="item['value']">{{item['translate']}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+<!--                <div fxLayout="column" *ngIf="basicForm.value['type']!=='活动二维码'" fxLayoutGap="10px" class="mb-24">-->
+<!--                    <div class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="openStoreList(storeTemplate)" *ngIf="mallSource">-->
+<!--                        <span style="color:#fff">商户添加</span>-->
+<!--                    </div>-->
+<!--                    <div class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" style="cursor: not-allowed;" *ngIf="!mallSource">-->
+<!--                        <span style="color:#fff">商户添加</span>-->
+<!--                    </div>-->
+<!--                    <div class="w-100-p label-content">-->
+<!--                        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="allMemberList.length===0" class="item-button">-->
+<!--                            <span>暂无</span>-->
+<!--                        </div>-->
+<!--                        <div fxLayout="row" fxLayoutAlign="start center"  *ngFor="let driver of allMemberList; let i = index;" class="item-button">-->
+<!--                            <span>{{driver.storeName}}</span>-->
+<!--                            <mat-icon class="select-icon" (click)="deleteStore(i)">cancel</mat-icon>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <mat-form-field appearance="outline" class="w-100-p" *ngIf="basicForm.value['type']==='ACTIVITY_DETAIL'">
+                    <mat-label>绑定活动</mat-label>
+                    <input matInput autocomplete="off" (click)="selectActivity(activityTemplate)" formControlName="bindingActivityName">
+                    <mat-error>绑定活动不能为空</mat-error>
+                </mat-form-field>
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p normal-form-fields myTextarer">
+                    <mat-form-field appearance="outline" class="w-100-p myTextarer h-32">
+                        <mat-label>说明</mat-label>
+                        <textarea matInput placeholder="请输入公告内容..." formControlName="desc" class="w-100-p h-100-p"></textarea>
+                        <mat-error>说明不能为空</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>
+
+<ng-template #mall>
+    <app-mall-manage [singleSelect]="true" [overPanel]="true" [selectedRow]="mallSource" (dataSelect)="onSelectMallType($event)"></app-mall-manage>
+</ng-template>
+
+<ng-template #storeTemplate>
+    <app-store-manage [overPanel]="true" [checkbox]="true" [selectedRows]="selectedStoreList" [mallID]="mallSource?.mallId" (dataSelect)="onStoreSelect($event)"></app-store-manage>
+</ng-template>
+
+<ng-template #activityTemplate>
+    <app-activity-list [singleSelect]="true" [overPanel]="true" [selectedRow]="activitySource" (dataSelect)="onSelectActivity($event)"></app-activity-list>
+</ng-template>
+
+<ng-template #viewDialog>
+    <div class="w-100-p" style="min-height: 100px;">
+        <h1 class="mt-0 mb-4">{{qrName + '.png'}}</h1>
+        <img [src]="qrSrc" class="w-100-p h-100-p">
+    </div>
+</ng-template>

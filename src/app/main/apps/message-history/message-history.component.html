@@ -1,0 +1,6 @@
+<app-table-list [title]="'已发短信'" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="false"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createActivity()" [hasDetail]="false"
+>
+</app-table-list>

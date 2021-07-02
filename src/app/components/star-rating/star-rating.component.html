@@ -1,0 +1,15 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="score-start-com">
+    <ng-container *ngFor="let star of sysPra?.starSource ; let i=index">
+        <button mat-icon-button (click)="changeStar(i , star)" [disabled]="readonly">
+            <ng-container *ngIf="star === 1">
+                <mat-icon class="mat-color-com">star_rate</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="star === 0">
+                <mat-icon class="mat-color2-com">star_rate</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="star === 0.5">
+                <mat-icon class="mat-color-com">star_half</mat-icon>
+            </ng-container>
+        </button>
+    </ng-container>
+</div>

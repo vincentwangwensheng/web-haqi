@@ -1,0 +1,6 @@
+<app-table-list [title]="'AppletMask.list.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)"
+
+>
+</app-table-list>

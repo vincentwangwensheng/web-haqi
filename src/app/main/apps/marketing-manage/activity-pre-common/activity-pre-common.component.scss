@@ -1,0 +1,99 @@
+
+.acPreTeAllF{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0 , 0.1);
+  .acPreTeTitle{
+    width: 100%;
+    height: 30px;
+  }
+  .acPreD{
+    width: 100%;
+    height: 673px;
+    .acPreTeAll{
+      width: 287px; // 319px;
+      height: 596px ; //  663px;
+      position: relative;
+      z-index: 1;
+      background-color: #ffffff;
+      .acPreImg{
+        width: 100%;
+        height: 100%;
+        border: 2px solid #000000;
+      }
+      .acPreContent{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        .acPreNull1{
+          width: 88%;
+          height: 112px;
+        }
+        .acPreNull2{
+          width: 88%;
+          height: 70px;
+        }
+
+      }
+
+    }
+  }
+
+}
+
+.acWeChatContent{
+  width: 88%;
+  height: 394px;
+  overflow: auto;
+
+  .acFileId{
+    width: 92%;
+    height: 35%;
+    .acFileIdImg{
+      width: 100%;
+      height: 136px;
+      border-radius: 6px;
+    }
+  }
+
+  .acTeTitle{
+    width: 92%;
+    height: 9%;
+    min-height: 35px;
+    .ac-title-s{
+      font-weight: bold;
+      font-size: 13px;
+      color: #000000;
+    }
+  }
+
+
+  .acCouImg{
+    width: 92%;
+    .acCouImgPre{
+      width: 100%;
+      height: 64px;
+      margin-bottom: 8px;
+    }
+  }
+
+
+
+  .acTeTextContent{
+    width: 92%;
+
+    white-space:pre-line;
+    p{
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+    }
+    h3{
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+    }
+  }
+
+
+
+}

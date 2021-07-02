@@ -1,0 +1,18 @@
+@import "src/@fuse/scss/fuse";
+
+.text_underline{
+  text-decoration: underline;
+}
+
+ngx-datatable {
+  opacity: 0;
+  transition: opacity 0.5s 0.3s ease-in-out;
+}
+
+.cursor-pointer_m {
+  cursor: pointer;
+}
+
+.user-select_m {
+  user-select: text !important;
+}

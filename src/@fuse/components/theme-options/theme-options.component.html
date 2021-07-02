@@ -1,0 +1,547 @@
+<div class="theme-options-panel" fusePerfectScrollbar>
+
+    <div class="header">
+
+        <span class="title">{{'themeOptions.title'|translate}}</span>
+
+        <button mat-icon-button class="close-button" (click)="toggleSidebarOpen('themeOptionsPanel')">
+            <mat-icon>close</mat-icon>
+        </button>
+
+    </div>
+
+    <form [formGroup]="form">
+
+
+        <!-- COLOR THEME -->
+        <div class="group">
+
+            <h2>{{'themeOptions.colorThemes'|translate}}</h2>
+
+            <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="colorTheme">
+                <mat-radio-button class="mb-12" value="theme-default">{{'themeOptions.defaultLight'|translate}}</mat-radio-button>
+                <mat-radio-button class="mb-12" value="theme-yellow-light">{{'themeOptions.yellowLight'|translate}}</mat-radio-button>
+                <mat-radio-button class="mb-12" value="theme-blue-gray-dark">{{'themeOptions.blueGrayDark'|translate}}</mat-radio-button>
+                <mat-radio-button class="mb-12" value="theme-pink-dark">{{'themeOptions.pinkDark'|translate}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <!--恢复默认-->
+        <div class="group" *ngIf="hasCache">
+            <h2>{{'themeOptions.reset'|translate}}</h2>
+            <button mat-icon-button (click)="reset(resetConfirm)"><mat-icon matTooltipPosition="right" matTooltip="{{'themeOptions.resetMessage'|translate}}">settings_backup_restore</mat-icon></button>
+        </div>
+        <ng-template #resetConfirm>
+            <app-confirm-dialog #dialog [title]="'themeOptions.resetTip'|translate" [content]="'themeOptions.resetConfirm'|translate" ></app-confirm-dialog>
+        </ng-template>
+
+        <!-- LAYOUT STYLES -->
+        <div class="group" formGroupName="layout">
+
+            <h2>{{'themeOptions.layoutStyles'|translate}}</h2>
+
+            <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="style">
+
+                <mat-radio-button class="mb-12" value="vertical-layout-1">
+                    {{'themeOptions.verticalLayout#1'|translate}}
+                </mat-radio-button>
+
+                <mat-radio-button class="mb-12" value="vertical-layout-2">
+                    {{'themeOptions.verticalLayout#2'|translate}}
+                </mat-radio-button>
+
+                <mat-radio-button class="mb-12" value="vertical-layout-3">
+                    {{'themeOptions.verticalLayout#2'|translate}}
+                </mat-radio-button>
+
+                <mat-radio-button class="mb-12" value="horizontal-layout-1">
+                    {{'themeOptions.horizontalLayout#1'|translate}}
+                </mat-radio-button>
+
+            </mat-radio-group>
+
+            <!-- DIFFERENT FORMS BASED ON LAYOUT STYLES -->
+            <ng-container [ngSwitch]="config.layout.style">
+
+                <!-- VERTICAL LAYOUT #1 -->
+                <ng-container *ngSwitchCase="'vertical-layout-1'">
+
+                    <!-- LAYOUT WIDTH -->
+                    <div class="group mt-32">
+
+                        <h2>{{'themeOptions.layoutWidth'|translate}}</h2>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="width">
+                            <mat-radio-button class="mb-12" value="fullwidth">{{'themeOptions.fullWidth'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="boxed">{{'themeOptions.boxed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                    <!-- NAVBAR -->
+                    <div class="group" formGroupName="navbar">
+
+                        <h2>{{'themeOptions.navbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <mat-slide-toggle class="mt-24" formControlName="folded">
+                            {{'themeOptions.folded'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-16" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-8">{{'themeOptions.variant'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="variant">
+                            <mat-radio-button class="mb-16" value="vertical-style-1">{{'themeOptions.style1'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="vertical-style-2">{{'themeOptions.style2'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.primary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="primaryBackground"></fuse-material-color-picker>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.secondary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="secondaryBackground"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- TOOLBAR -->
+                    <div class="group" formGroupName="toolbar">
+
+                        <h2>{{'themeOptions.toolbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above">{{'themeOptions.above'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below-static">{{'themeOptions.belowStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below-fixed">{{'themeOptions.belowFixed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="group" formGroupName="footer">
+
+                        <h2>{{'themeOptions.footer'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above">{{'themeOptions.above'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below-static">{{'themeOptions.belowStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below-fixed">{{'themeOptions.belowFixed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.color'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- SIDE PANEL -->
+                    <div class="group" formGroupName="sidepanel">
+
+                        <h2>{{'themeOptions.sidePanel'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                </ng-container>
+
+                <!-- VERTICAL LAYOUT #2 -->
+                <ng-container *ngSwitchCase="'vertical-layout-2'">
+
+                    <!-- LAYOUT WIDTH -->
+                    <div class="group mt-32">
+
+                        <h2>{{'themeOptions.layoutWidth'|translate}}</h2>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="width">
+                            <mat-radio-button class="mb-12" value="fullwidth">{{'themeOptions.fullWidth'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="boxed">{{'themeOptions.boxed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                    <!-- NAVBAR -->
+                    <div class="group" formGroupName="navbar">
+
+                        <h2>{{'themeOptions.navbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <mat-slide-toggle class="mt-24" formControlName="folded">
+                            {{'themeOptions.folded'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-16" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-8">{{'themeOptions.variant'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="variant">
+                            <mat-radio-button class="mb-16" value="vertical-style-1">{{'themeOptions.style1'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="vertical-style-2">{{'themeOptions.style2'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.primary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="primaryBackground"></fuse-material-color-picker>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.secondary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="secondaryBackground"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- TOOLBAR -->
+                    <div class="group" formGroupName="toolbar">
+
+                        <h2>{{'themeOptions.toolbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above-static">{{'themeOptions.aboveStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="above-fixed">{{'themeOptions.aboveFixed'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below">{{'themeOptions.below'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <!--<div class="group" formGroupName="footer">-->
+
+                        <!--<h2>{{'themeOptions.footer'|translate}}</h2>-->
+
+                        <!--<mat-slide-toggle formControlName="hidden">-->
+                            <!--{{'themeOptions.hide'|translate}}-->
+                        <!--</mat-slide-toggle>-->
+
+                        <!--<h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>-->
+                        <!--<mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">-->
+                            <!--<mat-radio-button class="mb-12" value="above-static">{{'themeOptions.aboveStatic'|translate}}</mat-radio-button>-->
+                            <!--<mat-radio-button class="mb-12" value="above-fixed">{{'themeOptions.aboveFixed'|translate}}</mat-radio-button>-->
+                            <!--<mat-radio-button class="mb-12" value="below">{{'themeOptions.below'|translate}}</mat-radio-button>-->
+                        <!--</mat-radio-group>-->
+
+                        <!--<mat-checkbox class="mt-24" formControlName="customBackgroundColor">-->
+                            <!--{{'themeOptions.customBackgroundColor'|translate}}-->
+                        <!--</mat-checkbox>-->
+
+                        <!--<h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>-->
+                        <!--<fuse-material-color-picker class="mb-16"-->
+                                                    <!--formControlName="background"></fuse-material-color-picker>-->
+
+                    <!--</div>-->
+
+                    <!-- SIDE PANEL -->
+                    <div class="group" formGroupName="sidepanel">
+
+                        <h2>{{'themeOptions.sidePanel'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                </ng-container>
+
+                <!-- VERTICAL LAYOUT #3 -->
+                <ng-container *ngSwitchCase="'vertical-layout-3'">
+
+                    <!-- LAYOUT WIDTH -->
+                    <div class="group mt-32">
+
+                        <h2>{{'themeOptions.layoutWidth'|translate}}</h2>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="width">
+                            <mat-radio-button class="mb-12" value="fullwidth">{{'themeOptions.fullWidth'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="boxed">{{'themeOptions.boxed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                    <!-- NAVBAR -->
+                    <div class="group" formGroupName="navbar">
+
+                        <h2>{{'themeOptions.navbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <mat-slide-toggle class="mt-24" formControlName="folded">
+                            {{'themeOptions.folded'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-16" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-8">{{'themeOptions.variant'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="variant">
+                            <mat-radio-button class="mb-16" value="vertical-style-1">{{'themeOptions.style1'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="vertical-style-2">{{'themeOptions.style2'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.primary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="primaryBackground"></fuse-material-color-picker>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.secondary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="secondaryBackground"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- TOOLBAR -->
+                    <div class="group" formGroupName="toolbar">
+
+                        <h2>{{'themeOptions.toolbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above-static">{{'themeOptions.aboveStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="above-fixed">{{'themeOptions.aboveFixed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="group" formGroupName="footer">
+
+                        <h2>{{'themeOptions.footer'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above-static">{{'themeOptions.aboveStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="above-fixed">{{'themeOptions.aboveFixed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- SIDE PANEL -->
+                    <div class="group" formGroupName="sidepanel">
+
+                        <h2>{{'themeOptions.sidePanel'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                </ng-container>
+
+                <!-- HORIZONTAL LAYOUT #1 -->
+                <ng-container *ngSwitchCase="'horizontal-layout-1'">
+
+                    <!-- LAYOUT WIDTH -->
+                    <div class="group mt-32">
+
+                        <h2>{{'themeOptions.layoutWidth'|translate}}</h2>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="width">
+                            <mat-radio-button class="mb-12" value="fullwidth">{{'themeOptions.fullWidth'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="boxed">{{'themeOptions.boxed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                    </div>
+
+                    <!-- NAVBAR -->
+                    <div class="group" formGroupName="navbar">
+
+                        <h2>{{'themeOptions.navbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-16" value="top">{{'themeOptions.top'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-8">{{'themeOptions.variant(vertical)'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="variant">
+                            <mat-radio-button class="mb-16" value="vertical-style-1">{{'themeOptions.style1'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-16" value="vertical-style-2">{{'themeOptions.style2'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.primary'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="primaryBackground">
+                        </fuse-material-color-picker>
+
+                        <h3 class="mt-16 mb-8">{{'themeOptions.secondaryBackground(vertical)'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="secondaryBackground">
+                        </fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- TOOLBAR -->
+                    <div class="group" formGroupName="toolbar">
+
+                        <h2>{{'themeOptions.toolbar'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above">{{'themeOptions.above'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="below">{{'themeOptions.below'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="group" formGroupName="footer">
+
+                        <h2>{{'themeOptions.footer'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="above-static">{{'themeOptions.aboveStatic'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="above-fixed">{{'themeOptions.aboveFixed'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-checkbox class="mt-24" formControlName="customBackgroundColor">
+                            {{'themeOptions.customBackgroundColor'|translate}}
+                        </mat-checkbox>
+
+                        <h3 class="mt-24 mb-8">{{'themeOptions.backgroundColor'|translate}}</h3>
+                        <fuse-material-color-picker class="mb-16"
+                                                    formControlName="background"></fuse-material-color-picker>
+
+                    </div>
+
+                    <!-- SIDE PANEL -->
+                    <div class="group" formGroupName="sidepanel">
+
+                        <h2>{{'themeOptions.sidePanel'|translate}}</h2>
+
+                        <mat-slide-toggle formControlName="hidden">
+                            {{'themeOptions.hide'|translate}}
+                        </mat-slide-toggle>
+
+                        <h3 class="mt-24">{{'themeOptions.position'|translate}}</h3>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="position">
+                            <mat-radio-button class="mb-12" value="left">{{'themeOptions.left'|translate}}</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="right">{{'themeOptions.right'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <!-- CUSTOM SCROLLBARS -->
+        <div class="group">
+            <h2>{{'themeOptions.customScrollbar'|translate}}</h2>
+
+            <mat-slide-toggle class="mb-12" formControlName="customScrollbars">
+                {{'themeOptions.enableCustomScrollbar'|translate}}
+            </mat-slide-toggle>
+        </div>
+    </form>
+</div>

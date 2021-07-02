@@ -1,0 +1,10 @@
+<app-table-list [title]="tlKey + 'list'|translate" [rows]="rows" (search)="onSearch()" [checkbox]="checkbox" [singleSelect]="singleSelect"
+                [columns]="columns" [page]="page" [selectedRows]="selectedRows" [overPanel]="overPanel" [selectedRow]="selectedRow"
+                (dataSelect)="onSelect($event)" [customButtons]="customButtons"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                [hasDetail]="true" (navigateDetail)="navigateDetail($event)"
+>
+</app-table-list>
+<ng-template #loadTg>
+    <app-spinner-loading [showData]="loadingShowData"></app-spinner-loading>
+</ng-template>

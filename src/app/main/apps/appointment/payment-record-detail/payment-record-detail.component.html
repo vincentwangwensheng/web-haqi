@@ -1,0 +1,76 @@
+<div class="dialog-pay-detail-title">
+    <div class="pay-detail-dialog-title-tips">
+        <span class="pay-detail-title_dialog_">付款详情</span>
+        <mat-icon mat-dialog-close>clear</mat-icon>
+    </div>
+</div>
+<form [formGroup]="options" fxLayout="column" fxLayoutAlign="center center"  class="pay-de-form ">
+    <div fxLayout="column" fxLayoutAlign="space-around center" class="pay-de-form-all pt-8">
+
+        <!-- 付款人  昵称-->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part1">
+
+            <span fxFlex="18">付款人:</span>
+            <span>昵称</span>
+
+        </div>
+
+        <!-- 手机号-->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part1">
+
+            <span fxFlex="18">手机号:</span>
+            <span>147711019090</span>
+
+        </div>
+
+        <!-- 状态 -->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part1">
+
+            <span fxFlex="18">状态:</span>
+            <span>已确认</span>
+
+        </div>
+
+        <!-- 事件名称  -->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part1">
+
+            <span fxFlex="18">事件名称:</span>
+            <span>双人热血半场篮球</span>
+
+        </div>
+
+        <!-- 操作人  -->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part1">
+
+            <span fxFlex="18">操作人:</span>
+            <span>哈哈哈</span>
+
+        </div>
+
+        <!-- 填写驳回或者确认框   -->
+        <div fxLayout="row" fxLayoutAlign="start center" class="pay-part2 pay-des">
+            <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                <textarea matInput formControlName="reason"  mat-autosize="false" >  </textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- 确认取消按钮  -->
+        <div fxLayout="row" fxLayoutAlign="center center" class="pay-part3">
+            <ng-container *ngIf="struts === '待审核'">
+                <div fxLayout="row" fxLayoutAlign="space-around center"  fxFlex="50">
+                    <button  mat-raised-button color="accent"  fxFlex="36">退款</button>
+                    <button  mat-raised-button color="accent"  fxFlex="36" >驳回</button>
+                </div>
+            </ng-container>
+            <ng-container  *ngIf="struts === '已付款' || struts === '已驳回'">
+                <div fxLayout="row" fxLayoutAlign="center center"  fxFlex="50">
+                    <button  mat-raised-button color="accent" fxFlex="36">关闭</button>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+
+
+</form>
+

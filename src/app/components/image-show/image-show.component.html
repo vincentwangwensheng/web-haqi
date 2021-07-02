@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{title?title:'图片详情：'}}</h2>
+<mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+    <button [ngStyle]="{'visibility':images.length>1?'visible':'hidden'}" (click)="forwardOrBack(false)" mat-icon-button class="dark-box-shadow-hover">
+        <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <img fxFlexAlign="start" [src]="images[index]|getUrlBySaveId">
+    <button [ngStyle]="{'visibility':images.length>1?'visible':'hidden'}" (click)="forwardOrBack(true)" mat-icon-button
+            class="dark-box-shadow-hover">
+        <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+</mat-dialog-content>
+<mat-dialog-actions class="operate-buttons mt-24" fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button color="accent" cdkFocusInitial [mat-dialog-close]="true">
+        <mat-icon>check</mat-icon>
+        <span>确定</span>
+    </button>
+    <button *ngIf="cancelButton" mat-button color="accent" [mat-dialog-close]="false">
+        <mat-icon>close</mat-icon>
+        <span>取消</span>
+    </button>
+</mat-dialog-actions>

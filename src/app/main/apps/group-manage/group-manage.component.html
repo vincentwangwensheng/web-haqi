@@ -1,0 +1,58 @@
+<app-table-list [title]="'nav.dataManagement.group'|translate" [rows]="rows" (search)="onSearch()" [checkbox]="checkbox"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event,editGroup)" [createButton]="createFlag"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                (create)="create(editGroup)" [overPanel]="overPanel" [selectedRows]="selectedRows" [singleSelect]="singleSelect"
+                (dataSelect)="onSelect($event)"
+>
+</app-table-list>
+<ng-template #editGroup>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+            <span>{{editTitle[editStatus]}}</span>
+            <div class="icon-button" [matDialogClose]="false">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <form [formGroup]="groupForm" class="px-24 py-12 mt-12 normal-form-fields w-100-p" fxLayout="row wrap"
+              fxLayoutAlign="space-between center">
+                <mat-form-field *ngIf="editStatus!==0" appearance="outline" class="w-48-p">
+                    <mat-label>集团ID</mat-label>
+                    <input matInput formControlName="blocId">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-48-p">
+                    <mat-label>集团名称</mat-label>
+                    <input matInput formControlName="blocName">
+                    <mat-error *ngIf="groupForm.get('blocName').hasError('required')">
+                        <span>集团名称不能为空！</span>
+                    </mat-error>
+                </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="text-area w-100-p" appearance="outline">
+                <mat-label>简介</mat-label>
+                <textarea matInput cdkTextareaAutosize
+                          formControlName="desc"
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="3"
+                          cdkAutosizeMaxRows="6"></textarea>
+            </mat-form-field>
+            <div class="w-100-p operate-buttons" fxLayout="row-reverse" fxLayoutAlign="start center">
+                <button class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+                    取消
+                </button>
+                <button *ngIf="editStatus===1" class="w-80 h-32" mat-flat-button color="accent" (click)="showEdit()">
+                    编辑
+                </button>
+                <button *ngIf="editStatus===0||editStatus===2" class="w-80 h-32" mat-flat-button color="accent"
+                        (click)="saveGroup()">
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

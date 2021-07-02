@@ -1,0 +1,136 @@
+<app-table-list [title]="'账户管理'" [rows]="rows" (search)="onSearch()" [hasDetail]="true"
+                [columns]="columns" [page]="page"
+                [createButton]="createButton" [detailMenu]="detailMenu"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                (create)="create(editTemplate,pwConfirm)">
+</app-table-list>
+
+<ng-template #editTemplate>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+            <span>{{titles[editFlag]}}</span>
+            <div class="icon-button" [matDialogClose]="false">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <form [formGroup]="accountGroup" class="px-24 py-12 mt-12 normal-form-fields w-100-p" fxLayout="row wrap"
+              fxLayoutAlign="space-between center">
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>账户名称</mat-label>
+                <input matInput autocomplete="off" formControlName="username">
+                <mat-error *ngIf="accountGroup.get('username').hasError('required')">
+                    <span>账户名称不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>账号类型</mat-label>
+                <mat-select formControlName="scope" (selectionChange)="onSelectChange($event)">
+                    <mat-option *ngIf="currentScope==='DEFAULT'||isSuperAdmin||isBlocAdmin" [value]="'BLOC'">集团</mat-option>
+                    <mat-option *ngIf="currentScope==='DEFAULT'||currentScope!=='MALL'||isSuperAdmin||isBlocAdmin" [value]="'MALL'">商场</mat-option>
+                    <mat-option  [value]="'MERCHANT'">商户端</mat-option>
+                </mat-select>
+                <mat-error *ngIf="accountGroup.get('scope').hasError('required')">
+                    账号类型不能为空！
+                </mat-error>
+            </mat-form-field>
+            <app-auto-select
+                    *ngIf="accountGroup.get('scope').value==='STREET'||accountGroup.get('scope').value==='MALL'||accountGroup.get('scope').value==='BLOC'||accountGroup.get('scope').value==='MERCHANT'"
+                    class="w-48-p" [label]="'集团'" [matIcon]="'business'" [requiredMsg]="'集团不能为空！'"
+                    [notFindMsg]="'当前搜索的集团不存在！'" (selectionChange)="onSelectionChange($event,'blocId')"
+                    [showField]="'blocName'" [secondaryField]="'blocId'" [filterOptions]="filterBlocs"
+                    [selectControl]="blocControl"></app-auto-select>
+            <app-auto-select
+                    *ngIf="accountGroup.get('scope').value==='STREET'||accountGroup.get('scope').value==='MALL'||accountGroup.get('scope').value==='MERCHANT'"
+                    class="w-48-p" [label]="'商场'" [selectControl]="mallControl"
+                    [isEmptyMsg]="'当前集团下无商场！'"
+                    [filterOptions]="filterMall"
+                    [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                    [secondaryField]="'mallId'"
+                    (selectionChange)="onSelectionChange($event,'mallId')"
+                    [requiredMsg]="'商场不能为空！'"
+            ></app-auto-select>
+            <app-auto-select *ngIf="accountGroup.get('scope').value==='STREET'||accountGroup.get('scope').value==='MERCHANT'" class="w-48-p" [label]="'街区名称'"
+                             [selectControl]="terminalControl"
+                             [isEmptyMsg]="'当前商场下无街区！'"
+                             [filterOptions]="filterTerminal"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的街区名称不存在！'" [showField]="'terminalName'"
+                             [secondaryField]="'terminalNo'"
+                             (selectionChange)="onSelectionChange($event,'terminalId')"
+                             [requiredMsg]="'街区不能为空！'"
+            ></app-auto-select>
+            <app-auto-select *ngIf="accountGroup.get('scope').value==='MERCHANT'" class="w-48-p" [label]="'商户名称'"
+                             [selectControl]="storeControl"
+                             [isEmptyMsg]="'当前街区下无商户！'"
+                             [filterOptions]="filterStore"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商户名称不存在！'" [showField]="'storeName'"
+                             [secondaryField]="'storeNo'"
+                             (selectionChange)="onSelectionChange($event,'storeId')"
+                             [requiredMsg]="'商户不能为空！'"
+            ></app-auto-select>
+            <mat-chip-list class="w-100-p">
+                <button [disabled]="editFlag===1" mat-stroked-button color="accent"
+                        class="add-button border-theme-color theme-color" (click)="openRoleSelect(roleTemplate)">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>添加角色</span>
+                </button>
+                <mat-chip
+                        *ngFor="let role of accountGroup.get('roles').value;let i=index"
+                        [selectable]="false"
+                        [removable]="editFlag!==1"
+                        [matTooltip]="role.description"
+                        matTooltipPosition="above"
+                        class="accent custom-chip"
+                        (removed)="removeRole(i)">
+                    <span>{{role.name}}</span>
+                    <mat-icon *ngIf="editFlag!==1" matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+            <div class="w-100-p operate-buttons mt-8" fxLayout="row-reverse" fxLayoutAlign="start center">
+                <button cdkFocusInitial class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+                    取消
+                </button>
+                <button *ngIf="editFlag===1" class="w-80 h-32" mat-flat-button color="accent" (click)="showEdit()">
+                    编辑
+                </button>
+                <button *ngIf="editFlag===0||editFlag===2" class="w-80 h-32" mat-flat-button color="accent"
+                        (click)="saveAccount()">
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<!--选择角色-->
+<ng-template #roleTemplate>
+    <app-role-manage [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedRows"
+                     (dataSelect)="onDataSelect($event)"></app-role-manage>
+</ng-template>
+<!--密码提示-->
+<ng-template #pwConfirm>
+    <app-confirm-dialog [title]="'系统提示'" [cancelButton]="false">
+        <span class="font-size-13 secondary-text">新建账户“</span>
+        <span class="font-size-15 theme-color font-weight-600">{{usernameContent}}</span>
+        <span class="font-size-13 secondary-text">”成功，自动生成密码为“</span>
+        <span class="font-size-15 theme-color font-weight-600">{{passwordContent}}</span>
+        <span class="font-size-13 secondary-text">”。请留存该密码，或之后进行修改密码！</span>
+    </app-confirm-dialog>
+</ng-template>
+
+<!--重置密码-->
+<ng-template #pwTip>
+    <app-confirm-dialog [title]="'系统提示'" [cancelButton]="false">
+        <span class="font-size-13 secondary-text">重置账户“</span>
+        <span class="font-size-15 theme-color font-weight-600">{{pwInfo.usernameContent}}</span>
+        <span class="font-size-13 secondary-text">”成功，重置密码为“</span>
+        <span class="font-size-15 theme-color font-weight-600">{{pwInfo.passwordContent}}</span>
+        <span class="font-size-13 secondary-text" *ngIf="isCurrent">”。请使用新密码重新登录！</span>
+        <span class="font-size-13 secondary-text" *ngIf="!isCurrent">”。请留存该密码，或之后进行修改密码！</span>
+    </app-confirm-dialog>
+</ng-template>

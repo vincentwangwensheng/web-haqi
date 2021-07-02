@@ -1,0 +1,177 @@
+<div id="BigBusinessCopy" fxLayout ="row">
+    <!--<span style="color: red">{{clientWidth}} * {{clientHeight}}</span>-->
+    <!--左侧内容区-->
+    <div class="content-letf" fxLayout="column">
+
+        <div class="word-cloud" fxLayout="row">
+            <div class="sale">{{'BusinessDataAnalysis.saleChart' |translate}}</div> <!--销售额业态占比-->
+            <div class="payment">{{'BusinessDataAnalysis.payment' |translate}}</div> <!--支付方式占比-->
+        </div>
+        <div class="charts" fxLayout="row">
+            <div #saleChart class="saleChart"></div>
+            <div #paymentChart class="paymentChart"></div>
+        </div>
+
+        <div class="word-cloud" fxLayout="row">
+            <div class="customer-price">{{'BusinessDataAnalysis.customerPriceBagging' |translate}}</div> <!--客单价与提袋率-->
+        </div>
+        <div class="charts" fxLayout="row">
+            <div #dutyFreeChart class="duty-free"></div><!--免税-->
+            <div #retailChart class="retail"></div> <!--零售-->
+        </div>
+
+        <div class="free-retail" fxLayout="row">
+            <div class="duty-free-word">{{'BusinessDataAnalysis.dutyFree' |translate}}</div><!--免税-->
+            <div class="retail-word">{{'BusinessDataAnalysis.retail' |translate}}</div><!--零售-->
+        </div>
+        <div class="brandRank">
+            <div class="word-cloud" fxLayout="row">
+                <div class="sale">{{'BusinessDataAnalysis.shopRetail' |translate}}&nbsp;&nbsp;{{'BusinessDataAnalysis.Top5' |translate}}</div><!--零售店铺&nbsp;&nbsp;Top5-->
+            </div>
+            <div class="retial-brand" fxLayout="column">
+                <ul fxLayout="row">
+                    <li class="brand">&nbsp;</li>
+                    <li class="sale">{{'BusinessDataAnalysis.UnitSalesAmount' |translate}}</li><!--销售额(元)-->
+                    <li class="customer-price">{{'BusinessDataAnalysis.UnitPrice' |translate}}</li><!--客单价(元)-->
+                </ul>
+                <ul fxLayout="row" *ngFor="let brandInfo of  allValue.brandList">
+                    <li class="brand">{{brandInfo.brand}}</li>
+                    <li class="sale">{{brandInfo.sales}}</li>
+                    <li class="customer-price">{{brandInfo.unitPrice}}</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--中间内容区-->
+    <div class="content-middle" fxLayout="column" fxLayoutAlign="start center">
+        <div class="timeTitle">
+            <span>{{'BusinessDataAnalysis.DataSourceBy' |translate}}{{sysVariableParam.MouthStart}}{{'BusinessDataAnalysis.zhi' |translate}}{{sysVariableParam.MouthEnd}}</span> <!--数据由精准营销引擎提供  至-->
+        </div>
+        <div class="salesMessage" fxLayout="column">
+            <div class="salesAndPassenger" fxLayout="row">
+                <div class="sales" fxLayout="column">
+                    <div fxLayout="row">
+                        <span class="title">{{'BusinessDataAnalysis.salesMount' |translate}}</span><!--销售额-->
+                        <div class="variation-icon" fxLayout="row" *ngIf="!sysVariableParam.salesChangeRate?.includes('-')">
+                            <mat-icon class="red-fg mr-4">trending_up</mat-icon>
+                            <span class="up">{{sysVariableParam.salesChangeRate}}</span>
+                        </div>
+                        <div class="variation-icon" fxLayout="row" *ngIf="sysVariableParam.salesChangeRate?.includes('-')">
+                            <mat-icon class="green-fg mr-4">trending_down</mat-icon>
+                            <span class="down">{{sysVariableParam.salesChangeRate}}</span>
+                        </div>
+                    </div>
+
+                    <div class="amount" fxLayout="row">
+                        <span class="number" fxLayout="row" fxLayoutAlign="space-around center">{{ sysVariableParam.salesCountValue|amountTenThousandConversion|currency:'':'':'1.0-0'}}<span class="amount-unit">{{'BusinessDataAnalysis.millionYuan' |translate}}</span></span><!--万元-->
+                    </div>
+                </div>
+                <div class="passenger " fxLayout="column">
+                    <div fxLayout="row">
+                        <span class="title">{{'BusinessDataAnalysis.TotalVolume' |translate}}</span><!--旅客总量-->
+                        <div class="variation-icon" fxLayout="row" *ngIf="!sysVariableParam.passengersChangeRate?.includes('-')">
+                            <mat-icon class="red-fg mr-4">trending_up</mat-icon>
+                            <span class="up">{{sysVariableParam.passengersChangeRate}}</span>
+                        </div>
+                        <div class="variation-icon" fxLayout="row" *ngIf="sysVariableParam.passengersChangeRate?.includes('-')">
+                            <mat-icon class="green-fg mr-4">trending_down</mat-icon>
+                            <span class="down">{{sysVariableParam.passengersChangeRate}}</span>
+                        </div>
+                    </div>
+                    <div class="amount" fxLayout="row">
+                        <span class="number" fxLayout="row" fxLayoutAlign="space-around center">{{ sysVariableParam.passengersTotal|amountTenThousandConversion|currency:'':'':'1.0-0'}}<span class="amount-unit">{{'BusinessDataAnalysis.millionPeople' |translate}}</span></span><!--万人-->
+                    </div>
+                </div>
+            </div>
+            <div class="memberInfo" fxLayout="row">
+                <div class="membersontribute" fxLayout="column">
+                    <div fxLayout="row">
+                        <span class="title">{{'BusinessDataAnalysis.BaggingRate' |translate}}</span><!--会员贡献额 改成了综合提袋率 同比暂时不要 {{'BusinessDataAnalysis.millionYuan' |translate}} <!--万元-->
+                        <!--<div class="variation-icon" fxLayout="row" *ngIf="!sysVariableParam.membersContributeChangeRate?.includes('-')">-->
+                        <!--<mat-icon class="red-fg mr-4">trending_up</mat-icon>-->
+                        <!--<span class="up">{{sysVariableParam.membersContributeChangeRate}}</span>-->
+                        <!--</div>-->
+                        <!--<div class="variation-icon" fxLayout="row" *ngIf="sysVariableParam.membersContributeChangeRate?.includes('-')">-->
+                        <!--<mat-icon class="green-fg mr-4">trending_down</mat-icon>-->
+                        <!--<span class="down">{{sysVariableParam.membersContributeChangeRate}}</span>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="amount" fxLayout="row">
+                        <span class="number" fxLayout="row" fxLayoutAlign="space-around center">{{ sysVariableParam.BaggingRate_S}}<span class="amount-unit">%</span></span>
+                    </div>
+                </div>
+
+
+                <div class="membersCount" fxLayout="column">
+                    <div fxLayout="row">
+                        <span class="title">{{'BusinessDataAnalysis.PassengerMembers' |translate}}</span> <!--常旅客会员-->
+                        <div class="variation-icon" fxLayout="row" *ngIf="!sysVariableParam.FrequentPassengersMemberYearOnYear?.includes('-')">
+                            <mat-icon class="red-fg mr-4">trending_up</mat-icon>
+                            <span class="up">{{sysVariableParam.FrequentPassengersMemberYearOnYear}}</span>
+                        </div>
+                        <div class="variation-icon" fxLayout="row" *ngIf="sysVariableParam.FrequentPassengersMemberYearOnYear?.includes('-')">
+                            <mat-icon class="green-fg mr-4">trending_down</mat-icon>
+                            <span class="down">{{sysVariableParam.FrequentPassengersMemberYearOnYear}}</span>
+                        </div>
+                    </div>
+                    <div class="amount" fxLayout="row">
+                        <span class="number" fxLayout="row" fxLayoutAlign="space-around center">{{ sysVariableParam.pMembersValue|amountTenThousandConversion|currency:'':'':'1.0-0'}}<span class="amount-unit">{{'BusinessDataAnalysis.millionPeople' |translate}}</span></span><!--万人-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="assets/images/backgrounds/bigBusinessData-bg-newEarth.png"/>
+
+        <!--        &lt;!&ndash;<div #flightsChart id="flight-container">-->
+
+        <!--        </div>&ndash;&gt;-->
+        <!--折线图-->
+        <div class="lint-chart">
+
+            <div class="growthLine">{{'BusinessDataAnalysis.MembershipGrowthCurve' |translate}}</div><!--会员增长曲线-->
+            <div #passengerGrowthChart  class="passengerGrowth"></div>
+        </div>
+    </div>
+
+    <!--右侧内容区-->
+    <div class="content-right" fxLayout="column">
+        <div class="sexRatio">{{'BusinessDataAnalysis.MembersGenderRatio' |translate}}</div><!--会员性别比-->
+        <div class="passengersFigure" fxLayout="row">
+            <div class="manRatio" fxLayout="row">
+                <div class="manFigure" >
+
+                </div>
+                <div class="wordMessage" fxLayout="column">
+                    <span>{{sysVariableParam.malePercent | number:'1.0-0' }}{{'BusinessDataAnalysis.Percent' |translate}}</span><!--%-->
+                    <div class="occupy">
+                        <span>{{'BusinessDataAnalysis.Membership' |translate}}</span><!--占会员-->
+                    </div>
+                    <span>{{ sysVariableParam.maleValue|currency:'':'':'1.0-0' }}{{'BusinessDataAnalysis.People' |translate}}</span><!--人-->
+                </div>
+            </div>
+
+            <div class="wemonRatio" fxLayout="row">
+                <div class="wemonFigure" >
+                </div>
+                <div class="wordMessage" fxLayout="column">
+                    <span>{{sysVariableParam.femalePercent | number:'1.0-0' }}{{'BusinessDataAnalysis.Percent' |translate}}</span><!--%-->
+                    <div class="occupy">
+                        <span>{{'BusinessDataAnalysis.Membership' |translate}}</span><!--占会员-->
+                    </div>
+                    <span>{{ sysVariableParam.femaleValue|currency:'':'':'1.0-0' }}{{'BusinessDataAnalysis.People' |translate}}</span><!--人-->
+                </div>
+            </div>
+
+        </div>
+        <div class="ageGroup">{{'BusinessDataAnalysis.MembershipAgeGroup' |translate}}</div><!--会员年龄层-->
+        <div #roseChart class="roseChart"></div>
+
+        <div class="brand-preference">
+            <span class="preferenceGroup">{{'BusinessDataAnalysis.MemberBrandPreference' |translate}}</span><!--会员品牌偏好 -->
+            <div #brandPreference></div>
+        </div>
+
+
+    </div>
+</div>

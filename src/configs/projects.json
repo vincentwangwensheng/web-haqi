@@ -1,0 +1,14 @@
+{
+  "current": "hq",
+  "hq": {
+    "baseUrl": "https://dev.ttooc.xyz/haqi/api/services/",
+    "swaggerUrl": "dev.ttooc.xyz",
+    "swaggerType": "hxlive",
+    "logo_square": "assets/projects/hq/logo-square.svg",
+    "logo_rectangle": "assets/projects/hq/logo-rectangle.svg",
+    "merchantsUrl": "https://dev.ttooc.xyz/haqi-store/",
+    "passengerTrafficSystemJinMen": "http://zhongzhiguangchang.ngrok.iretailer.net:81",
+    "passengerTrafficSystemChongQing": "http://cqzzgcreport.ngrok.iretailer.net:81",
+    "description": "哈奇智能,哈奇智能商业运营管理后台，管理后台"
+  }
+}

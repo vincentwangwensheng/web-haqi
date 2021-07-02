@@ -1,0 +1,132 @@
+<form [formGroup]="formGroup_" autocomplete="off"
+      class="w-100-p h-100-p normal-form-fields max-h" fusePerfectScrollbar fxFlexFill fxLayout="row"
+      fxLayoutAlign="space-between start" >
+
+    <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-80-p  mt-12 "
+         fxLayout="row wrap" fxLayoutAlign="start end">
+
+        <ng-container *ngFor="let c of formKeys">
+
+            <!-- input输入框 -->
+            <ng-container *ngIf="c.type === 'input'">
+                <div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="50" fxLayoutGap="4px">
+                    <div fxFlex="15"><span>{{c.CNText}}</span></div>
+                    <mat-form-field appearance="outline" fxFlex="80"  [matTooltip]="formGroup_.get(c.formControlName)?.value">
+                         <mat-label>{{c.placeholder ? c.placeholder : ''}}</mat-label>
+                        <input matInput [formControlName]="c.formControlName" id="{{c.formControlName}}">
+                    </mat-form-field>
+                </div>
+            </ng-container>
+
+            <!-- 时间选择框 -->
+            <ng-container *ngIf="c.type === 'datePicker'">
+                <ng-container *ngIf="c.formControlNames && c.formControlNames.length === 2">
+                    <div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="50" fxLayoutGap="4px" >
+                        <div fxFlex="15" ><span>{{c.CNText}}</span></div>
+                        <div fxFlex="80" fxLayout="row" fxLayoutAlign="space-around baseline" >
+                            <app-material-date-picker #timeBegin [timeControl]="formGroup_.get(c.formControlNames[0].name)"
+                                                      fxFlex="45"
+                                                      (sourceDate)="onSourceDate($event,timeBegin , timeEnd , 'timeBegin')"
+                                                      [config]="configBegin"
+                                                      [label]="c.formControlNames[0].placeholder">
+
+                            </app-material-date-picker>
+                            <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center"><span>-</span></div>
+                            <app-material-date-picker #timeEnd [timeControl]="formGroup_.get(c.formControlNames[1].name)"
+                                                      fxFlex="45"
+                                                      (sourceDate)="onSourceDate($event,timeBegin , timeEnd , 'timeEnd')"
+                                                      [config]="configEnd"
+                                                      [label]="c.formControlNames[1].placeholder"></app-material-date-picker>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <!-- checkbox复选框 -->
+            <ng-container *ngIf="c.type === 'checkbox'">
+                <div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="50" fxLayoutGap="4px">
+                    <div fxFlex="15"><span>{{c.CNText}}</span></div>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="80">
+                        <mat-checkbox
+                                [checked]="c.checked"
+                                (change)="eventCheckboxChange($event , c)"
+                                >
+                            {{c.desc}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- select选择框 -->
+            <ng-container *ngIf="c.type === 'select'">
+                <div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="50" fxLayoutGap="4px">
+                    <div fxFlex="15"><span>{{c.CNText}}</span></div>
+                    <mat-form-field appearance="outline" fxFlex="80" >
+                        <mat-select [formControlName]="c.formControlName" >
+                            <ng-container *ngFor="let op of c.selectOptions">
+                                <mat-option [value]="op.value">{{op.CNValue}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </ng-container>
+
+            <!-- select 多选框-->
+            <ng-container *ngIf="c.type === 'checkBoxSelect'">
+                <div fxLayout="row" fxLayoutAlign="start baseline" fxFlex="50" fxLayoutGap="4px" class="checkBoxSelectClass">
+                    <div fxFlex="15"><span>{{c.CNText}}</span></div>
+                    <mat-form-field appearance="outline" fxFlex="80" >
+                        <mat-select [formControlName]="c.formControlName" multiple>
+                            <ng-container *ngFor="let op of c.selectOptions">
+                                <mat-option [value]="op.value">{{op.CNValue}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </ng-container>
+
+
+
+        </ng-container>
+
+    </div>
+
+    <div fxLayout="row warp" fxLayoutAlign="center start" fxLayoutGap="32px" class="w-20-p two_but mt-12">
+        <div class="but-color1">
+            <button mat-raised-button [disabled]="getStatus('search')" (click)="onSearchData()">
+                查询筛选
+            </button>
+        </div>
+        <div class="but-color2">
+            <button mat-raised-button [disabled]="getStatus('clear')" (click)="clearSearch()">
+                清空筛选
+            </button>
+        </div>
+        <!--<div fxLayout="row" fxLayoutAlign="end end" class="w-100-p mr-32 mt-32 but-color3">-->
+            <!--<button mat-raised-button  [disabled]="!hasReportList" (click)="exportData()">-->
+            <!--<span class="iconfont icondaochu"></span>-->
+                <!--导出-->
+            <!--</button>-->
+        <!--</div>-->
+    </div>
+
+
+</form>
+
+
+<ng-template #tableTg>
+    <app-table-list [title]="centerTable.title" [rows]="centerTable.rows" (search)="centerTable.onSearch()"
+                    [columns]="centerTable.columns" [page]="centerTable.page"
+                    (navigateDetail)="centerTable.getDetail($event)" [customButtons]="centerTable.customButtons"
+                    (tablePaging)="centerTable.onPage($event)" (tableSort)="centerTable.onSort($event)"
+                    (searchClear)="centerTable.onSearch()"
+                    [initOpacity]="true"
+                    [checkbox]="true" [hasDetail]="false"
+                    [selectedRows]="dataSelects" [overPanel]="true" (dataSelect)="ListSelect($event)"
+                    [selectedField]="'id'"
+                    [searchPermissions]="centerTable.searchPermissions"
+    >
+    </app-table-list>
+</ng-template>

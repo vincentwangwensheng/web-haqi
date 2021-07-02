@@ -1,0 +1,162 @@
+<div fxLayout="column" fxLayoutAlign="start start" class="all-Apply-de" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div class="dialog-application-detail-title" cdkDragHandle>
+        <div class="app-detail-dialog-title-tips">
+            <span class="app-detail-title_dialog_">{{'appointment.apply.'+ tlKey +'.applyDetail'|translate}}</span><!--申请详情-->
+            <button mat-icon-button mat-dialog-close><mat-icon>clear</mat-icon></button>
+        </div>
+    </div>
+    <form [formGroup]="options" fxLayout="column" fxLayoutAlign="center center"  class="application-de-form ">
+        <div fxLayout="column" fxLayoutAlign="space-around center" class="application-de-form-all pt-8">
+
+            <!-- 服务项目 -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"   >
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.serviceItems'|translate}}:</span> <!--申请人-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.incidentName">{{applySource?.incidentName}}</span>
+
+            </div>
+
+
+            <!-- 服务对象 -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"   >
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.serviceObject'|translate}}:</span> <!--申请人-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.serviceObject">{{applySource?.serviceObject}}</span>
+            </div>
+
+            <!-- 航班号 -->
+<!--            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"   >-->
+<!--                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.flightNumber'|translate}}:</span> &lt;!&ndash;申请人&ndash;&gt;-->
+<!--                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.flightNumber">{{applySource?.flightNumber}}</span>-->
+<!--            </div>-->
+
+            <!-- 服务日期 -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"   >
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.serviceDate'|translate}}:</span> <!--申请人-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.serviceTime |newDateTransform:'-'">{{applySource?.serviceTime |newDateTransform:'-' }}</span>
+            </div>
+
+            <!-- 申请人  昵称-->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"   >
+
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.applyN'|translate}}:</span> <!--申请人-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.applyName">{{applySource?.applyName}}</span>
+
+            </div>
+
+            <!-- 手机号-->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"  >
+
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.emergencyContact'|translate}}:</span> <!--手机号-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.emergencyCall">{{applySource?.emergencyCall}}</span>
+
+            </div>
+
+            <!-- 证件 -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"  >
+
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.certificates'|translate}}:</span> <!--手机号-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.iDCode">{{applySource?.iDCode}}</span>
+
+            </div>
+
+            <!-- Email -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"  >
+
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.email'|translate}}:</span> <!--手机号-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.email">{{applySource?.email}}</span>
+
+            </div>
+
+            <!-- 航站楼 -->
+<!--            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"  >-->
+
+<!--                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.terminal'|translate}}:</span> &lt;!&ndash;手机号&ndash;&gt;-->
+<!--                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.terminalName">{{applySource?.terminalName}}</span>-->
+
+<!--            </div>-->
+
+            <!-- 服务特殊需求说明 -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1"  >
+
+                <span fxFlex="30" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.specialInstructions'|translate}}:</span> <!--手机号-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.desc">{{applySource?.desc}}</span>
+
+            </div>
+
+             <!--状态-->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1" >
+
+                <span fxFlex="30" class="applyContent"  *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.status'|translate}}:</span> <!--状态-->
+                <span class="applyContent text-ellipsis" [matTooltip]="applySource?.status">{{applySource?.status}}</span>
+
+            </div>
+
+            <!-- 事件名称  -->
+            <!--<div fxLayout="row" fxLayoutAlign="start center" class="apply-part1" >-->
+
+                <!--<span fxFlex="18" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.incidentName'|translate}}:</span>  &lt;!&ndash;事件名称&ndash;&gt;-->
+                <!--<span class="applyContent">{{applySource?.incidentName}}</span>-->
+
+            <!--</div>-->
+
+            <!-- 付费记录  -->
+            <!-- <div fxLayout="row" fxLayoutAlign="start center" class="apply-part1">
+
+                 <span fxFlex="18">付费记录:</span>
+                 <span>8888876545443321</span>
+                 <span>（支付流水）</span>
+
+             </div>-->
+
+            <!-- 操作人  -->
+            <!--<div fxLayout="row" fxLayoutAlign="start center" class="apply-part1" >-->
+
+                <!--<span fxFlex="18" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.operator'|translate}}:</span> &lt;!&ndash;操作人&ndash;&gt;-->
+                <!--<span class="applyContent">{{applySource?.lastModifiedBy}}</span>-->
+
+            <!--</div>-->
+
+            <!-- 填写驳回或者确认框   -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="apply-part2 apply-des mb-8" >
+                <mat-form-field appearance="outline"  [floatLabel]="'always'"  *ngIf="this.options.get('reject').value || status==='AUDIT'  || status==='REJECTED' ">
+                    <textarea matInput formControlName="reject"  mat-autosize="false" placeholder="请描述预约驳回原因，内容不超过200字" >  </textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- 确认取消按钮  -->
+            <div fxLayout="row" fxLayoutAlign="end end" class="apply-part3" >
+                <ng-container *ngIf="status === statusAudit">
+                    <div fxLayout="row" fxLayoutAlign="space-around center"  fxFlex="50">
+                        <ng-container *ngIf="remainCountHas !== true">
+                            <button  mat-raised-button  class="confirm-but" [color]="'accent'"  fxFlex="36"   mat-dialog-close (click)="upConfirm()">
+                                {{'appointment.apply.'+ tlKey +'.confirm'|translate}} <!--确认-->
+                            </button>
+                        </ng-container>
+
+                        <button  mat-raised-button class="reject-but" fxFlex="36"   mat-dialog-close (click)="upReject()">
+                            {{'appointment.apply.'+ tlKey +'.reject'|translate}}  <!--驳回-->
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-container  *ngIf="status  !== statusAudit">
+                    <div fxLayout="row" fxLayoutAlign="start center"  fxFlex="50" >
+                        <span fxFlex="18" class="applyContent" *ngIf="tlKey">{{'appointment.apply.'+ tlKey +'.operator'|translate}}:</span> <!-- *ngIf="status === 'CONFIRM' || status === 'REJECTED' "操作人-->
+                        <span class="applyContent">{{applySource?.lastModifiedBy}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="end center"  fxFlex="50">
+                        <button  mat-raised-button class="confirm-but mr-8" fxFlex="36" [color]="'accent'"
+                                 *ngIf="status === 'CONFIRM'" (click)="toPerformance()" >
+                            {{'appointment.apply.'+ tlKey +'.Performance'|translate}} <!--履约 是已确定的状态下就履约-->
+                        </button>
+                        <button  mat-raised-button class="close-but mr-8" fxFlex="36"  mat-dialog-close id="dialog_close">
+                            {{'appointment.apply.'+ tlKey +'.close'|translate}} <!--关闭-->
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+

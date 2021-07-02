@@ -1,0 +1,379 @@
+@import "src/@fuse/scss/fuse";
+.write-idea-btu-class{
+  display: flex;
+  justify-content: space-around;
+  margin-right: 5px;
+  button{
+    margin-right: 12px;
+  }
+  button:hover{
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+}
+
+
+.write-idea-detail-all-flex{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    flex-direction: column;
+  }
+  .write-idea-detail-all-form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .idea-detail-flex-left{
+      width: 48%;
+      height: 97%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 5px;
+      // overflow-y: auto;
+      @include media-breakpoint('lt-md'){
+        width: 96%;
+        min-height: 580px;
+        overflow-y: hidden;
+        margin-bottom: 10px;
+      }
+
+      .idea-detail-left-flex{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        border: 1px solid #DDDDDD;
+        max-height: 81vh; // 580px;
+
+        @include media-breakpoint('lt-md'){
+          max-height: none;
+          min-height: 580px;
+          min-width: 572px;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .idea-detail-flex-right{
+      width: 48%;
+      height: 97%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      border-radius: 5px;
+      @include media-breakpoint('lt-md'){
+        width: 96%;
+        height: auto;
+        overflow-y: hidden;
+      }
+      .idea-detail-right-flex{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        border: 1px solid #DDDDDD;
+        max-height:  81vh;
+        @include media-breakpoint('lt-md'){
+          min-height: 165px;
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+  }
+
+
+}
+
+
+
+.idea-left-part1{
+  width: 96%;
+  height: 35%;
+  .idea-left-part1-ch{
+    width: 50%;
+    height: 100%;
+    .idea-left-part1-ch-title{
+      width: 96%;
+      height: 20%;
+    }
+    .idea-left-part1-ch-con{
+      width: 96%;
+      height: 75%;
+      background-color: #D8D8D8;
+      border-radius: 5px;
+      position: relative;
+      z-index: 1;
+      .idea-left-part1-ch-con-bgImg{
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+        -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+      }
+      .idea-left-part1-ch-card{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        .idea-left-part1-ch-card-img{
+          width: 22%;
+          height: 100%;
+          .idea-left-part1-ch-card-brand-img{
+            width: 80%;
+            height: 40%;
+            // cursor: pointer;
+            background-color: #D8D8D8;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+            border-radius: 5px;
+            border: 2px solid #FFFFFF;
+          }
+        /*  .idea-left-part1-ch-card-brand-img:hover{
+            cursor: pointer;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 10px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 10px;
+            box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 10px;
+          }*/
+        }
+        .idea-left-part1-ch-card-text{
+          width: 78%;
+          height: 100%;
+          .idea-left-part1-ch-card-text1{
+            width: 90%;
+            height: 20%;
+            .score-text{
+              width: 30%;
+              height: 100%;
+            }
+            .score-start{
+              width: 70%;
+              height: 100%;
+              button{
+                width: 20px;
+                height: 20px;
+                line-height: 18px;
+                mat-icon{
+                  width: 20px;
+                  height: 20px;
+                  min-width: 20px;
+                  min-height: 20px;
+                  font-size: 24px;
+                  line-height: 18px;
+                  border-radius: 15px;
+                }
+              }
+
+            }
+          }
+          .idea-left-part1-ch-card-text2{
+            width: 100%;
+            height: 80%;
+            .ch-card-ch{
+              width: 90%;
+              height: 25%;
+            }
+          }
+          .idea-left-part1-ch-card-text3{
+            width: 100%;
+            height: 20%;
+            a{
+              font-size: 12px;
+              cursor: pointer;
+            }
+          }
+
+        }
+      }
+
+    }
+  }
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 15px;
+  }
+}
+
+.idea-left-part2{
+  width: 96%;
+  height: 20%;
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 15px;
+  }
+  .idea-left-part2-des{
+    width: 98%;
+    height: 100%;
+    mat-form-field{
+      width: 100%;
+      height: 75px;
+    }
+    ::ng-deep {
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        height: 75px;
+      }
+      textarea.mat-input-element {
+        padding: 0px 0;
+        margin: -6px 0;
+        height: 48px;
+      }
+    }
+  }
+}
+
+.idea-left-part3{
+  width: 96%;
+  height: 14%;
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 15px;
+  }
+  .idea-left-part3-img{
+    width: 98%;
+    height: 100%;
+    overflow: auto;
+    .idea-img-w-h{
+      width: 26%;
+      height: 85%;
+      min-width: 167px;
+      min-height: 69px;
+      background-color: #D8D8D8;
+      margin-right: 10px;
+      .idea-left-part3-img-w-h{
+         width: 100%;
+         height: 100%;
+         border: 1px solid  #6C6C6C;
+           @include media-breakpoint('lt-md'){
+             // max-width: 147px;
+             max-height: 69px;
+             border: 1px solid  #6C6C6C;
+          }
+      }
+    }
+
+  }
+}
+
+.idea-left-part4{
+  width: 96%;
+  height: 12%;
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 15px;
+  }
+  .idea-left-part4-ch{
+    width: 98%;
+    height: 100%;
+    mat-form-field{
+     width: 48%;
+    }
+    .write-date-picker{
+      width: 48%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+
+}
+
+.idea-right-part{
+  width: 96%;
+  height: 35%;
+  .idea-right-part-title{
+    width: 96%;
+    height: 20%;
+  }
+  .idea-right-part-reply{
+    width: 98%;
+    height: 75%;
+    mat-form-field{
+      width: 100%;
+      height: 127px;
+    }
+    ::ng-deep {
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        height: 127px;
+      }
+      textarea.mat-input-element {
+        padding: 0px 0;
+        margin: -7px 0;
+        height: 100px;
+      }
+    }
+  }
+}
+
+
+.part1-font{
+  font-size: 14px;
+}
+
+.part1-font2{
+  font-size: 12px;
+}
+
+.mat-color{
+  color: #FCB526;
+}
+
+.mat-color2{
+  color: #F0EFF2;
+}
+
+.idea-mat-point{
+  mat-form-field{
+    height: 40px;
+    .mat-form-field-wrapper{
+      height: 40px;
+    }
+  }
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      height: 40px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0em ;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0em;
+    }
+    .mat-form-field-flex{
+      height: 40px;
+    }
+    .mat-form-field-label-wrapper {
+      top: -1.14375em;
+      padding-top: 1.04375em;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-label {
+      top: 2.404375em;
+      margin-top: -0.9em;
+    }
+    .mat-form-field-wrapper {
+      padding-bottom: 1.14375em;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+      padding: 0 0.5em;
+    }
+  }
+}

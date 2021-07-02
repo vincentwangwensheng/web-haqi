@@ -1,0 +1,624 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <div class="header accent p-24 title-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <div class="subtitle secondary-text">
+                        <span>{{pageTitle|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="btu-class-me"  [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}"
+                 [ngClass]="{'btu-class-me15' : marketingDetailJson?.reviewStatus === true , 'btu-class-me39' : marketingDetailJson?.reviewStatus !== true }">
+                <!--头部按钮-->
+                <ng-container *ngIf="userType != 'super'">
+                    <div class="header-button">
+                        <button mat-raised-button class="btu-bottom" color="fff" (click)="preAcCom(preAc)">
+                            <mat-icon style="color: #039BE5">find_in_page</mat-icon>
+                            <span style="color:#039BE5">{{'marketingManage.addMarketing.preview'|translate}}</span>
+                        </button>
+                    </div>
+                    <div class="header-button " fxLayout="row" *ngIf="toExamine === true">
+                        <button mat-raised-button class="btn-check" (click)="reviewed('yes')" [disabled]="btuDis"><span style="color:#fff">审核通过</span></button>
+                    </div>
+                    <div class="header-button" fxLayout="row" *ngIf="toExamine === true">
+                        <button (click)="onReject()" class="btn-reject" [disabled]="btuDis"  mat-raised-button><span
+                                style="color:#fff">驳回</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button (click)="linkToEdit()" mat-raised-button class="btu-bottom" color="fff" [disabled]="btuDis">
+                            <mat-icon style="color: #039BE5">create</mat-icon>
+                            <span style="color:#039BE5">{{'marketingManage.detailMarketing.edit'|translate}}</span>
+                        </button>
+                    </div>
+                    <div class="header-button">
+                        <button mat-raised-button [routerLink]="'/apps/marketingManage'" class="btu-bottom" color="fff" [disabled]="btuDis">
+                            <mat-icon style="color: #039BE5">close</mat-icon>
+                            <span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span>
+                        </button>
+                    </div>
+
+                </ng-container>
+                <ng-container *ngIf="userType==='super'">
+                    <div class="header-button ml-40" fxLayout="row">
+                        <button mat-raised-button class="btn-check"><span style="color:#fff">审核通过</span></button>
+                    </div>
+                    <div class="header-button" fxLayout="row">
+                        <button (click)="onReject()" class="btn-reject" mat-raised-button><span
+                                style="color:#fff">驳回</span></button>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+        <!-- CONTENT -->
+        <div class="content-all" fxLayout.gt-sm="row" fxLayout.lt-md="column" >
+            <div class="content-left" fxLayout="column">
+
+                <div class="content-input-down" fxLayout="column">
+                    <form fxLayout="column" [formGroup]="profileForm" class="mb-16">
+                        <button style="display: none" (click)="pseudoSubmit()">pseudoSubmit</button>
+
+                        <!-- 名称 -->
+                        <div fxLayout="row"  [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'600ms'}}" class="content-divClass mb-12">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>{{'marketingManage.addMarketing.title'|translate}}</mat-label>
+                                <input matInput formControlName="name" value="{{marketingDetailJson?.name}}" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 活动类型  预热时间 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="idDiv">
+                            <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.addMarketing.activityType'|translate}}</mat-label>
+                                <mat-select required formControlName="activityType" [(ngModel)]="currentActivityType"
+                                            [disabled]="true">
+                                    <mat-option
+                                            value="DEFAULT">{{'marketingManage.addMarketing.normalActivity'|translate}}</mat-option>
+                                    <mat-option
+                                            value="GROUP">{{'marketingManage.addMarketing.groupActivity'|translate}}</mat-option>
+                                    <mat-option
+                                            value="GROUPBUY">{{'marketingManage.addMarketing.groupBuyActivity'|translate}}</mat-option>
+                                    <mat-option
+                                            value="POINT">{{'marketingManage.addMarketing.integralActivity'|translate}}</mat-option>
+                                    <mat-option
+                                            value="AR">{{'marketingManage.addMarketing.ARActivity'|translate}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.addMarketing.preheatTime'|translate}}</mat-label>
+                                <input matInput formControlName="preheatTime"
+                                       value="{{marketingDetailJson?.preheatTime}}" readonly> <!-- |newDateTransform:'-' -->
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 开始时间  结束时间 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="start-end-time">
+                            <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.addMarketing.beginTime'|translate}}</mat-label>
+                                <input matInput formControlName="beginTime"
+                                       value="{{marketingDetailJson?.beginTime}}" readonly>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.addMarketing.endTime'|translate}}</mat-label>
+                                <input matInput formControlName="endTime"
+                                       value="{{marketingDetailJson?.endTime}}" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+                        <!-- 状态   原因 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" fxLayoutAlign="space-around center" class="idDiv">
+                            <mat-form-field appearance="outline" class="w-49-p" [floatLabel]="'always'">
+                                <mat-label>审核状态</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.reviewStatus === true ? '已审核': '待审核'}}" [disabled]="true">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-49-p" [floatLabel]="'always'">
+                                <mat-label>审核结果</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.reviewResult === true ? '已通过': (marketingDetailJson?.reviewStatus === false?'待审核': '已驳回')}}"  [disabled]="true">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 原因 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}" class="content-divClass mb-12" *ngIf="marketingDetailJson?.reviewResult === false">
+                            <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                                <mat-label>驳回原因</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.rejectReason}}"  [disabled]="true">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 活动图片 上传 与 预览 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" fxLayoutAlign="space-between center" class="activity-photo">
+                            <div fxLayout="row">
+                                <span>{{'marketingManage.addMarketing.activityImage'|translate}}</span>
+                                <span style="color:#E7293A">*</span>
+                            </div>
+                            <div class="ready-upload-part">
+                                <div class="preview-img">
+                                    <button mat-raised-button class="preview-up-input-btu-btu" ngDefaultControl
+                                            (click)="openPreviewDilog(previewImgDloag)"
+                                    >
+                                        <mat-icon color="accent">insert_photo</mat-icon>
+                                        <span class="span-accent-color">{{'marketingManage.addMarketing.preview'|translate}}</span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 说明 -->
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}" class="activity-regulation">
+                            <quill-editor [placeholder]="'marketingManage.addMarketing.activityRule'|translate"
+                                          [styles]="{height:'160px'}" [(ngModel)]="editorContent"
+                                          formControlName="ruleText" [readOnly]="true"></quill-editor>
+                        </div>
+
+
+                        <!-- 支持推送 活动标签-->
+                        <!--<div class="activity-des" fxLayout="column">-->
+                            <!--&lt;!&ndash; 支持推送 &ndash;&gt;-->
+                            <!--<div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" fxLayoutAlign="start center" class="engine-push">-->
+                                <!--<div fxLayout="row" class="push-flag">-->
+                                    <!--<span>{{'marketingManage.addMarketing.supportPush'|translate}}</span>-->
+                                <!--</div>-->
+                                <!--<mat-radio-group aria-label="Select an option">-->
+                                    <!--<mat-radio-button class="radio-button-right-margin" value="1" checked-->
+                                                      <!--[labelPosition]="'before'">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>-->
+                                    <!--<mat-radio-button class="radio-button-right-margin" value="2"-->
+                                                      <!--[labelPosition]="'before'">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>-->
+                                <!--</mat-radio-group>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; 活动标签 &ndash;&gt;-->
+                            <!--<div class="activity-lable" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" fxLayout="row">-->
+                                <!--<div class="label-title-name" fxLayout="row">-->
+                                    <!--<span>{{'marketingManage.addMarketing.activityLabel'|translate}}</span>-->
+                                <!--</div>-->
+
+                                <!--<div fxLayout="row" class="label-all-content">-->
+                                    <!--&lt;!&ndash; <div fxLayout="row" class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="editMarketingTags(tagTemplate)">-->
+                                         <!--<img src="assets/images/cards/insertAndReduce.png">-->
+                                         <!--<span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>-->
+                                     <!--</div>&ndash;&gt;-->
+                                    <!--<div fxLayout="row" fxLayoutAlign="center center" class="label-content mb-16"-->
+                                         <!--*ngFor="let marketingTag of marketingTags">-->
+                                        <!--<span class="color-font">{{marketingTag.tagName}}</span>-->
+                                        <!--&lt;!&ndash;<mat-icon class="color-font select-icon">cancel</mat-icon>&ndash;&gt;-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    </form>
+                </div>
+            </div>
+
+
+
+
+            <div class="content-right" fxLayout="column">
+
+                <!--一般活动优惠券-->
+                <div fxLayout="column" class="electronic-coupons-content" fxFlex="0 0 auto" id="normal_ecoupon"
+                     *ngIf="currentActivityType==='DEFAULT'">
+                    <div class="coupons-word" fxFlex="0 0 auto" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                        <span>{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add"
+                         fxFlex="0 0 auto" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+
+                        <div *ngFor="let couponModel of electronicCouponsArray" fxLayout="column"
+                             class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}
+                                    ：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                            </div>
+                            <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                            <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!--分组活动优惠券-->
+                <div fxLayout="column" id="grouping_ecoupon" *ngIf="currentActivityType==='GROUP'" class="group_coupon_sc">
+                    <!--组A-->
+                    <div fxLayout="column" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="grouping-electronic-coupons-content "
+                         fxFlex="0 0 auto">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="start center">
+                            <span>{{'marketingManage.addMarketing.eCoupon'|translate}}
+                                A{{'marketingManage.addMarketing.group'|translate}}</span>
+                            <mat-radio-group aria-label="Select an option" [value]="groupingAStatus" [disabled]="true">
+                                <mat-radio-button class="radio-button-right-margin" value="false"
+                                                  [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                <mat-radio-button class="radio-button-right-margin" value="true"
+                                                  [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add"
+                             fxFlex="0 0 auto">
+
+                            <div *ngFor="let couponModel of groupingACoupons" fxLayout="column" class="content-coupons"
+                                 fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}
+                                        ：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}
+                                    ：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}
+                                    ：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                    ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                    -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                   <!-- 组B -->
+                    <div fxLayout="column" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="grouping-electronic-coupons-content top-border" fxFlex="0 0 auto">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="start center">
+                            <span>{{'marketingManage.addMarketing.eCoupon'|translate}}
+                                B{{'marketingManage.addMarketing.group'|translate}}</span>
+                            <mat-radio-group aria-label="Select an option" [value]="groupingBStatus" [disabled]="true">
+                                <mat-radio-button class="radio-button-right-margin" value=false
+                                                  [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                <mat-radio-button class="radio-button-right-margin" value=true
+                                                  [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add"
+                             fxFlex="0 0 auto">
+
+                            <div *ngFor="let couponModel of groupingBCoupons" fxLayout="column" class="content-coupons"
+                                 fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}
+                                        ：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}
+                                    ：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}
+                                    ：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                    ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                    -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--新增的组优惠券-->
+                    <div fxLayout="column" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="grouping-electronic-coupons-content top-border" fxFlex="0 0 auto"
+                         *ngFor="let item of newAddGroupingCoupons; let i = index;">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="space-between center">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <span>{{'marketingManage.addMarketing.eCoupon'|translate}}{{groupingCouponsOrders[i]}}{{'marketingManage.addMarketing.group'|translate}}</span>
+                                <mat-radio-group aria-label="Select an option" [value]="newAddGroupingStatus[i]"
+                                                 [disabled]="true">
+                                    <mat-radio-button class="radio-button-right-margin" value="false"
+                                                      [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                    <mat-radio-button class="radio-button-right-margin" value="true"
+                                                      [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add"
+                             fxFlex="0 0 auto">
+
+                            <div *ngFor="let couponModel of item" fxLayout="column" class="content-coupons"
+                                 fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}
+                                        ：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}
+                                    ：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}
+                                    ：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                    ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                    -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--新增的组优惠券-->
+
+                    <!--分组活动的优惠券-->
+
+                </div>
+
+
+
+                <!-- 积分活动优惠券 -->
+                <div class="integral-coupon-content" *ngIf="currentActivityType==='POINT'" fxLayout="column"
+                     fxLayoutAlign="space-around start">
+                    <span class="word-title-des" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">积分兑换电子券</span>
+                    <div fxLayout="column" fxLayoutAlign="space-around start" class="integral-ticket" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}"  *ngIf="electronicCouponsArray.length > 0">
+                        <span class="ml-8">券来源：{{integralCoupon?.source=== 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                        <span class="ml-8">券编码：{{integralCoupon?.source=== 'DEFAULT'? integralCoupon?.number: integralCoupon?.outId}}</span>
+                        <span class="ml-8">券名称：{{integralCoupon?.name}}</span>
+                        <span class="ml-8">有效期：{{integralCoupon.timeBegin|newDateTransform:'/'}}-{{integralCoupon.timeEnd|newDateTransform:'/'}}</span>
+                        <span class="ml-8"s>兑换积分：{{exchangeIntegral}}</span>
+                    </div>
+                </div>
+
+
+                <!-- 团购活动优惠券 -->
+                <div fxLayout="column" class="electronic-group-buy-coupons-content" fxFlex="0 0 auto"
+                     *ngIf="currentActivityType==='GROUPBUY'">
+                    <div class="coupons-word" fxFlex="0 0 auto" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                        <span>{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}"
+                         fxFlex="0 0 auto">
+                        <div *ngFor="let couponModel of electronicCouponsArray" fxLayout="column"
+                             class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}
+                                    ：{{couponModel.name}}</span>
+                                <!--<mat-icon (click)="deleteCoupon(couponModel.outId)" class="coupon-close-button">-->
+                                <!--highlight_off-->
+                                <!--</mat-icon>-->
+                            </div>
+                            <!--<span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.outId}}</span>-->
+                            <span>{{'marketingManage.addMarketing.couponId'|translate}}：{{couponModel?.id}}</span>
+                            <span>{{'marketingManage.mCoupons.source'|translate}}：精准营销</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            <span>{{'marketingManage.addMarketing.price'|translate}}：￥{{amount}}</span>
+                            <span>{{'marketingManage.addMarketing.value'|translate}}：￥{{couponModel?.amount}}</span>
+                        </div>
+                    </div>
+
+
+                    <div fxLayout="column" class="mb-12 mt-12 value-selling-div" [@animate]="{value:'*',params:{y:'100%',delay:'350ms',duration:'600ms'}}">
+                        <span class="value-span mb-12">总价值：{{totalPriceValue}}</span>
+                        <span class="ml-20">总售价：<input readonly class="selling-input" [(ngModel)]="totalSellingPrice"/></span>
+                    </div>
+
+                    <div class="whether-refund" fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                        <label class="mr-12">{{'marketingManage.addMarketing.canRefund'|translate}}</label>
+                        <mat-radio-group [(ngModel)]="canRefund" [disabled]="true">
+                            <mat-radio-button class="mr-20" [value]="true">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>
+                            <mat-radio-button class="right-margin"
+                                              [value]="false">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+
+                </div>
+
+                <!--AR活动优惠券-->
+                <div fxLayout="column" class="electronic-coupons-content" fxFlex="0 0 auto"  id="AR_ecoupon" *ngIf="currentActivityType==='AR'">
+                    <div class="coupons-word" fxFlex="0 0 auto" fxLayoutAlign="start center"  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                        <span>{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add"  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}"
+                         fxFlex="0 0 auto">
+                        <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple  (click)="openStore(false)">
+                            <!--  <button mat-icon-button (click)="openStore(false)">
+                                  <mat-icon>add_circle</mat-icon>
+                              </button>-->
+                            <mat-icon>add_circle</mat-icon>
+                            <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                        </div>
+                        <div *ngFor="let couponModel of electronicCouponsArray; let i = index;" fxLayout="column"
+                             class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}
+                                    ：{{couponModel.source === 'DEFAULT'? TYPE_DEFAULT: TYPE_BCIA_TT_CRM}}</span> <!-- 精准营销  股份会员 -->
+                                <mat-icon (click)="deleteCoupon(i)" class="coupon-close-button">
+                                    highlight_off
+                                </mat-icon>
+                            </div>
+                            <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                            <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="activity-stage" fxFlex="0 0 auto" style="display: none;">
+                    <div class="activity-content" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>活动阶段</span>
+                    </div>
+                </div>
+                <div *ngFor="let activity of activityStageArray; let i =index;" class="activity-coupon" fxLayout="row"
+                     fxFlex="0 0 auto" style="display: none;">
+                    <div fxLayout="column" class="time-coupon">
+                        <div class="activity-time" fxLayout="row">
+                            <mat-form-field appearance="outline" class="w-30-p activity-input-padding"
+                                            style="margin-left: 5px; margin-right:5px;" fxFlex>
+                                <mat-label>标题</mat-label>
+                                <input matInput value="{{activity.name}}" readonly>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-30-p activity-input-padding"
+                                            style="margin-left: 5px; margin-right:5px;" fxFlex>
+                                <mat-label>开始时间</mat-label>
+                                <input matInput value="{{activity.beginTime|newDateTransform:'/'}}" readonly>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-30-p activity-input-padding"
+                                            style="margin-left: 5px; margin-right:5px;" fxFlex>
+                                <mat-label>结束时间</mat-label>
+                                <input matInput value="{{activity.endTime|newDateTransform:'/'}}" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row" class="electronic-coupons-content2" fxLayoutAlign="start center"
+                             fxFlex="0 0 auto">
+                            <span class="coupons-word" fxFlex="0 0 auto">电子券</span>
+
+                            <div *ngFor="let couponModel of activityStagesCouponsArray[i];let k =index;"
+                                 fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start"
+                                 fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <span>券渠道：{{couponModel.source}}</span>
+                                    <mat-slide-toggle *ngIf="couponModel.remarks === 'test'"
+                                                      checked="true" [disabled]='true'>
+                                    </mat-slide-toggle>
+                                    <mat-slide-toggle *ngIf="couponModel.remarks !== 'test'"
+                                                      checked="false" [disabled]='true'
+                                    >
+                                    </mat-slide-toggle>
+                                </div>
+                                <span>券编码：{{couponModel.outId}}</span>
+                                <span>券名称：{{couponModel.name}}</span>
+                                <span>有效期：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                    -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--商场-->
+                <ng-container *ngIf="currentActivityType!=='AR'">
+                    <div fxLayout="row" class="mall-div" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">
+                        <span class="mr-20">关联商场</span>
+                        <div fxLayout="row" class="mall-all-content" fxLayoutAlign="start center">
+                            <!--<div fxLayout="row" class="increace-reduce-button" fxLayout="row"
+                                 fxLayoutAlign="center center" (click)="editMall(mallTemplate)">
+                                <img src="assets/images/cards/insertAndReduce.png">
+                                <span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>
+                            </div>-->
+                            <div fxLayout="row" fxLayoutAlign="center center" class="label-content"
+                                 *ngFor="let mall of mallList; let i = index;">
+                                <span class="mr-8 color-font">{{mall.mallName}}</span>
+                                <!-- <mat-icon class="color-font select-icon">cancel
+                                 </mat-icon>-->
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+
+                <!--商铺 关联投放店铺 -->
+                <ng-container *ngIf="currentActivityType==='AR'">
+
+                    <div fxLayout="row" class="shop-div">
+                        <span class="mr-20" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}"  >
+                            {{'marketingManage.mCoupons.relationShop'|translate}}  <!-- 关联投放店铺 -->
+                        </span>
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}"   class="shop-all-content">
+                            <div fxLayout="row" class="increace-reduce-button-s"
+                                 fxLayoutAlign="center center" (click)="editShop(storeTemplate)">
+                                <img src="assets/images/cards/insertAndReduce.png">
+                                <span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center" class="label-content-s mb-16"
+                                 *ngFor="let store of storeList; let i = index;">
+                                <span class="mr-8 color-font">{{store.storeName}}</span>
+                                <!--<mat-icon class="color-font select-icon" (click)="deleteShop(i)">cancel-->
+                                <!--</mat-icon>-->
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+
+<ng-template #LableDialog>
+    <div mat-dialog-title class="dialog-manage-title">
+        <div><span class="title_dialog_">{{'marketingManage.addMarketing.selectLabel'|translate}}</span></div>
+        <div>
+            <button mat-icon-button mat-dialog-close class="btu_dialog_">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div class="all-content"></div>
+    </mat-dialog-content>
+    <button>dddd</button>
+</ng-template>
+
+<ng-template #AddTicketDialog>
+    <div mat-dialog-title class="dialog-manage-title">
+        <div><span class="title_dialog_">{{'marketingManage.addMarketing.addTicket'|translate}}</span></div>
+        <div>
+            <button mat-icon-button mat-dialog-close class="btu_dialog_">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div class="all-content-ticket"></div>
+    </mat-dialog-content>
+    <!--<button>dddd</button>-->
+</ng-template>
+
+<!--上传预览的窗口-->
+<ng-template #previewImgDloag>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+      fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p" *ngIf="!imgPreLoading">
+                <img *ngIf="imgSrc" [src]="imgSrc" class="w-100-p h-100-p">
+            </div>
+            <mat-spinner color="accent" *ngIf="imgPreLoading"
+                     mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>
+
+<ng-template #checkDialog>
+
+    <div fxLayout="column" class="check-dialog-content" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div class="dialog-title" fxLayout="row" fxLayoutAlign="space-between center" cdkDragHandle>
+            <span class="ml-20" style="color: #fff;">驳回原因</span>
+            <div class="mr-20">
+                <button mat-icon-button mat-dialog-close>
+                    <mat-icon style="color: #fff;">clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="div-content p-20">
+            <textarea placeholder="请描述驳回原因,内容不超过200字" id="rejectReason"></textarea>
+        </div>
+        <div fxLayout="row-reverse" class="button-reject mr-20" fxLayoutAlign="start center">
+            <button mat-raised-button fxLaout="row" fxLayoutAlign="center center" mat-dialog-close (click)="reviewed('no')"><span style="color:#fff;">驳回</span>
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+<!-- 预览模板 -->
+<ng-template #preAc>
+    <app-activity-pre-common [AcPre]="AcPreData"></app-activity-pre-common>
+</ng-template>
+
+
+<!-- 关联 商户 -->
+<ng-template #storeTemplate>
+    <app-store-manage (dataSelect)="onSelectShop($event)" [overPanel]="true" [createButton]="false"  [selectedFiled]="'storeNo'"
+                      [selectedRows]="selectedShops" [checkbox]="true"></app-store-manage>
+</ng-template>

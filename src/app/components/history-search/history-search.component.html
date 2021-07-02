@@ -1,0 +1,24 @@
+<mat-form-field @slideInRight *ngIf="showSearch">
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput autocomplete="off" (input)="autoFilter($event)"
+         (focus)="getAutoSearch()" [(ngModel)]="inputValue" (keyup.enter)="onSearchPath($event)"
+         placeholder="{{'airport.search.title'|translate}}" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-autocomplete [disableRipple]="true" #auto="matAutocomplete" class="history-search" (optionSelected)="optionSelect($event)">
+  <div fxLayout="row" class="px-16" fxLayoutAlign="space-between center">
+    <span>{{'airport.search.history'|translate}}</span>
+    <span *ngIf="autoSearchList.length>3"
+          (click)="deleteAll()">{{'airport.search.deleteAll'|translate}}</span>
+  </div>
+  <div>
+     <div mat-ripple fxLayout="row" *ngFor="let search of autoSearchList" [ngClass]="{'delete-option':search.delete}"  class="mx-4 mb-4"
+          fxLayoutAlign="space-between center">
+         <mat-option [value]="search.value" fxFlex="1 1 auto">
+             <div fxLayout="row" fxLayoutAlign="space-between center">
+                 <span fxLayout="row" fxLayoutAlign="center center" class="text-ellipsis">{{search.value}}</span>
+             </div>
+         </mat-option>
+         <span fxLayout="row" fxLayoutAlign="space-between center" (click)="deleteSearch(search)">{{'airport.search.delete'|translate}}</span>
+     </div>
+ </div>
+</mat-autocomplete>

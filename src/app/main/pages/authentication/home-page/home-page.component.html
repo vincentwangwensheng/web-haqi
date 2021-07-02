@@ -1,0 +1,166 @@
+<div class="homePageAllFlex"
+     [ngClass]="{'homePageAllFlexBcia': currentProject === 'hq' , 'homePageAllFlexTT': currentProject === 'tt' , 'homePageAllFlexHX': currentProject === 'hx' }"
+     fxLayout="row" fxLayoutAlign="end end">
+
+    <!-- 左边蓝色方块部分 -->
+    <div class="w-100-p h-100-p desc1" fxLayout="row" fxLayoutAlign="end start">
+
+        <!-- 右边部分-->
+        <div [@animate]="{value:'*',params:{scale:0.5,duration:'300ms',delay:'300ms'}}"  class="h-100-p home-right" fxLayout="row" fxLayoutAlign="start start" >
+            <div fxLayout="column" fxLayoutAlign="start center" class="opBg">
+                <!-- 小logo部分 -->
+                <div *ngIf="logo" fxLayout="row" fxLayoutAlign="start end" fxFlex="10" class="w-100-p">
+                    <ng-container *ngIf="currentProject === 'tt'">
+                        <img [src]="logo"  class="logoImgTT">
+                    </ng-container>
+                    <ng-container *ngIf="currentProject === 'hq'">
+                        <img [src]="logo" class="logoImg">
+                    </ng-container>
+                    <ng-container *ngIf="currentProject === 'hx'">
+                        <img [src]="logo"  class="logoImgHX">
+                    </ng-container>
+
+                </div>
+
+                <!-- 大文字部分 -->
+                <div fxLayout="row" fxLayoutAlign="center end" fxFlex="36" class="w-100-p">
+                    <div *ngIf="tlKey"   fxLayout="column" fxLayoutAlign="start start" class="home-page-text">
+                        <ng-container *ngIf="currentProject === 'tt'">
+                            <span class="title1Font">{{(tlKey+'title1')|translate}}</span>
+                        </ng-container>
+                        <ng-container *ngIf="currentProject === 'hq'">
+                            <span class="title1Font">{{(tlKey+'title1')|translate}}</span>
+                            <span class="title1Font">{{(tlKey+'title2')|translate}}</span>
+                        </ng-container>
+                        <ng-container *ngIf="currentProject === 'hx'">
+                            <span class="title1Font">{{(tlKey+'title1')|translate}}</span>
+                            <span class="title1Font">{{(tlKey+'title2')|translate}}</span>
+                        </ng-container>
+
+                    </div>
+                </div>
+                <!-- 小文子部分 -->
+                <div fxLayout="row" fxLayoutAlign="center end" fxFlex="9.7" class="w-100-p">
+                    <div fxLayout="column" fxLayoutAlign="start start"  class="home-page-text">
+
+                        <span *ngIf="tlKey" class="title2Font">{{(tlKey+'title3')|translate}}</span>
+                        <span *ngIf="tlKey" class="title2Font">{{(tlKey+'title4')|translate}}</span>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 标题按钮部分 -->
+    <div class="w-100-p desc2" fxLayout="column" fxLayoutAlign="start end"  >
+
+        <!-- 小字英文部分 -->
+        <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'400ms'}}" fxFlex="8" class="desc2Content" fxLayout="column" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="start end" class="w-100-p" fxFlex="100">
+
+                <span *ngIf="tlKey" class="smallTitle">{{(tlKey+'EnglishTitle')|translate}}</span>
+
+            </div>
+        </div>
+
+        <!-- 大字标题 -->
+        <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'200ms'}}" fxFlex="26" class="desc2Content" fxLayout="column" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxFlex="100">
+
+                <span *ngIf="tlKey" class="bigTitle">{{(tlKey+'bigTitle')|translate}}</span>
+
+            </div>
+        </div>
+
+        <!-- 跳转按钮 -->
+        <div fxFlex="52" class="desc2Content" fxLayout="column" fxLayoutAlign="start start">
+            <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start start" class="w-45-p" fxFlex="100">
+
+
+                <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'400ms'}}"
+                     class="butJumpClass mr-16" fxLayout="row" fxLayoutAlign="center center" (click)="toManageCenter()">
+                <!--fxFlex="28" fxFlex="60" fxFlex="12" -->
+                    <div  fxLayout="row" fxLayoutAlign="center center" class="mr-12"><img src="assets/images/backgrounds/manageImg.png" class="decorateImg"></div>
+                    <div  fxLayout="row" fxLayoutAlign="start center"  class="mr-32">
+
+                        <span *ngIf="tlKey" class="butJumpFont">{{(tlKey+'jumpBut1')|translate}}</span>
+
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mr-12">
+                        <!--<img src="assets/images/backgrounds/arrow.png" class="arrowImg">-->
+                        <button mat-icon-button  class="arrowImg" [disabled]="true"><mat-icon>arrow_right</mat-icon></button>
+                    </div>
+                </div>
+
+                <!--<div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'600ms'}}" class="butJumpClass mr-16" fxLayout="row" fxLayoutAlign="center center" (click)="toDevelopmentCenter()">-->
+                    <!--&lt;!&ndash;fxFlex="28" fxFlex="60" fxFlex="12" &ndash;&gt;-->
+                    <!--<div fxLayout="row" fxLayoutAlign="center center" class="mr-12">-->
+                        <!--<img src="assets/images/backgrounds/openImg.png" class="decorateImg">-->
+                    <!--</div>-->
+                    <!--<div fxLayout="row" fxLayoutAlign="start center" class="mr-32">-->
+
+
+                        <!--<span  *ngIf="tlKey" class="butJumpFont">{{(tlKey+'jumpBut2')|translate}}</span>-->
+                    <!--</div>-->
+                    <!--<div fxLayout="row" fxLayoutAlign="start center" class="mr-12">-->
+                         <!--<button mat-icon-button  class="arrowImg" [disabled]="true"><mat-icon>arrow_right</mat-icon></button>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'600ms'}}"
+                     class="butJumpClass" fxLayout="row" fxLayoutAlign="center center" (click)="toMerchantsCenter()">
+                    <div  fxLayout="row" fxLayoutAlign="center center" class="mr-12">
+                        <img src="assets/images/backgrounds/openImg.png" class="decorateImg">
+                    </div>
+                    <div  fxLayout="row" fxLayoutAlign="start center" class="mr-32">
+
+
+                        <span  *ngIf="tlKey" class="butJumpFont">{{(tlKey+'jumpBut3')|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mr-12">
+                        <button mat-icon-button  class="arrowImg" [disabled]="true"><mat-icon>arrow_right</mat-icon></button>
+                    </div>
+                </div>
+
+                <!-- 客流系统 -->
+                <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'600ms'}}"
+                     class="butJumpClass mr-16" fxLayout="row" fxLayoutAlign="center center" (click)="toPassengerTrafficSystem('JinMen')">
+                    <div  fxLayout="row" fxLayoutAlign="center center" class="mr-12">
+                        <img src="assets/images/backgrounds/flow.png" class="decorateImg">
+                    </div>
+                    <div  fxLayout="row" fxLayoutAlign="start center" class="mr-32">
+                        <span  *ngIf="tlKey" class="butJumpFont">荆门客流</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mr-12">
+                        <button mat-icon-button  class="arrowImg" [disabled]="true"><mat-icon>arrow_right</mat-icon></button>
+                    </div>
+                </div>
+                <div [@animate]="{value:'*',params:{x:'-100%',duration:'300ms',delay:'600ms'}}"
+                     class="butJumpClass" fxLayout="row" fxLayoutAlign="center center" (click)="toPassengerTrafficSystem('ChongQing')">
+                    <div  fxLayout="row" fxLayoutAlign="center center" class="mr-12">
+                        <img src="assets/images/backgrounds/flow.png" class="decorateImg">
+                    </div>
+                    <div  fxLayout="row" fxLayoutAlign="start center" class="mr-32">
+                        <span  *ngIf="tlKey" class="butJumpFont">重庆客流</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mr-12">
+                        <button mat-icon-button  class="arrowImg" [disabled]="true"><mat-icon>arrow_right</mat-icon></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 备案部分 -->
+        <div [@animate]="{value:'*',params:{y:'100%',duration:'300ms',delay:'800ms'}}" fxFlex="8" class="w-100-p" fxLayout="row" fxLayoutAlign="center start">
+
+            <span *ngIf="tlKey" class="KeepRecord">{{(tlKey+'keep0nRecord')|translate}}</span>
+
+        </div>
+
+    </div>
+
+
+</div>

@@ -1,0 +1,126 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.user-select {
+  user-select: text !important;
+}
+
+#table-container {
+  overflow: hidden;
+}
+
+.user-select-none {
+  user-select: none;
+}
+
+// 修改placeholder样式
+.input-box::placeholder {
+  font-size: 12px;
+}
+
+// 修复顺序箭头位置
+.fix-arrow {
+  position: absolute;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50px;
+  right: 15px
+}
+
+.fix-button {
+  position: relative;
+  top: 4px;
+  mat-icon {
+    margin-bottom: 6px;
+  }
+}
+
+// 选择列位
+.column-select {
+  z-index: 9999;
+  border-radius: 5px;
+  overflow: auto;
+  position: absolute;
+  top: 225px;
+  background: white;
+  width: 180px;
+  min-width: 180px;
+  max-width: 300px;
+  max-height: 400px;
+}
+
+// 悬浮模式
+.overlay-column-select {
+  @extend .column-select;
+  top: 160px;
+  left: 155px
+}
+
+// 自定义页脚
+.custom-footer {
+  //position: absolute;
+  //top: 610px;
+  //right: 0;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #aaaaaa;
+  font-family: Muli, "Helvetica Neue", Arial, sans-serif;
+  & div:nth-child(1) {
+    padding-left: 18px;
+  }
+  mat-slide-toggle {
+    opacity: 0.5;
+    transition: opacity 0.5s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// 清除筛选按钮
+.clear-filter {
+  font-weight: normal;
+  span:nth-child(2) {
+    text-decoration-line: underline;
+    text-underline-position: under;
+    position: relative;
+    bottom: 2px;
+  }
+}
+
+.fix-select {
+  padding-top: 6px;
+}
+
+
+.select-suffix {
+  cursor: pointer;
+  position: relative;
+  top: -26px;
+  left: calc(100% - 28px)
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+ngx-datatable {
+  opacity: 0;
+  transition: opacity 0.5s 0.3s ease-in-out;
+}
+
+.single-select {
+  .datatable-row-wrapper {
+    cursor: pointer;
+  }
+}
+.pager-buttons {
+  button {
+    padding: 0;
+    min-width: 32px;
+    min-height: 32px;
+  }
+}

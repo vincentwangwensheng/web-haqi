@@ -1,0 +1,5 @@
+<app-table-list [title]="title" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="!isViewPage"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()" (create)="create()"
+>
+</app-table-list>

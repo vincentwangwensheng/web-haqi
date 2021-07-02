@@ -1,0 +1,292 @@
+<div id="calendar" class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header p-16 p-sm-24" [ngClass]="viewDate | date:'MMM'">
+
+        <div class="header-content" fxLayout="column" fxLayoutAlign="space-between">
+
+            <div class="header-top" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+
+                <div class="logo mb-16 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="logo-icon" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                        today
+                    </mat-icon>
+                    <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-100px'}}">
+                      <!-- 日历选择-->
+                    </span>
+                </div>
+
+                <!-- TOOLBAR -->
+                <div class="toolbar" [@animate]="{value:'*',params:{x:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row" fxLayoutAlign="start center">
+
+                    <!--<button mat-icon-button aria-label="Search" matTooltip="Search">-->
+                    <!--<mat-icon>search</mat-icon>-->
+                    <!--</button>-->
+
+                    <button mat-icon-button
+                            mwlCalendarToday
+                            [(viewDate)]="viewDate"
+                            (viewDateChange)="selectedDay = {date:$event}"
+                            aria-label="Today" matTooltip="{{'calendar.today'|translate}}">
+                        <mat-icon>today</mat-icon>
+                    </button>
+
+                    <button mat-icon-button (click)="view='day'" aria-label="Day" matTooltip="{{'calendar.day'|translate}}">
+                        <mat-icon>view_day</mat-icon>
+                    </button>
+
+                    <button mat-icon-button (click)="view='week'" aria-label="Week" matTooltip="{{'calendar.week'|translate}}">
+                        <mat-icon>view_week</mat-icon>
+                    </button>
+
+                    <button mat-icon-button (click)="view='month'" aria-label="Month" matTooltip="{{'calendar.month'|translate}}">
+                        <mat-icon>view_module</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- / TOOLBAR -->
+
+            <!-- HEADER BOTTOM -->
+            <div class="header-bottom" fxLayout="row" fxLayoutAlign="center center"
+                 [@animate]="{value:'*',params:{delay:'150ms'}}">
+
+                <button mat-icon-button class="arrow"
+                        mwlCalendarPreviousView
+                        [view]="view"
+                        [(viewDate)]="viewDate"
+                        (viewDateChange)="onViewDateChangeApp($event)"
+                        aria-label="Previous">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+
+                <div class="title">
+                    {{ viewDate | calendarDate:(view + 'ViewTitle'):'zh' }}
+                </div>
+
+                <button mat-icon-button class="arrow"
+                        mwlCalendarNextView
+                        [view]="view"
+                        [(viewDate)]="viewDate"
+                        (viewDateChange)="onViewDateChangeApp($event)"
+                        aria-label="Next">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+            <!-- / HEADER BOTTOM -->
+        </div>
+
+        <!-- ADD EVENT BUTTON -->
+        <button mat-fab class="add-event-button mat-accent" (click)="addAppEvent(appAddDialog)" aria-label="Add event"
+                [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+            <mat-icon>add</mat-icon>
+        </button>
+        <!-- / ADD EVENT BUTTON -->
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
+        <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+                    *ngSwitchCase="'month'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="'zh-cn'"
+                    [refresh]="refresh"
+                    [activeDayIsOpen]="activeDayIsOpen"
+                    (dayClicked)="dayAppClicked($event.day)"
+                    (eventClicked)="editAppEvent('edit', $event.event)"
+                    (eventTimesChanged)="appEventTimesChanged($event)"
+                    (beforeViewRender)="beforeMonthViewRender($event)">
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view
+                    *ngSwitchCase="'week'"
+                    [viewDate]="viewDate"
+                    (viewDateChange)="selectedDay = {date:$event}"
+                    [events]="events"
+                    [locale]="'zh-cn'"
+                    [refresh]="refresh"
+                    (dayClicked)="dayAppClicked($event.day)"
+                    (eventClicked)="editAppEvent('edit', $event.event)"
+                    (eventTimesChanged)="appEventTimesChanged($event)">
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view
+                    *ngSwitchCase="'day'"
+                    [viewDate]="viewDate"
+                    (viewDateChange)="selectedDay = {date:$event}"
+                    [events]="events"
+                    [locale]="'zh-cn'"
+                    [refresh]="refresh"
+                    (dayClicked)="dayAppClicked($event.day)"
+                    (eventClicked)="editAppEvent('edit', $event.event)"
+                    (eventTimesChanged)="appEventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>
+
+<ng-template #appAddDialog>
+    <div mat-dialog-title  fxLayout="row" fxLayoutAlign="center center " class="app-calendar-title">
+        <div  fxLayout="row" fxLayoutAlign="space-between center"  class="app-calendar-title-ch">
+            <span >新事件</span>
+            <button  mat-icon-button 	(click)="closeCUFormNo()" ><mat-icon>clear</mat-icon></button>
+        </div>
+    </div>
+    <mat-dialog-content  fxLayout="row" fxLayoutAlign="center center "  class="app-calendar-content">
+            <form fxLayout="column" fxLayoutAlign="center center"  class="app-calendar-content-form"  [formGroup]="CUForm">
+
+                <div fxLayout="column" fxLayoutAlign="start center"  class="app-dialog-form-ch1  pt-12">
+
+                    <!-- 标题 -->
+                    <div fxLayout="row" fxLayoutAlign="center center"   class="app-dialog-form-ch2 app-calendar-mat-point">
+                        <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                            <mat-label>标题</mat-label>
+                            <input matInput  required formControlName="title">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- 描述 -->
+                    <div fxLayout="row" fxLayoutAlign="center center"   class="app-dialog-form-ch2 app-calendar-des">
+                        <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row" formGroupName="meta">
+                            <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                <mat-label>简介</mat-label>
+                                <textarea matInput formControlName="couDes"  mat-autosize="false" >  </textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- 全天 -->
+                    <div fxLayout="row" fxLayoutAlign="center center"   class="app-dialog-form-ch2 app-calendar-mat-point">
+                        <div class="pb-12" fxFlex="1 0 auto" fxLayout="row">
+
+                            <mat-slide-toggle name="allDay" formControlName="allDay" class="mr-24" aria-label="All day">
+                                全天
+                            </mat-slide-toggle>
+
+                        </div>
+                    </div>
+
+                    <!-- 开始时间 -->
+                    <div fxLayout="row" fxLayoutAlign="center center"   class="app-dialog-form-ch2 normal-form-fields">
+                        <app-material-date-picker #startDatePicker [timeControl]="CUForm.get('start')"
+                                                  class="app-date-picker"  [floatLabel]="'always'"
+                                                  [required]="true"
+                                                  (sourceDate)="onStartDate($event,endDatePicker)" [config]="startConfig"
+                                                  [label]="'calendar.event.startDate'|translate">
+
+                        </app-material-date-picker>
+                    </div>
+
+                    <!-- 结束时间 -->
+                    <div fxLayout="row" fxLayoutAlign="center center"   class="app-dialog-form-ch2 normal-form-fields">
+                        <app-material-date-picker #endDatePicker [timeControl]="CUForm.get('end')"
+                                                  class="app-date-picker"  [required]="true"  [floatLabel]="'always'"
+                                                  (sourceDate)="onEndDate($event,startDatePicker)" [config]="endConfig"
+                                                  [label]="'calendar.event.endDate'|translate"></app-material-date-picker>
+                    </div>
+
+                    <!-- 颜色 -->
+                    <div fxLayout="row" fxLayoutAlign="space-around center"   class="app-dialog-form-ch3 app-calendar-mat-point">
+                        <div  fxLayout="column" fxLayoutAlign="space-around center" fxLayout.gt-xs="row" formGroupName="color" class="app-dialog-form-ch3-c">
+
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'calendar.event.primaryColor'|translate}}</mat-label>
+                                <input matInput
+                                       class="border-radius-4"
+                                       name="primary color"
+                                       formControlName="primary"
+                                       [(colorPicker)]="formEvent.color.primary"
+                                       cpWidth="290px"
+                                       [cpPresetColors]="presetColors"
+                                       [style.background]="formEvent.color.primary"
+                                       (colorPickerChange)="formEvent.color.primary = $event; CUForm.patchValue({color:{primary:$event}})"/>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                <mat-label>{{'calendar.event.secondaryColor'|translate}}</mat-label>
+                                <input matInput
+                                       class="border-radius-4"
+                                       name="secondary color"
+                                       formControlName="secondary"
+                                       [(colorPicker)]="formEvent.color.secondary"
+                                       cpWidth="290px"
+                                       [cpPresetColors]="presetColors"
+                                       [style.background]="formEvent.color.secondary"
+                                       (colorPickerChange)="formEvent.color.secondary = $event; CUForm.patchValue({color:{secondary:$event}})"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- 券信息-->
+                    <div fxLayout="column" fxLayoutAlign="start start" class="app-dialog-form-ch4">
+                         <div  fxLayout="row" fxLayoutAlign="start start" class="app-dialog-form-ch4-c1">
+                             <span class="text-des-app">电子券</span><span class="text-des-app-color" >*</span>
+                         </div>
+                         <div fxLayout="row" fxLayoutAlign="start start" class="app-dialog-form-ch4-c2">
+
+                             <ng-container *ngIf="showChooseCoupon === false">
+                                 <div fxLayout="row" fxLayoutAlign="center center" class="app-show-cou  m-4"  matRipple  (click)="openCouInfo(couponInfoDi)">
+                                  <!--   <button  mat-icon-button  color="accent" class="appAddCouponBtu"  (click)="openCouInfo(couponInfoDi)">-->
+                                         <mat-icon [color]="'accent'">add_circle_outline</mat-icon>
+                                         <span>选择券</span>
+                                  <!--   </button>-->
+                                 </div>
+                             </ng-container>
+
+                            <ng-container *ngIf="showChooseCoupon === true">
+                                <ng-container *ngFor="let c of couponInfoSave; let i=index">
+                                    <div fxLayout="column" fxLayoutAlign="start center"
+                                         @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:200*i+'ms'}}" class="app-add-cou m-4">
+                                        <img src="assets/images/backgrounds/ecoupon-bg.png" class="app-add-bgImg">
+                                        <div fxLayout="column" fxLayoutAlign="end end" class="app-add-cou-show">
+                                            <div fxLayout="row" fxLayoutAlign="end end"  class="app-add-cou-show-ch1">
+                                                <button mat-icon-button (click)="appRemoveCoupon(i , c)" class="appRemoveCouBtu"><mat-icon>cancel</mat-icon></button>
+                                            </div>
+                                            <div fxLayout="column" fxLayoutAlign="start start"  class="app-add-cou-show-ch2">
+                                                <div  fxLayout="row" fxLayoutAlign="start center" class="app-add-cou-show-ch3 mb-4">
+                                                    <span class="app-cou-font-title mr-4" fxFlex="18">券名称:</span> <span class="app-cou-font-title">{{c?.name}}</span>
+                                                </div>
+
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="app-add-cou-show-ch3 mb-4">
+                                                    <span class="app-cou-font-title mr-4" fxFlex="18">券编码:</span> <span class="app-cou-font-title">{{c?.number}}</span>
+                                                </div>
+
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="app-add-cou-show-ch3 mb-4">
+                                                    <span class="app-cou-font-title mr-4" fxFlex="18">券渠道:</span><span class="app-cou-font-title">{{c?.source}}</span>
+                                                </div>
+
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="app-add-cou-show-ch3 mb-4">
+                                                    <span class="app-cou-font-title mr-4" fxFlex="18">有效期:</span> <span class="app-cou-font-title" >{{c?.timeBegin}} - {{c?.timeEnd}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+                         </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="end center"  class="app-dialog-form-sa-ca"   fxLayoutGap="15px">
+                    <ng-container *ngIf="formAction === 'edit'">
+                        <button   mat-raised-button color="accent" (click)="closeCUFormYes()">保存</button>
+                        <button   mat-raised-button color="accent" (click)="closeCUFormDel()">删除</button>
+                    </ng-container>
+                    <ng-container *ngIf="formAction === 'new'">
+                        <button   mat-raised-button color="accent" (click)="closeCUFormYes()">保存</button>
+                        <button   mat-raised-button color="accent" (click)="closeCUFormNo()">取消</button>
+                    </ng-container>
+
+                </div>
+
+            </form>
+    </mat-dialog-content>
+</ng-template>
+
+
+<ng-template #couponInfoDi>
+    <app-coupon-maintain  [selectedRow]="couponInfo" [singleSelect]="false"  [resetSelect]="false" [checkbox]="true"
+                          (dataSelect)="couponInfoSelect($event)" [overPanel]="true" ></app-coupon-maintain>
+</ng-template>

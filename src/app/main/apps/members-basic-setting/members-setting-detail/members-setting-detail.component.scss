@@ -1,0 +1,295 @@
+@import "src/@fuse/scss/fuse";
+
+#detailEditButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+#detailBackButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+#saveButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+#cancelButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+#createCancelButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+#createSaveButton{
+  width:90px;
+  height: 36px;
+  background: #6BD5FF;
+}
+
+.content{
+  width:100%;
+  height:100%;
+  padding-bottom: 20px;
+  .content-left{
+    width: 50%;
+    height: 100%;
+    padding:16px;
+    border:1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    .content-input{
+      width:100%;
+      ::ng-deep {
+        .mat-form-field-appearance-outline .mat-form-field-flex {
+          height: 50px;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-wrapper{
+          margin:0;
+        }
+      }
+      .growth-input{
+        width: 100px;
+        height: 46px;
+        border: 1px solid #E0E0E0;
+        border-radius: 6px;
+      }
+      .card-model{
+        width: 200px;
+        height: 120px;
+        border: 1px dashed #8DC4DF;
+        border-radius: 6px;
+        background-color: #F9FDFF;
+        cursor:pointer;
+
+      }
+      .card-des{
+        font-size: 12px;
+      }
+      .card-photo{
+        width: 200px;
+        height: 120px;
+      }
+    }
+    .name-title{
+      white-space: nowrap;
+    }
+  }
+}
+
+
+
+// 上传文件与预览文件部分
+::ng-deep {
+  #uploadImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 72.5%;
+    }
+  }
+  #previewImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  #MemberTagDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #FormLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #StroeLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+}
+
+.dialog-manage-title_tips{
+  display: flex;
+  width: 100%;
+  height: 18%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.dialog-manage-title_tips_img_preview{
+  display: flex;
+  width: 100%;
+  height: 7%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.MatDialogFrozenClass_tips{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70%;
+  .MatDialogFrozenClass1{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    .up_input_load{
+      width: 80%;
+      margin-left: 10%;
+      border-radius: 10px;
+      border: 1px solid #CCCCCC;
+      display: flex;
+      justify-content: space-between;
+      height: 4.5rem;
+      align-items: center;
+      .file-path{
+        width: 70%;
+        padding: 0px;
+        height: 100%;
+        input {
+          border: none;
+          padding: 0px;
+          border-radius: 10px;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .file-upLoad-btu{
+        width: 27%;
+        height: 100%;
+        margin-right: 2%;
+        display: flex;
+        position: relative;
+        align-items: flex-end;
+        justify-content: flex-start;
+        align-items: center;
+        .up_input{
+          position: relative;
+          cursor: pointer;
+          width: 100%;
+          height: 80%;
+          opacity: 0;
+        }
+        .btu-file-up{
+          position: absolute;
+          width: 100%;
+          height: 80%;
+        }
+
+      }
+    }
+    .tips_color_w_h{
+      display: flex;
+      width: 80%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .tips-color{
+        font-size: 10px;
+        color: #2295db;
+      }
+    }
+    .Progress-Bar{
+      display: flex;
+      width: 80%;
+      height: 30%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .example-section{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        .example-margin{
+          margin: 0 10px;
+        }
+      }
+    }
+
+  }
+  img{
+    width: 500px;
+    height: 500px;
+  }
+}
+.btu_dialog_Frozen_tips{
+  display: flex;
+  margin-left: 47.6%;
+  width: 42%;
+  border-radius: 15px;
+  justify-content: space-between;
+  button{
+    width: 46%;
+  }
+}
+
+.MatDialogImgPreview_tips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 460px;
+    height: 460px;
+  }
+}

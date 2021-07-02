@@ -1,0 +1,276 @@
+@mixin edit-strategy($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $is-dark: map-get($theme, is-dark);
+  %light-box-shadow {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+  %dark-box-shadow {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+  $border-color: rgba(0, 0, 0, .12);
+
+  $theme-color: mat-color($accent, 600);
+
+  %theme-color {
+    color: mat-color($accent, 600);
+  }
+  .header {
+    z-index: 2;
+    @if ($is-dark) {
+      background: #404040;
+    } @else {
+      background: white;
+    }
+  }
+  $width: 238px;
+  // 控制栏
+  #control-panel {
+    width: $width;
+    max-width: $width;
+    min-width: $width;
+    z-index: 2; // 控制节点编辑面板在下方
+    @if ($is-dark) {
+      background: #404040;
+    } @else {
+      background: white;
+    }
+
+    .center {
+      &:hover {
+        stroke: $theme-color
+      }
+    }
+
+    border-right: 1px solid $border-color;
+  }
+  // sidebar
+  .property-sidebar {
+    width: $width;
+    max-width: $width;
+    min-width: $width;
+    background-color: white;
+    box-shadow: unset !important;
+  }
+  #properties-panel {
+    width: $width+4;
+    max-width: $width;
+    min-width: $width;
+    z-index: 2; // 控制节点编辑面板在下方
+    @if ($is-dark) {
+      background: #404040;
+    } @else {
+      background: white;
+    }
+    border-left: 1px solid $border-color;
+
+    &:hover {
+      .fold-triangle {
+        border-left: 12px solid #cccccc;
+        opacity: 1;
+      }
+    }
+  }
+  //节点选中样式
+  .node-selected {
+    rect {
+      opacity: 1;
+      stroke: $theme-color;
+      stroke-dasharray: 2, 2;
+    }
+  }
+  // 主题颜色的fill、stroke
+  .fill-theme {
+    fill: mat-color($accent, 600)
+  }
+  .stroke-theme {
+    stroke: mat-color($accent, 600)
+  }
+  // 连接线选中
+  .line-selected {
+    path {
+      stroke: $theme-color !important;
+      stroke-dasharray: 3, 3;
+    }
+  }
+
+  // 主题切换黑白的箭头stroke
+  .path-stroke-theme {
+    @if ($is-dark) {
+      stroke: #FFFFFF;
+    } @else {
+      stroke: #000000;
+    }
+  }
+  // 主题切换黑白的箭头fill
+  .path-fill-theme {
+    @if ($is-dark) {
+      fill: #FFFFFF;
+    } @else {
+      fill: #000000;
+    }
+  }
+  // 矩形虚线rect
+  .rect-fill-theme {
+    fill: transparent;
+  }
+
+  // path标记原点
+  .marker-circle {
+    stroke: none;
+    @extend .path-fill-theme;
+  }
+  #canvas {
+    path {
+      @extend .path-stroke-theme
+    }
+  }
+
+  // 触发器浮动面板
+  .float-panel {
+    position: absolute;
+    z-index: 1;
+    @if ($is-dark) {
+      background: #404040;
+    } @else {
+      background: white;
+    }
+
+    & > div {
+      width: 76px;
+
+      & > div {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        border-radius: 2px;
+        border: 1px solid transparent;
+
+        &:hover {
+          border: 1px dashed $theme-color;
+        }
+      }
+    }
+  }
+  // 更改节点类型
+  .change-type {
+    @extend .float-panel;
+  }
+  // 文本编辑框
+  .text-input {
+    background: transparent;
+    @extend .float-panel;
+  }
+
+  .edit-info {
+    position: absolute;
+    z-index: 2;
+    top: 75px;
+    // 三角形标识
+    .triangle-div {
+      position: relative;
+      top: 13px;
+      width: 0;
+      height: 0;
+      border-right: 8px solid $theme-color;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .info-panel {
+      min-height: 100px;
+      min-width: 150px;
+      border-radius: 5px;
+      @if ($is-dark) {
+        background: #424242;
+      } @else {
+        background: #F5F5F5;
+      }
+      @extend %light-box-shadow;
+
+      .info-header {
+        border-radius: 5px 5px 0 0;
+      }
+
+      .info-content {
+        padding-bottom: 10px;
+
+        .disabled-ellipse {
+          padding: 2px 12px;
+          border-radius: 24px;
+          color: #aaaaaa;
+          border: 1px solid #aaaaaa;
+        }
+
+        .tag-container {
+          max-width: 500px;
+          max-height: 240px;
+          overflow: auto;
+          /*选择标签*/
+          .add-button {
+            width: 80px;
+            height: 28px;
+            margin: 4px;
+            opacity: 0.8;
+            border: 2px dashed;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+          }
+
+          .tag-selected {
+            border: 2px solid
+
+          }
+
+        }
+
+        .params-container {
+          max-width: 544px;
+          max-height: 270px;
+          overflow: auto;
+
+          .add-button {
+            width: 200px;
+            height: 120px;
+            opacity: 0.8;
+            font-size: 13px;
+            cursor: pointer;
+            color: $theme-color;
+            border-radius: 5px;
+            margin: 6px;
+            border: 1px dashed $theme-color;
+          }
+
+          .common-cell {
+            background: white;
+            width: 200px;
+            height: 120px;
+            user-select: text;
+            padding: 0 8px;
+            margin: 6px;
+            border: 1px dashed $theme-color;
+            border-radius: 5px;
+            font-size: 10px;
+
+            .remove-button {
+              bottom: 6px;
+              left: 6px;
+              position: relative;
+            }
+          }
+
+          .coupon-cell {
+            @extend .common-cell;
+            background: url("assets/images/backgrounds/ecoupon-bg.png") no-repeat;
+            background-size: 100% 100%;
+          }
+        }
+      }
+    }
+  }
+}

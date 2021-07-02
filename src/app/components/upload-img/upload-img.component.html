@@ -1,0 +1,59 @@
+<div class="upload-img-all-flex"  cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div mat-dialog-title class="upload-img-title" cdkDragHandle>
+        <div class="upload-img-title_text"><span class="title_text_">{{upTitle}}</span></div>
+        <div  class="upload-img-close"><button  mat-icon-button 	 mat-dialog-close (click)="closeUploadImg('close')"><mat-icon>clear</mat-icon></button></div>
+    </div>
+    <mat-dialog-content>
+        <div class="upload-img-class_tips">
+            <div class="upload-img-class_tips-one">
+                <div class="up_input_load-img">
+                    <div class="up-file-path">
+                        <input  type="text" value="{{couponImgName}}" >
+                    </div>
+                    <div class="file-up-load-btu">
+                        <button mat-raised-button  color="accent" class="btu-file-up-desc">{{'ElectronicVoucherManagement.AddSecuritiesRules.AddFile'|translate}}</button>
+                        <input type="file" value="" accept="{{upImgSource.limitType}}" class="up-input"  (change)="CouponImgUpload($event)">
+                    </div>
+                </div>
+                <div class="tips_color_lg_wt">
+                    <span class="tips-color-ch">{{upImgSource.uploadDesc}}</span>
+                    <ng-container *ngIf="showTmImg === true">
+                        <a (click)="openExImg(ExImg)">查看示例</a>
+                    </ng-container>
+                </div>
+                <div class="scroll-bar">
+                    <section class="example-section-child" >
+                        <ng-container *ngIf="upImgSource.notUploading===false">
+                            <mat-progress-bar
+                                    class="example-margin-child"
+                                    color="accent"
+                                    mode="determinate"
+                                    [value]="upImgSource.ProgressLoad"
+                            >
+                            </mat-progress-bar>
+                        </ng-container>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="up-img-complete-btu">
+            <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="upImgSource.UpLoadStatus">{{'ElectronicVoucherManagement.AddSecuritiesRules.upload'|translate}}</button>
+            <button mat-raised-button color="accent"  (click)="closeUploadImg('finish')" mat-dialog-close  [disabled]="upImgSource.FinishStatus">{{'ElectronicVoucherManagement.finish'|translate}}</button>
+        </div>
+    </mat-dialog-content>
+</div>
+
+
+<ng-template #ExImg>
+    <div  cdkDrag cdkDragRootElement=".cdk-overlay-pane" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-10-p ExImgTitle" cdkDragHandle >
+            <span>查看txt内容示例</span>
+            <button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button>
+        </div>
+        <mat-dialog-content class="h-90-p">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+                <img src="{{showTmImgUrl}}" class="ExImgUrlClass">
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>

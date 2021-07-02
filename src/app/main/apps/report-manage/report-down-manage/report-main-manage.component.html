@@ -1,0 +1,115 @@
+<div class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center" fusePerfectScrollbar>
+
+
+        <div class=" py-24 w-100-p header-bg-color header"
+             fxLayout="row" fxLayoutAlign="start center" >
+            <h2 class="m-0 header-title-color">会员报表</h2>
+            <div class="re-select-but w-20-p ml-12" >
+                <mat-form-field class="w-100-p">
+                    <mat-select  [(value)]="reportValue" (selectionChange)="reportChange()">
+                        <mat-option *ngFor="let r of reportFormTitles" [value]="r.key">
+                            {{r.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class=" pb-8 h-100-p w-100-p " fxLayout="column" id="th_all_div"
+             fxLayoutAlign="start start" fxLayoutGap="8px">
+
+            <!-- 左  card_left_h-->
+            <div fxLayout="row" fxLayoutAlign="start start" class="w-100-p " id="card_left" >
+                <mat-card
+                        fxLayout="column"
+                        fxLayoutAlign="start start"
+                        class="w-100-p h-100-p pt-20 px-24" >
+                    <ng-container *ngTemplateOutlet="leftContet"></ng-container>
+                </mat-card>
+            </div>
+
+            <!-- 右   fxFlex.gt-sm="48" fxFlex.lt-md="100" ngClass.gt-sm="w-48-p h-100-p" card_right_h-->
+            <div fxLayout="row" fxLayoutAlign="start start" class="w-100-p " id="card_right">
+                <mat-card
+                        fxLayout="column"
+                        fxLayoutAlign="start start"
+                        class="w-100-p   pt-20 px-24"
+                        id="card_right_inside"
+                >
+                    <ng-container *ngTemplateOutlet="rightContet"></ng-container>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 上 -->
+<ng-template #leftContet>
+    <app-report-right-template class="w-100-p h-100-p" [hasReportList]="hasReportList" [allListSearch]="allListSearch"
+                               [formGroup_]="formGroup" [formKeys]="formKeys" [dateTimeConfig]="right_table_list.dateTimeConfig"
+                               (searchData)="onSearchData($event)" (clearData)="clearSearch($event)" (exData)="exportData($event)">
+    </app-report-right-template>
+</ng-template>
+<!--下-->
+<ng-template #rightContet>
+
+    <ng-container *ngIf="hasReportList">
+        <div fxLayout="column" class="w-100-p h-100-p"
+             [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+            <!--<div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="10">-->
+                <!--<div fxLayout="row" fxLayoutAlign="start center" class="icon_title">-->
+                     <!--&lt;!&ndash;<button mat-icon-button class="show_but"   matTooltip="展开/收起" (click)="changeLeftW()">&ndash;&gt;-->
+                         <!--&lt;!&ndash;<mat-icon  *ngIf="showLeft !== true">first_page</mat-icon>&ndash;&gt;-->
+                         <!--&lt;!&ndash;<mat-icon  *ngIf="showLeft === true">last_page</mat-icon>&ndash;&gt;-->
+                     <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                     <!--&lt;!&ndash;<span>{{reportFormTitles.get(chartParameter)}}</span>&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button mat-raised-button class="w-button green-button" >导出</button>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+            <div fxLayout="row" class="w-100-p  p-8 small-form" >
+                <app-detail-table-list class="w-100-p h-100-p"  [DetailTableParam]="right_table_list"
+                                       (onPageEvent)="onPage($event)" (goToDetailEvent)="goToDetail($event)">
+                </app-detail-table-list>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!hasReportList">
+        <div fxLayout="column" class="w-100-p h-100-p"
+             [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+            <!--<div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="10">-->
+                <!--<div fxLayout="row" fxLayoutAlign="start center" class="icon_title">-->
+                    <!--&lt;!&ndash;<button mat-icon-button class="show_but"  matTooltip="展开/收起" (click)="changeLeftW()">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<mat-icon  *ngIf="showLeft !== true">first_page</mat-icon>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<mat-icon  *ngIf="showLeft === true">last_page</mat-icon>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>{{reportFormTitles.get(chartParameter)}}</span>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div fxLayout="row" fxLayoutAlign="center center" fxFlex="90">
+                <ng-container *ngIf="!searchReportLoading">
+                    <img src="assets/images/cards/notContent.png" class="tips_img">
+                </ng-container>
+                <ng-container *ngIf="searchReportLoading">
+                    <!--<img src="/assets/jinmao/loading.gif" class="tips_img">-->
+                    <mat-spinner color="accent"  mode="indeterminate"></mat-spinner>
+                </ng-container>
+
+            </div>
+
+        </div>
+    </ng-container>
+
+</ng-template>
+
+
+
+<ng-template #loadTg>
+    <app-spinner-loading [showData]="loadingShowData"></app-spinner-loading>
+</ng-template>

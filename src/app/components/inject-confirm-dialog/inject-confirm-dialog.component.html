@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{title?title:'confirmTip'|translate}}</h2>
+<mat-dialog-content class="mat-typography">
+    <p *ngIf="content">{{content}}</p>
+    <ng-content></ng-content>
+</mat-dialog-content>
+<mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button color="accent" [mat-dialog-close]="true">
+        <mat-icon>check</mat-icon>
+        <span>{{'dialog.ensure'|translate}}</span>
+    </button>
+    <button *ngIf="cancelButton" mat-button color="accent" [mat-dialog-close]="false">
+        <mat-icon>close</mat-icon>
+        <span>{{'dialog.cancel'|translate}}</span>
+    </button>
+</mat-dialog-actions>

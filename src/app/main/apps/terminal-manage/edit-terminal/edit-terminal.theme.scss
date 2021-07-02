@@ -1,0 +1,56 @@
+@mixin edit-terminal($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $is-dark: map-get($theme, is-dark);
+  %light-box-shadow {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+  %dark-box-shadow {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+  %theme-color {
+    color: mat-color($accent, 600);
+  }
+
+  // 上传按钮
+  .edit-upload {
+    color: #a5a5a5;
+    @extend %light-box-shadow;
+    div span:nth-child(1) {
+      @extend %theme-color;
+    }
+    &:not(.button-disabled):hover {
+      //mat-icon{
+      //@extend %theme-color;
+      //}
+      div span:nth-child(3), mat-icon + span, &:not(.svg-preview) mat-icon {
+        @extend %theme-color;
+      }
+      @extend %dark-box-shadow;
+    }
+  }
+
+  // 更新弹框
+  $addColor: #0EC055;
+  $disabledColor: #E90101;
+  .update-title {
+
+    .add-block {
+      background: $addColor;
+    }
+    .disabled-block {
+      background: $disabledColor;
+    }
+  }
+  .add-word {
+    color: $addColor;
+  }
+  .no-update {
+    color: #aaaaaa
+  }
+  .disabled-word {
+    color: $disabledColor
+  }
+}

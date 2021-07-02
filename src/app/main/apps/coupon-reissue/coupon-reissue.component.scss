@@ -1,0 +1,107 @@
+@import "src/@fuse/scss/fuse";
+
+.content {
+  .left-panel {
+    width: 50%;
+    height: 100%;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: unset;
+    }
+  }
+
+  .right-panel {
+    width: 50%;
+    height: 100%;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+    }
+    mat-card {
+      width: 100%;
+      height: 100%;
+      @include media-breakpoint('lt-md') {
+        height: initial;
+      }
+    }
+  }
+  mat-divider {
+    position: relative;
+    border-top-color: #aaaaaa80;
+  }
+}
+
+$theme-color: #0397e5;
+$width: 180px;
+%cell {
+  background: #ebf7ff;
+  background-size: 100% 100%;
+  width: $width;
+  min-height: 100px;
+  max-height: 200px;
+  user-select: text;
+  padding: 0 8px;
+  margin: 6px;
+  border: 1px dashed $theme-color;
+  border-radius: 5px;
+  font-size: 10px;
+  & > div {
+    height: 16px
+  }
+  & > span {
+    margin-bottom: 4px;
+  }
+  .remove-button {
+    bottom: 6px;
+    left: 6px;
+    position: relative;
+  }
+}
+
+.add-button {
+  width: $width;
+  min-height: 100px;
+  max-height: 200px;
+  opacity: 0.8;
+  font-size: 13px;
+  cursor: pointer;
+  color: $theme-color;
+  border-radius: 5px;
+  margin: 6px;
+  border: 1px dashed $theme-color;
+}
+
+.member-cell {
+  @extend %cell;
+}
+
+.coupon-cell {
+  background: url("assets/images/backgrounds/ecoupon-bg.png") no-repeat;
+  @extend %cell
+}
+
+$height: 40%;
+.member-select {
+  max-height: $height;
+  min-height: 112px;
+  overflow: auto;
+  @include media-breakpoint('lt-md') {
+    min-height: unset;
+  }
+}
+
+$coupon: 112px;
+.coupon-select {
+  max-height: $coupon;
+  height: $coupon;
+  min-height: $coupon;
+  overflow: auto;
+}
+
+.activity-select {
+  margin-left: 6px;
+}
+
+.reissue-button {
+  width: 150px;
+  margin-left: 6px;
+}

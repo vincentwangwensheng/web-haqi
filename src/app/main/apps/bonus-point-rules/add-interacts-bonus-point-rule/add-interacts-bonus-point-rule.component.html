@@ -1,0 +1,342 @@
+<div  class="page-layout carded right-sidebar " >
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16"  (click)="toReturn()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{interactCheckboxPara.interactsTitle}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="Member-btu-class-me" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <ng-container *ngIf="interactCheckboxPara.SAVE_CANCEL">
+                    <div id="save-btu-id">
+                        <button  mat-raised-button  (click)="toSave()"  class="btu-bottom" color="accent" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="interactCheckboxPara.EDIT_RETURN">
+                    <div id="edit-btu-id" >
+                        <button  mat-raised-button   class="btu-bottom" (click)="toEdit()" color="accent"  [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.edit'|translate}}</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="interactCheckboxPara.SAVE_CANCEL">
+                    <div id="cancel-btu-id" >
+                        <button  mat-raised-button   class="btu-bottom" (click)="toCancel()" color="accent"  [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>
+                </ng-container>
+                <ng-container  *ngIf="interactCheckboxPara.EDIT_RETURN">
+                    <div id="return-btu-id">
+                        <button  mat-raised-button (click)="toReturn()" class="btu-bottom" color="accent"  [disabled]="btuDis"><mat-icon>reply</mat-icon>{{'merchants.dataDetail.return'|translate}}</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="Member-allFlex">
+            <div class="Member-left_me">
+                <div class="Member-left-All-flex-interacts" >
+                     <form [formGroup]="FormRuleDto" class="FormRuleDtoClass mb-12">
+                     <div  class="name-des" >
+
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"  class="name-lim normal-form-fields" >
+                            <div class="ruleDto_ruleName_f">
+                                <mat-form-field appearance="outline"    [floatLabel]="'always'">
+                                    <mat-label>{{'BonusPointUnion.BonusPointRules.ruleName'|translate}}</mat-label><!--规则名称-->
+                                    <input   matInput  autocomplete="off" required value=""
+                                               formControlName="ruleName">
+                                    <mat-error  >{{'BonusPointUnion.tips.ruleNameNotNull'|translate}}</mat-error><!--规则名称不能为空-->
+                                </mat-form-field>
+                            </div>
+                            <div class="ruleDto_ruleName_s">
+                                <mat-form-field appearance="outline" >
+                                    <mat-label>{{'BonusPointUnion.enabled'|translate}}</mat-label><!--状态-->
+                                    <mat-select  formControlName="enabled" >
+                                        <mat-option *ngFor="let d of interactCheckboxPara.RuleStrutsList" [value]="d.viewValue" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"  class="des-lim ">
+                            <mat-form-field appearance="outline"    [floatLabel]="'always'">
+                                <mat-label>{{'BonusPointUnion.BonusPointRules.ruleDesc'|translate}}</mat-label><!--规则简介-->
+                                <textarea   matInput  autocomplete="off" required value=""
+                                             formControlName="desc"></textarea>
+                                <mat-error  >{{'BonusPointUnion.tips.ruleDescNotNull'|translate}}</mat-error><!--规则简介不能为空-->
+                            </mat-form-field>
+                        </div>
+                     </div>
+                     </form>
+                     <form [formGroup]="FormRuleAttendance"   class="form_class_pub margin-b-3">
+                      <div class="POINT-All">
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="BONUS-POINT" >
+                          <div>
+                              <span>{{'BonusPointUnion.BonusPointRules.BonusPointsForSigningIn'|translate}}</span><!--签到奖励积分-->
+                          </div>
+                          <div>
+                              <mat-slide-toggle
+                                      [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                      [checked]="interactRuleAttendance?.enabled"
+                                       (change)="toggleChange('interactRuleAttendance' , $event)"
+                              >
+                              </mat-slide-toggle>
+                          </div>
+                        </div>
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="APP-SELECT">
+                            <section class="section-mat-checkbox">
+                                <mat-checkbox
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactRuleAttendance?.app"
+                                        [labelPosition]="'before'"
+                                        (change)="checkboxChange('interactRuleAttendance' , 'app' , $event)"
+                                >
+                                    {{'BonusPointUnion.BonusPointRules.APP'|translate}}<!--APP-->
+                                </mat-checkbox>
+                                <mat-checkbox
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [labelPosition]="'before'"
+                                        [checked]="interactRuleAttendance?.applet"
+                                        (change)="checkboxChange('interactRuleAttendance' , 'applet' , $event)"
+                                >
+                                   {{'BonusPointUnion.BonusPointRules.applet'|translate}}<!--小程序-->
+                                </mat-checkbox>
+                            </section>
+                            <span class="tips-text-one"> {{'BonusPointUnion.tips.triggerOnce'|translate}}</span><!--（复选平台签到只触发一次）-->
+                        </div>
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="APP-SELECT ">
+                            <span class="tips-text-two"> {{'BonusPointUnion.BonusPointRules.DailyFirstSignInReward'|translate}}</span><!--每日首次签到奖励-->
+                            <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input   matInput   autocomplete="off"   value="{{interactRuleAttendance?.point}}"  formControlName="point"
+                                             oninput="value=value.replace(/[^\d]/g,'')"  id="Attendance_bonusPoint" >
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleAttendance?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.point'|translate}}</span><!-- 积分-->
+                        </div>
+                    </div>
+                     </form>
+                     <form [formGroup]="FormRuleRegister" class="FormRuleRegisterClass margin-b-3">
+                    <div   class="register-POINT">
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}"  class="BONUS-POINT" >
+                            <div>
+                                <span>{{'BonusPointUnion.BonusPointRules.RegisteredBonusPoints'|translate}}</span><!-- 注册奖励积分-->
+                            </div>
+                            <div>
+                                <mat-slide-toggle
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactRuleRegister?.enabled"
+                                        (change)="toggleChange('interactRuleRegister' , $event)">
+
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                        <div [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}"  class="APP-SELECT ">
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.RewardForFirstRegistrationAndLanding'|translate}}</span><!-- 首次注册登陆奖励-->
+                            <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input   matInput  autocomplete="off"  value="{{interactRuleRegister?.point}}"  formControlName="point"
+                                             oninput="value=value.replace(/[^\d]/g,'')" id="Register_bonusPoint">
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleRegister?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.point'|translate}}</span><!--积分-->
+                        </div>
+                    </div>
+                     </form>
+                     <form [formGroup]="FormRuleCollarCoupons"  class="form_class_pub margin-b-3">
+                     <div  class="POINT-All">
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}"  class="BONUS-POINT" >
+                            <div>
+                                <span>{{'BonusPointUnion.BonusPointRules.BonusPointsForCollectingBonds'|translate}}</span><!-- 领券奖励积分-->
+                            </div>
+                            <div>
+                                <mat-slide-toggle
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactRuleCollarCoupons?.enabled"
+                                        (change)="toggleChange('interactRuleCollarCoupons' , $event)">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}"  class="APP-SELECT">
+                            <span class="tips-text-three">{{'BonusPointUnion.BonusPointRules.RewardCeilingDay'|translate}}</span><!-- 奖励上限/日-->
+                           <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input  autocomplete="off"  matInput formControlName="upperLimit"
+                                            value="{{interactRuleCollarCoupons?.upperLimit}}" oninput="value=value.replace(/[^\d]/g,'')"
+                                            id="CollarCoupons_upperLimit" >
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleCollarCoupons?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                              <section class="section-mat-checkbox">
+                                 <mat-checkbox
+                                         [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                         [checked]="interactCheckboxPara?.CollarCouponsPoint"
+                                         [labelPosition]="'before'"
+                                         (change)="checkboxChange('interactCheckboxPara' , 'CollarCouponsPoint' , $event)"
+                                 >
+                                     {{'BonusPointUnion.BonusPointRules.point'|translate}} <!--积分--><!--勾勾取消了upperLimit默认为0-->
+                                 </mat-checkbox>
+                             </section>
+
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}"  class="APP-SELECT ">
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.CollectCouponsZAward'|translate}}</span><!-- 领取优惠券/张奖励-->
+                            <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input   matInput  autocomplete="off" formControlName="point"
+                                             value="{{interactRuleCollarCoupons?.point}}"
+                                             oninput="value=value.replace(/[^\d]/g,'')" id="CollarCoupons_bonusPoint">
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleCollarCoupons?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="tips-text-two"> {{'BonusPointUnion.BonusPointRules.point'|translate}}</span> <!--积分-->
+                        </div>
+                    </div>
+                    </form>
+                     <form [formGroup]="FormRuleComment" class="form_class_pub">
+                    <div class="POINT-All">
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1400ms',duration:'600ms'}}"  class="BONUS-POINT" >
+                            <div>
+                                <span>{{'BonusPointUnion.BonusPointRules.ReviewBonusPoints'|translate}}</span><!--评论奖励积分-->
+                            </div>
+                            <div>
+                                <mat-slide-toggle
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactRuleComment?.enabled"
+                                        (change)="toggleChange('interactRuleComment' , $event)"></mat-slide-toggle>
+                            </div>
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1400ms',duration:'600ms'}}"  class="APP-SELECT">
+                            <span class="tips-text-three">{{'BonusPointUnion.BonusPointRules.RewardCeilingDay'|translate}}</span><!--奖励上限/日-->
+                            <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input   matInput  autocomplete="off" formControlName="upperLimit"
+                                              value="{{interactRuleComment?.upperLimit}}" oninput="value=value.replace(/[^\d]/g,'')" id="Comment_upperLimit">
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleComment?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <section class="section-mat-checkbox" >
+                                <mat-checkbox
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactCheckboxPara?.CommentPoint"
+                                        [labelPosition]="'before'"
+                                        (change)="checkboxChange('interactCheckboxPara' , 'CommentPoint' , $event)"
+                                >
+                                    {{'BonusPointUnion.BonusPointRules.point'|translate}}<!--积分-->
+                                </mat-checkbox>
+                            </section>
+
+                        </div>
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'1400ms',duration:'600ms'}}"  class="APP-SELECT ">
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.CommentOnceReward'|translate}}</span><!--发表评论/次奖励-->
+                            <div class="input-field mat-point">
+                                <mat-form-field appearance="outline" >
+                                    <input   matInput  autocomplete="off" value="{{interactRuleComment?.point}}" formControlName="point"
+                                             oninput="value=value.replace(/[^\d]/g,'')"  id="Comment_bonusPoint">
+                                    <mat-error>
+                                        <ng-container *ngIf="interactRuleComment?.enabled">
+                                            {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                        </ng-container>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.point'|translate}}<!--积分--></span>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="Member-right_me">
+                <div class="Member-right-All-flex">
+                     <div class="Member-right-All-flex-interacts">
+                         <form [formGroup]="FormRuleShare"   class="right-FormRuleShare">
+                          <div class="POINT-All">
+                             <div  [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" class="BONUS-POINT" >
+                                 <div>
+                                     <span>{{'BonusPointUnion.BonusPointRules.ShareBonusPoints'|translate}}</span><!--分享奖励积分-->
+                                 </div>
+                                 <div>
+                                     <mat-slide-toggle
+                                        [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                        [checked]="interactShare?.enabled"
+                                        (change)="toggleChange('interactShare' , $event)"
+                                     ></mat-slide-toggle>
+                                 </div>
+                             </div>
+                             <div  [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}" class="year-day-mouth-se normal-form-fields">
+                                 <mat-form-field appearance="outline"   >
+                                      <mat-select  formControlName="period"  >
+                                         <mat-option *ngFor="let d of interactCheckboxPara.CouponDays" [value]="d.key" >{{d.value}}</mat-option>
+                                     </mat-select>
+                                 </mat-form-field>
+                             </div>
+                             <div  [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}" class="APP-SELECT">
+                                 <section class="section-mat-checkbox">
+                                     <mat-checkbox
+                                             [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                             [checked]="interactShare?.app"
+                                             [labelPosition]="'before'"
+                                             (change)="checkboxChange('interactShare' , 'app' , $event)"
+                                     >
+                                         {{'BonusPointUnion.BonusPointRules.APP'|translate}}<!--APP-->
+                                     </mat-checkbox>
+                                     <mat-checkbox
+                                             [disabled]="interactCheckboxPara.EDIT_BTU_DIS"
+                                             [labelPosition]="'before'"
+                                             [checked]="interactShare?.applet"
+                                             (change)="checkboxChange('interactShare' , 'applet' , $event)"
+                                     >
+                                         {{'BonusPointUnion.BonusPointRules.applet'|translate}}<!--小程序-->
+                                     </mat-checkbox>
+                                 </section>
+                                 <span class="tips-text-one"> {{'BonusPointUnion.tips.triggerOnce'|translate}}</span><!--（复选平台签到只触发一次）-->
+                             </div>
+                             <div  [@animate]="{value:'*',params:{y:'100%',delay:'1100ms',duration:'600ms'}}" class="APP-SELECT ">
+                                 <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.ShareRewardsForTheFirstTime'|translate}}</span><!--首次分享奖励-->
+                                 <div class="input-field mat-point">
+                                     <mat-form-field appearance="outline" >
+                                         <input   matInput  autocomplete="off"  formControlName="point"
+                                                  value="{{interactShare?.point}}" oninput="value=value.replace(/[^\d]/g,'')" id="Share_bonusPoint">
+                                         <mat-error>
+                                             <ng-container *ngIf="interactShare?.enabled">
+                                                 {{'BonusPointUnion.tips.MustFill'|translate}}<!-- 必填-->
+                                             </ng-container>
+                                         </mat-error>
+                                     </mat-form-field>
+                                 </div>
+                                 <span class="tips-text-two">{{'BonusPointUnion.BonusPointRules.point'|translate}}<!--积分--></span>
+                             </div>
+                         </div>
+                         </form>
+                     </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

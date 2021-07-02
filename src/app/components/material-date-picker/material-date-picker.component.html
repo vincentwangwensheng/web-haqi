@@ -1,0 +1,8 @@
+<mat-form-field appearance="outline" [floatLabel]="floatLabel"
+                class="w-100-p normal-form-field"
+                >
+    <mat-label *ngIf="label">{{label}}</mat-label>
+    <input #input autocomplete="off" [required]="required" [readonly]="readonly" matInput (change)="onDateChange($event)" [formControl]="timeControl">
+    <span *ngIf="showCalendar" class="iconfont iconcalendar" matSuffix></span>
+    <mat-error *ngIf="timeControl.invalid&&timeControl.hasError('required')">{{label}}{{'form.required'|translate}}</mat-error>
+</mat-form-field>

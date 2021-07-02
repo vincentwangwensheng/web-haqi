@@ -1,0 +1,229 @@
+<div  class="page-layout carded right-sidebar "> <!-- inner-scroll -->
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/AppletMaskList'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>轮播图管理</span>
+                    </div>
+                </div>
+            </div>
+            <div class="Rotation-picture-btu-class" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <ng-container *ngIf="ADDOrDetail === 'add'" >
+                    <div id="save-btu-id">
+                        <button  mat-raised-button (click)="onSave()"  class="btu-bottom" color="accent" > <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                    </div>
+                    <!--<div id="cancel-btu-id">
+                        <button  mat-raised-button   class="btu-bottom" color="accent" ><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>-->
+                </ng-container>
+               <!-- <ng-container *ngIf="ADDOrDetail === 'detail'">
+                    <ng-container *ngIf="detailSave === false">
+                        <div id="edit-btu-id" >
+                            <button  mat-raised-button  class="btu-bottom" color="accent" > <mat-icon>save</mat-icon>{{'merchants.dataDetail.edit'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="detailSave === true">
+                        <div>
+                            <button  mat-raised-button  class="btu-bottom" color="accent" > <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <div >
+                        <button  mat-raised-button   class="btu-bottom" color="accent" ><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>
+                </ng-container>-->
+            </div>
+        </div>
+
+        <div class="rotation-p-all-flex">
+
+            <form  [formGroup]="options2" class="rotation-p-content-form">
+
+                <!--左边-->
+                <div class="rotation-p-left-flex">
+                    <div class="rotation-p-left-content">
+                        <div class="wheel-p-content">
+                            <div class="wheel-p-left-content">
+                              <ng-container *ngFor="let y of activeTeTagSource.MarkTypeSource; let i =index;">
+                                  <div  @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'300ms',delay:200*i+'ms'}}"
+                                        class="real-content-div mr-20" [ngClass]="{'real-content-div-w-bcia': tlKey === 'hq'  ||  tlKey === 'tt' , 'real-content-div-w-hx': tlKey === 'hx' }">
+                                      <mat-icon (click)="deletePhoto(i)" class="delete-img">remove_circle_outline</mat-icon>
+                                        <div class="wheel-p-img-w-h"
+                                                    [ngClass]="{'wheel-p-img-w-h-bcia': tlKey === 'hq' ||  tlKey === 'tt' , 'wheel-p-img-w-h-hx': tlKey === 'hx' }">
+                                             <img *ngIf="!imgSrc[i]" src="" (click)="openUploadImgDialog(uploadImgDloag, i)">
+                                             <img *ngIf="imgSrc[i]" [src]="imgSrc[i]" (click)="openUploadImgDialog(uploadImgDloag, i)">
+                                        </div>
+                                        <div class="wheel-p-select-w-h  mark-mat-point">
+                                        <mat-form-field appearance="outline" [floatLabel]="'always'" class="mb-20">
+                                <mat-select  (selectionChange)="changePType(i,$event)" [disabled]="activeTeTagSource.MarkTypeSource[i]['primitiveData']" [(ngModel)]="activeTeTagSource.MarkTypeSource[i]['name']" [ngModelOptions]="{standalone: true}">
+                                    <mat-option  value="跳转链接">跳转链接</mat-option>
+                                    <mat-option  value="跳转活动">跳转活动</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                                       <ng-container *ngIf="linkOrActivityStatus[i]['type'] === 'ACTIVITY'">
+                                <!--<mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <mat-select [(ngModel)]="linkOrActivityStatus[i]['value']"  [ngModelOptions]="{standalone: true}">
+                                        &lt;!&ndash;<mat-option *ngFor="let d of activeTeTagSource.MarkTypeSource" [value]="d.id" >{{d.name}}</mat-option>&ndash;&gt;
+                                        <mat-option value="A">A活动</mat-option>
+                                        <mat-option value="B">B活动</mat-option>
+                                        <mat-option value="C">C活动</mat-option>
+                                    </mat-select>
+                                </mat-form-field>-->
+
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" (click)="addActivity(activityTemplate, i)">
+                                    <input   matInput    autocomplete="off"  [(ngModel)]="linkOrActivityStatus[i]['value']" [ngModelOptions]="{standalone: true}" [readonly]="activeTeTagSource.MarkTypeSource[i]['primitiveData']">
+                                </mat-form-field>
+
+                            </ng-container>
+
+                                       <ng-container *ngIf="linkOrActivityStatus[i]['type'] === 'LINK'">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                    <input   matInput    autocomplete="off"  [(ngModel)]="linkOrActivityStatus[i]['value']" [ngModelOptions]="{standalone: true}" [readonly]="activeTeTagSource.MarkTypeSource[i]['primitiveData']">
+                                </mat-form-field>
+                            </ng-container>
+
+                             </div>
+                                  </div>
+                             </ng-container>
+
+                            </div>
+                            <div class="wheel-p-right-content">
+                                <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"   class="right-add-content">
+                                    <div   class="up_add_p_content">
+                                       <div class="img_upload_cl">
+                                          <img src="assets/images/cards/imgP.png">
+                                       </div>
+                                       <div class="cloud_upload_cl">
+                                           <button (click)="addRotationChart()"  mat-icon-button color="accent"><mat-icon>cloud_upload</mat-icon>添加轮播图</button>
+                                       </div>
+                                    </div>
+                                    <div class="down_add_p_content">
+                                     <span>上传图片比例为592x1086px，大小不得超过1M，支持JPG,PNG文件</span>
+                                    </div>
+                                </div>
+                           </div>
+
+                        </div>
+                     </div>
+               </div>
+
+        <!--右边-->
+        <div class="rotation-p-right-flex">
+            <div class="rotation-p-right-content">
+                <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"   class="left-arrow">
+                    <button mat-icon-button (click)="nextImg(false)"><mat-icon>arrow_back_ios</mat-icon></button>
+                </div>
+                <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"   class="one-div-class"
+                      [ngClass]="{'one-div-class-bcia': tlKey === 'hq'||  tlKey === 'tt' , 'one-div-class-hx': tlKey === 'hx'}">
+
+
+                    <div class="dark-div-class" [ngClass]="{'dark-div-class-bcia': tlKey === 'hq'||  tlKey === 'tt' , 'dark-div-class-hx': tlKey === 'hx'}">
+
+                        <div class="der-left-div-p"
+                             [ngClass]="{'der-left-div-p-bcia': tlKey === 'hq'||  tlKey === 'tt' , 'der-left-div-p-hx': tlKey === 'hx'}" >
+                            <div class="img-div-p" id="img-div-p"
+                                 [ngClass]="{'img-div-p-bcia': tlKey === 'hq'||  tlKey === 'tt' , 'img-div-p-hx': tlKey === 'hx'}">
+
+                                <ng-container *ngFor="let src of ImgTrueFalse ; index as k;">
+                                <img [src]="src?.src"  (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)">
+                            </ng-container>
+
+                            </div>
+                            <div class="ul_li_class">
+                                <ul>
+                                    <ng-container *ngFor="let img of ImgTrueFalse;index as k;">
+                                        <li (click)="changeImg(k)" [ngClass]="{'li-change-Color': currentIndex === k , 'li-change-other-Color':  currentIndex !== k }"></li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="tlKey === 'hq'||  tlKey === 'tt'">
+                            <div class="der-right-div-p">
+                                <img src="assets/images/cards/v_applet.jpg">
+                            </div>
+                        </ng-container>
+                    </div>
+                    <ng-container *ngIf="tlKey === 'hq'||  tlKey === 'tt'">
+                        <div class="li-div">
+                            <img src="assets/images/cards/h_applet.jpg">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="tlKey === 'hx'">
+                        <div class="li-div-hx">
+                            <img src="assets/images/cards/lunbotubottom.jpg">
+                        </div>
+                    </ng-container>
+
+                </div>
+                <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"   class="right-arrow">
+                    <button mat-icon-button (click)="nextImg(true)"><mat-icon>arrow_forward_ios</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        </form>
+
+
+        </div>
+        </div>
+        </div>
+
+
+        <ng-template #uploadImgDloag >
+            <div mat-dialog-title class="dialog-manage-title_tips">
+                <div class="img-title"><span class="title_dialog_">轮播图片</span></div>
+                <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+            </div>
+            <mat-dialog-content>
+                <div class="MatDialogFrozenClass_tips">
+                    <div class="MatDialogFrozenClass1">
+                        <div class="up_input_load">
+                            <div class="file-path">
+                                <input type="text" value="{{activityImgName}}" >
+                            </div>
+                            <div class="file-upLoad-btu">
+                                <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                                <input type="file" value="" accept=".jpg,.png" class="up_input" (change)="CouponImgUpload($event)">
+                            </div>
+                        </div>
+                        <div class="tips_color_w_h">
+                            <span class="tips-color">上传图片比例为592×1086px,大小不得超过1M,支持JPG,PNG文件</span>
+                        </div>
+                        <div class="Progress-Bar">
+                            <section class="example-section" >
+                        <ng-container *ngIf="notUploading===false">
+                            <mat-progress-bar
+                                    class="example-margin"
+                                    color="accent"
+                                    mode="determinate"
+                                    [value]="progressLoad"
+                            >
+                            </mat-progress-bar>
+                        </ng-container>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="btu_dialog_Frozen_tips">
+            <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+            <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+        </div>
+    </mat-dialog-content>
+</ng-template>
+
+
+<ng-template #activityTemplate>
+   <!-- <app-marketing-manage  [selectedRows]="selectedTags" [overPanel]="true" [createButton]="false"
+                                   (dataSelect)="onSelectTags($event)"></app-marketing-manage>-->
+
+    <app-marketing-manage  (dataSelect)="onSelectTags($event)" [overPanel]="true"  [createButton]="false"
+                            [singleSelect]="true" [selectedRows]="true" [resetSelect]="false" ></app-marketing-manage>
+
+
+</ng-template>

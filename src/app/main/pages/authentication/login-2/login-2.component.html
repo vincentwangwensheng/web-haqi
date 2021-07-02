@@ -1,0 +1,130 @@
+<div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
+
+        <div *ngIf="logo_rectangle" [ngClass]="{'hx-logo':currentProject==='hx','bcia-logo':currentProject==='hq'}"
+             [@animate]="{value:'*',params:{scale:'0.2'}}">
+            <img [src]="logo_rectangle">
+        </div>
+
+        <div *ngIf="tlKey" class="title" [@animate]="{value:'*',params:{scale:'0.2'}}"
+             [ngClass]="{'title-en':selectedLanguage.id==='en-US'}"
+             [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+            {{(tlKey+'title')|translate}}
+        </div>
+
+        <div *ngIf="tlKey" class="description" [@animate]="{value:'*',params:{delay:'100ms',scale:'0.2',y:'25px'}}">
+            <span *ngIf="currentProject==='hq'">{{(tlKey+'description')|translate}}</span>
+            <span *ngIf="currentProject==='tt'">{{(tlKey+'description')|translate}}</span>
+            <ng-container *ngIf="currentProject==='hx'">
+                <div><b>{{(tlKey+'desc1')|translate}}</b>
+                    <span>{{(tlKey+'desc2')|translate}}</span>
+                    <b>{{(tlKey+'desc3')|translate}}</b>
+                    <span>{{(tlKey+'desc4')|translate}}</span></div>
+                <div><b>{{(tlKey+'desc5')|translate}}</b>
+                    <span>{{(tlKey+'desc6')|translate}}</span>
+                    <b>{{(tlKey+'desc7')|translate}}</b>
+                    <span>{{(tlKey+'desc8')|translate}}</span></div>
+            </ng-container>
+        </div>
+
+    </div>
+
+    <div id="login-form-wrapper"
+         [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+        <div id="login-form">
+            <div class="version">
+                <span>{{'version'|translate}}</span>
+                <span hidden>07369504</span><span>0.2.72</span>
+            </div>
+
+            <div *ngIf="logo_square" class="logo" fxHide.gt-xs>
+                <img [src]="logo_square">
+            </div>
+
+            <!--<div class="lang" fxLayout="row-reverse"-->
+            <!--fxLayoutAlign="space-between end">-->
+            <!--<button mat-button-->
+            <!--class="language-button"-->
+            <!--[matMenuTriggerFor]="languageMenu">-->
+            <!--<div fxLayout="row" fxLayoutAlign="center center">-->
+            <!--<img class="mr-8" [src]="'assets/images/flags/'+selectedLanguage.flag+'.png'">-->
+            <!--<span>{{selectedLanguage.current}}</span>-->
+            <!--</div>-->
+            <!--</button>-->
+
+            <!--<mat-menu #languageMenu="matMenu" [overlapTrigger]="false">-->
+
+            <!--<button mat-menu-item *ngFor="let lang of languages" (click)="setLanguage(lang)">-->
+            <!--<span fxLayout="row" fxLayoutAlign="start center">-->
+            <!--<img class="mr-16" [src]="'assets/images/flags/'+lang.flag+'.png'">-->
+            <!--<span>{{lang.title}}</span>-->
+            <!--</span>-->
+            <!--</button>-->
+
+            <!--</mat-menu>-->
+            <!--</div>-->
+            <div class="title">{{'loginPage.loginInfo'|translate}}</div>
+
+            <form name="loginForm" [formGroup]="loginForm" novalidate>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'loginPage.username'|translate}}</mat-label>
+                    <input matInput formControlName="username" autocomplete="on">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                        {{'loginPage.usernameM'|translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'loginPage.password'|translate}}</mat-label>
+                    <input matInput type="password" autocomplete="on" formControlName="password">
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error *ngIf="loginForm.get('password').errors">
+                        {{'loginPage.passwordM'|translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <!--<div class="remember-forgot-password" fxLayout="row-reverse" fxLayout.xs="column"-->
+                <!--fxLayoutAlign="space-between end">-->
+                <!--&lt;!&ndash;<mat-checkbox class="remember-me" aria-label="Remember Me">&ndash;&gt;-->
+                <!--&lt;!&ndash;Remember Me&ndash;&gt;-->
+                <!--&lt;!&ndash;</mat-checkbox>&ndash;&gt;-->
+
+                <!--<a class="forgot-password" [routerLink]="'/auth/forgot-password'">-->
+                <!--{{'loginPage.forgot'|translate}}-->
+                <!--</a>-->
+                <!--</div>-->
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN"
+                        [disabled]="loginForm.invalid||loginDisabled" (click)="login()">
+                    {{'loginPage.login'|translate}}
+                </button>
+
+            </form>
+
+            <!--<div class="separator">-->
+            <!--<span class="text">{{'loginPage.or'|translate}}</span>-->
+            <!--</div>-->
+
+            <!--<div fxLayout="column" fxLayoutAlign="start center">-->
+
+            <!--<button mat-raised-button class="google">-->
+            <!--Log in with Google-->
+            <!--</button>-->
+
+            <!--<button mat-raised-button class="facebook">-->
+            <!--Log in with Facebook-->
+            <!--</button>-->
+
+            <!--</div>-->
+
+            <!--<div class="register" fxLayout="column" fxLayoutAlign="center center">-->
+            <!--<span class="text">{{'loginPage.noAccount'|translate}}</span>-->
+            <!--<a class="link" [routerLink]="'/auth/register'">{{'loginPage.createAccount'|translate}}</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,429 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span class="set-title">{{'PuSentiment.control.title' |translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="control-btu-class">
+              <!--  <div id="save-btu-id">
+                    <button  mat-raised-button   class="btu-bottom" color="accent" > <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                </div>-->
+            </div>
+        </div>
+
+
+        <div class="control-all-flex">
+            <form class="controlForm" [formGroup]="FormOption">
+
+                <div class="control-flex-left">
+
+                    <div class="control-flex-real-left">
+
+                        <!-- 标题 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="control-left-title">
+                            <span class="control-head-title">{{'PuSentiment.control.leftTitle' |translate}}</span> <!-- 热点追踪  -->
+                        </div>
+
+                        <!-- 内容 -->
+                        <div fxLayout="column" fxLayoutAlign="start center" class="control-left-part" fxLayoutGap="20px">
+
+                            <ng-container *ngFor="let con of hotTrack;let i=index" >
+                                <ng-container *ngIf="con?.type === type_article">
+                                    <!-- 文章 -->
+                                    <div fxLayout="row" fxLayoutAlign="space-between center"
+                                         @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:200*i+'ms'}}" class="control-left-part-ch" >
+
+                                        <!-- 图片部分-->
+                                        <div fxLayout="column" fxLayoutAlign="start center" class="control-left-part-ch1">
+                                            <img src="assets/images/cards/controlBgArticle.png" class="control-left-part-ch1-d">
+                                            <div fxLayout="column" fxLayoutAlign="start center" class="control-left-part-ch1-u">
+                                                <!-- 类型 -->
+                                                <div fxLayout="row" fxLayoutAlign="start end"  class="control-left-part-des1">
+                                                    <span class="img-title">{{type_article_CN}}</span>
+                                                </div>
+                                                <!-- 标题 -->
+                                                <div  fxLayout="row" fxLayoutAlign="start center"  class="control-left-part-des2 pb-24">
+                                                    <span class="img-bgTitle">{{con?.title}}</span>
+                                                </div>
+                                                <!-- 阅读 评论 量-->
+                                                <div fxLayout="row" fxLayoutAlign="space-between end" class="control-left-part-des3">
+                                                    <div fxLayout="row" fxLayoutAlign="start center"  class="control-left-part-des4">
+                                                        <div fxLayout="row" fxLayoutAlign="space-between end" class="mr-16">
+                                                            <span class="img-foot-text">{{'PuSentiment.control.read' |translate}}：</span> <!-- 阅读  -->
+                                                            <span class="img-foot-text">{{con?.lookNum}}</span>
+                                                            <ng-container *ngIf="con?.lookNumUnit === true">
+                                                                <span class="img-foot-text" >{{'PuSentiment.control.tenThousand' |translate}}</span> <!-- 万  -->
+                                                            </ng-container>
+                                                        </div>
+
+                                                        <div fxLayout="row" fxLayoutAlign="space-between end">
+                                                            <span class="img-foot-text">{{'PuSentiment.control.writeNum' |translate}}：</span><!-- 评论  -->
+                                                            <span class="img-foot-text">{{con?.writeNum}}</span>
+                                                            <ng-container *ngIf="con?.writeNumUnit === true">
+                                                                <span class="img-foot-text" >{{'PuSentiment.control.tenThousand' |translate}}</span><!-- 万  -->
+                                                            </ng-container>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutAlign="end end"  class="control-left-part-des5 pb-12">
+                                                        <a (click)="openCommentDetail(CommentDetailDialog , con)">{{'PuSentiment.control.openDetail' |translate}}</a><!-- 查看详情  -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 图像 昵称 评论 部分-->
+                                        <div fxLayout="column" fxLayoutAlign="space-between center" class="control-left-part-ch2">
+                                            <ng-container *ngFor="let comm of con.writeContent; let i=index">
+                                                <ng-container *ngIf="i < 2">
+                                                    <div fxLayout="row" fxLayoutAlign="start center" class="control-left-part-ch2-u"
+                                                         [ngClass]="{'border-bom': i===0}">
+                                                        <div fxLayout="row" fxLayoutAlign="space-between center" class="left-head-img">
+                                                            <div fxLayout="row" fxLayoutAlign="start start" class="left-head-img-d">
+                                                                <img src="{{comm?.logoImg}}" class="left-head-img-w-h">
+                                                            </div>
+
+                                                            <div  fxLayout="column" fxLayoutAlign="start center"  class="img-name-des">
+                                                                <div fxLayout="row" fxLayoutAlign="start center"  class="img-name-des-ch1">
+                                                                    <span class="img-head-title">{{comm?.nickName}}</span>
+                                                                </div>
+                                                                <div fxLayout="row" fxLayoutAlign="start center"  class="img-name-des-ch2">
+                                                                    <span class="img-name-t">{{comm?.comment}}</span>
+                                                                </div>
+                                                                <div fxLayout="row" fxLayoutAlign="end end" class="img-name-des-ch3">
+                                                                    <span class="img-head-time">{{comm?.time}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+
+                                            </ng-container>
+
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="con?.type === type_store">
+                                    <!-- 商户-->
+                                    <div fxLayout="row" fxLayoutAlign="space-between center"
+                                         @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:200*i+'ms'}}"  class="control-left-part-ch">
+
+                                        <!-- 图片部分 -->
+                                        <div fxLayout="column" fxLayoutAlign="start center" class="control-left-part-ch1">
+                                            <img src="assets/images/cards/controlBgMerchant.png" class="control-left-part-ch1-d">
+                                            <div fxLayout="column" fxLayoutAlign="start center" class="control-left-part-ch1-u">
+                                                <div fxLayout="row" fxLayoutAlign="start end"  class="control-left-part-des1">
+                                                    <span class="img-title">{{type_store_CN}}</span>
+                                                </div>
+                                                <div  fxLayout="row" fxLayoutAlign="start start"  class="control-left-part-des6">
+                                                    <!--  商户头像 -->
+                                                    <div fxLayout="row" fxLayoutAlign="center center"   class="des6-ch-logo pb-8">
+                                                        <img src="{{con?.logoImg}}" class="MerchantLogo">
+                                                    </div>
+                                                    <!-- 头像旁边地址填写-->
+                                                    <div fxLayout="column" fxLayoutAlign="start center" class="des6-ch-text">
+                                                        <div  fxLayout="column" fxLayoutAlign="start start" class="des6-ch-text-ch">
+                                                            <span class="logo-name">{{con?.meName}}</span>
+                                                        </div>
+                                                        <div  fxLayout="row" fxLayoutAlign="start center" class="des6-ch-text-ch1">
+                                                            <span class="logo-addr">{{'PuSentiment.control.address' |translate}}：</span><span class="logo-addr">{{con?.address}}</span> <!-- 地址  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- 下边评论一级星级组件 打分-->
+                                                <div fxLayout="row" fxLayoutAlign="space-between end" class="control-left-part-des7">
+                                                    <div fxLayout="row" fxLayoutAlign="space-between center" class="part-des7-ch1">
+
+                                                        <!--  评论 -->
+                                                        <div fxLayout="row" fxLayoutAlign="start center" class="part-des7-ch1-text">
+                                                            <span class="img-foot-text">{{'PuSentiment.control.writeNum' |translate}}：</span><!-- 评论  -->
+                                                            <span class="img-foot-text">{{con?.writeNum}}</span>
+                                                            <ng-container *ngIf="con?.writeNumUnit === true">
+                                                                <span class="img-foot-text" >{{'PuSentiment.control.tenThousand' |translate}}</span><!-- 万  -->
+                                                            </ng-container>
+                                                        </div>
+                                                        <!-- 评分  星星 显示-->
+                                                        <div fxLayout="row" fxLayoutAlign="start center"  class="part-des7-ch1-star">
+                                                            <div fxLayout="row" fxLayoutAlign="start center"  class="part-des7-ch1-star-num">
+                                                                <span class="img-foot-text">{{'PuSentiment.control.score' |translate}}：</span><span class="img-foot-text">{{con?.grade}}</span><!-- 评分  -->
+                                                            </div>
+                                                            <div  fxLayout="row" fxLayoutAlign="start center"  class="part-des7-ch1-star-com">
+                                                                <app-star-rating [starRating]="con?.grade" [readonly]="true" (RatingNumber)="getRatingNumber($event)">
+
+                                                                </app-star-rating>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div fxLayout="row" fxLayoutAlign="end end" class="part-des7-ch2 pb-12">
+                                                        <a  (click)="openCommentDetail(CommentDetailDialog , con)">{{'PuSentiment.control.openDetail' |translate}}</a><!-- 查看详情  -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <!-- 评论部分 -->
+                                        <div fxLayout="column" fxLayoutAlign="space-between center" class="control-left-part-ch2">
+                                            <ng-container *ngFor="let comm of con.writeContent; let i=index">
+
+                                              <ng-container *ngIf="i < 2">
+                                                  <div fxLayout="row" fxLayoutAlign="start center" class="control-left-part-ch2-u"
+                                                       [ngClass]="{'border-bom': i=== 0}">
+                                                      <div fxLayout="row" fxLayoutAlign="space-between center" class="left-head-img">
+                                                          <!-- 头像 -->
+                                                          <div fxLayout="row" fxLayoutAlign="start start" class="left-head-img-d">
+                                                              <img src="{{comm?.logoImg}}" class="left-head-img-w-h">
+                                                          </div>
+                                                          <!-- 昵称和评论 -->
+                                                          <div  fxLayout="column" fxLayoutAlign="start center"  class="img-name-des">
+                                                              <div fxLayout="row" fxLayoutAlign="start center"  class="img-name-des-ch1">
+                                                                  <span class="img-head-title">{{comm?.nickName}}</span>
+                                                              </div>
+                                                              <div fxLayout="row" fxLayoutAlign="start center"  class="img-name-des-ch2">
+                                                                  <span class="img-name-t">{{comm?.comment}}</span>
+                                                              </div>
+                                                              <div fxLayout="row" fxLayoutAlign="end end" class="img-name-des-ch3">
+                                                                  <span class="img-head-time">{{comm?.time}}</span>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </ng-container>
+
+                                            </ng-container>
+
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+
+                            </ng-container>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="control-flex-right">
+
+                     <div class="control-flex-real-right" id="rightContentList">
+                         <div  fxLayout="column" fxLayoutAlign="start center" class="control-r-content">
+                             <!-- 标题 -->
+                             <div  fxLayout="row" fxLayoutAlign="start center"
+                                   [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay: '200ms'}}"  class="control-r-title">
+                                 <span class="control-head-title" > {{'PuSentiment.control.exceptionContent' |translate}}</span> <!-- 异常评论  -->
+                             </div>
+
+                             <!--  查询筛选框 -->
+                             <div  fxLayout="row" fxLayoutAlign="start baseline"
+                                   [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay: '300ms'}}" class="control-r-select">
+                                 <div  fxLayout="row" fxLayoutAlign="start center" class="control-r-search control-set-mat-point">
+                                     <mat-form-field appearance="outline"  >
+                                          <!-- 请输入搜索内容 -->
+                                         <input  matInput autocomplete="off"   value="" placeholder="{{'PuSentiment.control.tips3' |translate}}" id="controlInput" (input)="comSearch($event)">
+                                         <button mat-icon-button  matSuffix (click)="comSearch('other')">
+                                             <mat-icon color="accent" matSuffix>search</mat-icon>
+                                         </button>
+                                     </mat-form-field>
+                                 </div>
+                                 <div class="control-r-select-ch control-set-mat-point">
+                                     <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                         <mat-select [(value)]="sysPra.initStr" (selectionChange)="comSearch('other')">
+                                             <mat-option *ngFor="let d of sysPra.source" [value]="d.id" >{{d.value}}</mat-option>
+                                         </mat-select>
+                                     </mat-form-field>
+                                 </div>
+                             </div>
+
+                             <!-- 异常的评论内容 -->
+                             <div fxLayout="column" fxLayoutAlign="start start" class="control-r-real-con" >
+
+                                  <!-- 内容 直接查询列表数据  -->
+                                 <div class=" w-100-p h-100-p "
+                                      fxLayout="column" fxLayoutAlign="start start" fxFlexFill   [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                                     <div fxLayout="row" class="w-100-p">
+                                         <ngx-datatable
+                                                 fxFlexFill class="material"
+                                                 [messages]="{emptyMessage:'列表为空',totalMessage: '共计'}"
+                                                 [selectionType]="'single'"
+                                                 [columns]="commentColumns"
+                                                 [footerHeight]="50"
+                                                 [count]="commentPage.count"
+                                                 [offset]="commentPage.page"
+                                                 [limit]="commentPage.size"
+                                                 [externalSorting]="true"
+                                                 [rowHeight]="40"
+                                                 [rows]="commentSource"
+                                                 [externalPaging]="true"
+                                                 (page)="onPage($event)"
+                                         >
+                                             <ngx-datatable-column [name]="'序号'" [width]="commentColumnWidth">
+                                                 <ng-template let-value="value" let-row="row"
+                                                              ngx-datatable-cell-template>
+                                                     <span>{{commentSource.indexOf(row)+1+commentPage.page*commentPage.size}}</span>
+                                                 </ng-template>
+                                             </ngx-datatable-column>
+
+                                             <ngx-datatable-column *ngFor="let column of commentColumns"
+                                                                   [name]="column?.name" [canAutoResize]="true"
+                                                                   [width]="commentColumnWidth"
+                                             >
+                                                 <ng-template let-column="column" let-sort="sortFn"
+                                                              ngx-datatable-header-template>
+                                                     <span style="cursor: pointer;">{{commentHeaders.get(column.name)}}</span>
+                                                 </ng-template>
+                                                 <ng-template let-value="value"  let-row="row"  ngx-datatable-cell-template>
+                                                     <!--日期-->
+                                                     <ng-container   *ngIf="column?.name === 'time'">
+                                                       <span class="user-select" [matTooltip]="value|newDateTransform:'/'"  [matTooltipPosition]="'above'">
+                                                         {{value|newDateTransform:'/'}}
+                                                       </span>
+                                                     </ng-container>
+                                                     <!-- 评分 -->
+                                                     <ng-container  *ngIf="column?.name === 'type'">
+                                                         <span [matTooltip]="(value === 'STORE'? 'STORE': 'ARTICLE')|translate"  matTooltipPosition="above">{{(value === 'STORE'? 'STORE': 'ARTICLE')|translate}}</span>
+                                                     </ng-container>
+                                                     <!-- 评分 -->
+                                                     <ng-container  *ngIf="column?.name === 'overhead'">
+                                                         <span [matTooltip]="(value === 'true'|| true ? 'yes': 'no')|translate"  matTooltipPosition="above">{{(value === 'true'|| true ? 'yes': 'no')|translate}}</span>
+                                                     </ng-container>
+                                                     <!-- 操作 -->
+                                                     <ng-container  *ngIf="column?.name === 'operation'">
+                                                         <a class="cursor-pointer batteryA" (click)="toWriteDetail(row)">详情</a>
+                                                     </ng-container>
+                                                     <!-- 其他直接显示-->
+                                                     <ng-container *ngIf="column?.name !== 'type'  && column?.name!=='operation' && column?.name !== 'overhead'  && column?.name !== 'time'">
+                                                         <span [matTooltip]="value"  matTooltipPosition="above">{{value}}</span>
+                                                     </ng-container>
+                                                 </ng-template>
+                                             </ngx-datatable-column>
+
+                                         </ngx-datatable>
+                                     </div>
+                                 </div>
+
+
+                                 <!-- 内容 这里可循环拿到的数据  -->
+                                  <!--<ng-container *ngFor="let d of unusualData;let i=index">-->
+                                      <!--<div fxLayout="column" fxLayoutAlign="space-between center"-->
+                                           <!--@fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:400*i+'ms'}}"   class="unusualData p-8 mt-20">-->
+                                          <!--<div fxLayout="row" fxLayoutAlign="space-between center"  class="unusualData-u border-bom">-->
+                                              <!--<div fxLayout="row" fxLayoutAlign="center start" class="img-head-logo pt-8">-->
+                                                  <!--<img src="{{d?.logoImg}}" class="HeadImg-w-h">&lt;!&ndash;assets/images/cards/temporaryHeadImg.jpg&ndash;&gt;-->
+                                              <!--</div>-->
+                                              <!--<div  fxLayout="column" fxLayoutAlign="start start" class="content-head-text pt-8">-->
+                                                  <!--<div fxLayout="row" fxLayoutAlign="start center" class="content-head-text3">-->
+                                                      <!--<span class="content-head-text1">{{d?.nickName}}</span>-->
+                                                  <!--</div>-->
+                                                  <!--<div fxLayout="row" fxLayoutAlign="start center" class="content-head-text4">-->
+                                                      <!--<span class="content-head-text2">{{d?.content}}</span>-->
+                                                  <!--</div>-->
+                                                  <!--<div fxLayout="row" fxLayoutAlign="end end" class="content-head-text5">-->
+                                                      <!--<span class="img-head-time">{{d?.date}}</span>-->
+                                                  <!--</div>-->
+                                              <!--</div>-->
+                                          <!--</div>-->
+                                          <!--<div fxLayout="row" fxLayoutAlign="end center"  class="unusualData-d">-->
+                                              <!--<a (click)="toWriteDetail(d)">{{'PuSentiment.control.openDetail' |translate}}</a>&lt;!&ndash; 查看详情 &ndash;&gt;-->
+                                          <!--</div>-->
+                                      <!--</div>-->
+                                  <!--</ng-container>-->
+
+
+
+                             </div>
+                         </div>
+
+
+                     </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<ng-template #CommentDetailDialog>
+    <div fxLayout="column" fxLayoutAlign="center center" class="CommentDetailDiClass" cdkDrag
+         cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title fxLayout="row" fxLayoutAlign="center center " class="CommentDetail-title" cdkDragHandle>
+            <!--查看详情-->
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="CommentDetail-title-child">
+                <span>{{'PuSentiment.control.openDetail' |translate}}</span> <!-- 查看详情 -->
+                <button mat-icon-button mat-dialog-close>
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <mat-dialog-content fxLayout="row" fxLayoutAlign="center center " class="CommentDetail-content-p">
+            <div fxLayout="column" fxLayoutAlign="start center " *ngIf="!DetailLoading" class="CommentDetail-content">
+                <div fxLayout="column" fxLayoutAlign="start center " class="commentDetail-content-info p-8"
+                     fxLayoutGap="8px">
+                    <ng-container *ngIf="commentDetail?.type === type_article">
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c"><span>{{type_article_CN}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c"><span>{{commentDetail?.title}}</span>
+                        </div>
+                        <!-- <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c" ><span>内容</span></div>-->
+                    </ng-container>
+                    <ng-container *ngIf="commentDetail?.type === type_store">
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c"><span>{{type_store_CN}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c"><span>{{'PuSentiment.control.storeName' |translate}}： {{commentDetail?.meName}}</span> <!-- 商户名称-->
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-content-info-c"><span>{{'PuSentiment.control.address' |translate}}：{{commentDetail?.address}}</span> <!-- 地址 -->
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start center " class="commentDetail-info">
+                    <ng-container *ngFor="let comm of commentDetail?.writeContent; let i=index">
+
+                        <div fxLayout="row" fxLayoutAlign="start center " class="commentDetail-info-c p-8 mb-16">
+                            <div fxLayout="column" fxLayoutAlign="end center" class="commentDetail-info-c-text">
+                                <div fxLayout="row" fxLayoutAlign="space-between start "
+                                     class="commentDetail-info-c-text-ch1">
+                                    <div fxLayout="row" fxLayoutAlign="center start " class="commentDetail-info-c-img">
+                                        <img src="{{comm?.logoImg}}" class="commentDetail-info-c-img-header">
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center "
+                                         class="commentDetail-info-c-text-ch3">
+                                        <span class="content-head-text1">{{comm?.nickName}}</span>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="end center "
+                                     class="commentDetail-info-c-text-ch2 mb-8">
+                                    <div fxLayout="row" fxLayoutAlign="start center "
+                                         class="commentDetail-info-c-text-ch4">
+                                        <span>{{comm?.comment}}</span>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="end end " class="commentDetail-info-c-text-ch1">
+                                    <span class="img-head-time">{{comm?.time}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                </div>
+            </div>
+            <mat-spinner color="accent" *ngIf="DetailLoading"
+                         mode="indeterminate"></mat-spinner>
+        </mat-dialog-content>
+    </div>
+</ng-template>

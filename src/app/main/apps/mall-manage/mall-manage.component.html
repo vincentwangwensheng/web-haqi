@@ -1,0 +1,8 @@
+<app-table-list [title]="'nav.dataManagement.mall'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [customButtons]="customButtons"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                [initOpacity]="true"
+                [checkbox]="checkbox" [selectedRow]="selectedRow" [singleSelect]="singleSelect"
+                [selectedRows]="selectedRows" [overPanel]="overPanel" (dataSelect)="onSelect($event)"   [selectedField]="selectedFiled"
+>
+</app-table-list>

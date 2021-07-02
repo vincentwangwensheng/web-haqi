@@ -1,0 +1,12 @@
+<app-table-list [title]="'nav.couponManagement.writeOffRecord'|translate"  [rows]="rows"
+                                 [hasDetail]="false" [exportFilterDisabled]="exFilterDisabled" [exportAllDisabled]="exAllDisabled" (search)="onSearch()" (tableSort)="onSort($event)"
+                                 [columns]="columns" [page]="page" (searchClear)="clearSearch()" [exportButton]="true"
+                                 (tablePaging)="onPage($event)" (exportFilter)="exportFilter()" (exportAll)="exportAll()"
+>
+</app-table-list>
+<ng-template #confirm>
+    <app-confirm-dialog [content]="'该操作将导出全部核销记录，请确认操作！'"></app-confirm-dialog>
+</ng-template>
+<ng-template #export>
+    <app-confirm-dialog [content]="'导出的数据量过大（超过10000条），可能导致导出时间过长，请确认操作！'"></app-confirm-dialog>
+</ng-template>

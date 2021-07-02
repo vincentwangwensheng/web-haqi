@@ -1,0 +1,823 @@
+@import "src/@fuse/scss/fuse";
+
+@-webkit-keyframes animal {
+  0%{
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  100%{
+    transform: rotateY(-360deg);
+    -ms-transform: rotateY(-360deg);
+    -webkit-transform: rotateY(-360deg);
+  }
+}
+@keyframes MySpan_One
+{
+  from{
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.bigPageTwo{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  .allBgImg{
+    width: 100%;
+    height: calc(100%);
+  }
+  .two-all-flex{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: auto;
+    z-index: 2;
+  }
+}
+
+.pageTwoLeft{
+  width: 33%;
+  height: 100%;
+  .circleChart{
+    width: 86%;
+    height: 27%;
+    // background-color: #2295DB;
+    position: relative;
+    z-index: 3;
+    .circleChartImg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    .TwoChart{
+      width: 100%;
+      height: 100%;
+      .up-chart{
+        width: 100%;
+        height: 90%;
+        .SalesBizTypePro{
+          width: 49%;
+          height: 100%;
+           .SalesBizTypePro-Title{
+             width: 100%;
+             height: 10%;
+           }
+          .SalesBizTypePro-chart{
+            width: 100%;
+            height: 90%;
+          }
+        }
+
+        .PayTypePro{
+          width: 49%;
+          height: 100%;
+           .PayTypePro-title{
+             width: 100%;
+             height: 10%;
+           }
+           .PayTypePro-chart{
+             width: 100%;
+             height: 90%;
+           }
+        }
+      }
+      .down-text{
+        width: 100%;
+        height: 10%;
+      }
+
+
+    }
+  }
+
+
+  .circularChart{
+    width: 86%;
+    height: 27%;
+    // background-color: #D92F56;
+    position: relative;
+    z-index: 3;
+    .circularChartImg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    .TwoPie{
+      width: 100%;
+      height: 100%;
+       .circular-title{
+         width: 100%;
+         height: 10%;
+       }
+       .circular-chart{
+         width: 100%;
+         height: 80%;
+         .CustomerUnitPriceBagRate{
+           width: 49%;
+           height: 100%;
+           .UnitPrice-BagRate-W-H{
+             width: 100%;
+             height: 90%;
+           }
+
+           .UnitPrice-BagRate-Text{
+             width: 100%;
+             height: 10%;
+             span{
+               color: #FFFFFF;
+               font-size: 14px;
+             }
+           }
+         }
+       }
+       .circular-des{
+         width: 100%;
+         height: 10%;
+       }
+    }
+  }
+
+
+
+
+
+  .listChart{
+    width: 86%;
+    height: 27%;
+    // background-color: #DDDDDD;
+    .listTitle{
+      width: 100%;
+      height: 10%;
+      .Top5Title{
+        width: 40%;
+      }
+      .AmountPrice{
+        width: 30%;
+      }
+    }
+    .listContent{
+      width: 100%;
+      height: 13%;
+      .contentOne{
+        width: 40%;
+      }
+      .contentOther{
+        width: 30%;
+      }
+    }
+    .listDes{
+      width: 100%;
+      height: 10%;
+    }
+    div:nth-child(1) {
+      background: none;
+      color: #2cdaff;
+    }
+    div:nth-child(2) {
+      background-color: rgb(44, 218, 255, 0.5);
+    }
+    div:nth-child(3) {
+      background: rgb(44, 218, 255, 0.4);
+
+    }
+    div:nth-child(4) {
+      background: rgb(44, 218, 255, 0.3);
+
+    }
+    div:nth-child(5) {
+      background: rgb(44, 218, 255, 0.2);
+
+    }
+    div:nth-child(6) {
+      background: rgb(44, 218, 255, 0.1);
+      margin-bottom: 0;
+    }
+  }
+
+}
+
+
+.pageTwoCenter{
+  width: 33%;
+  height: 100%;
+  position: relative;
+  z-index: 3;
+  .page3D{
+    width: 100%;
+    height: 100%;
+    .none3DTitle{
+      width: 100%;
+      height: 17%;
+    }
+    .div3DImg{
+      width: 100%;
+      height: 55%;
+      background-color: #D92F56;
+      .center3DBg{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .otherContent3D{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 4;
+    .noneTitle{
+      width: 100%;
+      height: 17%;
+    }
+
+    .rollNum{
+      width: 100%;
+      height: 53%;
+    }
+
+    .eatTop5{
+      width: 100%;
+      height: 27%;
+    //  background-color: red;
+      position: relative;
+      z-index: 3;
+      .eatTop5Bg{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 4;
+      }
+      .eatTopContent{
+        width: 100%;
+        height: 100%;
+        .eatTitle{
+          width: 100%;
+          height: 10%;
+        }
+        .eatDes{
+          width: 100%;
+          height: 10%;
+        }
+
+      }
+    }
+  }
+
+}
+
+.eatImg{
+  width: 100%;
+  height: 80%;
+  .upEatImg{
+     width: 100%;
+     height: 130px;
+    .imgAndDes{
+      width: 120px;
+      height: 100px;
+      .eat-img-w-h{
+        width: 100px;
+        height: 100px;
+        -webkit-animation: animal 1s linear ;
+        // animation-delay: 2s;
+        animation-iteration-count: 1;
+        -webkit-transform-origin: center center;
+        -ms-transform-origin: center center;
+        transform-origin: center center;
+      }
+    }
+  }
+  .downEatImg{
+    width: 100%;
+    height: 50px;
+    .eat-des-w-h{
+      width: 120px;
+      height: 50px;
+      animation: MySpan_One 0.5s linear;
+      animation-iteration-count: 1;
+      span{
+        font-size: 14px;
+        color: #FFFFFF;
+      }
+    }
+  }
+
+}
+
+
+.rollNumPartOne{
+  width: 100%;
+  height: 30%;
+  .oneNum{
+    width: 50%;
+    height: 100%;
+    .btuFont1{
+      width: 100%;
+      height: 15%;
+      .matArrowRight{
+        color: aqua;
+        font-size: 27px;
+      }
+    }
+    .btuFont2{
+      width: 100%;
+      height: 36%;
+      .rollSum4{
+        width: 50%;
+        .content_s4{
+          //width: 100%;
+          height: 55px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          text-align: center;
+        }
+        .content_s4>div{
+          width: 35px;
+          height: 55px;
+          overflow: hidden;
+        }
+        .box-item_s4{
+          color: white;
+          font-size: 48px;
+          margin: 0;
+          height: 45px;
+          line-height: 45px;
+          writing-mode: vertical-lr;
+          text-orientation: upright;
+          position: relative;
+        }
+        .box-item_s4>span{
+          position: absolute;
+          font-weight: bold;
+          font-size: 60px;
+          top: -8px;
+          left: -6px;
+          transform: translate(0%, -50%);
+          letter-spacing: 10px;
+          transition: transform 2s;
+        }
+        .content_s4 .d4_div{
+          width: 12px;
+          height: 65px;
+          overflow: hidden;
+        }
+        .box-item_d4{
+          color: white;
+          font-size: 30px;
+          margin: 0;
+          height: 65px;
+          line-height: 70px;
+          position: relative;
+        }
+        .box-item_d4>span{
+          position: absolute;
+          font-weight: bold;
+          font-size: 50px;
+          left: 0px;
+        }
+
+      }
+      .rollSumUntil4{
+        width: 20%;
+      }
+    }
+  }
+  .twoNum{
+    width: 50%;
+    height: 100%;
+    .btuFont3{
+      width: 100%;
+      height: 15%;
+      .matArrowRight{
+        color: aqua;
+        font-size: 27px;
+      }
+    }
+    .btuFont4{
+      width: 100%;
+      height: 36%;
+      .rollSum3{
+        width: 50%;
+        .content_s3{
+          //width: 100%;
+          height: 55px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          text-align: center;
+        }
+        .content_s3>div{
+          width: 35px;
+          height: 55px;
+          overflow: hidden;
+        }
+        .box-item_s3{
+          color: white;
+          font-size: 48px;
+          margin: 0;
+          height: 45px;
+          line-height: 45px;
+          writing-mode: vertical-lr;
+          text-orientation: upright;
+          position: relative;
+        }
+        .box-item_s3>span{
+          position: absolute;
+          font-weight: bold;
+          font-size: 60px;
+          top: -8px;
+          left: -6px;
+          transform: translate(0%, -50%);
+          letter-spacing: 10px;
+          transition: transform 2s;
+        }
+      }
+      .rollSumUntil3{
+        width: 22%;
+      }
+    }
+  }
+}
+
+
+.rollNumPartTwo{
+  width: 100%;
+  height: 20%;
+  .rollNumContent{
+    width: 100%;
+    height: 100%;
+    .btuFont5{
+      width: 100%;
+      height: 15%;
+      .matArrowRight{
+        color: aqua;
+        font-size: 27px;
+      }
+    }
+    .btuFont6{
+      width: 100%;
+      height: 55%;
+      .rollSum2{
+        width: 50%;
+        .content_s2{
+          //width: 100%;
+          height: 55px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          text-align: center;
+        }
+        .content_s2>div{
+          width: 35px;
+          height: 55px;
+          overflow: hidden;
+        }
+        .box-item_s2{
+          color: white;
+          font-size: 48px;
+          margin: 0;
+          height: 45px;
+          line-height: 45px;
+          writing-mode: vertical-lr;
+          text-orientation: upright;
+          position: relative;
+        }
+        .box-item_s2>span{
+          position: absolute;
+          font-weight: bold;
+          font-size: 60px;
+          top: -8px;
+          left: -6px;
+          transform: translate(0%, -50%);
+          letter-spacing: 10px;
+          transition: transform 2s;
+        }
+      }
+      .rollSumUntil2{
+        width: 27%;
+      }
+    }
+  }
+}
+
+
+.rollNumPartThree{
+  width: 100%;
+  height: 30%;
+  .rollNumThreeContent{
+    width: 100%;
+    height: 100%;
+    .btuFont7{
+      width: 100%;
+      height: 15%;
+      .matArrowRight{
+        color: aqua;
+        font-size: 27px;
+      }
+    }
+    .btuFont8{
+      width: 100%;
+      height: 36%;
+      .rollSum{
+        width: 50%;
+        .content_s1{
+          //width: 100%;
+          height: 55px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          text-align: center;
+        }
+        .content_s1>div{
+          width: 35px;
+          height: 55px;
+          overflow: hidden;
+        }
+        .box-item_s1{
+          color: white;
+          font-size: 48px;
+          margin: 0;
+          height: 45px;
+          line-height: 45px;
+          writing-mode: vertical-lr;
+          text-orientation: upright;
+          position: relative;
+        }
+        .box-item_s1>span{
+          position: absolute;
+          font-weight: bold;
+          font-size: 60px;
+          top: -8px;
+          left: -6px;
+          transform: translate(0%, -50%);
+          letter-spacing: 10px;
+          transition: transform 2s;
+        }
+      }
+      .rollSumUntil{
+        width: 12%;
+      }
+    }
+  }
+
+
+}
+
+
+.pageTwoRight{
+  width: 33%;
+  height: 100%;
+  .sexPro{
+    width: 86%;
+    height: 27%;
+    position: relative;
+    z-index: 3;
+    .sexProImg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    .sexProContent{
+      width: 100%;
+      height: 100%;
+
+      .sexPro-title{
+        width: 100%;
+        height: 10%;
+      }
+
+
+      .sexPro-number{
+        width: 100%;
+        height: 80%;
+
+        .maleContent{
+          width: 48%;
+          height: 100%;
+          .maleImg{
+            width: 50%;
+            height: 100%;
+          }
+          .maleText{
+            width: 50%;
+            height: 100%;
+            .maleTextCh1{
+              width: 80%;
+              height: 21%;
+            }
+            .maleTextCh2{
+              width: 80%;
+              height: 18%;
+              border-bottom: 1px solid #2cdaff;
+            }
+            .maleTextCh3{
+              width: 80%;
+              height: 15%;
+            }
+          }
+        }
+
+        .femaleContent{
+          width: 48%;
+          height: 100%;
+          .femaleImg{
+            width: 50%;
+            height: 100%;
+          }
+          .femaleText{
+            width: 50%;
+            height: 100%;
+            .femaleTextCh1{
+              width: 80%;
+              height: 21%;
+            }
+            .femaleTextCh2{
+              width: 80%;
+              height: 18%;
+              border-bottom: 1px solid #2cdaff;
+            }
+            .femaleTextCh3{
+              width: 80%;
+              height: 15%;
+            }
+          }
+        }
+      }
+
+
+
+      .sexPro-des{
+        width: 100%;
+        height: 10%;
+      }
+    }
+  }
+
+
+
+
+  .agePro{
+    width: 86%;
+    height: 27%;
+   // background-color: #2295DB;
+    position: relative;
+    z-index: 3;
+    .ageProImg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    .ageProContent{
+      width: 100%;
+      height: 100%;
+      .agePro-title{
+        width: 100%;
+        height: 10%;
+      }
+      .agePro-des{
+        width: 100%;
+        height: 10%;
+      }
+      .agePro-chart{
+        width: 100%;
+        height: 80%;
+        .agePro-real-chart{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+  .PartialityBrand{
+    width: 86%;
+    height: 27%;
+    // background-color: #2295DB;
+    position: relative;
+    z-index: 3;
+    .brandImg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    .brandContent{
+      width: 100%;
+      height: 100%;
+      .brand-title{
+        width: 100%;
+        height: 10%;
+      }
+      .brand-des{
+        width: 100%;
+        height: 10%;
+      }
+      .brand-chart{
+        width: 100%;
+        height: 80%;
+        .brand-real-chart{
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+    }
+  }
+}
+
+.chartTitleColorSize{
+  color: #2cdaff;
+  font-size: 14px;
+}
+
+.chartTitleColorSizeTwo{
+  color: #B5707D;
+  font-size: 14px;
+}
+
+
+.chartDes{
+  font-size: 10px;
+  color: #FFFFFF;
+}
+
+.listTitleSpan{
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.eat-img1{
+  width: 90px;
+  height: 90px;
+}
+
+.eat-img2{
+  width: 90px;
+  height: 90px;
+}
+.eat-img3{
+  width: 90px;
+  height: 90px;
+}
+.eat-img4{
+  width: 70px;
+  height: 70px;
+}
+.eat-img5{
+  width: 70px;
+  height: 70px;
+}
+
+
+.TitleFont3d{
+  font-size: 14px;
+  color: #2295DB;
+  }
+
+.rollNumberFont{
+  font-size: 40px;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.rollNumberUnit{
+  font-size: 12px;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.sexProT{
+  font-size: 35px;
+  color: #FFFFFF;
+}
+
+.sexProT2{
+  font-size: 12px;
+  color: #FFFFFF;
+}
+.sexProT3{
+  font-size: 15px;
+  color: #2cdaff;
+}
+
+.sexProT4{
+  font-size: 15px;
+  color: #FFFFFF;
+}

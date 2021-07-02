@@ -1,0 +1,24 @@
+.coupon-title {
+  white-space: nowrap;
+}
+
+.coupon-table {
+  td:nth-child(2n+1) {
+    font-size: 13px;
+    padding: 12px 4px;
+    width: 15%;
+  }
+  td:nth-child(2n) {
+    width: 18%;
+    max-width: 18%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+  }
+}
+
+.amount-suffix {
+  position: relative;
+  top: 5px;
+}

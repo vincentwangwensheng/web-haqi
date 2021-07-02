@@ -1,0 +1,232 @@
+<div class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center"><!--center 商业数据分析-->
+        <div fxLayout="row">
+            <div class="header accent p-24">
+                <h2 class="m-0">活动统计</h2>
+            </div>
+            <div class="market-data-flex-top">
+                <div class="market-data-flex-top-title1">
+                    <mat-form-field>
+                        <mat-select  [(value)]="ActivityType" (selectionChange)="changeActivity()">
+                            <mat-option *ngFor="let d of selectedType" [value]="d.id">
+                                {{d.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+
+        <!---所有布局-->
+        <div class="allFlex" [ngClass]="{'allFlex-row': ResponsiveStruts , 'allFlex-column': !ResponsiveStruts}">
+
+            <!--左边部分-->
+            <div class="content-one" [ngClass]="{'content-one-left-w-79': ResponsiveStruts , 'content-one-left-w-98': !ResponsiveStruts}">
+                <!--先画一个上下分层的布局-->
+                <div class="data-content-Overall-layout">
+                    <!--上面部分的div，布局是横向展示三个报表-->
+                    <div class="data-content-upper-part">
+                        <!--第一个图表 div必须给定宽高，图表才能出来 活动浏览-->
+                        <div class="content-bg-border-width-height-color-upper-part Data-Analysis-background content-margin-right-upper-part">
+                            <div class="content-width-height-upper-part-first-font-Piece">
+                                <div class="div-title-b-h "><!--活动浏览-->
+                                    <span class="span-font-class-title">活动浏览</span>
+                                      <div class="show-title">
+                                          <button mat-icon-button>
+                                              <mat-icon class="public-btu-mat-icon-color">help_outline</mat-icon>
+                                          </button>
+                                      </div> <!-- hidden-title-->
+                                    <!--<div class="hidden-title">-->
+                                        <!--<span class="span-font-class-describe">活动浏览</span>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="div-summary-b-h_t_b">
+                                    <div class="div-summary-b-h">
+                                        <span class="span-font-style-summary">{{ threeCharts.salesCountValue | number:'1.0-2' }}</span>
+                                        <!--<span class="span-font-unit-class">{{threeCharts.salesCountValue_Unit}}</span>&lt;!&ndash; 单位 &ndash;&gt;-->
+                                    </div>
+                                    <!--<div class="t-b-div-in">-->
+                                        <!--<button mat-icon-button class="btu-mat-summary-color-trending-u">-->
+                                            <!--<div *ngIf="threeCharts.MonthlySalesYearOnYearValue?.includes('-')">-->
+                                                <!--<mat-icon class="btu-mat-summary-color-trending-r">trending_down</mat-icon>-->
+                                            <!--</div>-->
+                                            <!--<div *ngIf="!threeCharts.MonthlySalesYearOnYearValue?.includes('-')">-->
+                                                <!--<mat-icon class="btu-mat-summary-color-trending-u">trending_up</mat-icon>-->
+                                            <!--</div>-->
+
+                                        <!--</button>-->
+                                        <!--<span [ngClass]="{'btu-mat-summary-color-down': threeCharts.MonthlySalesYearOnYearValue?.includes('-'), 'btu-mat-summary-color-up': !threeCharts.MonthlySalesYearOnYearValue?.includes('-')}"-->
+                                        <!--&gt;{{threeCharts.MonthlySalesYearOnYearValue}}</span>-->
+                                        <!--<span class="span-font-summery-unit-class">{{'BusinessDataAnalysis.Year-on-yearGrowth' |translate }}</span> &lt;!&ndash;同比增长&ndash;&gt;-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                            <div class="content-width-height-upper-part-first-chart" #contentUpperPartFirstChart>  </div>
+                        </div>
+                        <!--第二个图表 活动分享-->
+                        <div class="content-bg-border-width-height-color-upper-part Data-Analysis-background content-margin-right-upper-part">
+                            <div class="content-width-height-upper-part-first-font-Piece">
+                                <div class="div-title-b-h"><!-- 活动分享-->
+                                    <span class="span-font-class-title">活动分享</span>
+                                    <div class="BaggingRateShow">
+                                         <button mat-icon-button>
+                                             <mat-icon class="public-btu-mat-icon-color">error_outline</mat-icon>
+                                         </button>
+                                     </div>
+                                    <!--<div class="BaggingRateHide">&lt;!&ndash;活动分享&ndash;&gt;-->
+                                        <!--<span class="span-font-class-describe">活动分享</span>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="div-summary-b-h">
+                                    <span class="span-font-style-summary">{{threeCharts.activityShareCount}}</span>
+                                    <!--<span class="span-font-unit-class">%</span>-->
+                                    <!-- <button mat-icon-button class="btu-mat-summary-color-trending-r"><mat-icon class="btu-mat-summary-color-trending-r">trending_down</mat-icon></button>
+                                     <span class="btu-mat-person-color-reduce">13%</span>
+                                     <span class="span-font-summery-unit-class">同比降低</span>-->
+                                </div>
+                            </div>
+                            <div class="content-width-height-upper-part-first-chart"  #activityShareChart>
+                            </div>
+                        </div>
+                        <!--第三个图表 领取点击-->
+                        <div class="content-bg-border-width-height-color-upper-part Data-Analysis-background">
+                            <div class="content-width-height-upper-part-first-font-Piece">
+                                <div class="div-title-b-h"><!--领取点击-->
+                                    <span class="span-font-class-title">领取点击</span>
+                                    <div class="unitPriceValueShow">
+                                         <button mat-icon-button>
+                                             <mat-icon class="public-btu-mat-icon-color">error_outline</mat-icon>
+                                         </button>
+                                     </div>
+                                    <!--<div class="unitPriceValueHide"> &lt;!&ndash;领取点击&ndash;&gt;-->
+                                        <!--<span class="span-font-class-describe">领取点击</span>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="div-summary-b-h">
+                                    <span class="span-font-style-summary">{{ threeCharts.AcClickCount }}</span>
+                                    <!--<span class="span-font-unit-class">{{'BusinessDataAnalysis.Yuan' |translate }}</span>-->
+                                    <!-- <button mat-icon-button class="btu-mat-summary-color-trending-r"><mat-icon class="btu-mat-summary-color-trending-r">trending_down</mat-icon></button>
+                                     <span class="btu-mat-person-color-reduce">13%</span>
+                                     <span class="span-font-summery-unit-class">同比降低</span>-->
+                                </div>
+                            </div>
+                            <div class="content-width-height-upper-part-first-chart"  #PickUpClickChart>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!--下面部分的div-->
+                    <div class="data-content-lower-part">
+                        <!--活动浏览-->
+                        <div class="content-bg-border-width-height-mb-color-lower-part Data-Analysis-background">
+                            <div class="content-lower-part-title-dis">
+                                <div class="t-d-l-title div-title-left-w span-float-class"><!--活动浏览-->
+                                    <span class="span-font-class-title ">活动浏览</span>
+                                    <!-- <div class="PassengerUnitPriceShow">
+                                         <button mat-icon-button>
+                                             <mat-icon class="public-btu-mat-icon-color">error_outline</mat-icon>
+                                         </button>
+                                     </div> class="PassengerUnitPriceHide"-->
+                                    <!--<div >-->
+                                        <!--<span class="span-font-class-describe">{{'BusinessDataAnalysis.tipsSalesAndTransactionNumberUnitMillionYuan' |translate}}</span>-->
+                                    <!--</div>-->
+                                </div>
+                                <div>
+                                    <!-- <div class="span-float-class">
+                                         <span class="span-font-class-title">（元）</span>
+                                     </div>-->
+                                    <div class="select-class-type-div">
+                                        <div class="span-float-class flex-div-mat-p">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="legend_class_BrokenLine_p_kdj">
+
+                                </div>
+                            </div>
+                            <div class="data-content-lower-part-chart-style" >
+                                <canvas baseChart
+                                        [datasets]="widgets.widget6.datasets"
+                                        [labels]="widgets.widget6.labels"
+                                        [colors]="widgets.widget6.colors"
+                                        [plugins]="ChartPlugins"
+                                        [options]="widgets.widget6.options"
+                                        [chartType]="widgets.widget6.chartType">
+                                </canvas>
+
+                            </div>
+
+                        </div>
+                        <!--销售券核销业态占比-->
+                        <div class="market-data-flex-lower-left-one Data-Analysis-background">
+                            <!--标题部分-->
+                            <div class="market-data-flex-lower-left-title-top">
+                                <div class="market-data-flex-lower-left-title-top-one">
+                                    <span class="market-data-upper-Company-title">优惠券</span><!-- 优惠券 -->
+                                    <span class="unit-color">(单位：张)</span><!-- （ 单位：张） -->
+                                </div>
+                                <div class="market-data-flex-lower-left-title-top-three">
+                                    <div class="market-about-color" [ngClass]="{'color-w-45': ResponsiveStruts ,'color-w-auto': !ResponsiveStruts }">
+                                        <div class="div-h-w color-C63862 mr-4"></div>
+                                        <div><span class="market-data-flex-lower-title-font-size">核销量</span></div><!-- 核销量 -->
+                                    </div>
+                                    <div class="market-about-color" [ngClass]="{'color-w-45': ResponsiveStruts ,'color-w-auto': !ResponsiveStruts }">
+                                        <div class="div-h-w color-1783D1 mr-4"></div>
+                                        <div><span class="market-data-flex-lower-title-font-size">领取量</span></div><!-- 领取量 -->
+                                    </div>
+                                    <div class="market-about-color" [ngClass]="{'color-w-45': ResponsiveStruts ,'color-w-auto': !ResponsiveStruts }">
+                                        <div class="div-h-w color-8ED7FF mr-4"></div>
+                                        <div><span class="market-data-flex-lower-title-font-size">发放量</span></div><!-- 发放量 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--标题部分结束-->
+                            <!--start 图表部分-->
+                            <div class="widget-long-line-chart" #SalesVoucherWriteOffProfessionalFormProportion>
+
+                            </div>
+                            <!--end 图表部分-->
+                        </div>
+
+                    </div>
+                </div>
+                <!--先画一个上下分层的布局完-->
+
+            </div>
+            <!--完左边部分-->
+
+            <!--右边部分圆形图表部分-->
+            <div class="contentTwo_" [ngClass]="{'contentTwo-right-w-19': ResponsiveStruts , 'contentTwo-right-w-98': !ResponsiveStruts}">
+                <div class="data-contentTwo-layout_"
+                     [ngClass]="{'data-contentTwo-layout-column': ResponsiveStruts , 'data-contentTwo-layout-row': !ResponsiveStruts}">
+                    <!--右边第三部分-->
+                    <div class="contentTwo-bg-border-width-height-mb-color_ Data-Analysis-background"
+                         [ngClass]="{'contentTwo-one-w-100': ResponsiveStruts , 'contentTwo-one-w-30': !ResponsiveStruts}"
+                    >
+                        <div class="p-12 w-100-p h-10-p" fxLayout="row" fxLayoutAlign="start center" >
+                            <span class="market-data-upper-Company-title">品牌排行</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p h-10-p p-12">
+                            <span class="market-data-upper-Company-title">品牌名称</span>
+                            <span class="market-data-upper-Company-title">核销张数</span>
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="space-between center"  class="w-100-p h-80-p  storePH">
+                             <ng-container *ngFor="let s of storeCodeClear; let i=index">
+                                 <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p  p-12">
+                                     <span class="blocCodeText text-ellipsis" [matTooltip]="s.bloc">{{s.bloc}}</span>
+                                     <span class="blocCodeText" [matTooltip]="s.count |number:'1.0-2'">{{s.count |number:'1.0-2'}}</span>
+                                 </div>
+                             </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>  <!-- / CENTER -->
+
+</div>

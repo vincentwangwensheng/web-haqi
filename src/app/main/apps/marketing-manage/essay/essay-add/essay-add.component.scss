@@ -1,0 +1,668 @@
+@import "src/@fuse/scss/fuse";
+body{
+  width: 100%;
+  height: 100%;
+}
+.top-button-div{
+  margin-right:20px;
+  button{
+    margin-right: 10px;
+  }
+}
+.title-header{
+  .btu-class-me{
+    display: flex;
+    margin-right: 5px;
+    justify-content: space-around;
+    .header-button{
+      margin-right: 12px;
+      .mManageAuditPass{
+        ::ng-deep{
+          background-color: #70C7FF;
+          color: #FFFFFF;
+        }
+      }
+      .mManageReject{
+        ::ng-deep{
+          background-color: #E2394E;
+          color: #FFFFFF;
+        }
+      }
+    }
+
+  }
+}
+
+// 总体的内容content
+.content-all{
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  width:100%;
+  height: 100%;
+  @include media-breakpoint('lt-md'){
+    justify-content: flex-start;
+  }
+  // 左侧内容
+  .content-left{
+    display: flex;
+    width:50%;
+    border:1px solid #ccc;
+    border-radius: 8px;
+   // margin-bottom:20px;
+    box-sizing: border-box;
+    background: #fff;
+    max-height: 81vh;
+    overflow: auto;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      overflow: hidden;
+    }
+    .type-radio{
+      display: flex;
+      width:100%;
+      height:50px;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      padding-left:20px;
+      box-sizing: border-box;
+      .radio-content{
+        display: flex;
+        height:100%;
+        width:50%;
+        //justify-content: space-between;
+        .radio-button-right-margin{
+          margin-left:20px;
+          margin-right: 20px;
+        }
+      }
+    }
+    .content-input-down{
+      display: flex;
+      box-sizing: border-box;
+      height: 80%;
+      width:calc(100% - 40px);;
+      margin: 20px;
+      @include media-breakpoint('lt-md'){
+        height: auto;
+      }
+      //border: 1px solid green;
+      /* form{
+         width:100%;
+         height:100%;
+       }*/
+      .content-divClass{
+        width: 100%;
+        height: 50px;
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+
+          span{
+            color:#E7293A;
+          }
+        }
+      }
+      .idDiv{
+        .preheatTimeDiv{
+          width:50%;
+          /* ::ng-deep {
+             .mat-form-field-appearance-outline .mat-form-field-infix{
+               padding: 0;
+             }
+           }*/
+        }
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+        }
+        margin-top:15px;
+      }
+      .start-end-time{
+        margin-top: 20px;
+        .start-time-picker{
+          margin-right:5px;
+        }
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+        }
+      }
+      .activity-photo{
+        //margin-top:20px;
+        width: 100%;
+        .ready-upload-part{
+          display: flex;
+          align-items: center;
+          width: 85%;
+          .up-input-btu{
+            width: 18.7%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .up-input-btu-btu{
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .preview-img{
+            width: 18.7%;
+            height: 100%;
+            margin-left: 5%;
+            display: flex;
+            .preview-up-input-btu-btu{
+              width: 100%;
+              height: 100%;
+              .span-accent-color{
+                color: #555555;
+                font-size: 1.3rem;
+              }
+            }
+          }
+        }
+      }
+      .activity-regulation{
+        //margin-top:20px;
+      }
+      .cover-abstract-div{
+        width: 100%;
+        .cover-div{
+          width: 30%;
+          height: 80px;
+          border: 1px dashed #2392D6;
+          border-radius: 4px;
+          background-color: #EBF7FF;
+          color:#2392D6;
+          margin-right: 20px;
+          cursor: pointer;
+          position: relative;
+          .cover-div1{
+            position: absolute;
+          }
+          .cover-div2{
+            z-index: 3;
+            .upCoverFile{
+              cursor: pointer;
+              width: 100%;
+              height: 100%;
+              opacity: 0;
+              padding: 0px;
+            }
+          }
+          mat-icon{
+            cursor: pointer;
+          }
+        }
+        .abstract-textarea{
+          padding:8px;
+          width: 70%;
+          height: 80px;
+          border-radius: 4px;
+        }
+      }
+      .create-info{
+        margin-top: 20px;
+        height: 50px;
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+
+          span{
+            color:#E7293A;
+          }
+        }
+      }
+      .modify-info{
+        margin-top: 20px;
+        height: 50px;
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+
+          span{
+            color:#E7293A;
+          }
+        }
+      }
+
+    }
+    .datetimepicker-style{
+      width: 100%;
+      height: 45px;
+      margin-top: -9px;
+      line-height: 18px;
+    }
+  }
+  .content-right{
+    display: flex;
+    width:50%;
+    height:100%;
+    max-height: 81vh;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      margin-bottom: 20px;
+      height: auto;
+      max-height: none;
+    }
+    //margin-left:10px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    // background: #fff;
+    .activity-des{
+      width:100%;
+     // height:120px;
+      border:1px solid #ccc;
+      border-radius: 8px;
+      background-color: #FFFFFF;
+      padding-bottom: 16px;
+      .engine-push{
+        margin-left: 15px;
+        margin-top:15px;
+        .radio-button-right-margin{
+          margin-left:20px;
+        }
+      }
+      .activity-lable{
+        margin-left: 15px;
+        margin-top:15px;
+        flex-wrap: wrap;
+        .increace-reduce-button{
+          margin-right: 10px;
+          cursor: pointer;
+          width:90px;
+          height:24px;
+          background-color: #2392D6;
+          //border: 1px dashed #2392D6;
+          border-radius: 6px;
+          img{
+            width:14px;
+            height:14px;
+            margin-right: 5px;
+          }
+        }
+        .label-content{
+          padding: 0px 4px;
+          margin-right: 10px;
+          background-color: #2392D6;
+          border-radius:6px;
+          .color-font{
+            color:#fff;
+          }
+          .select-icon{
+            cursor: pointer;
+          }
+        }
+      }
+      .checkbox-left-margin{
+        margin-left:30px;
+      }
+    }
+  }
+}
+
+
+// 上传文件与预览文件部分
+::ng-deep {
+  #uploadImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 72.5%;
+    }
+  }
+  #previewImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  #MemberTagDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #FormLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #StroeLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+}
+
+.dialog-manage-title_tips{
+  display: flex;
+  width: 100%;
+  height: 18%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.dialog-manage-title_tips_img_preview{
+  display: flex;
+  width: 100%;
+  height: 7%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.MatDialogFrozenClass_tips{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70%;
+  .MatDialogFrozenClass1{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    .up_input_load{
+      width: 80%;
+      margin-left: 10%;
+      border-radius: 10px;
+      border: 1px solid #CCCCCC;
+      display: flex;
+      justify-content: space-between;
+      height: 4.5rem;
+      align-items: center;
+      .file-path{
+        width: 70%;
+        padding: 0px;
+        height: 100%;
+        input {
+          border: none;
+          padding: 0px;
+          border-radius: 10px;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .file-upLoad-btu{
+        width: 27%;
+        height: 100%;
+        margin-right: 2%;
+        display: flex;
+        position: relative;
+        align-items: flex-end;
+        justify-content: flex-start;
+        align-items: center;
+        .up_input{
+          position: relative;
+          cursor: pointer;
+          width: 100%;
+          height: 80%;
+          opacity: 0;
+        }
+        .btu-file-up{
+          position: absolute;
+          width: 100%;
+          height: 80%;
+        }
+
+      }
+    }
+    .tips_color_w_h{
+      display: flex;
+      width: 80%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .tips-color{
+        font-size: 10px;
+        color: #2295db;
+      }
+    }
+    .Progress-Bar{
+      display: flex;
+      width: 80%;
+      height: 30%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .example-section{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        .example-margin{
+          margin: 0 10px;
+        }
+      }
+    }
+
+  }
+  img{
+    width: 500px;
+    height: 500px;
+  }
+}
+.btu_dialog_Frozen_tips{
+  display: flex;
+  margin-left: 47.6%;
+  width: 42%;
+  border-radius: 15px;
+  justify-content: space-between;
+  button{
+    width: 46%;
+  }
+}
+
+
+
+// 文章预览==================-
+::ng-deep{
+  #essayPreTeClass{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.essayPreTeAllF{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0 , 0.1);
+  .essayPreTeTitle{
+    width: 100%;
+    height: 30px;
+  }
+  .essayPreD{
+    width: 100%;
+    height: 673px;
+    .essayPreTeAll{
+      width: 287px; // 319px;
+      height: 596px ; //  663px;
+      position: relative;
+      z-index: 1;
+      background-color: #ffffff;
+      .essayPreImg{
+        width: 100%;
+        height: 100%;
+        border: 2px solid #000000;
+      }
+      .essayPreContent{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        .essayPreNull1{
+          width: 88%;
+          height: 112px;
+        }
+        .essayPreNull2{
+          width: 88%;
+          height: 70px;
+        }
+
+      }
+
+    }
+  }
+
+}
+
+.essayWeChatContent{
+  width: 88%;
+  height: 394px;
+  overflow: auto;
+  .essayTeTitle{
+    width: 92%;
+    height: 9%;
+    min-height: 35px;
+    .essay-title-s{
+      font-weight: bold;
+      font-size: 13px;
+      color: #000000;
+    }
+  }
+
+  .essayTeReadForWard{
+    width: 92%;
+    height: 6%;
+    min-height: 23px;
+    .ReadForWardImg{
+      width: 15px;
+      height: 15px;
+    }
+    .essayReadSpanColor{
+      font-size: 10px;
+      color: #B8B8B8;
+    }
+    .essayForWardSpanColor{
+      font-size: 10px;
+      color: #EDE0B3;
+    }
+  }
+
+  .essayFileId{
+    width: 92%;
+    height: 30.5%;
+    .essayFileIdImg{
+      width: 100%;
+      height: 112px;
+      border-radius: 6px;
+    }
+  }
+
+  .essayTeTextContent{
+    width: 92%;
+
+    white-space:pre-line;
+    p{
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+    }
+    h3{
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+    }
+  }
+
+
+
+}
+
+
+
+::ng-deep{
+  #RejectReasonClass{
+    padding: 0px!important;
+  }
+}
+.RejectReasonTitle{
+  background-color: #2494DC;
+  span{
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+  button{
+    mat-icon{
+      color: #FFFFFF;
+    }
+  }
+}
+
+.butColorClass{
+  button{
+    background-color: #E2394E;
+    color: #FFFFFF;
+  }
+}
+
+.ReasonContent{
+  textarea{
+    width: 90%;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+}

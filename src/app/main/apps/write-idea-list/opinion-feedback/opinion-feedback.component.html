@@ -1,0 +1,44 @@
+<app-table-list [title]="'意见反馈'" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event, MatDialogFrozen)">
+</app-table-list>
+<ng-template #MatDialogFrozen class="ng-template-me-dialog">
+    <div mat-dialog-title class="dialog-manage-title">
+        <div class="mat-dialog-title-tips">
+            <div><span class="title_dialog_">意见反馈详情</span></div>
+            <div><button mat-icon-button  mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+    </div>
+    <mat-dialog-content [ngStyle]="{'height': '295px'}">
+        <div class="MatDialogFrozenClass">
+            <div>
+                <span>手机号：</span><span>{{detail['mobile']}}</span>
+            </div>
+            <div>
+                <span>用户昵称：</span><span>{{detail['nickname']}}</span>
+            </div>
+            <div>
+                <span>反馈时间：</span><span>{{detail['lastModifiedDate']|newDateTransform:'/'}}</span>
+            </div>
+            <div>
+                <span>意见反馈：</span>
+                <span [matTooltip]="detail['feedback']" matTooltipPosition="below" class="text-ellipsis">
+                    {{detail['feedback']}}
+                </span>
+            </div>
+            <div>
+                <span>操作时间：</span><span>{{detail['lastModifiedDate']|newDateTransform:'/'}}</span>
+            </div>
+            <div>
+                <span>操作人：</span><span>{{detail['lastModifiedBy']}}</span>
+            </div>
+            <div>
+                <span>回复:</span><textarea class="replyStyle" [(ngModel)]="detail['reply']"></textarea>
+            </div>
+        </div>
+        <div class="btu_dialog_Frozen">
+            <button mat-stroked-button class="closeButton" mat-dialog-close>取消</button>
+            <button mat-stroked-button  class="passButton" (click)="save()">保存</button>
+        </div>
+    </mat-dialog-content>
+</ng-template>

@@ -1,0 +1,9 @@
+<app-table-list [title]="'nav.dataManagement.store'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [hasHeader]="hasHeader"
+                [initOpacity]="true"  [customButtons]="customButtons"
+                [checkbox]="checkbox" [selectedRow]="selectedRow" [singleSelect]="singleSelect"
+                [selectedRows]="selectedRows" [overPanel]="overPanel" (dataSelect)="onSelect($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                [selectedField]="selectedFiled"
+>
+</app-table-list>

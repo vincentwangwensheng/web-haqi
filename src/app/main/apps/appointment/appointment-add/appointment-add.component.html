@@ -1,0 +1,594 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span class="set-title" *ngIf="title">{{title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="appointmentAdd-btu-class" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+
+                 <ng-container *ngIf="butShow === 'ADD'">
+                     <button  mat-raised-button   class="btu-bottom" color="accent" (click)="saveIncident('add')" [disabled]="butDis">
+                         <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}
+                     </button>
+                     <button  mat-raised-button  (click)="toCancel()" class="btu-bottom" color="accent"  [disabled]="butDis">
+                         <mat-icon>clear</mat-icon>{{'merchants.dataDetail.return'|translate}}
+                     </button>
+                 </ng-container>
+                <ng-container *ngIf="butShow === 'EDIT'">
+                    <!-- 保存  取消 -->
+                    <button  mat-raised-button   class="btu-bottom" color="accent" (click)="saveIncident('up')" [disabled]="butDis">
+                        <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}
+                    </button>
+                    <button  mat-raised-button  (click)="CancelEdit()" class="btu-bottom" color="accent"  [disabled]="butDis">
+                        <mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="butShow === 'DETAIL'">
+                    <!-- 转编辑  返回 -->
+                    <button  mat-raised-button   class="btu-bottom" color="accent" (click)="canEdit()" [disabled]="butDis">
+                        <mat-icon>save</mat-icon>{{'merchants.dataDetail.edit'|translate}}
+                    </button>
+                    <button  mat-raised-button  (click)="toCancel()" class="btu-bottom" color="accent"  [disabled]="butDis">
+                        <mat-icon>clear</mat-icon>{{'merchants.dataDetail.return'|translate}}
+                    </button>
+                </ng-container>
+
+
+            </div>
+        </div>
+
+
+        <div class="appointmentAdd-all-flex">
+            <form class="appointmentAddForm" [formGroup]="FormOption">
+
+                <!-- 左边 -->
+                <div class="appointmentAdd-left">
+
+                    <div class="appointmentAdd-real-left">
+                        <!-- 编号 预约类型-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"  class="app-left-space-input">
+                             <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 appointmentAdd-mat-point">
+                                 <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                     <mat-label *ngIf="tlKey"> {{'appointment.CRUD.' + tlKey + '.incidentId'|translate}}</mat-label><!-- 编号 -->
+                                     <input  matInput autocomplete="off"  formControlName="incidentId">
+                                 </mat-form-field>
+                                 <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                     <mat-label *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.type'|translate}}</mat-label> <!-- 事件类型 -->
+                                     <mat-select  formControlName="type">
+                                         <mat-option *ngFor="let d of type" [value]="d.key" >{{d.value}}</mat-option>
+                                     </mat-select>
+                                 </mat-form-field>
+                             </div>
+                         </div>
+                        <!-- 名称 状态-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"  class="app-left-space-input ">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 appointmentAdd-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.incidentName'|translate}}</mat-label> <!-- 名称 -->
+                                    <input  matInput autocomplete="off" formControlName="incidentName" >
+                                    <mat-error>{{'appointment.CRUD.tips15'|translate}}</mat-error> <!-- 此项必填 -->
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey"> {{'appointment.CRUD.' + tlKey + '.enabled'|translate}}</mat-label>  <!-- 状态 -->
+                                    <mat-select  formControlName="enabled">
+                                        <mat-option *ngFor="let d of status" [value]="d.id" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 预约说明 -->
+                        <div fxLayout="row"  fxLayoutAlign="center center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="app-left-des mb-8">
+
+                            <div fxLayout="column"  fxLayoutAlign="start center" class="app-left-quill-des ">  <!-- 预约说明 -->
+                                    <div fxLayout="row"  fxLayoutAlign="start center" class="te-des"><span>{{'appointment.CRUD.' + tlKey + '.desc'|translate}}</span><!--<span class="start-color-w-h">*</span>--></div>
+                                    <quill-editor #quillEdit [modules]="quillConfig" [styles]="{height:'160px', borderRadius: '5px'}" (onEditorCreated)="EditorCreated($event)"
+                                                  [placeholder]="'appointment.CRUD.tips18'|translate"  formControlName="desc"
+                                                  >
+                                    </quill-editor>
+                            </div>
+                        </div>
+
+                        <!-- 开始时间 结束时间-->
+                        <div fxLayout="row"  fxLayoutAlign="center center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"
+                             class="app-left-space-input pt-28 mb-12">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 normal-form-fields">
+                                <app-material-date-picker #startDate [timeControl]="FormOption.get('beginTime')"
+                                                          class="app-date-picker pt-8"  [floatLabel]="'always'"
+                                                          [required]="false"
+                                                          (sourceDate)="onSourceDate($event,endDate , startDate , 'startTime' )" [config]="configStartTime"
+                                                          [label]="'appointment.CRUD.' + tlKey + '.startDate'|translate">
+
+                                </app-material-date-picker>
+                                <app-material-date-picker #endDate [timeControl]="FormOption.get('endTime')"
+                                                          class="app-date-picker pt-8"  [required]="false"  [floatLabel]="'always'"
+                                                          (sourceDate)="onSourceDate($event,endDate , startDate , 'endTime' )" [config]="configEndTime"
+                                                          [label]="'appointment.CRUD.' + tlKey + '.endDate'|translate">
+
+                                </app-material-date-picker>
+                            </div>
+                        </div>
+
+                        <!-- 报名方式 积分-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'800ms'}}"  class="app-left-space-input ">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 appointmentAdd-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>报名方式</mat-label>
+                                    <mat-select  formControlName="applyType">
+                                        <mat-option *ngFor="let item of applyTypeList" [value]="item['value']" >{{item['desc']}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" *ngIf="FormOption.get('applyType').value === 'POINT'">
+                                    <mat-label>积分</mat-label>
+                                    <input  matInput autocomplete="off" formControlName="point" >
+                                    <mat-error *ngIf="FormOption.get('applyType').value === 'POINT' && !FormOption.get('point').value">积分是必填项</mat-error> <!-- 此项必填 -->
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" *ngIf="FormOption.get('applyType').value === 'PAYMENT'">
+                                    <mat-label>金额</mat-label>
+                                    <input  matInput autocomplete="off" formControlName="paidAmount" >
+                                    <mat-error *ngIf="FormOption.get('applyType').value === 'PAYMENT' && !FormOption.get('paidAmount').value">金额是必填项</mat-error> <!-- 此项必填 -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 上传图片 事件封面图片 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}" class="app-left-btu  mb-12">
+                            <div fxLayout="row" fxLayoutAlign="start center" class="app-left-btu-text">
+                                <!-- 上传封面 -->
+                                <span *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.upImgTitle'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" class="app-left-icon-btu">
+                                <button  mat-raised-button color="accent" fxFlex="19" class="left-icon-add-re mr-12" (click)="openUpLoadImg(UpLoadImg , 'cover')" [disabled]="checkboxButDis">
+                                    <img src="assets/images/cards/upLoad.png" >
+                                    <!--上传-->{{'appointment.CRUD.' + tlKey + '.upImg'|translate}}
+                                </button>
+
+                                <button  mat-raised-button color="accent" fxFlex="19" class="left-icon-add-pre" (click)="upImgPreview(upImgPre)" [disabled]="checkboxButDis">
+                                    <mat-icon color="accent">insert_photo</mat-icon>
+                                    <!--预览-->{{'appointment.CRUD.' + tlKey + '.imgPreview'|translate}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--&lt;!&ndash; 上传图片 事件详情图片 &ndash;&gt;-->
+                        <!--<div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}" class="app-left-btu  mb-12">-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="app-left-btu-text">-->
+                                <!--&lt;!&ndash; 上传详情图片 &ndash;&gt;-->
+                                <!--<span>{{'appointment.CRUD.' + tlKey + '.upImgDetailsTitle'|translate}}</span>-->
+                            <!--</div>-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" class="app-left-icon-btu">-->
+                                <!--<button  mat-raised-button color="accent" fxFlex="19" class="left-icon-add-re mr-12" (click)="openUpLoadImg(UpLoadImg , 'detail')" [disabled]="checkboxButDis">-->
+                                    <!--<img src="assets/images/cards/upLoad.png" >-->
+                                    <!--&lt;!&ndash;上传&ndash;&gt;{{'appointment.CRUD.' + tlKey + '.upImg'|translate}}-->
+                                <!--</button>-->
+
+                                <!--<button  mat-raised-button color="accent" fxFlex="19" class="left-icon-add-pre" (click)="upImgPreview(upImgPre)" [disabled]="checkboxButDis">-->
+                                    <!--<mat-icon color="accent">insert_photo</mat-icon>-->
+                                    <!--&lt;!&ndash;预览&ndash;&gt;{{'appointment.CRUD.' + tlKey + '.imgPreview'|translate}}-->
+                                <!--</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                        <!-- 会员限制 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'1000ms',duration:'600ms'}}" class="app-left-btu  mb-12">
+                            <div fxLayout="row" fxLayoutAlign="start center" class="app-left-btu-text">
+                                <!-- 会员限制 -->
+                                <span *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.membersLimit'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" class="app-left-icon-btu">
+                                <button  mat-raised-button color="accent" fxFlex="19" class="left-icon-add-re" (click)="openMemberCardList(MemberCardTe)" [disabled]="checkboxButDis">
+                                    <img src="assets/images/cards/insertAndReduce.png">
+                                    {{'appointment.CRUD.' + tlKey + '.addReduce'|translate}}  <!-- 增减 -->
+                                </button>
+
+                                <span fxFlex="69" class="appAddStoreTextOver pl-8"  [matTooltip]="memberCardNameShow">{{memberCardNameShow}}</span>
+
+                                <button  mat-raised-button color="accent" fxFlex="12" class="left-icon-add-pre" (click)="openPreData(PreDetailTe , memberCardNameShow)" [disabled]="checkboxButDis">
+                                    {{'appointment.CRUD.' + tlKey + '.preview'|translate}}   <!-- 预览 -->
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <!-- 报名付费-->
+                        <!--<div fxLayout="row"  fxLayoutAlign="space-between center" [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}"  class="app-left-space-input mb-12">-->
+                            <!--<div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-space-input-btu">-->
+                                <!--<div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu-ch">-->
+                                   <!--<div  fxLayout="row"  fxLayoutAlign="start center" class="app-left-input-text">-->
+                                       <!--<span> {{'appointment.CRUD.' + tlKey + '.registration'|translate}} </span>  &lt;!&ndash; 报名付费 &ndash;&gt;-->
+                                   <!--</div>-->
+                                   <!--<div class="app-left-input-section">-->
+                                       <!--<section fxLayout="row"  fxLayoutAlign="space-between center" >-->
+                                           <!--<mat-checkbox-->
+                                                   <!--[checked]="eventCheckbox?.paidRegistrationYes"-->
+                                                   <!--[labelPosition]="'before'"-->
+                                                   <!--[disabled]="checkboxButDis"-->
+                                                   <!--(change)="registrationChange($event , 'yes')"-->
+                                           <!--&gt;-->
+                                               <!--{{'appointment.CRUD.' + tlKey + '.yes'|translate}}   &lt;!&ndash; 是 &ndash;&gt;-->
+                                           <!--</mat-checkbox>-->
+                                           <!--<mat-checkbox-->
+                                                   <!--[checked]="eventCheckbox?.paidRegistrationNo"-->
+                                                   <!--[labelPosition]="'before'"-->
+                                                   <!--[disabled]="checkboxButDis"-->
+                                                   <!--(change)="registrationChange($event ,'no')"-->
+                                           <!--&gt;-->
+                                               <!--{{'appointment.CRUD.' + tlKey + '.no'|translate}}  &lt;!&ndash; 否 &ndash;&gt;-->
+                                           <!--</mat-checkbox>-->
+
+                                       <!--</section>-->
+                                   <!--</div>-->
+                                <!--</div>-->
+                                <!--<div fxLayout="row"  fxLayoutAlign="end center" class="app-left-space-input-btu-ch2 appointmentAdd-mat-point">-->
+                                    <!--<mat-form-field appearance="outline"  [floatLabel]="'always'">-->
+                                        <!--<mat-label>{{'appointment.CRUD.' + tlKey + '.paidAmount'|translate}} </mat-label> &lt;!&ndash; 付费金额 &ndash;&gt;-->
+                                        <!--<input  matInput autocomplete="off" formControlName="paidAmount" >-->
+                                        <!--<span matPrefix>{{'appointment.CRUD.' + tlKey + '.mUnit'|translate}} &nbsp;</span>  &lt;!&ndash; ￥ &ndash;&gt;-->
+                                        <!--<mat-error *ngIf="FormOption.hasError('forbiddenChNo' , 'paidAmount')"> {{FormOption.getError('forbiddenCh' , 'paidAmount')}}</mat-error>-->
+                                    <!--</mat-form-field>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu1 appointmentAdd-mat-point" >-->
+                                <!--<mat-form-field appearance="outline"  [floatLabel]="'always'">-->
+                                    <!--<mat-label>{{'appointment.CRUD.' + tlKey + '.paymentProvider'|translate}}</mat-label> &lt;!&ndash; 支付供应商 &ndash;&gt;-->
+                                    <!--<mat-select  formControlName="paymentProvider">-->
+                                        <!--<mat-option *ngFor="let d of paySupplierSource" [value]="d.id" >{{d.value}}</mat-option>-->
+                                    <!--</mat-select>-->
+                                <!--</mat-form-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!---->
+                        <!---->
+
+
+
+                        <!-- 自动确认-->
+                        <div fxLayout="row"  fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'1300ms',duration:'600ms'}}"  class="app-left-space-input mb-12">
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu">
+                                <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu-ch">
+                                    <div  fxLayout="row"  fxLayoutAlign="start center" class="app-left-input-text">
+                                        <span *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.automatic'|translate}}</span> <!-- 自动确认 -->
+                                    </div>
+                                    <div class="app-left-input-section">
+                                        <section fxLayout="row"  fxLayoutAlign="space-between center" >
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.automaticNo"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="eventCheckboxChange($event , 'no' , 'automaticYes' , 'automaticNo')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.no'|translate}} <!-- 否 -->
+                                            </mat-checkbox>
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.automaticYes"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="eventCheckboxChange($event , 'yes' , 'automaticYes' , 'automaticNo')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.yes'|translate}} <!-- 是 -->
+                                            </mat-checkbox>
+
+
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 短信通知 -->
+                        <div fxLayout="row"  fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'1400ms',duration:'600ms'}}"  class="app-left-space-input mb-12">
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu">
+                                <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu-ch">
+                                    <div  fxLayout="row"  fxLayoutAlign="start center" class="app-left-input-text">
+                                        <span *ngIf="tlKey"> {{'appointment.CRUD.' + tlKey + '.sms'|translate}}</span> <!-- 短信通知 -->
+                                    </div>
+                                    <div class="app-left-input-section">
+                                        <section fxLayout="row"  fxLayoutAlign="space-between center" >
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.smsNo"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="eventCheckboxChange($event , 'no' , 'smsYes' , 'smsNo')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.no'|translate}} <!-- 否 -->
+                                            </mat-checkbox>
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.smsYes"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="eventCheckboxChange($event , 'yes', 'smsYes' , 'smsNo')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.yes'|translate}} <!-- 是 -->
+                                            </mat-checkbox>
+
+
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 接待限制-->
+                        <div fxLayout="row"  fxLayoutAlign="space-between center" [@animate]="{value:'*',params:{y:'100%',delay:'1200ms',duration:'600ms'}}"  class="app-left-space-input mb-12">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-space-input-btu">
+                                <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu-ch">
+                                    <div  fxLayout="row"  fxLayoutAlign="start center" class="app-left-input-text">
+                                        <span *ngIf="tlKey"> {{'appointment.CRUD.' + tlKey + '.reception'|translate}}</span> <!-- 接待限制 -->
+                                    </div>
+                                    <div class="app-left-input-section">
+                                        <section fxLayout="row"  fxLayoutAlign="space-between center">
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.receptionNo"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="ReceptionLimChange($event , 'no')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.no'|translate}} <!-- 否 -->
+                                            </mat-checkbox>
+                                            <mat-checkbox
+                                                    [checked]="eventCheckbox?.receptionYes"
+                                                    [labelPosition]="'before'"
+                                                    [disabled]="checkboxButDis"
+                                                    (change)="ReceptionLimChange($event , 'yes')"
+                                            >
+                                                {{'appointment.CRUD.' + tlKey + '.yes'|translate}} <!-- 是 -->
+                                            </mat-checkbox>
+
+
+                                        </section>
+                                    </div>
+                                </div>
+                                <div fxLayout="row"  fxLayoutAlign="end center" class="app-left-space-input-btu-ch2 appointmentAdd-mat-point">
+                                    <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                        <mat-label *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.receptionCount'|translate}} </mat-label>  <!-- 数量 -->
+                                        <input  matInput autocomplete="off"  formControlName="receptionCount">
+                                        <mat-error *ngIf="FormOption.hasError('forbiddenChNo' , 'receptionCount')"> {{FormOption.getError('forbiddenCh' , 'receptionCount')}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="app-left-space-input-btu1 " >
+                                  <span fxFlex="25" *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.AddStore'|translate}} </span>  <!-- 关联商场 -->
+                                  <button mat-raised-button fxFlex="30" color="accent"  class="appAddStore" [disabled]="mallEnabled" (click)="openMallList(mallTe)"  >
+                                    <img src="assets/images/cards/insertAndReduce.png">
+                                    {{'appointment.CRUD.' + tlKey + '.addReduce'|translate}}  <!-- 增减 -->
+                                  </button>
+                                  <div  fxLayout="row"  fxLayoutAlign="center center" fxFlex="45" >
+                                      <span fxFlex="100" class="appAddStoreTextOver pl-4"  [matTooltip]="mallNameShow">{{mallNameShow}}</span>
+                                    <!--  <button mat-raised-button fxFlex="35" class="appAddStorePre" [disabled]="mallEnabled" (click)="openPreData(PreDetailTe , mallNameShow)">预览</button>-->
+                                  </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 主办方 地点位置-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"  class="app-left-space-input ">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 appointmentAdd-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.sponsor'|translate}}</mat-label> <!-- 主办方 -->
+                                    <input  matInput autocomplete="off"  formControlName="sponsor" >
+                                    <mat-error>{{'appointment.CRUD.tips15'|translate}}</mat-error> <!-- 此项必填 -->
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey">{{'appointment.CRUD.' + tlKey + '.sitLocation'|translate}}</mat-label> <!-- 地点位置 -->
+                                    <input  matInput autocomplete="off" formControlName="sitLocation" >
+                                    <mat-error>{{'appointment.CRUD.tips15'|translate}}</mat-error>  <!-- 此项必填 -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 修改人 修改时间-->
+                        <div fxLayout="row"  fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"  class="app-left-space-input">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="app-left-part1 appointmentAdd-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey">{{'appointment.CRUD.lastModifiedBy'|translate}}</mat-label>  <!-- 修改人 -->
+                                    <input  matInput autocomplete="off" formControlName="lastModifiedBy">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label *ngIf="tlKey">{{'appointment.CRUD.lastModifiedDate'|translate}}</mat-label>  <!-- 修改时间 -->
+                                    <input  matInput autocomplete="off" formControlName="lastModifiedDate" >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 右边 -->
+                <div class="appointmentAdd-right">
+
+                    <div class="appointmentAdd-real-right">
+
+                      <!--  <div fxLayout="column" fxLayoutAlign="start start" class="app-right-all">
+
+                            <div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'500ms'}}" class="app-right-title">
+                                 <span class="font-title-c">有效期配置</span>
+                            </div>
+
+                            <ng-container *ngIf="showCalender === false">
+                                <div fxLayout="column" fxLayoutAlign="start start" class="app-right-fixed">
+
+                                    &lt;!&ndash; 选中开始时间  结束时间&ndash;&gt;
+                                    <div fxLayout="row"  fxLayoutAlign="space-between center" [@animate]="{value:'*',params:{y:'100%',delay:'450ms',duration:'600ms'}}" class="app-fixed-time pt-8 normal-form-fields">
+                                        <app-material-date-picker #startTime class="app-date-picker"
+                                                                  [config]="configStartTime" [floatLabel]="'always'"
+                                                                  [label]="'开始时间'"  (sourceDate)="onSourceDate($event,endTime , startTime , 'startTime')"
+                                                                  [timeControl]="FormOption.get('startTime')"
+                                        >
+                                        </app-material-date-picker>
+                                        <app-material-date-picker #endTime class="app-date-picker"
+                                                                  [config]="configEndTime" [floatLabel]="'always'"
+                                                                  [label]="'结束时间'"   (sourceDate)="onSourceDate($event,endTime , startTime , 'endTime')"
+                                                                  [timeControl]="FormOption.get('endTime')"
+                                        >
+                                        </app-material-date-picker>
+                                    </div>
+
+                                    &lt;!&ndash; 电子券：&ndash;&gt;
+                                    <div fxLayout="row"  fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}" class="app-right-cou-title mb-12">
+                                        <span class="font-title-c" >电子券</span><span class="font-title-c start-color" >*</span>
+                                    </div>
+
+                                    &lt;!&ndash; 电子券展示区&ndash;&gt;
+                                    <div fxLayout="row" fxLayoutAlign="start start"  class="app-right-showCou mb-12">
+
+                                        <ng-container *ngIf="showChooseCoupon === true">
+                                            <ng-container *ngFor="let c of couponInfoSave; let i=index">
+                                                <div fxLayout="column" fxLayoutAlign="center center"
+                                                     @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:300*i+'ms'}}" class="coupon-show-detail m-12">
+                                                    <img src="assets/images/backgrounds/ecoupon-bg.png" class="coupon-bgImg">
+                                                    <div fxLayout="column" fxLayoutAlign="end end" class="coupon-show-detail-ch" >
+                                                        <div fxLayout="row" fxLayoutAlign="end end"  class="child-div2">
+                                                            <button mat-icon-button (click)="removeCoupon(i , c)" class="removeCouBtu"><mat-icon>cancel</mat-icon></button>
+                                                        </div>
+                                                        <div fxLayout="column" fxLayoutAlign="start start"  class="child-div1">
+                                                            <div  fxLayout="row" fxLayoutAlign="start center" class="child-div mb-4">
+                                                                <span class="cou-font-title-c mr-4" fxFlex="18">券名称:</span> <span class="cou-font-title-c">{{c?.name}}</span>
+                                                            </div>
+
+                                                            <div fxLayout="row" fxLayoutAlign="start center" class="child-div mb-4">
+                                                                <span class="cou-font-title-c mr-4" fxFlex="18">券编码:</span> <span class="cou-font-title-c">{{c?.number}}</span>
+                                                            </div>
+
+                                                            <div fxLayout="row" fxLayoutAlign="start center" class="child-div mb-4">
+                                                                <span class="cou-font-title-c mr-4" fxFlex="18">券渠道:</span><span class="cou-font-title-c">{{c?.source}}</span>
+                                                            </div>
+
+                                                            <div fxLayout="row" fxLayoutAlign="start center" class="child-div mb-4">
+                                                                <span class="cou-font-title-c mr-4" fxFlex="18">有效期:</span> <span class="cou-font-title-c" >{{c?.timeBegin}} - {{c?.timeEnd}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+
+                                        </ng-container>
+
+                                        <ng-container *ngIf="showChooseCoupon !== true">
+                                            <div fxLayout="row" fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}"
+                                                 matRipple class="coupon-add-detail" (click)="openCouponInfo(couponInfoTe)">
+                                                    <mat-icon [color]="'accent'">add_circle_outline</mat-icon>
+                                                    <span>选择券</span>
+                                            </div>
+                                        </ng-container>
+
+                                    </div>
+
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="showCalender === true">
+                                <div fxLayout="column" fxLayoutAlign="start center" class="app-right-calendar">
+                                    <app-appointment-calendar class="app-right-calendar-ch"></app-appointment-calendar>
+                                </div>
+                            </ng-container>
+
+
+                            &lt;!&ndash; 修改人 修改时间&ndash;&gt;
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}"
+                                 class="app-right-space-input appointmentAdd-mat-point">
+                                    <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                        <mat-label>修改人</mat-label>
+                                        <input  matInput autocomplete="off"  >
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                        <mat-label>修改时间</mat-label>
+                                        <input  matInput autocomplete="off"  >
+                                    </mat-form-field>
+                            </div>
+
+                        </div>-->
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!--
+
+<ng-template #couponInfoTe>
+    <app-coupon-maintain  [selectedRow]="couponInfo" [singleSelect]="false"  [resetSelect]="false" [checkbox]="true"
+                          (dataSelect)="couponInfoSelect($event)" [overPanel]="true" ></app-coupon-maintain>
+</ng-template>
+
+<ng-template #calendarDialog>
+    <app-appointment-calendar></app-appointment-calendar>
+</ng-template>-->
+
+<!-- 商场  -->
+<ng-template #mallTe>
+    <!--<app-mall-manage [selectedRow]="mallInfo"  [singleSelect]="true" [createButton]="createButton"-->
+                     <!--(dataSelect)="mallSelect($event)" [overPanel]="true" [selectedFiled]="'mallId'"></app-mall-manage>-->
+
+    <app-mall-list [createFlag]="false" [overPanel]="true"  [singleSelect]="true"  [selectedRow]="mallInfo"
+                   (dataSelect)="mallSelect($event)"></app-mall-list>
+</ng-template>
+
+<!-- 会员卡限制 -->
+<ng-template #MemberCardTe>
+     <app-member-card (dataSelect)="memberCardSelect($event)" [overPanel]="true"  [selectedFiled]="'levelName'"
+                     [selectedRows]="memberCardInfo"  [createButton]="false" ></app-member-card>
+</ng-template>
+
+
+<!--名称预览-->
+<ng-template #PreDetailTe >
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-Incident-title" cdkDragHandle>
+            <div class="Incident-dialog-title-tips">
+                <div ><span class="title_dialog_Incident">{{'appointment.CRUD.pre'|translate}}</span></div>  <!-- 预览 -->
+                <div><button  mat-icon-button 	 mat-dialog-close ><mat-icon [color]="'accent'">clear</mat-icon></button></div>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="content-class-Incident Incident-input-textArea">
+                <mat-form-field>
+                    <textarea matInput autocomplete="off"   value="{{previewData}}" mat-autosize="false"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+    </div>
+
+</ng-template>
+
+
+<!--上传图片 -->
+<ng-template #UpLoadImg>
+    <app-upload-img (ImgUploadData)="realUpload($event)" [upImgSource]="upImg_"
+                    [upTitle]="upTitle" ></app-upload-img>
+</ng-template>
+
+<!-- 图片预览 -->
+<ng-template #upImgPre>
+  <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+       fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+       <img [src]="imgSrc" class="w-100-p h-100-p" *ngIf="!showImgSpinner">
+       <mat-spinner color="accent" *ngIf="showImgSpinner"
+                   mode="indeterminate"></mat-spinner>
+  </div>
+</ng-template>
+
+<!-- 详情图片预览 -->
+<ng-template #upImgDetailPre>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+         fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <img [src]="detailImgSec" class="w-100-p h-100-p" *ngIf="!detailImgLoading">
+        <mat-spinner color="accent" *ngIf="detailImgLoading"
+                     mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>

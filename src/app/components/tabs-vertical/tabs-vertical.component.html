@@ -1,0 +1,12 @@
+<div class="tabsContent" >
+    <ng-container *ngIf="!tabsForbid">
+        <div class="itemContent" *ngFor="let item of itemList" (click)="getPositionInfo(item['index'])" [ngClass]="itemInfo['index'] === item['index'] ? 'demoActive' : ''">
+            {{item.name}}
+        </div>
+    </ng-container>
+    <ng-container *ngIf="tabsForbid">
+        <div class="itemContent" style="cursor: not-allowed;" *ngFor="let item of itemList" readonly [ngClass]="itemInfo['index'] === item['index'] ? 'demoActive' : ''">
+            {{item.name}}
+        </div>
+    </ng-container>
+</div>

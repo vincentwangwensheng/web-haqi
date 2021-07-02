@@ -1,0 +1,224 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+
+
+    <!-- CENTER -->
+    <div class="center">
+        <div class="header accent p-24 title-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div class="subtitle secondary-text">
+                    <span>{{pageTitle}}</span>
+                </div>
+            </div>
+            <div class="header-button" fxLayout="row" > <!--  *ngIf="pageFlag === 'detail'"  -->
+
+
+                <ng-container  *ngIf="pageFlag === 'detail'" >
+                    <button  mat-raised-button (click)="onEdit()"  class="mr-20" color="fff"><mat-icon style="color: #039BE5">edit</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.edit'|translate}}</span></button>
+                    <button  mat-raised-button [routerLink]="'/apps/RotationPictureComponent'" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>
+                </ng-container>
+
+                <ng-container  *ngIf="pageFlag === 'create'" >
+                    <button (click)="onSave()"  mat-raised-button  class="mr-20" color="fff" ><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>
+                    <button  mat-raised-button [routerLink]="'/apps/RotationPictureComponent'" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>
+                </ng-container>
+
+                <ng-container  *ngIf="pageFlag === 'update'" >
+                    <button (click)="onSave()"  mat-raised-button  class="mr-20" color="fff" ><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>
+                    <button (click)="onCancel()"  mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>
+                </ng-container>
+
+            </div>
+
+        </div>
+        <!-- CONTENT -->
+        <div class="content" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayout="row" fxLayoutGap="24px">
+            <div class="content-left" fxLayout="column">
+                <form fxLayout="column" class="w-100-p" [formGroup]="profileForm">
+                    <div fxLayout="row" class="w-100-p" fxLayoutAlign="space-between start">
+                        <div class="normal-form-fields w-48-p">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>轮播ID</mat-label>
+                                <input matInput [disabled]="true" formControlName="id">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" class="normal-form-fields w-48-p">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>商场名称</mat-label>
+                                <input matInput (focus)="editMalls(mallTemplate)" formControlName="mallName">
+                                <mat-error>商场名称不能为空</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div fxLayout="row" class="mb-12"><span>有效时间</span></div>
+                    <div fxLayout="row" fxLayoutAlign="space-between start" class="w-100-p">
+                        <app-material-date-picker class="w-48-p" #startTime (sourceDate)="onStartSourceDate($event,endTime)"
+                                                  [label]="'开始时间'" [timeControl]="profileForm.get('startTime')"
+                        ></app-material-date-picker>
+                        <app-material-date-picker class="w-48-p" #endTime (sourceDate)="onEndSourceDate($event,startTime)"
+                                                  [label]="'结束时间'" [timeControl]="profileForm.get('endTime')"
+                        ></app-material-date-picker>
+                    </div>
+
+                    <div fxLayout="row" class="w-100-p" fxLayoutAlign="space-between start">
+                        <div fxLayout="row" class="normal-form-fields w-48-p">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>状态</mat-label>
+                                <mat-select formControlName="loopStatus">
+                                    <mat-option [value]="'NORMAL'">正常</mat-option>
+                                    <mat-option [value]="'FROZEN'">冻结</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="row" class="normal-form-fields w-48-p">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>轮播名称</mat-label>
+                                <input matInput  formControlName="loopName">
+                                <mat-error>轮播名称不能为空</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout="row" class="carousel-photo-div w-100-p mb-28" *ngFor="let item of carouselDataArray; let i =index;">
+
+                        <div fxLayout="row" class="mr-80 photo-div-close" style="align-items: center;">
+<!--                            <img class="photo-size"  [src]="" (click)="openUploadImgDialog(uploadImgDloag, i)">-->
+
+                            <img class="photo-size" *ngIf="!imgSrc[i]" [src]="" (click)="openUploadImgDialog(uploadImgDloag, i)">
+                            <img  class="photo-size" *ngIf="imgSrc[i]" [src]="imgSrc[i]" (click)="openUploadImgDialog(uploadImgDloag, i)">
+
+                            <div class="close-button" (click)="deleteCarouselPhoto(i)"><mat-icon>cancel</mat-icon></div>
+                        </div>
+                        <div fxLayout="column" class="w-80-p">
+                            <div fxLayout="row" class="normal-form-fields w-55-p mb-12">
+                                <mat-form-field appearance="outline" class="w-100-p h-48" >
+                                    <mat-select [disabled]="pageFlag === 'detail'"  (selectionChange)="changePType(i,$event)" [(ngModel)]="carouselDataArray[i]['type']" [ngModelOptions]="{standalone: true}">
+                                        <mat-option [value]="'LINK'">跳转链接</mat-option>
+                                        <mat-option [value]="'ACTIVITY'">跳转活动</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" class="normal-form-fields w-55-p h-48" *ngIf="carouselDataArray[i]['type']==='LINK'">
+                                <mat-form-field appearance="outline" class="w-100-p" >
+                                    <mat-label>外部链接</mat-label>
+                                    <mat-select [disabled]="pageFlag === 'detail'" [(ngModel)]="carouselDataArray[i]['outLink']" [ngModelOptions]="{standalone: true}">
+                                        <mat-option [value]="true">是</mat-option>
+                                        <mat-option [value]="false">否</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row">
+                                <div fxLayout="row" class="normal-form-fields w-55-p h-48">
+                                    <mat-form-field appearance="outline" class="w-100-p" (click)="addActivity(activityTemplate, i)">
+                                        <input [disabled]="pageFlag === 'detail'" matInput [(ngModel)]="carouselDataArray[i]['value']" [ngModelOptions]="{standalone: true}">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="pageFlag!=='detail'" (click)="addCarouselPhoto()" mat-icon-button fxLayout="row" fxLayoutAlign="center center" class="add-carousel-photo">
+                        <mat-icon>cloud_upload</mat-icon>
+                        <span>添加轮播图</span>
+<!--                        <button  mat-icon-button color="accent"></button>-->
+                    </div>
+
+
+                </form>
+
+            </div>
+
+            <div class="content-right" fxLayout="column" fxLayoutAlign="center center">
+
+                <div fxLayout="row">
+                    <div class="left-arrow">
+                        <button mat-icon-button (click)="nextImg(false)"><mat-icon>arrow_back_ios</mat-icon></button>
+                    </div>
+                    <div fxLayout="row" class="carousel-img-div">
+                        <ng-container *ngFor="let item of imgSrc">
+                            <img class="img-size" [src] = item>
+                        </ng-container>
+                    </div>
+                    <div  class="right-arrow">
+                        <button mat-icon-button (click)="nextImg(true)"><mat-icon>arrow_forward_ios</mat-icon></button>
+                    </div>
+                </div>
+
+                <div class="carousel-bg"></div>
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+<!--商场-->
+<ng-template #mallTemplate>
+    <app-mall-list [singleSelect]="true" [createFlag]="false" [overPanel]="true" [checkbox]="false" [selectedRow]="selectedMall" (dataSelect)="onSelectMalls($event)"></app-mall-list>
+</ng-template>
+
+
+<ng-template #uploadImgDloag >
+    <div mat-dialog-title class="dialog-manage-title_tips">
+        <div class="img-title"><span class="title_dialog_">轮播图片</span></div>
+        <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+    </div>
+    <mat-dialog-content>
+        <div class="MatDialogFrozenClass_tips">
+            <div class="MatDialogFrozenClass1">
+                <div class="up_input_load">
+                    <div class="file-path">
+                        <input type="text" value="{{activityImgName}}" >
+                    </div>
+                    <div class="file-upLoad-btu">
+                        <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                        <input type="file" value="" accept=".jpg,.png" class="up_input" (change)="CouponImgUpload($event)">
+                    </div>
+                </div>
+                <div class="tips_color_w_h">
+                    <span class="tips-color">上传图片比例为800×600px,大小不得超过1M,支持JPG,PNG文件</span>
+                </div>
+                <div class="Progress-Bar">
+                    <section class="example-section" >
+                        <ng-container *ngIf="notUploading===false">
+                            <mat-progress-bar
+                                    class="example-margin"
+                                    color="accent"
+                                    mode="determinate"
+                                    [value]="progressLoad"
+                            >
+                            </mat-progress-bar>
+                        </ng-container>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="btu_dialog_Frozen_tips">
+            <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+            <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+        </div>
+    </mat-dialog-content>
+</ng-template>
+
+
+<ng-template #activityTemplate>
+
+
+    <app-marketing-manage  (dataSelect)="onSelectTags($event)" [overPanel]="true"  [createButton]="false"
+                           [singleSelect]="true" [selectedRows]="true" [resetSelect]="false" ></app-marketing-manage>
+
+
+</ng-template>

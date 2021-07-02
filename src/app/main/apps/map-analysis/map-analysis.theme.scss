@@ -1,0 +1,292 @@
+@mixin map-analysis($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $is-dark: map-get($theme, is-dark);
+  %light-box-shadow {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+  %dark-box-shadow {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+  %theme-color {
+    color: mat-color($accent, 600);
+  }
+  .sidebar-toggle mat-icon:hover, .search-buttons button:hover, .floor-buttons button:hover, .shortcut-keys mat-icon:hover, .nav-buttons mat-icon:hover, .upDown-buttons mat-icon:hover, .terminal-buttons mat-icon:hover {
+    @extend %theme-color;
+  }
+
+  // 按钮hover凸显阴影效果
+  .floor-buttons button:hover, .edit-header button:hover, .operate-buttons button:hover, .nav-buttons button:hover, .search-buttons button:hover, .upDown-buttons button:hover, .terminal-buttons button:hover {
+    @extend %dark-box-shadow;
+  }
+
+  // 按钮点击效果
+  .button-clicked {
+    @extend %theme-color;
+    @extend %dark-box-shadow;
+  }
+
+  // 选中楼层样式
+  .floor-selected {
+    @extend %theme-color;
+    @extend %dark-box-shadow;
+  }
+
+  // loading的父容器
+  .place-holder {
+    button {
+      //box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      &:hover {
+        @extend %dark-box-shadow;
+      }
+      & span {
+        margin-top: 10px;
+      }
+    }
+  }
+  mat-expansion-panel-header:hover {
+    @extend %theme-color;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+  #form-card mat-expansion-panel:hover {
+    @extend %dark-box-shadow;
+  }
+
+  // 上传按钮
+  .edit-upload {
+    color: #a5a5a5;
+    @extend %light-box-shadow;
+    div span:nth-child(1) {
+      @extend %theme-color;
+    }
+    &:not(.button-disabled):hover {
+      //mat-icon{
+      //@extend %theme-color;
+      //}
+      div span:nth-child(3), mat-icon + span, &:not(.svg-preview) mat-icon {
+        @extend %theme-color;
+      }
+      @extend %dark-box-shadow;
+    }
+  }
+  // 地图预览
+  .svg-preview {
+    opacity: 1;
+    transition: opacity 0.5s;
+    button {
+      & mat-icon {
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      //&:not(:nth-child(2)) mat-icon:hover {
+      //  opacity: 0.8;
+      //  transition: opacity 0.5s;
+      //  @extend %theme-color;
+      //}
+      & mat-icon:hover {
+        opacity: 0.8;
+        transition: opacity 0.5s;
+        color: mat-color($warn, 600);
+      }
+    }
+    &:hover {
+      //opacity: 0.7;
+      //transition: opacity 0.5s;
+      mat-icon {
+        transition: opacity 0.5s;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  // 地图hover轮廓
+  #mallContainer:not(.edit-mall) {
+    @for $i from 1 through 3 {
+      #mall:not(.mall-selected) svg {
+        border: 1px solid #00000047;
+        &:hover {
+          background: #03adff26;
+          //& g:nth-child(1) {
+          stroke: mat-color($accent, 300) !important;
+          stroke-width: 3px !important;
+          //}
+        }
+        //path {
+        //  stroke: #303030;
+        //}
+        //background-color: #e5e5e550;
+        //border-radius: 50px;
+        //box-shadow: 0 0 0 1px #cccccc;
+      }
+    }
+  }
+
+  // 引用的地点图标
+  svg use {
+    cursor: pointer;
+    fill: #aaaaaa;
+    stroke: #303030
+  }
+
+  // path鼠标hover样式
+  .path-hover {
+    &:hover {
+      cursor: pointer;
+      stroke: mat-color($accent, 600) !important;
+      stroke-width: 1px !important;
+    }
+  }
+
+  // path选中样式
+  .path-selected {
+    cursor: pointer;
+    stroke: mat-color($accent, 600) !important;
+    stroke-width: 1px !important;
+  }
+
+  // 地标g选中样式
+  .point-selected {
+    fill: mat-color($accent, 600)!important;
+  }
+
+  // 按钮选中状态
+  .search-selected {
+    @extend %theme-color;
+    @extend %dark-box-shadow;
+  }
+
+  // 地图编辑面板
+  .map-edit {
+    overflow: auto;
+    .edit-form {
+      overflow: initial;
+    }
+    .edit-header {
+      .show-upload {
+        opacity: 1 !important;
+      }
+      button:nth-child(1) {
+        //border: 1px solid #00000080;
+        //@extend %light-box-shadow;
+        img {
+          width: 100%;
+          height: 100%;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+        mat-icon {
+          @extend %theme-color;
+          transition: opacity 0.8s;
+          opacity: 0;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+      button:nth-child(2) {
+        @extend %theme-color;
+      }
+    }
+  }
+  // 更新弹框
+  $addColor: #0EC055;
+  $disabledColor: #E90101;
+  .update-title {
+
+    .add-block {
+      background: $addColor;
+    }
+    .disabled-block {
+      background: $disabledColor;
+    }
+  }
+  .add-word {
+    color: $addColor;
+  }
+  .no-update {
+    color: #aaaaaa
+  }
+  .disabled-word {
+    color: $disabledColor
+  }
+  // 业态颜色对应
+  .business-type {
+    overflow: hidden;
+    // 选项高度
+    .mat-option {
+      width: 156px;
+      height: 40px !important;
+    }
+    // 快捷键选中
+    .mat-option.mat-active {
+      @extend %theme-color;
+      background: inherit !important;
+    }
+    @extend %light-box-shadow;
+    border-radius: 5px;
+    // 循环的选项
+    & > div {
+      width: 100%;
+      height: 40px;
+      border-radius: 5px;
+      padding: 0 4px;
+      margin: 4px 0;
+      &:last-child {
+        & > mat-icon {
+          font-size: 30px;
+          width: 30px;
+          height: 30px;
+        }
+        &:hover {
+          @extend %theme-color;
+        }
+      }
+    ;
+    }
+    & > div {
+      &:hover {
+        @extend %dark-box-shadow;
+        cursor: pointer;
+      }
+      & mat-option:hover {
+        background: inherit !important;
+      }
+    }
+  }
+  // 业态颜色展示框
+  .color-div {
+    .mat-form-field-wrapper {
+      padding: 0;
+    }
+    .mat-form-field-infix {
+      padding: 8px 0 !important;
+      border: 0 !important;
+      width: 80px !important;
+    }
+  }
+  .left-input {
+    margin-left: 5px;
+    .mat-form-field-wrapper {
+      padding: 0;
+    }
+    .mat-form-field-infix {
+      padding: 8px 0 !important;
+      border: 0 !important;
+      width: 120px !important;
+    }
+  }
+  // 已对应的商户选中时候
+  .has-corresponding {
+    .datatable-body-row.active .datatable-row-group {
+      background: #aaaaaa !important;
+      cursor: pointer;
+    }
+  }
+}

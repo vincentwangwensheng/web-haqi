@@ -1,0 +1,11 @@
+<app-table-list [title]="'appointment.apply.list'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)"
+
+>
+</app-table-list>
+
+
+<ng-template #applicationDetailTe >
+        <app-application-detail [applyId]="applyId"></app-application-detail>
+</ng-template>

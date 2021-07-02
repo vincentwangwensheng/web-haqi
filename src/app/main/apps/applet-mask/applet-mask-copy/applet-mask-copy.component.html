@@ -1,0 +1,299 @@
+<div  class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/AppletMaskList'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="applet-mask-btu-class" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <ng-container *ngIf="ADDOrDetail === 'add'" >
+                    <div id="save-btu-id">
+                        <button  mat-raised-button   class="btu-bottom" color="accent"  (click)="popSave('add')"  [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                    </div>
+                    <div id="cancel-btu-id">
+                        <button  mat-raised-button   class="btu-bottom" color="accent"  (click)="popCancel()"  [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="ADDOrDetail === 'detail'">
+                    <ng-container *ngIf="detailSave === false">
+                        <div id="edit-btu-id" >
+                            <button  mat-raised-button  class="btu-bottom" color="accent" (click)="popChangeEdit()"  [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.edit'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="detailSave === true">
+                        <div>
+                            <button  mat-raised-button  class="btu-bottom" color="accent" (click)="popSave('edit')"  [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="frozenY === 'UpperShelf'">
+                        <div>
+                            <button mat-raised-button class="btu-bottom" color="accent"  (click)="popSave('UpperShelf')"  [disabled]="btuDis"> <!--<mat-icon>block</mat-icon>-->{{'AppletMask.addDetail.UpperShelf'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="frozenY === 'LowerShelf'">
+                        <div>
+                            <button mat-raised-button class="btu-bottom" color="accent" (click)="popSave('LowerShelf')"  [disabled]="btuDis"> <!--<mat-icon>lock_open</mat-icon>-->{{'AppletMask.addDetail.LowerShelf'|translate}}</button>
+                        </div>
+                    </ng-container>
+                    <div >
+                        <button  mat-raised-button   class="btu-bottom" color="accent"  (click)="popCancel()"  [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="mask-all-flex">
+            <div class="mask-flex-left">
+                <div class="real-left-flex">
+                    <!--内容板块-->
+                    <form [formGroup]="options2" class="content-form">
+                        <div class="content-body-mark">
+                            <!--ID和名称-->
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="mark-id-name mark-id-name-time-mr-top mark-mat-point">
+                                <div class="mark-child-id-name">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'AppletMask.addDetail.popupId' |translate}}</mat-label><!--蒙屏ID-->
+                                        <input   matInput    autocomplete="off"  formControlName="popupId" >
+                                        <mat-error>{{'AppletMask.Unified_Tips'|translate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="mark-child-id-name">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'AppletMask.addDetail.popupName' |translate}}</mat-label><!--蒙屏名称-->
+                                        <input   matInput    autocomplete="off"  formControlName="popupName" (blur)="setName()" (input)="setName()">
+                                        <mat-error>{{'AppletMask.Unified_Tips'|translate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <!-- 商场名称和编号 -->
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'400ms'}}" class="normal-form-fields mt-16"
+                                  fxLayout="row wrap" fxLayoutAlign="space-between start">
+                                <app-auto-select class="w-48-p" [label]="'商场编号'" [selectControl]="options2.get('mallId')"
+                                                 [filterOptions]="filterMallById"
+                                                 [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场编号不存在！'" [showField]="'mallId'"
+                                                 (selectionChange)="onSelectionChange($event,'mallName','mallName')"
+                                                 [secondaryField]="'mallName'" [requiredMsg]="'商场编号不能为空！'">
+                                </app-auto-select>
+                                <app-auto-select class="w-48-p" [label]="'商场名称'" [selectControl]="options2.get('mallName')"
+                                                 [filterOptions]="filterMallByName"
+                                                 [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                                                 [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId','mallId')"
+                                                 [requiredMsg]="'商场名称不能为空！'">
+                                </app-auto-select>
+                            </div>
+                            <!--开始结束时间-->
+                            <div  [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="mark-id-name  mark-id-name-time-mr-top normal-form-fields mt-0">
+                                <app-material-date-picker #StartTime
+                                                          (sourceDate)="onSourceDate($event,endTime , StartTime , 'timeBegin')"  [config]="configStart"
+                                                          [label]="'AppletMask.addDetail.StartTime'|translate" class="date-picker-w"
+                                                          [timeControl]="options2.get('popupStartTime')"
+                                >
+                                </app-material-date-picker>
+                                <app-material-date-picker #endTime
+                                                          (sourceDate)="onSourceDate1($event,endTime , StartTime  , 'timeEnd')"  [config]="configEnd"
+                                                          [label]="'AppletMask.addDetail.EndTime'|translate" class="date-picker-w"
+                                                          [timeControl]="options2.get('popupEndTime')"
+                                >
+                                </app-material-date-picker>
+                            </div>
+                            <!--蒙屏类型-->
+                            <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="mark-id-name mark-mat-point">
+                                <div class="mark-child-id-name">
+                                    <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                        <mat-label>{{'AppletMask.addDetail.popupType' |translate}}</mat-label><!--蒙屏类型-->
+                                        <mat-select formControlName="popupType" (selectionChange)="changeMarkType()" >
+                                            <mat-option *ngFor="let d of activeTeTagSource.MarkTypeSource" [value]="d.id" >{{d.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <ng-container *ngIf="frozenY !== 'add'">
+                                    <div class="mark-child-id-name">
+                                        <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                            <mat-label>{{'AppletMask.addDetail.popupStatus' |translate}}</mat-label><!--蒙屏状态-->
+                                            <input   matInput    autocomplete="off"  formControlName="popupStatus">
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <!--选择活动-->
+                            <ng-container *ngIf="activeTeTagSource.activityOrImg === 'activity'">
+                                <div class="choose-activity  mark-id-name-time-mr-top" fxLayoutGap="15px">
+                                    <div  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}"
+                                          matRipple class="activity-fr bg-content-005" fxLayout="row" fxLayoutAlign="center center"
+                                          (click)="openAddActiveDialog(ADDActiveTe)">
+                                      <!--  <button mat-icon-button  color="accent" class="add-btu-class" (click)="openAddActiveDialog(ADDActiveTe)">-->
+                                            <mat-icon [color]="'accent'">add_circle_outline</mat-icon>
+                                            <span class="aboutActivitySpan">{{'AppletMask.addDetail.aboutActivity' |translate}}</span> <!--关联活动-->
+                                      <!--  </button>-->
+                                    </div>
+                                    <!--活动选择之后显示活动信息--->
+                                    <ng-container *ngIf="activeTeTagSource.activitySourceShow === 'activityList'">
+                                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'350ms',duration:'600ms'}}"  class="activity-fr bg-content-2" fxLayout="column" fxLayoutAlign="space-around center">
+                                            <!--活动标题-->
+                                            <div class="ac-external">
+                                                <div class="Vice-title">
+                                                    <span>{{'AppletMask.addDetail.ActivityTitle' |translate}}</span><!--活动标题-->
+                                                </div>
+                                                <div class="ac-external-content">
+                                                    <span>{{activeTeTagSource.activitySource.name}}</span>
+                                                </div>
+                                            </div>
+                                            <!--活动类型-->
+                                            <div class="ac-external">
+                                                <div class="Vice-title">
+                                                    <span>{{'AppletMask.addDetail.activityType' |translate}}</span><!--活动类型-->
+                                                </div>
+                                                <div class="ac-external-content">
+                                                    <span>{{activeTeTagSource.activitySource.activityType}}</span>
+                                                </div>
+                                            </div>
+                                            <!--预热时间-->
+                                            <div class="ac-external">
+                                                <div class="Vice-title">
+                                                    <span>{{'AppletMask.addDetail.preheatTime' |translate}}</span><!--预热时间-->
+                                                </div>
+                                                <div class="ac-external-content">
+                                                    <span>{{activeTeTagSource.activitySource.preheatTime}}</span>
+                                                </div>
+                                            </div>
+                                            <!--有效期-->
+                                            <div class="ac-external">
+                                                <div class="Vice-title">
+                                                    <span>{{'AppletMask.addDetail.validity' |translate}}</span><!--有效期-->
+                                                </div>
+                                                <div class="ac-external-content">
+                                                    <span>{{activeTeTagSource.activitySource.beginTime}} - {{activeTeTagSource.activitySource.endTime}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                            </ng-container>
+
+
+
+                            <!--选择图片 与跳转链接--->
+                            <ng-container *ngIf="activeTeTagSource.activityOrImg === 'Img'">
+                                <div class="img-fr" fxLayout="column" fxLayoutAlign="space-between center">
+                                    <!--上传图片 券面图案-->
+                                    <div  [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="up_img_review_link">
+                                        <div class="up_img_review_link_title">
+                                            <span>{{'AppletMask.addDetail.img' |translate}}</span><!--蒙屏图案-->
+                                        </div>
+                                        <div class="up_img_review_link_content">
+                                            <div class="up_btu">
+                                                <button mat-raised-button color="accent" (click)="openUploadImgDialog(uploadImgDialog)" [disabled]="upImgSource.btuDis"
+                                                ><img src="assets/images/cards/upLoad.png" >
+                                                    {{'ElectronicVoucherManagement.AddSecuritiesRules.upload'|translate}}</button>
+                                            </div>
+                                            <div class="up_des">
+                                                <span>{{'AppletMask.addDetail.tips_5' |translate}}</span><!--上传图片比例为500x660px，大小不得超过1M，支持JPG,PNG文件-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--外部链接-->
+                                    <div [@animate]="{value:'*',params:{y:'100%',delay:'350ms',duration:'600ms'}}" class="up_img_review_link mt-12 mb-12">
+                                        <div class="up_img_review_link_title">
+                                            <span>外部链接</span><!--外部链接-->
+                                        </div>
+                                        <div class="up_img_review_link_content">
+                                            <div class="text_link mark-mat-point w-50-p">
+                                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                                    <mat-select  formControlName="outLink">
+                                                        <mat-option [value]="true">是</mat-option>
+                                                        <mat-option [value]="false">否</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--跳转链接-->
+                                    <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="up_img_review_link">
+                                        <div class="up_img_review_link_title">
+                                            <span>{{'AppletMask.addDetail.goLink' |translate}}</span><!--跳转链接-->
+                                        </div>
+                                        <div class="up_img_review_link_content">
+                                            <div class="text_link mark-mat-point">
+                                                <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                                    <input   matInput  required  autocomplete="off"  formControlName="popupLink">
+                                                    <mat-error>{{'AppletMask.Unified_Tips'|translate}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+
+            <div class="mask-flex-right">
+                <div class="real-right-flex">
+                    <div class="mask-right-content">
+                        <div  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="real-div-img-coupon-content">
+                            <!--预览图片-->
+                            <ng-container *ngIf="this.activeTeTagSource.activityOrImg === 'Img'">
+                                <div class="imgPreClass">
+                                    <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="img_title"><span>{{this.POPUPName}}</span></div>
+                                    <img [src]="upImgSource.imgSrc" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  *ngIf="!upImgSource.preLoading">
+                                    <mat-spinner color="accent" *ngIf="upImgSource.preLoading"
+                                                 mode="indeterminate"></mat-spinner>
+                                </div>
+                            </ng-container>
+
+                            <!--活动预览的电子券-->
+                            <ng-container *ngIf="this.upImgSource.ACCouPreYes === true">
+                                <div class="activityPreClass" >
+                                    <!--标题-->
+                                    <div  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="activityPreTitle">
+                                        <span>{{this.POPUPName}}</span>
+                                    </div>
+                                    <!--优惠券部分-->
+                                    <div class="activityPreContent">
+                                        <ng-container *ngIf="!couPreImgLoading">
+                                            <ng-container *ngFor="let cou of this.preImgSource; let i = index;">
+                                                <div @fadeInOut [@animate]="{value:'*',params:{y:'100%',duration:'600ms',delay:400*i+'ms'}}"   class="coupon_img">
+                                                    <img [src]="cou?.useImgBg" class="bg_img">
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                        <mat-spinner color="accent" *ngIf="couPreImgLoading"
+                                                     mode="indeterminate"></mat-spinner>
+                                    </div>
+                                    <!--完成按钮-->
+                                    <div [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"  class="activityPreBtu">
+                                        <button  mat-raised-button >{{'AppletMask.addDetail.closeWin' |translate}}</button><!--关闭弹窗-->
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #ADDActiveTe>
+    <app-marketing-manage  (dataSelect)="ADDActiveTeTagSelect($event)" [overPanel]="true"  [createButton]="false"
+                           [selectedRow]="selectedTag" [singleSelect]="true" [selectedRows]="true" [resetSelect]="false" ></app-marketing-manage>
+</ng-template>
+
+
+<!-- 上传 -->
+<ng-template #uploadImgDialog>
+    <app-upload-img (ImgUploadData)="realUpload($event)" (closeDialog)="closeDialogP($event)" [upImgSource]="upImgSource"  [upTitle]="'AppletMask.addDetail.img' |translate"></app-upload-img>
+</ng-template>

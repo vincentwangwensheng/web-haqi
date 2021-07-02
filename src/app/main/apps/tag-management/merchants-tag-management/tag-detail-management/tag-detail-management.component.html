@@ -1,0 +1,185 @@
+<div class="page-layout carded right-sidebar">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <!--<button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/MerchantsTagManagement'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>-->
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <div class="subtitle secondary-text">
+                        <span *ngIf="pageTitle === 'detail'">{{'TagManagement.MerchantsTagManagement.detail'|translate}}</span>
+                        <span *ngIf="pageTitle === 'create'">{{'TagManagement.CRUDTag.'+ currentProject +'.createTag'|translate}}</span> <!-- 新建标签 -->
+                        <span *ngIf="pageTitle === 'edit'">{{'TagManagement.CRUDTag.'+ currentProject +'.editTag'|translate}}</span> <!-- 编辑标签 -->
+                    </div>
+                </div>
+            </div>
+           <!--  新增时的按钮-->
+            <div class="tag-detail-btu-class-me"  [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+
+                <ng-container *ngIf="pageTitle==='create'">
+                    <div>
+                        <button mat-raised-button class="btu-bottom header-button" (click)="onSave()" [disabled]="saveButtonStatus"
+                                color="accent">
+                            <mat-icon>save</mat-icon>
+                            {{'marketingManage.addMarketing.save'|translate}}</button>
+                    </div>
+                    <div id="tag-detail-return-btu-id">
+                        <button mat-raised-button [routerLink]="'/apps/MerchantsTagManagement'" class="btu-bottom header-button"
+                                color="accent">
+                            <mat-icon>reply</mat-icon>
+                            {{'merchants.dataDetail.return'|translate}}</button>
+                    </div>
+                </ng-container>
+                <!--详情时的按钮-->
+                <ng-container *ngIf="pageTitle==='detail'">
+                    <div>
+                        <button mat-raised-button class="btu-bottom header-button" (click)="onEdit()"
+                                color="accent">
+                            <mat-icon>edit</mat-icon>
+                            {{'TagManagement.CRUDTag.'+ currentProject +'.edit'|translate}}  <!-- 编辑 -->
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-raised-button [routerLink]="'/apps/MerchantsTagManagement'" class="btu-bottom header-button"
+                                color="accent"  [disabled]="saveButtonStatus">
+                            <mat-icon>reply</mat-icon>
+                            {{'merchants.dataDetail.return'|translate}}</button>
+                    </div>
+                </ng-container>
+
+                <!--编辑时的按钮-->
+                <div class="tag-detail-btu-class-me" *ngIf="pageTitle==='edit'">
+                    <div>
+                        <button mat-raised-button class="btu-bottom header-button" (click)="onUpdate()" [disabled]="saveButtonStatus"
+                                color="accent">
+                            <mat-icon>save</mat-icon>
+                            {{'marketingManage.addMarketing.save'|translate}}</button>
+                    </div>
+                    <div>
+                        <button mat-raised-button  class="btu-bottom header-button" (click)="onCancel()"
+                                color="accent"  [disabled]="saveButtonStatus">
+                            <mat-icon>close</mat-icon>
+                            {{'TagManagement.CRUDTag.'+ currentProject +'.cancel'|translate}}   <!-- 取消 -->
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tag-detail-allFlex-conent">
+
+
+            <div class="tag-detail-content-left_me add-detail-background">
+
+                <div class="tag-detail-left-All-flex">
+                    <form [formGroup]="profileForm" [autocomplete]="'off'">
+                        <div class="tag-detail-one-Select" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.tagName'|translate}} </mat-label>  <!-- 标签名称 -->
+                                <input matInput required
+                                       formControlName="tagName" >
+                                <mat-error>{{'TagManagement.CRUDTag.'+ currentProject +'.tips1'|translate}}</mat-error>  <!-- 标签名称不能为空 -->
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.tagType'|translate}}</mat-label> <!-- 标签类型 -->
+                                <mat-select formControlName="tagType">
+                                    <mat-option *ngFor="let d of tagTypes" [value]="d.id" >{{d.value}}</mat-option>
+                                </mat-select>
+                                <mat-error>{{'TagManagement.CRUDTag.'+ currentProject +'.tips2'|translate}}</mat-error>  <!-- 标签类型不能为空 -->
+                            </mat-form-field>
+                        </div>
+                        <div class="tag-detail-one-Select" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.firstLevel'|translate}}</mat-label> <!-- 一级分类 -->
+                                <mat-select formControlName="firstLevel">
+                                    <mat-option *ngFor="let d of firstLevel" [value]="d.id" >{{d.value}}</mat-option>
+                                </mat-select>
+                                <mat-error>{{'TagManagement.CRUDTag.'+ currentProject +'.tips3'|translate}}</mat-error> <!-- 一级分类不能为空 -->
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.secondLevel'|translate}}</mat-label> <!-- 二级分类 -->
+                                <input matInput required
+                                       id="tagDetailSecondaryClassification" formControlName="secondLevel" >
+                                <mat-error>{{'TagManagement.CRUDTag.'+ currentProject +'.tips4'|translate}}</mat-error> <!-- 二级分类不能为空 -->
+                            </mat-form-field>
+                        </div>
+                        <div class="tag-detail-two-textArea" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.tagRemarks'|translate}}</mat-label>  <!-- 标签说明 -->
+                                <textarea matInput required
+                                          formControlName="tagRemarks"></textarea>
+                                <mat-error>{{'TagManagement.CRUDTag.'+ currentProject +'.tips5'|translate}}</mat-error> <!--  标签说明不能为空 -->
+                            </mat-form-field>
+                        </div>
+                        <div class="tag-detail-one-Select"  [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  >
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.lastModifiedBy'|translate}}</mat-label>  <!-- 修改人 -->
+                                <input matInput  formControlName="lastModifiedBy"   >
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" [floatLabel]="'always'">
+                                <mat-label>{{'TagManagement.CRUDTag.'+ currentProject +'.lastModifiedDate'|translate}}</mat-label>  <!-- 修改时间 -->
+                                <input matInput   formControlName="lastModifiedDate" >
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <!--<div class="tag-detail-Three-textArea">
+                        <mat-form-field appearance="outline" [floatLabel]="'always'">
+                            <mat-label>应用场景</mat-label>
+                            <textarea   matInput  required value="" id="tagDetailApplicationScenarios" ></textarea>
+                        </mat-form-field>
+                    </div>-->
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="tag-detail-content-right_me ">
+                <div class="tag-detail-right-up-flex add-detail-background" *ngIf="pageTitle === 'a'">
+              <!--      <div class="tag-detail-right-up-flex-left">
+                        <div class="tag-detail-right-up-flex-left-tit tag-detail-mg-top-6">
+                            <div class="tag-detail-right-up-flex-left-tit_">
+                                <span>标签状态</span>
+                            </div>
+                            <div class="tag-detail-right-up-flex-left-tit-desc">
+                                <span [ngClass]="{'text-redcolor': TagDetail?.enabled  === '冻结', 'text-greencolor': TagDetail?.enabled === '正常' }">{{TagDetail?.enabled}}</span>
+                            </div>
+                        </div>
+                        <div class="tag-detail-right-up-flex-left-tit tag-detail-mg-top-3">
+                            <div class="tag-detail-right-up-flex-left-tit_">
+                                <span>最近更新时间</span>
+                            </div>
+                            <div class="tag-detail-right-up-flex-left-tit-desc">
+                                <span>{{TagDetail?.lastModifiedDate}}</span>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!--<div class="tag-detail-right-up-flex-right">
+                             <span class="tag-detail-Coverage-num-color-size">23%</span>
+                             <span class="tag-detail-Coverage-num-color-desc">覆盖率</span>
+                    </div>-->
+                </div>
+                <!--  <div class="tag-detail-right-down-flex add-detail-background"
+                       [ngClass]="{'tag-detail-right-down-flex-h-80': ResponsiveStruts , 'tag-detail-right-down-flex-h-auto' : !ResponsiveStruts }">
+                          &lt;!&ndash; 说明  &ndash;&gt;
+                      <div class="tag-detail-right-down-flex-FormulaDes">
+                          <mat-form-field appearance="outline" [floatLabel]="'always'">
+                              <mat-label>公式说明</mat-label>
+                              <textarea matInput  required value="" id="tag-detail-FormulaDesc"></textarea>
+                          </mat-form-field>
+                      </div>
+                      <div class="tag-detail-right-down-flex-ValueDesc" >
+                          <mat-form-field appearance="outline" [floatLabel]="'always'">
+                              <mat-label>值说明</mat-label>
+                              <textarea matInput  required value="" id="tag-detail-ValueDesc"></textarea>
+                          </mat-form-field>
+                      </div>
+                  </div>-->
+            </div>
+        </div>
+    </div>
+</div>

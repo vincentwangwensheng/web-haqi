@@ -1,0 +1,15 @@
+::ng-deep #editAccount {
+  padding: 0 !important;
+}
+
+.add-button {
+  padding: 1px 4px;
+  margin-right: 4px;
+  border-radius: 20px;
+  opacity: 0.8;
+  border: 2px dashed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}

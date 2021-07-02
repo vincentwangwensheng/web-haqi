@@ -1,0 +1,70 @@
+<!--蓝色头部分-->
+<div class="page-layout carded right-sidebar inner-scroll">
+  <div class="top-bg accent"></div>
+  <fuse-sidebar *ngIf="sidebarShow" class="sidebar" name="carded-right-sidebar-2" position="right" lockedOpen="gt-md">
+    <div class="header p-24 accent">
+      <h2 class="m-0">Sidebar header</h2>
+    </div>
+    <div class="content p-24" fusePerfectScrollbar>
+    </div>
+  </fuse-sidebar>
+  <div class="center">
+    <div class="header accent p-24">
+      <h2 class="m-0">{{'nav.marketingManagement.MarketingList'|translate}}</h2>
+    </div>
+    <!--按钮部分-->
+    <div class="content-card">
+      <div class="toolbar px-24 py-8" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="search-wrapper mx-32 mx-md-0">
+          <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+            <input  placeholder="{{'merchants.data.searchDescribe'|translate}}" >
+            <mat-icon>search</mat-icon>
+          </div>
+          <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+            <input  placeholder="{{'merchants.data.screenDescribe'|translate}}">
+            <mat-icon>filter_list</mat-icon>
+          </div>
+        </div>
+        <div>
+          <button  mat-raised-button   color="accent" class="btu-bottom"><mat-icon>add_circle_outline</mat-icon>新增</button>
+        </div>
+      </div>
+      <!--表部分-->
+      <div class="marketList-example-container mat-elevation-z8">
+        <mat-table matSort [dataSource]="dataSource" class="marketingList-table mat-elevation-z8"  (matSortChange)="sortData($event)">
+          <ng-container *ngFor="let cou of tableColumns">
+            <ng-container   matColumnDef={{cou}}>
+              <mat-header-cell  *matHeaderCellDef  mat-sort-header>
+                <div *ngFor="let heard of hearSource"> {{heard[cou]}}</div>
+              </mat-header-cell>
+              <mat-cell  *matCellDef="let element ; index as i;" >
+                   <span class="text-truncate"  *ngIf="cou === 'state'"
+                         [ngClass]="{'text-redColor': element[cou] === '已驳回',  'text-greenColor': element[cou] === '已发布'
+                         , 'text-blueColor': element[cou] === '未发布' ,  'text-grayColor': element[cou] === '已过期' }">
+                     {{element[cou]}}
+                   </span>
+                <span class="text-truncate"  *ngIf="cou === 'operation'">
+                       <a class="marketList-a_underline" [routerLink]="['/apps/merchantsData/merchantsDetail']">{{element[cou]}}</a>
+                   </span>
+                <span class="text-truncate"  *ngIf="cou != 'state' && cou != 'operation'">{{element[cou]}} </span>
+              </mat-cell>
+            </ng-container>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"  >
+          </mat-row>
+        </mat-table>
+      </div>
+      <mat-paginator
+              #paginator
+              [length]="10"
+              [pageSize]="pageSize"
+              [pageSizeOptions] = "pageSizeOptions"
+              (page)="changesEvent($event)"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+

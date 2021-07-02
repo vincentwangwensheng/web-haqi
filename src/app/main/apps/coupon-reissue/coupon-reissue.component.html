@@ -1,0 +1,144 @@
+<div class="page-layout carded fullwidth inner-scroll" *ngIf="!responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+<div class="page-layout carded fullwidth" *ngIf="responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<ng-template #content>
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{'nav.couponManagement.couponReissue'|translate}}</h2>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    *ngIf="!responsive" fusePerfectScrollbar
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel" fxLayoutGap="16px">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <mat-card
+                    *ngIf="responsive" fxLayout="column"
+                    fxLayoutAlign="start start" class="left-panel" fxLayoutGap="16px">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--左边内容-->
+            <ng-template #leftContent>
+                <!--补发对象-->
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'100ms'}}" class="w-100-p"
+                     fxLayout="column" fxLayoutAlign="start start">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <span class="font-size-13 detail-info">补发对象</span>
+                        </div>
+                    </div>
+                </div>
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'200ms'}}" class="w-100-p member-select" fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div class="add-button" fxLayout="row" fxLayoutAlign="center center"
+                         (click)="openMemberSelect(memberTemplate)">
+                        <mat-icon>add_circle_outline</mat-icon>
+                        <span class="ml-4">添加对象</span>
+                    </div>
+                    <div *ngIf="currentMember"
+                         [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:'100ms',duration:'500ms'}}"
+                         class="member-cell p-8"
+                         fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="2px">
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                            <span>常旅客ID：&nbsp;&nbsp;{{currentMember.id}}</span>
+                            <button mat-icon-button class="w-24 h-24 remove-button"
+                                    (click)="removeMember()" fxLayout="row"
+                                    fxLayoutAlign="center center">
+                                <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                            </button>
+                        </div>
+                        <span class="w-100-p">手机号：&nbsp;{{currentMember.mobile}}</span>
+                        <span class="w-100-p">会员等级：&nbsp;{{currentMember.level}}</span>
+                        <span class="w-100-p">注册时间：&nbsp;{{currentMember.createdDate|newDateTransform:'/'}}</span>
+                        <span class="w-100-p">状态：&nbsp;{{currentMember.enabled}} </span>
+                    </div>
+                </div>
+                <mat-divider [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'300ms',opacity:'0',delay:'300ms'}}"></mat-divider>
+                <!--电子券规则-->
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'300ms'}}" class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                    <span class="font-size-13 detail-info">电子券规则</span>
+                </div>
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'400ms'}}" class="w-100-p coupon-select" fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div class="add-button" fxLayout="row" fxLayoutAlign="center center"
+                         (click)="openCouponSelect(couponTemplate)">
+                        <mat-icon>add_circle_outline</mat-icon>
+                        <span class="ml-4">添加券</span>
+                    </div>
+                    <div *ngIf="currentCoupon"
+                         [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:'100ms',duration:'500ms'}}"
+                         class="coupon-cell p-8"
+                         fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="2px">
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                            <span>券名称：&nbsp;&nbsp;{{currentCoupon.name}}</span>
+                            <button mat-icon-button class="w-24 h-24 remove-button"
+                                    (click)="removeCoupon()" fxLayout="row"
+                                    fxLayoutAlign="center center">
+                                <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                            </button>
+                        </div>
+                        <span class="w-100-p">券渠道：&nbsp;{{currentCoupon.source}}</span>
+                        <!--<span class="w-100-p">会员等级：&nbsp;{{member.level}}</span>-->
+                        <span class="w-100-p">有效期：&nbsp;{{currentCoupon.expireRuleTimeBegin|newDateTransform:'/'}} - {{currentCoupon.expireRuleTimeEnd|newDateTransform:'/'}}</span>
+                        <!--<span class="w-100-p">状态：&nbsp;{{member.enabled}} </span>-->
+                    </div>
+                </div>
+                <mat-form-field [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'600ms'}}" class="normal-form-field activity-select" appearance="outline">
+                    <mat-label>选择活动（可选）</mat-label>
+                    <input class="select-activity" style="cursor: pointer" readonly
+                           [value]="currentActivity?currentActivity.name:''"
+                           (focus)="openActivity(activityTemplate)" matInput>
+                </mat-form-field>
+                <button [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'700ms'}}" [disabled]="!currentMember||!currentCoupon||buttonDisabled" mat-raised-button
+                        class="reissue-button" color="accent" (click)="reissue()">发放
+                </button>
+            </ng-template>
+            <!--右边-->
+            <div fxLayout="column" fxLayoutAlign="start start" class="right-panel" fxLayoutGap="18px">
+                <mat-card fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <span class="font-size-13 detail-info">操作记录</span>
+                        </div>
+                    </div>
+                    <app-table-list [noScrollPaging]="responsive" [overPanel]="true" [stick]="true" [rows]="rows"
+                                    [columns]="columns" [page]="page"
+                                    (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                                    (searchClear)="onSearch()"
+                                    (search)="onSearch()"></app-table-list>
+                </mat-card>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</ng-template>
+<ng-template #memberTemplate>
+    <app-passengers-manage [overPanel]="true" [singleSelect]="true" [selectedRow]="selectedMember"
+                           (dataSelect)="onMemberSelect($event)"></app-passengers-manage>
+</ng-template>
+<ng-template #couponTemplate>
+    <app-coupon-maintain [overPanel]="true" [singleSelect]="true" [selectedRow]="selectedCoupon"
+                         (dataSelect)="onCouponSelect($event)"></app-coupon-maintain>
+</ng-template>
+<ng-template #activityTemplate>
+    <app-marketing-manage [overPanel]="true" [createButton]="false" [singleSelect]="true"
+                          [selectedRow]="selectedActivity"
+                          (dataSelect)="onActivitySelect($event)"></app-marketing-manage>
+</ng-template>

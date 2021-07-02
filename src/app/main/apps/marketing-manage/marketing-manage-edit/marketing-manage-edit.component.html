@@ -1,0 +1,1080 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <div class="header accent p-24 title-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{'marketingManage.editMarketing.editTitle'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="btu-class-me"  [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}"
+                 [ngClass]="{'btu-class-me15' : marketingDetailJson?.reviewStatus === true , 'btu-class-me39' : marketingDetailJson?.reviewStatus !== true }">
+                <!--头部按钮-->
+                <div class="header-button">
+                    <button  mat-raised-button class="btu-bottom" color="fff" (click)="preAcCom(preAc)"> <mat-icon style="color: #039BE5">find_in_page</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.preview'|translate}}</span></button>
+                </div>
+                <div class="header-button " fxLayout="row"  *ngIf="toExamine === true">
+                    <button mat-raised-button class="btn-check" (click)="reviewed('yes')" [disabled]="btuDis"><span style="color:#fff">审核通过</span></button>
+                </div>
+                <div class="header-button" fxLayout="row"  *ngIf="toExamine === true">
+                    <button (click)="onReject()" class="btn-reject" mat-raised-button [disabled]="btuDis"><span
+                            style="color:#fff">驳回</span></button>
+                </div>
+                <div class="header-button">
+                    <button (click)="onSave()" [disabled]="btuDis"  mat-raised-button class="btu-bottom" color="fff"> <mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.save'|translate}}</span></button>
+                </div>
+                <div class="header-button">
+                    <button  (click)="linkToDatail()" [disabled]="btuDis"  mat-raised-button [routerLink]="'/apps/marketingManage'" class="btu-bottom" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.addMarketing.cancel'|translate}}</span></button>
+                </div>
+
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+        <!-- CONTENT -->
+        <div class="content-all" fxLayout.gt-sm="row" fxLayout.lt-md="column" >
+
+            <div class="content-left" fxLayout="column">
+                <div class="content-input-down" fxLayout="column">
+
+
+                    <form fxLayout="column"  [formGroup]="profileForm" class="mb-16" [autocomplete]="false">
+                        <button style="display: none" (click)="pseudoSubmit()">pseudoSubmit</button>
+                        <!-- 名称  -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'600ms'}}" class="content-divClass mb-12">
+                            <mat-form-field appearance="outline" class="w-100-p">
+                                <mat-label>{{'marketingManage.addMarketing.title'|translate}}</mat-label>
+                                <input required matInput #nameInput   formControlName="name" value="{{marketingDetailJson?.name}}">
+                                <mat-error>标题不能为空</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!--id 类型  预热时间  -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="idDiv">
+                            <div style="display: none;">
+                                <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                    <mat-label>ID</mat-label>
+                                    <input   matInput #idInput  formControlName="id" value="{{marketingDetailJson?.id}}" readonly>
+                                </mat-form-field>
+                            </div>
+
+                            <mat-form-field appearance="outline" class="w-50-p" style="margin-right: 5px">
+                                <mat-label>{{'marketingManage.addMarketing.activityType'|translate}}<span style="color:#E7293A">*</span></mat-label>
+                                <mat-select    formControlName="activityType"  [(ngModel)]="currentActivityType" [disabled]="true">
+                                    <mat-option value="DEFAULT" >{{'marketingManage.addMarketing.normalActivity'|translate}}</mat-option>
+                                    <mat-option value="GROUP">{{'marketingManage.addMarketing.groupActivity'|translate}}</mat-option>
+                                    <mat-option value="GROUPBUY">{{'marketingManage.addMarketing.groupBuyActivity'|translate}}</mat-option>
+                                    <mat-option value="POINT">{{'marketingManage.addMarketing.integralActivity'|translate}}</mat-option>
+                                    <mat-option value="AR">{{'marketingManage.addMarketing.ARActivity'|translate}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div class="preheatTimeDiv">
+                                <app-material-date-picker #preheatTime  class="w-50-p" (sourceDate)="onStartSourceDate($event,beginTime)"
+                                                          [timeControl]="profileForm.get('preheatTime')"
+                                                          [label]="'marketingManage.addMarketing.preheatTime'|translate"
+                                ></app-material-date-picker>
+                            </div>
+                        </div>
+
+                        <!-- 开始时间  结束时间-->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="start-end-time">
+
+                            <app-material-date-picker #beginTime (sourceDate)="onMiddleSourceDate($event,endTime, preheatTime)" class="w-50-p"  style="margin-right: 5px"
+                                                      [timeControl]="profileForm.get('beginTime')"
+                                                      [label]="'strategy.startTime'|translate"
+                            ></app-material-date-picker>
+                            <app-material-date-picker #endTime (sourceDate)="onEndSourceDate($event,beginTime)" class="w-50-p"
+                                                      [timeControl]="profileForm.get('endTime')"
+                                                      [label]="'strategy.endTime'|translate"
+                            ></app-material-date-picker>
+
+                        </div>
+
+                        <!-- 状态   原因 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" fxLayoutAlign="space-around center" class="idDiv">
+                            <mat-form-field appearance="outline" class="w-49-p" [floatLabel]="'always'">
+                                <mat-label>审核状态</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.reviewStatus === true ? '已审核': '待审核'}}" [disabled]="true">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-49-p" [floatLabel]="'always'">
+                                <mat-label>审核结果</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.reviewResult === true ? '已通过': (marketingDetailJson?.reviewStatus === false?'待审核': '已驳回')}}"  [disabled]="true">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 原因 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}" class="content-divClass mb-12" *ngIf="marketingDetailJson?.reviewResult === false">
+                            <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                                <mat-label>驳回原因</mat-label>
+                                <input matInput  value="{{marketingDetailJson?.rejectReason}}"  [disabled]="true">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 上传活动图片 -->
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" fxLayoutAlign="space-between center" class="activity-photo">
+                            <div fxLayout="row">
+                                <span>{{'marketingManage.addMarketing.activityImage'|translate}}</span>
+                                <span style="color:#E7293A">*</span>
+                            </div>
+                            <div class="ready-upload-part">
+                                <div class="up-input-btu" >
+                                    <button mat-raised-button color="accent"  class="up-input-btu-btu"  ngDefaultControl (click)="openUploadImgDiloag(uploadImgDloag)"
+                                    ><img src="assets/images/cards/upLoad.png" >{{'marketingManage.addMarketing.upload'|translate}}</button>
+                                    <!--   <input type="file" accept="image/*" name="上传" class="inputFileC" [disabled]="CouponMaintainOutIdDisabled">-->
+                                </div>
+                                <div class="preview-img">
+                                    <button [disabled]="previewImgStatus" mat-raised-button   class="preview-up-input-btu-btu"  ngDefaultControl (click)="openPreviewDilog(previewImgDloag)"
+                                    ><mat-icon color="accent">insert_photo</mat-icon><span class="span-accent-color" >{{'marketingManage.addMarketing.preview'|translate}}</span></button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 富文本编辑框  说明 -->
+                        <div class="activity-regulation" [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}">
+                            <quill-editor [modules]="quillConfigEdit"  (onEditorCreated)="EditorCreatedEdit($event)"
+                                          [placeholder]="'marketingManage.addMarketing.activityRule'|translate"
+                                          [styles]="{height:'160px'}"  [(ngModel)]="editorContent" formControlName="ruleText"></quill-editor>
+                        </div>
+
+                        <!-- 支持推送  选择活动标签-->
+                        <!--<div class="activity-des" fxLayout="column">-->
+                            <!--&lt;!&ndash; 支持推送 &ndash;&gt;-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}" class="engine-push">-->
+                                <!--<div fxLayout="row" class="push-flag">-->
+                                    <!--<span>{{'marketingManage.addMarketing.supportPush'|translate}}</span>-->
+                                <!--</div>-->
+                                <!--<mat-radio-group aria-label="Select an option" >-->
+                                    <!--<mat-radio-button class="radio-button-right-margin" value="1" checked [labelPosition]="'before'">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>-->
+                                    <!--<mat-radio-button class="radio-button-right-margin" value="2" [labelPosition]="'before'">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>-->
+                                <!--</mat-radio-group>-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash; 选择活动标签 &ndash;&gt;-->
+                            <!--<div class="activity-lable" fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">-->
+                                <!--<div class="label-title-name" fxLayout="row">-->
+                                    <!--<span>{{'marketingManage.addMarketing.activityLabel'|translate}}</span>-->
+                                <!--</div>-->
+
+                                <!--<div fxLayout="row" class="label-all-content">-->
+                                     <!--<div fxLayout="row" class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="editMarketingTags(tagTemplate)">-->
+                                         <!--<img src="assets/images/cards/insertAndReduce.png">-->
+                                         <!--<span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>-->
+                                     <!--</div>-->
+                                    <!--<div fxLayout="row" fxLayoutAlign="center center" class="label-content mb-16" *ngFor="let marketingTag of marketingTags; let i = index;">-->
+                                        <!--<span class="color-font">{{marketingTag.tagName}}</span><mat-icon class="color-font select-icon" (click)="deleteLabel(i)">cancel</mat-icon>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="content-right" fxLayout="column">
+                <!--一般活动优惠券-->
+                <div fxLayout="column" class="electronic-coupons-content"  fxFlex="0 0 auto" id="normal_ecoupon" *ngIf="currentActivityType==='DEFAULT'">
+                    <div class="coupons-word" fxFlex="0 0 auto" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                        <span >{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxFlex="0 0 auto">
+                        <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple  (click)="openStore(false)">
+                           <!-- <button mat-icon-button (click)="openStore(false)">
+                                <mat-icon>add_circle</mat-icon>
+                            </button>-->
+                            <mat-icon>add_circle</mat-icon>
+                            <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                        </div>
+                        <div  *ngFor="let couponModel of electronicCouponsArray; let i = index;"  fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center" >
+                                <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                                <mat-icon (click)="deleteCoupon(i)"  class="coupon-close-button">highlight_off</mat-icon>
+                            </div>
+                            <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                            <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--分组优惠券-->
+                <div fxLayout="column" id="grouping_ecoupon" *ngIf="currentActivityType==='GROUP'" class="group_coupon_sc">
+                    <!--分组活动的优惠券-->
+
+                    <!-- 券A-->
+                    <div fxLayout="column" class="grouping-electronic-coupons-content " [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxFlex="0 0 auto">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="start center">
+                            <span >{{'marketingManage.addMarketing.eCoupon'|translate}}A{{'marketingManage.addMarketing.group'|translate}}</span>
+                            <mat-radio-group aria-label="Select an option" (change)="changeAOrBStatus($event, 'A')" [value]="groupingAStatus?'true':'false'" >
+                                <mat-radio-button class="radio-button-right-margin" value="false"  [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                <mat-radio-button class="radio-button-right-margin" value="true" [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" fxFlex="0 0 auto">
+                            <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple  (click)="openStore('A')">
+                               <!-- <button mat-icon-button (click)="openStore('A')">
+                                    <mat-icon>add_circle</mat-icon>
+                                </button>-->
+                                <mat-icon>add_circle</mat-icon>
+                                <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                            </div>
+                            <div  *ngFor="let couponModel of groupingACoupons; let i = index;"  fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center" >
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                                    <mat-icon (click)="deleteGroupingCoupon(i,'A')"  class="coupon-close-button">highlight_off</mat-icon>
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 券B -->
+                    <div fxLayout="column" class="grouping-electronic-coupons-content top-border" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxFlex="0 0 auto">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="start center">
+                            <span >{{'marketingManage.addMarketing.eCoupon'|translate}}B{{'marketingManage.addMarketing.group'|translate}}</span>
+                            <mat-radio-group aria-label="Select an option" (change)="changeAOrBStatus($event, 'B')" [value]="groupingBStatus?'true':'false'">
+                                <mat-radio-button class="radio-button-right-margin" value="false"  [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                <mat-radio-button class="radio-button-right-margin" value="true" [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" fxFlex="0 0 auto">
+                            <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple (click)="openStore('B')">
+                            <!--    <button mat-icon-button (click)="openStore('B')">
+                                    <mat-icon>add_circle</mat-icon>
+                                </button>-->
+                                <mat-icon>add_circle</mat-icon>
+                                <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                            </div>
+                            <div  *ngFor="let couponModel of groupingBCoupons; let i = index;"  fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center" >
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                                    <mat-icon (click)="deleteGroupingCoupon(i,'B')"  class="coupon-close-button">highlight_off</mat-icon>
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--新增的组优惠券-->
+                    <div fxLayout="column" class="grouping-electronic-coupons-content top-border" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxFlex="0 0 auto" *ngFor="let item of newAddGroupingCoupons; let i = index;">
+                        <div class="coupons-word" fxLayout="row" fxFlex="0 0 auto" fxLayoutAlign="space-between center">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <span >{{'marketingManage.addMarketing.eCoupon'|translate}}{{groupingCouponsOrders[i]}}{{'marketingManage.addMarketing.group'|translate}}</span>
+                                <mat-radio-group aria-label="Select an option" (change)="changeNewGroupingStatus($event, i)" [value]="newAddGroupingStatus[i]?'true':'false'">
+                                    <mat-radio-button class="radio-button-right-margin" value="false"  [labelPosition]="'before'">{{'marketingManage.addMarketing.singleSelection'|translate}}</mat-radio-button>
+                                    <mat-radio-button class="radio-button-right-margin" value="true" [labelPosition]="'before'">{{'marketingManage.addMarketing.multipleSelection'|translate}}</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <mat-icon  (click)="delete_grouping(i)"  class="grouping-coupon-close-button">delete_forever</mat-icon>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" fxFlex="0 0 auto">
+                            <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple (click)="openStore(i)">
+                               <!-- <button mat-icon-button (click)="openStore(i)">
+                                    <mat-icon>add_circle</mat-icon>
+                                </button>-->
+                                <mat-icon>add_circle</mat-icon>
+                                <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                            </div>
+                            <div  *ngFor="let couponModel of item; let k = index;"  fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                                <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center" >
+                                    <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                                    <mat-icon (click)="deleteGroupingCoupon(k,i)"  class="coupon-close-button">highlight_off</mat-icon>
+                                </div>
+                                <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                                <span>{{'marketingManage.addMarketing.indate'|translate}}：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--新增的组优惠券-->
+
+                    <!--分组活动的优惠券-->
+
+                </div>
+
+
+
+
+                <!--添加组-->
+                <div class="add-groups-coupon" *ngIf="currentActivityType==='GROUP'" fxLayout="row"
+                     fxLayoutAlign="center center" matRipple (click)="add_grouping_coupons()" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                   <!-- <button mat-icon-button (click)="add_grouping_coupons()">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>-->
+                    <mat-icon>add_circle</mat-icon>
+                    <span>{{'marketingManage.addMarketing.addGroup'|translate}}</span>
+                </div>
+
+
+
+                <!-- 积分活动 -->
+                <div class="integral-coupon-content" *ngIf="currentActivityType==='POINT'" fxLayout="column"
+                     fxLayoutAlign="space-around start">
+                    <span class="word-title-des" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">积分兑换电子券</span>
+                    <div class="add-integral-coupon" fxLayout="row" fxLayoutAlign="center center" matRipple
+                         (click)="openIntegralDialog()" *ngIf="electronicCouponsArray.length==0" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                       <!-- <button mat-icon-button (click)="openIntegralDialog()">
+                            <mat-icon>add_circle</mat-icon>
+                        </button>-->
+                        <mat-icon>add_circle</mat-icon>
+                        <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="space-around start" class="integral-ticket"   [@animate]="{value:'*',params:{y:'100%',delay:'350ms',duration:'600ms'}}"
+                         *ngIf="electronicCouponsArray.length > 0">
+                        <div fxLayout="row" class="w-100-p" fxLayoutAlign="space-between center">
+                            <span class="ml-8">券来源：{{integralCoupon?.source=== 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                            <mat-icon class="integral-close-icon" (click)="deleteCoupon(0)"> highlight_off </mat-icon>
+                        </div>
+                        <span class="ml-8">券编码：{{integralCoupon?.source=== 'DEFAULT'? integralCoupon?.number: integralCoupon?.outId}}</span>
+                        <span class="ml-8">券名称：{{integralCoupon?.name}}</span>
+                        <span class="ml-8">有效期：{{integralCoupon.timeBegin|newDateTransform:'/'}}-{{integralCoupon.timeEnd|newDateTransform:'/'}}</span>
+                        <span class="ml-8">兑换积分：{{exchangeIntegral}}</span>
+                    </div>
+                </div>
+
+
+
+
+                <!-- 团购活动 -->
+                <div fxLayout="column" class="electronic-group-buy-coupons-content" fxFlex="0 0 auto"
+                     *ngIf="currentActivityType==='GROUPBUY'">
+                    <div class="coupons-word" fxFlex="0 0 auto" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxLayoutAlign="start center">
+                        <span>{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" class="electronic-coupons-content-add"
+                         fxFlex="0 0 auto">
+                        <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple (click)="openGroupBuyDialog()" style="width:30%; height: 110px; cursor: pointer;">
+                           <!-- <button mat-icon-button (click)="openGroupBuyDialog()">
+                                <mat-icon>add_circle</mat-icon>
+                            </button>-->
+                            <mat-icon>add_circle</mat-icon>
+                            <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                        </div>
+                        <div *ngFor="let couponModel of electronicCouponsArray; let i = index;" fxLayout="column"
+                             class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                                <mat-icon (click)="deleteCouponAndAmount(i)" class="coupon-close-button">
+                                    highlight_off
+                                </mat-icon>
+                            </div>
+                            <!--<span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.outId}}</span>-->
+                            <span>{{'marketingManage.addMarketing.couponId'|translate}}：{{couponModel?.id}}</span>
+                            <span>{{'marketingManage.mCoupons.source'|translate}}：精准营销</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}
+                                ：{{couponModel.timeBegin|newDateTransform:'/'}}
+                                -{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                            <span>{{'marketingManage.addMarketing.value'|translate}}：￥{{couponModel?.amount}}</span>
+                        </div>
+                    </div>
+
+
+
+                    <div fxLayout="column" class="mb-12 mt-12 value-selling-div" [@animate]="{value:'*',params:{y:'100%',delay:'350ms',duration:'600ms'}}">
+                        <span class="value-span mb-12">总价值：{{totalPriceValue}}</span>
+                        <span class="ml-20">总售价：<input class="selling-input" id="sellingInputC" [(ngModel)]="totalSellingPrice" (input)="SellingPriceChange($event)"/></span>
+                    </div>
+
+                    <div class="whether-refund" fxLayout="row" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                        <label class="mr-12">{{'marketingManage.addMarketing.canRefund'|translate}}</label>
+                        <mat-radio-group [(ngModel)]="canRefund">
+                            <mat-radio-button class="mr-20" [value]="true">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>
+                            <mat-radio-button class="right-margin"
+                                              [value]="false">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+
+                </div>
+
+
+                <!-- AR活动-->
+                <div fxLayout="column" class="electronic-coupons-content"  fxFlex="0 0 auto" id="ar_ecoupon" *ngIf="currentActivityType==='AR'">
+                    <div class="coupons-word" fxFlex="0 0 auto" fxLayoutAlign="start center" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                        <span >{{'marketingManage.addMarketing.eCoupon'|translate}}</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="electronic-coupons-content-add" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}" fxFlex="0 0 auto">
+                        <div fxLayout="row" class="add-coupons" fxLayoutAlign="center center" fxFlex="0 0 auto" matRipple  (click)="openStore(false)">
+                            <!-- <button mat-icon-button (click)="openStore(false)">
+                                 <mat-icon>add_circle</mat-icon>
+                             </button>-->
+                            <mat-icon>add_circle</mat-icon>
+                            <span>{{'marketingManage.addMarketing.addTicket'|translate}}</span>
+                        </div>
+                        <div  *ngFor="let couponModel of electronicCouponsArray; let i = index;"  fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start" fxFlex="0 0 auto">
+                            <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center" >
+                                <span>{{'marketingManage.addMarketing.ticketChannel'|translate}}：{{couponModel.source === 'DEFAULT'? '精准营销': '股份会员'}}</span>
+                                <mat-icon (click)="deleteCoupon(i)"  class="coupon-close-button">highlight_off</mat-icon>
+                            </div>
+                            <span>{{'marketingManage.addMarketing.ticketCode'|translate}}：{{couponModel.source === 'DEFAULT'? couponModel.number: couponModel.outId}}</span>
+                            <span>{{'marketingManage.addMarketing.ticketName'|translate}}：{{couponModel.name}}</span>
+                            <span>{{'marketingManage.addMarketing.indate'|translate}}：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="activity-stage" fxFlex="0 0 auto" style="display: none">
+                    <div class="activity-content" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>活动阶段</span>
+                        <button mat-raised-button (click)="add_activity()"   color="accent" ><mat-icon>add_box</mat-icon>添加</button>
+                    </div>
+                </div>
+
+
+                <!--活动阶段界面-->
+                <div *ngIf="false">
+                    <div *ngFor="let activity of activityStageArray; let i =index;" class="activity-coupon"
+                         fxLayout="row" fxFlex="0 0 auto" [hidden]="true">
+                        <div fxLayout="column" class="time-coupon">
+                            <div class="activity-time" fxLayout="row">
+                                <mat-form-field appearance="outline" class="w-30-p activity-input-padding"
+                                                style="margin-left: 5px; margin-right:5px;" fxFlex>
+                                    <mat-label>标题</mat-label>
+                                    <input matInput required (change)="getTitleValue($event,i)"
+                                           value="{{activity.name}}">
+                                    <!-- <mat-error>请输入标题!</mat-error>-->
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-30-p activity-datepicker-padding"
+                                                style="margin-right: 5px" fxFlex>
+                                    <mat-label>开始时间</mat-label>
+                                    <input matInput type="text" ngxDaterangepickerMd
+                                           class="datetimepicker-style form-control"
+                                           [singleDatePicker]="true"
+                                           [timePicker]="true"
+                                           [timePickerSeconds]="true"
+                                           [timePickerIncrement]="1"
+                                           [timePicker24Hour]="true"
+                                           [locale]="{format: 'YYYY/MM/DD HH:mm:ss', firstDay: 1}"
+                                           [drops]="'up'"
+                                           name="beginTime2"
+                                           (change)="getBeginTimeValue($event, i)"
+                                           value="{{activity.beginTime|newDateTransform:'/'}}"
+                                           readonly
+                                    />
+                                    <mat-error>请输入开始时间!</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-30-p activity-datepicker-padding"
+                                                style="margin-right: 5px" fxFlex>
+                                    <mat-label>结束时间</mat-label>
+                                    <input matInput type="text" #endTime ngxDaterangepickerMd
+                                           class="datetimepicker-style form-control"
+                                           [singleDatePicker]="true"
+                                           [timePicker]="true"
+                                           [timePickerSeconds]="true"
+                                           [timePickerIncrement]="1"
+                                           [timePicker24Hour]="true"
+                                           [locale]="{format: 'YYYY/MM/DD HH:mm:ss', firstDay: 1}"
+                                           [drops]="'up'"
+                                           name="endTime2"
+                                           (change)="getEndTimeValue($event, i)"
+                                           value="{{activity.endTime|newDateTransform:'/'}}"
+                                           readonly
+                                    />
+                                    <mat-error>请输入结束时间!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" class="electronic-coupons-content2" fxLayoutAlign="start center"
+                                 fxFlex="0 0 auto">
+                                <span class="coupons-word" fxFlex="0 0 auto">电子券</span>
+
+                                <div *ngFor="let couponModel of activityStagesCouponsArray[i]; let k = index;"
+                                     fxLayout="column" class="content-coupons" fxLayoutAlign="space-around start"
+                                     fxFlex="0 0 auto">
+                                    <div class="coupon-close-div" fxLayout="row" fxLayoutAlign="space-between center">
+                                        <span>券渠道：{{couponModel.source}}</span>
+                                        <!--<mat-icon (click)="deleteCoupon(couponModel.outId)"  class="coupon-close-button">highlight_off</mat-icon>-->
+                                        <!--  && {{activity['coupons'][k][couponModel.outId]}}-->
+                                        <mat-slide-toggle *ngIf="couponModel.remarks === 'test'"
+                                                          checked="true"
+                                                          (change)="changeActivityStatus($event,i,k,couponModel.outId)"
+                                        >
+                                        </mat-slide-toggle>
+                                        <mat-slide-toggle *ngIf="couponModel.remarks !== 'test'"
+                                                          checked="false"
+                                                          (change)="changeActivityStatus($event,i,k,couponModel.outId)"
+                                        >
+                                        </mat-slide-toggle>
+                                    </div>
+                                    <span>券编码：{{couponModel.outId}}</span>
+                                    <span>券名称：{{couponModel.name}}</span>
+                                    <span>有效期：{{couponModel.timeBegin|newDateTransform:'/'}}-{{couponModel.timeEnd|newDateTransform:'/'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-delete" fxFlex fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon (click)="delete_activity(i)" class="activity-coupon-close-button">delete_forever
+                            </mat-icon>
+                        </div>
+
+                    </div>
+                </div>
+                <!--活动阶段界面-->
+
+
+                <!--商场-->
+
+                <ng-container *ngIf="currentActivityType!=='AR'">
+                    <div fxLayout="row" class="mall-div">
+                    <span class="mr-20"
+                          [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">关联商场</span>
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}"
+                             class="mall-all-content">
+                            <div fxLayout="row" class="increace-reduce-button" fxLayout="row"
+                                 fxLayoutAlign="center center" (click)="editMall(mallTemplate)">
+                                <img src="assets/images/cards/insertAndReduce.png">
+                                <span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center" class="label-content mb-16"
+                                 *ngFor="let mall of mallList; let i = index;">
+                                <span class="mr-8 color-font">{{mall.mallName}}</span>
+                                <mat-icon class="color-font select-icon" (click)="deleteMalls(i)">cancel
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="currentActivityType==='AR'">
+
+                    <div fxLayout="row" class="shop-div">
+                        <span class="mr-20" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}"  >
+                            {{'marketingManage.mCoupons.relationShop'|translate}}  <!-- 关联投放店铺 -->
+                        </span>
+                        <div fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}"   class="shop-all-content">
+                            <div fxLayout="row" class="increace-reduce-button-s"
+                                 fxLayoutAlign="center center" (click)="editShop(storeTemplate)">
+                                <img src="assets/images/cards/insertAndReduce.png">
+                                <span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center" class="label-content-s mb-16"
+                                 *ngFor="let store of storeList; let i = index;">
+                                <span class="mr-8 color-font">{{store.storeName}}</span>
+                                <mat-icon class="color-font select-icon" (click)="deleteShop(i)">cancel
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+<!--团购券弹框-->
+
+<ng-template #groupBuyDialog class="integral-dialog-template">
+    <div mat-dialog-title class="dialog-manage-title">
+        <div><span class="title_dialog_">添加券</span></div>
+        <div>
+            <button mat-icon-button mat-dialog-close class="btu_dialog_">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <mat-dialog-content class="px-0" fxLayout="column" fxLayoutAlign="center start ">
+        <mat-form-field style="margin-left: 20px; padding-bottom: 10px">
+            <mat-label>{{'airport.edit.search'|translate}}</mat-label>
+            <input matInput [(ngModel)]="inputValue" (input)="resetStores($event)"
+                   (keyup.enter)="onGroupBuyStoreSearch()">
+        </mat-form-field>
+        <div class="content-coupon-word" fxLayout="row">
+            <div class="coupon-dialog">
+                <!--  [selectionType]="'single'"-->
+                <ngx-datatable
+                        fxFlexFill class="material"
+                        [selectionType]="'single'"
+                        [messages]="{emptyMessage:'airport.message.listEmpty'|translate,
+                                    selectedMessage:'airport.history.selected'|translate,
+                                    totalMessage:'airport.history.rowCount'|translate}"
+                        [selected]="selectStores"
+                        [columns]="groupBuyCouponColumns"
+                        [footerHeight]="50"
+                        [count]="page.count"
+                        [externalPaging]="inputValue===''"
+                        [offset]="page.page"
+                        [limit]="page.size"
+                        [externalSorting]="true"
+                        [rowHeight]="40"
+                        [rows]="coupons"
+                        (select)="onSelect()"
+                        (page)="onPage($event , 'COUPON_OF_GOODS')"
+                >
+                    <ngx-datatable-column [name]="'airport.store.no'|translate">
+                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                            <span>{{coupons.indexOf(row) + 1 + page.page * page.size}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column *ngFor="let column of groupBuyCouponColumns" [name]="column.name"
+                                          [canAutoResize]="true" [width]="groupBuyColumnWith"
+                    >
+                        <ng-template let-column="column" let-sort="sortFn"
+                                     ngx-datatable-header-template>
+                            <span style="cursor: pointer;"
+                                  (click)="sort()">{{'marketingManage.mCoupons.' + column.name|translate}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <!--日期-->
+
+                            <ng-container
+                                    *ngIf="column.name.toLowerCase().indexOf('date')!==-1||column.name.toLowerCase().indexOf('time')!==-1">
+                                    <span class="text-ellipsis user-select" [matTooltip]="value|newDateTransform:'/'"
+                                          [matTooltipPosition]="'above'">
+                                        {{value|newDateTransform:'/'}}
+                                    </span>
+                            </ng-container>
+
+                            <ng-container
+                                    *ngIf="column.name === 'canGift'||column.name === 'canReturn'">
+                                    <span class="text-ellipsis user-select" [matTooltip]="(value?'yes':'no')|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{(value ? 'yes' : 'no')|translate}}
+                                    </span>
+                            </ng-container>
+                            <ng-container
+                                    *ngIf="column.name === 'rule'">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate}}
+                                    </span>
+                            </ng-container>
+
+                            <!-- 其他直接显示-->
+                            <ng-container *ngIf="column.name.toLowerCase().indexOf('date')===-1&&column.name.toLowerCase().indexOf('time')===-1
+                    && column.name!=='canGift'&& column.name!=='canReturn'&&column.name !== 'rule'">
+                                <span [matTooltip]="value" matTooltipPosition="above">{{value}}</span>
+                            </ng-container>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+            <div class="integral-coupon-add-content" fxLayout="column" fxLayoutAlign="space-around end">
+                <div class="integral-coupon-add">
+                    <div class="coupon-detail-des" fxLayout="column" fxLayoutAlign="space-around start">
+                        <span>{{'marketingManage.mCoupons.value'|translate}}：￥{{groupBuyCoupon?.amount}}</span>
+                        <!--<span>{{'marketingManage.mCoupons.source'|translate}}：精准营销</span>-->
+                        <span>{{'marketingManage.mCoupons.id'|translate}}：{{groupBuyCoupon?.id}}</span>
+                        <span>{{'marketingManage.mCoupons.name'|translate}}：{{groupBuyCoupon?.name}}</span>
+                        <span>{{'marketingManage.addMarketing.indate'|translate}}
+                            ：{{groupBuyCoupon?.timeBegin|newDateTransform:'/'}}
+                            -{{groupBuyCoupon?.timeEnd|newDateTransform:'/'}}</span>
+                    </div>
+                    <!--<div class="exchange-group-buy" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="mr-20">{{'marketingManage.addMarketing.priceAmount'|translate}}:
+                            &lt;!&ndash;<span style="color: red;"></span></span>&ndash;&gt;
+                        <input matInput [(ngModel)]="priceAmount" required/>元
+                        </span>
+                    </div>
+                    <div class="amount-select" fxLayout="row" fxLayoutAlign="start center">
+                        <label class="right-margin">{{'marketingManage.addMarketing.canRefund'|translate}}</label>
+                        <mat-radio-group [(ngModel)]="canRefund">
+                            <mat-radio-button class="right-margin" value="true"
+                                              [checked]="true">{{'marketingManage.addMarketing.yes'|translate}}</mat-radio-button>
+                            <mat-radio-button class="right-margin"
+                                              value="false">{{'marketingManage.addMarketing.no'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>-->
+                </div>
+                <div class="button-select">
+                    <button mat-raised-button class="btu-bottom" color="accent"
+                            [disabled]="selectStores.length<=0"
+                            [mat-dialog-close]="true">
+                        <mat-icon style="color: #fff">check</mat-icon>
+                        <span style="color:#fff">{{'dialog.ensure'|translate}}</span>
+                    </button>
+                    <button mat-raised-button class="btu-bottom" color="accent" [mat-dialog-close]="false">
+                        <mat-icon style="color: #fff">close</mat-icon>
+                        <span style="color:#fff">{{'dialog.cancel'|translate}}</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </mat-dialog-content>
+</ng-template>
+
+
+<ng-template #LableDialog>
+    <div mat-dialog-title class="dialog-manage-title">
+        <div><span class="title_dialog_">{{'marketingManage.addMarketing.selectLabel'|translate}}</span></div>
+        <div><button  mat-icon-button 	 mat-dialog-close class="btu_dialog_"><mat-icon>clear</mat-icon></button></div>
+    </div>
+    <mat-dialog-content>
+        <div class="all-content"></div>
+    </mat-dialog-content>
+    <button>dddd</button>
+</ng-template>
+
+<ng-template #corresponding>
+    <h2 mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">{{'marketingManage.addMarketing.addTicket'|translate}}
+
+         <mat-form-field>
+             <mat-label>{{'airport.edit.search'|translate}}</mat-label>
+             <input matInput [(ngModel)]="inputValue" (input)="resetStores($event)" (keyup.enter)="onStoreSearch()">
+         </mat-form-field>
+    </h2>
+    <mat-dialog-content class="px-0" fxLayout="column" fxLayoutAlign="start center">
+        <ngx-datatable
+                fxFlexFill class="material"
+                [messages]="{emptyMessage:'airport.message.listEmpty'|translate,
+                                    selectedMessage:'airport.history.selected'|translate,
+                                    totalMessage:'airport.history.rowCount'|translate}"
+                [selectionType]="'multiClick'"
+                [selectionType]="'single'"
+                [selected]="selectStores"
+                [columns]="storeColumns"
+                [footerHeight]="50"
+                [count]="page.count"
+                [externalPaging]="inputValue===''"
+                [offset]="page.page"
+                [limit]="page.size"
+                [externalSorting]="true"
+                [rowHeight]="40"
+                [rows]="coupons"
+                (select)="onSelect()"
+                (page)="onPage($event)"
+        >
+            <ngx-datatable-column [name]="'airport.store.no'|translate">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <span>{{coupons.indexOf(row)+1+page.page*page.size}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column *ngFor="let column of storeColumns" [name]="column.name" [width]="mCouponColumnWidth"
+            >
+                <ng-template let-column="column" let-sort="sortFn"
+                             ngx-datatable-header-template>
+                    <span style="cursor: pointer;" (click)="sort()">{{'marketingManage.mCoupons.'+column.name|translate}}</span>
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span [matTooltip]="value" matTooltipPosition="above" >{{value}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [disabled]="selectStores.length > 0 ? false:true" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!--上传的窗口-->
+<ng-template #uploadImgDloag >
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title"><span class="title_dialog_">{{'marketingManage.addMarketing.activityImage'|translate}}</span></div>
+            <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{activityImgName}}" >
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg" class="up_input" (change)="CouponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">{{'marketingManage.addMarketing.imageHints'|translate}}</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section" >
+                            <ng-container *ngIf="notUploading===false">
+                                <mat-progress-bar
+                                        class="example-margin"
+                                        color="accent"
+                                        mode="determinate"
+                                        [value]="progressLoad"
+                                >
+                                </mat-progress-bar>
+                            </ng-container>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+                <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+
+<!--上传预览的窗口-->
+<ng-template #previewImgDloag >
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+         fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p"  *ngIf="!imgPreLoading">
+                <img *ngIf="imgSrc" [src]="imgSrc"  class="w-100-p h-100-p">
+            </div>
+            <mat-spinner color="accent" *ngIf="imgPreLoading"
+                           mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>
+
+<!--营销标签页面-->
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [tagType]="'ACTIVITY'"  [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                  (dataSelect)="onSelectTags($event)"></app-merchants-tag-management>
+
+</ng-template>
+
+<!--关联商场-->
+<ng-template #mallTemplate>
+    <app-mall-list (dataSelect)="onSelectMalls($event)" [createFlag]="false" [checkbox]="true"  [overPanel]="true"
+                   [selectedRows]="selectedMalls"></app-mall-list>
+</ng-template>
+
+<!--积分活动优惠券弹窗-->
+<ng-template #integralDialog class="integral-dialog-template">
+    <div mat-dialog-title class="dialog-manage-title">
+        <div><span class="title_dialog_">添加券</span></div>
+        <div>
+            <button mat-icon-button mat-dialog-close class="btu_dialog_">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <mat-dialog-content class="px-0" fxLayout="column" fxLayoutAlign="center start ">
+        <mat-form-field style="margin-left: 20px; padding-bottom: 10px">
+            <mat-label>{{'airport.edit.search'|translate}}</mat-label>
+            <input matInput [(ngModel)]="inputValue" (input)="resetStores($event)" (keyup.enter)="onStoreSearch()">
+        </mat-form-field>
+        <div class="content-coupon-word" fxLayout="row">
+            <div class="coupon-dialog">
+                <!--  [selectionType]="'single'"-->
+                <ngx-datatable
+                        fxFlexFill class="material"
+                        [selectionType]="'single'"
+                        [messages]="{emptyMessage:'airport.message.listEmpty'|translate,
+                                    selectedMessage:'airport.history.selected'|translate,
+                                    totalMessage:'airport.history.rowCount'|translate}"
+                        [selected]="selectStores"
+                        [columns]="integralCouponColumns"
+                        [footerHeight]="50"
+                        [count]="page.count"
+                        [externalPaging]="inputValue===''"
+                        [offset]="page.page"
+                        [limit]="page.size"
+                        [externalSorting]="true"
+                        [rowHeight]="40"
+                        [rows]="coupons"
+                        (select)="onSelect()"
+                        (page)="onPage($event)"
+                >
+                    <ngx-datatable-column [name]="'airport.store.no'|translate">
+                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                            <span>{{coupons.indexOf(row) + 1 + page.page * page.size}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column *ngFor="let column of integralCouponColumns" [name]="column.name"
+                                          [canAutoResize]="true" [width]="integralColumnWith"
+                    >
+                        <ng-template let-column="column" let-sort="sortFn"
+                                     ngx-datatable-header-template>
+                            <span style="cursor: pointer;"
+                                  (click)="sort()">{{'marketingManage.mCoupons.' + column.name|translate}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <!--日期-->
+
+                            <ng-container
+                                    *ngIf="column.name.toLowerCase().indexOf('date')!==-1||column.name.toLowerCase().indexOf('time')!==-1">
+                                    <span class="text-ellipsis user-select" [matTooltip]="value|newDateTransform:'/'"
+                                          [matTooltipPosition]="'above'">
+                                        {{value|newDateTransform:'/'}}
+                                    </span>
+                            </ng-container>
+
+                            <ng-container
+                                    *ngIf="column.name === 'canGift'||column.name === 'canReturn'">
+                                    <span class="text-ellipsis user-select" [matTooltip]="(value?'yes':'no')|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{(value ? 'yes' : 'no')|translate}}
+                                    </span>
+                            </ng-container>
+                            <ng-container
+                                    *ngIf="column.name === 'rule'">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate"
+                                          [matTooltipPosition]="'above'">
+                                        {{'ElectronicVoucherManagement.SelectFULL_BREAK_DISCOUNT'|translate}}
+                                    </span>
+                            </ng-container>
+
+                            <ng-container
+                                    *ngIf="column.name === 'source'">
+                                    <span class="text-ellipsis user-select"
+                                          [matTooltip]="value === 'DEFAULT'? TYPE_DEFAULT: TYPE_BCIA_TT_CRM"
+                                          [matTooltipPosition]="'above'">
+                                        {{value === 'DEFAULT'? TYPE_DEFAULT: TYPE_BCIA_TT_CRM}}
+                                    </span>
+                            </ng-container>
+
+                            <!-- 其他直接显示-->
+                            <ng-container *ngIf="column.name.toLowerCase().indexOf('date')===-1&&column.name.toLowerCase().indexOf('time')===-1
+                    && column.name!=='canGift'&& column.name!=='canReturn'&&column.name !== 'rule'&&column.name !== 'source'" >
+                                <span [matTooltip]="value" matTooltipPosition="above">{{value}}</span>
+                            </ng-container>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+            <div class="integral-coupon-add-content" fxLayout="column" fxLayoutAlign="space-around end">
+                <div class="integral-coupon-add">
+                    <div class="coupon-detail-des" fxLayout="column" fxLayoutAlign="space-around start">
+                        <span>{{'marketingManage.mCoupons.source'|translate}}：{{integralCoupon?.source=== 'DEFAULT'? '精准营销': (integralCoupon?.source=== 'BCIA_TT_CRM_30'?'股份会员': '')}}</span>
+                        <span>{{'marketingManage.mCoupons.outId'|translate}}：{{integralCoupon?.source=== 'DEFAULT'? integralCoupon?.number: integralCoupon?.outId}}</span>
+                        <span>{{'marketingManage.mCoupons.name'|translate}}：{{integralCoupon?.name}}</span>
+                        <span>{{'marketingManage.addMarketing.indate'|translate}}
+                            ：{{integralCoupon?.timeBegin|newDateTransform:'/'}}
+                            -{{integralCoupon?.timeEnd|newDateTransform:'/'}}</span>
+                    </div>
+                    <!--<div class="amount-select" fxLayout="row" fxLayoutAlign="start center">
+                        <label class="right-margin">{{'marketingManage.addMarketing.exchangeAmount'|translate}}</label>
+                        <mat-radio-group>
+                            <mat-radio-button class="right-margin" value="auto"
+                                              [checked]="true">{{'marketingManage.addMarketing.onlyOne'|translate}}</mat-radio-button>
+                            <mat-radio-button class="right-margin"
+                                              value="always">{{'marketingManage.addMarketing.oneDaily'|translate}}</mat-radio-button>
+                            <mat-radio-button class="right-margin"
+                                              value="never">{{'marketingManage.addMarketing.unlimitedNumber'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>-->
+                    <div class="exchange-integral" fxLayout="row" fxLayoutAlign="start center">
+                        <span class="mr-20">{{'marketingManage.addMarketing.exchangeIntegral'|translate}}<span
+                                style="color: red;">*</span></span>
+                        <input required [(ngModel)]="exchangeIntegral" (input)="setIntegralValue($event)"/>
+                    </div>
+                    <div class="other-integral-content" fxLayout="column">
+                        <span class="other-integral-title">{{'marketingManage.addMarketing.otherChannelIntegral'|translate}}</span>
+                        <div class="other-integral-input-list" fxLayout="column"
+                             *ngFor="let item of otherExchangeIntegral; let i = index;">
+                            <div class="other-integral-input" fxLayout="row">
+                                <mat-form-field appearance="outline" class="input-field" (click)="openPointList(PointSupplier , i)">
+                                    <mat-label>{{'marketingManage.addMarketing.channelName'|translate}}</mat-label>
+                                    <input matInput value="{{item.channel}}" autocomplete="off">
+                                    <mat-error>{{'marketingManage.addMarketing.ATypeHints'|translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" class="w-40-p" style="font-size: 14px;">
+                                    <mat-label>{{'marketingManage.addMarketing.exchangeIntegral'|translate}}</mat-label>
+                                    <input matInput (input)="inputIntegral(i, $event)"
+                                           [(ngModel)]=" otherExchangeIntegral[i]['integral']" [autocomplete]="false">
+                                </mat-form-field>
+                                <button mat-icon-button color="accent">
+                                    <mat-icon (click)="addOtherIntegral(i)">add_circle</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" [disabled]="otherExchangeIntegral.length<=1">
+                                    <mat-icon (click)="deleteOtherIntegral(i)">delete_forever</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="button-select">
+                    <button mat-raised-button class="btu-bottom" color="accent"
+                            [disabled]="selectStores.length<=0 || exchangeIntegral == null || exchangeIntegral == undefined  || exchangeIntegral == '' ||
+                            otherExchangeIntegral[0].integral == null || otherExchangeIntegral[0].integral == undefined || otherExchangeIntegral[0].integral == ''  || otherExchangeIntegral[0].pointID == -1"
+                            (click)="closeIntegralDef()"> <!--  [mat-dialog-close]="true" -->
+                        <mat-icon style="color: #fff">check</mat-icon>
+                        <span style="color:#fff">{{'dialog.ensure'|translate}}</span>
+                    </button>
+                    <button mat-raised-button class="btu-bottom" color="accent" [mat-dialog-close]="false">
+                        <mat-icon style="color: #fff">close</mat-icon>
+                        <span style="color:#fff">{{'dialog.cancel'|translate}}</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </mat-dialog-content>
+</ng-template>
+
+<!-- 驳回原因-->
+<ng-template #checkDialog>
+    <div fxLayout="column" class="check-dialog-content" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div class="dialog-title" fxLayout="row" fxLayoutAlign="space-between center" cdkDragHandle>
+            <span class="ml-20" style="color: #fff;">驳回原因</span>
+            <div class="mr-20">
+                <button mat-icon-button mat-dialog-close>
+                    <mat-icon style="color: #fff;">clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="div-content p-20">
+            <textarea placeholder="请描述驳回原因,内容不超过200字" id="rejectReason"></textarea>
+        </div>
+        <div fxLayout="row-reverse" class="button-reject mr-20" fxLayoutAlign="start center">
+            <button mat-raised-button fxLaout="row" fxLayoutAlign="center center" mat-dialog-close (click)="reviewed('no')"><span style="color:#fff;">驳回</span>
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 预览模板 -->
+<ng-template #preAc>
+    <app-activity-pre-common [AcPre]="AcPreData"></app-activity-pre-common>
+</ng-template>
+
+<!-- 打开积分供应商列表-->
+<ng-template #PointSupplier>
+    <app-members-list  [overPanel]="true" [singleSelect]="true"  [memberId]="'BCIA'"
+                       [selectedRow]="pointSelect" (dataSelect)="selectPoint($event)"> </app-members-list>
+</ng-template>
+
+<!-- 关联 商户 -->
+<ng-template #storeTemplate>
+    <app-store-manage (dataSelect)="onSelectShop($event)" [overPanel]="true" [createButton]="false"  [selectedFiled]="'storeNo'"
+                      [selectedRows]="selectedShops" [checkbox]="true"></app-store-manage>
+</ng-template>

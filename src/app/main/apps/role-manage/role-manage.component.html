@@ -1,0 +1,6 @@
+<app-table-list [title]="'角色管理'" [rows]="rows" (search)="onSearch()" [hasDetail]="true"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="createButton"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                (create)="create()" [selectedRows]="selectedRows" [overPanel]="overPanel" [checkbox]="checkbox"
+                (dataSelect)="onDataSelect($event)">
+</app-table-list>

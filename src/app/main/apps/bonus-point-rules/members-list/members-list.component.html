@@ -1,0 +1,11 @@
+<app-table-list [title]="'BonusPointUnion.MembersList.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                [selectedRows]="selectedRows"  [checkbox]="checkbox"  [overPanel]="overPanel"
+                (dataSelect)="onSelect($event)"   [singleSelect]="singleSelect" [selectedRow]="selectedRow"
+>
+</app-table-list>
+
+<ng-template #MembersListDetailDialog>
+    <app-member-tempalte [M_ID]="MemberID"></app-member-tempalte>
+</ng-template>

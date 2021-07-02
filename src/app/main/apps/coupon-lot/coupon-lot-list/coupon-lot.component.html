@@ -1,0 +1,6 @@
+<app-table-list [title]="'ElectronicVoucherManagement.CouponLot.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (searchClear)="clearSearch()"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (navigateDetail)="getDetail($event)"
+>
+</app-table-list>
+<!--  [createButton]="true" (create)="CreateLot()" -->

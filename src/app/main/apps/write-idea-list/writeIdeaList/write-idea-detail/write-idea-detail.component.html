@@ -1,0 +1,259 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/WriteIdeaList'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="write-idea-btu-class" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+
+                <!-- 保存  取消 -->
+                <ng-container *ngIf="editButShow === true">
+                    <button mat-raised-button class="btu-bottom" color="accent" (click)="editSave()"
+                            [disabled]="btuDis">
+                        <mat-icon>save</mat-icon>
+                        {{'merchants.dataDetail.save'|translate}}
+                    </button>
+                    <button mat-raised-button class="btu-bottom" color="accent" (click)="cancelEditForm()" [disabled]="btuDis">
+                        <mat-icon>clear</mat-icon>
+                        {{'merchants.dataDetail.cancel'|translate}}
+                    </button>
+
+                </ng-container>
+
+                <!-- 编辑  返回-->
+                <ng-container *ngIf="editButShow === false">
+                    <button mat-raised-button class="btu-bottom" color="accent" (click)="editForm()"
+                            [disabled]="btuDis">
+                        <mat-icon>save</mat-icon>
+                        {{'merchants.dataDetail.edit'|translate}}
+                    </button>
+
+                    <button mat-raised-button class="btu-bottom" color="accent" (click)="goBack()" [disabled]="btuDis">
+                        <mat-icon>reply</mat-icon>
+                        {{'merchants.dataDetail.return'|translate}}
+                    </button>
+
+                </ng-container>
+
+
+
+            </div>
+       </div>
+        <div class="write-idea-detail-all-flex">
+            <form class="write-idea-detail-all-form" [formGroup]="writeIdeaForm">
+                <div class="idea-detail-flex-left">
+                    <div class="idea-detail-left-flex">
+
+                        <!-- 评论对象、评论人-->
+                        <div fxLayout="row"  fxLayoutAlign="space-between end"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="idea-left-part1">
+
+                            <div fxLayout="column" fxLayoutAlign="end center" class="idea-left-part1-ch">
+                                <div fxLayout="row"  fxLayoutAlign="start center"  class="idea-left-part1-ch-title">
+                                    <!-- 评论对象 -->
+                                    <span class="part1-font">{{'PuSentiment.list.CommentObject' |translate}}</span>
+                                </div>
+                                <!-- 类型是商户-->
+                                <ng-container *ngIf="sysPra.type === type_store">
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-con">
+                                        <img src="assets/images/cards/writeIdea1.png" class="idea-left-part1-ch-con-bgImg">
+                                        <div  fxLayout="row" fxLayoutAlign="center center"  class="idea-left-part1-ch-card">
+                                            <div fxLayout="row" fxLayoutAlign="end center" class="idea-left-part1-ch-card-img">
+                                                <img src="{{store?.logo}}" class="idea-left-part1-ch-card-brand-img">
+                                            </div>
+                                            <div fxLayout="column" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text pt-8">
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <span class="part1-font2">{{store?.storeName}}</span> <!--商户名称  例如： 麦当劳-->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <div fxLayout="row" fxLayoutAlign="start center" class="score-text">
+                                                        <span class="part1-font2">{{'PuSentiment.list.score' |translate}}：{{sysPra?.starRating | number:'1.1-2'}}</span> <!--评分-->
+                                                    </div>
+                                                    <div fxLayout="row" fxLayoutAlign="start center" class="score-start">
+                                                        <app-star-rating [starRating]="sysPra?.starRating" [readonly]="true" (RatingNumber)="getRatingNumber($event)">
+                                                        </app-star-rating>
+                                                    </div>
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <span class="part1-font2">{{'PuSentiment.list.address' |translate}}：{{store?.terminalName}}{{store?.floor}}</span><!-- 地址 -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <!-- 类型是文章-->
+                                <ng-container *ngIf="sysPra.type === type_article">
+
+                                    <div fxLayout="row" fxLayoutAlign="start center"  class="idea-left-part1-ch-con">
+                                        <img src="assets/images/cards/writeIdea1.png" class="idea-left-part1-ch-con-bgImg">
+                                        <div  fxLayout="row" fxLayoutAlign="end center"  class="idea-left-part1-ch-card">
+
+                                            <div fxLayout="column" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text pt-8">
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <span class="part1-font2">{{'PuSentiment.list.articleTitle' |translate}}: {{article?.articleTitle}}</span> <!--标题-->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <span class="part1-font2">{{'PuSentiment.list.articleReadTime' |translate}}: {{article?.articleReadTime}}</span> <!--阅读-->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text1">
+                                                    <span class="part1-font2">{{'PuSentiment.list.commentNum' |translate}}: {{commentNum}}</span> <!--评论-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+
+                            <!-- 会员信息 -->
+                            <div fxLayout="column" fxLayoutAlign="end center" class="idea-left-part1-ch">
+                                <div fxLayout="row" fxLayoutAlign="start center" class="idea-left-part1-ch-con">
+                                    <img src="assets/images/cards/writeIdea1.png" class="idea-left-part1-ch-con-bgImg">
+                                    <div  fxLayout="row" fxLayoutAlign="center center"  class="idea-left-part1-ch-card">
+                                        <div fxLayout="row" fxLayoutAlign="end center" class="idea-left-part1-ch-card-img">
+                                            <img src="{{number?.avatar}}" class="idea-left-part1-ch-card-brand-img"><!-- avatar   assets/images/cards/imgDe.png-->
+                                        </div>
+                                        <div fxLayout="column" fxLayoutAlign="center center" class="idea-left-part1-ch-card-text pt-8">
+                                            <div fxLayout="column" fxLayoutAlign="start center" class="idea-left-part1-ch-card-text2">
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="ch-card-ch">
+                                                    <span class="part1-font2">{{'PuSentiment.list.mobile' |translate}}：{{number?.mobile}}</span><!-- 手机号-->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="ch-card-ch">
+                                                    <span class="part1-font2">{{'PuSentiment.list.numberName' |translate}}：{{number?.name}}</span> <!-- 昵称-->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="ch-card-ch">
+                                                    <span class="part1-font2">{{'PuSentiment.list.numberCreatedDate' |translate}}：{{number?.createdDate}}</span> <!-- 注册时间 -->
+                                                </div>
+                                                <div fxLayout="row" fxLayoutAlign="start center" class="ch-card-ch">
+                                                    <span class="part1-font2">{{'PuSentiment.list.numberLevel' |translate}}：{{number?.level}}</span><!-- 会员等级-->
+                                                </div>
+                                            </div>
+                                            <div fxLayout="row" fxLayoutAlign="end start" class="idea-left-part1-ch-card-text3 pr-12">
+                                                    <a (click)="goToNumberDetail($event , number?.id)">{{'PuSentiment.list.openDetail' |translate}}</a> <!-- 查看详情 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 评论内容-->
+                        <div fxLayout="row"  fxLayoutAlign="center center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="idea-left-part2">
+                            <div fxLayout="row"  fxLayoutAlign="center center" class="idea-left-part2-des">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.commentContent' |translate}}</mat-label> <!-- 评论内容 -->
+                                    <textarea matInput mat-autosize="false" autocomplete="off" formControlName="comment"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 图片 -->
+                        <div fxLayout="row"  fxLayoutAlign="center center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="idea-left-part3">
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="idea-left-part3-img">
+                                <ng-container *ngFor="let url of sysPra?.imgSrcSource">
+                                    <div fxLayout="row"  fxLayoutAlign="center center" class="idea-img-w-h">
+                                        <img src="{{url.srcUrl}}" class="idea-left-part3-img-w-h">
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                        <!-- 打分  评论时间-->
+                        <div fxLayout="row"  fxLayoutAlign="center end"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}"  class="idea-left-part4">
+                            <div fxLayout="row"  fxLayoutAlign="space-between baseline" class="idea-left-part4-ch pt-12  normal-form-fields">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.grade' |translate}}</mat-label><!-- 打分 -->
+                                    <input  matInput autocomplete="off" formControlName="score" oninput="value=value.replace(/[^\d^\.]+/g,'')"
+                                            (blur)="scoreChange()" (input)="scoreChange()">
+                                </mat-form-field>
+                                <!-- 评论时间 -->
+                                <app-material-date-picker #WriteTime class="write-date-picker"
+                                                          [config]="configTime" [floatLabel]="'always'"
+                                                          [label]="'PuSentiment.list.time' |translate"
+                                                          [timeControl]="writeIdeaForm.get('time')"
+                                >
+                                </app-material-date-picker>
+                            </div>
+                        </div>
+
+                        <!-- 状态  置顶-->
+                        <div fxLayout="row"  fxLayoutAlign="center start"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"  class="idea-left-part4">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="idea-left-part4-ch idea-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.enabled' |translate}}</mat-label><!--状态-->
+                                    <mat-select formControlName="enabled">
+                                        <mat-option *ngFor="let d of sysPra?.enabledSource" [value]="d.id" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.overhead' |translate}}</mat-label><!-- 置顶 -->
+                                    <mat-select formControlName="overhead">
+                                        <mat-option *ngFor="let d of sysPra?.PlaceTopSource" [value]="d.id" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 点赞数-->
+                        <div fxLayout="row"  fxLayoutAlign="center start"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'850ms',duration:'600ms'}}"  class="idea-left-part4">
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="idea-left-part4-ch idea-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.giveCounts' |translate}}</mat-label><!-- 点赞数 -->
+                                    <input  matInput autocomplete="off"  formControlName="giveCounts"  oninput="value=value.replace(/[^\d]/g,'')" >
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 修改人  修改时间-->
+                        <div fxLayout="row"  fxLayoutAlign="center start"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'950ms',duration:'600ms'}}"  class="idea-left-part4">
+                            <div fxLayout="row"  fxLayoutAlign="space-between center" class="idea-left-part4-ch idea-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.lastModifiedBy' |translate}}</mat-label><!-- 修改人-->
+                                    <input  matInput autocomplete="off"  formControlName="lastModifiedBy">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.lastModifiedDate' |translate}}</mat-label><!-- 修改时间-->
+                                    <input  matInput autocomplete="off" formControlName="lastModifiedDate" >
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="idea-detail-flex-right">
+                    <div class="idea-detail-right-flex">
+                        <div  fxLayout="column"  fxLayoutAlign="center center"
+                              [@animate]="{value:'*',params:{y:'100%',delay:'750ms',duration:'600ms'}}"  class="idea-right-part">
+                            <div fxLayout="row"  fxLayoutAlign="start center" class="idea-right-part-title">
+                                 <span  class="part1-font"> {{'PuSentiment.list.reply' |translate}} </span> <!-- 回复 -->
+                            </div>
+                            <div fxLayout="row"  fxLayoutAlign="center start"  class="idea-right-part-reply">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.list.reply' |translate}}</mat-label> <!-- 回复 -->
+                                    <textarea matInput mat-autosize="false" autocomplete="off"   value="" formControlName="reply"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

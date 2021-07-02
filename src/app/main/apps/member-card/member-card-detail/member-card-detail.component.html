@@ -1,0 +1,149 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+
+
+    <!-- CENTER -->
+    <div class="center">
+        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div class="subtitle secondary-text">
+                    <span>{{pageTitle}}</span>
+                </div>
+            </div>
+            <ng-container *ngIf="pageFlag==='detail'">
+                <div fxLayout="row">
+                    <button class="mr-20" (click)="onEdit()" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="detailEditButton" fxLayout="row"><span style="color:#fff">编辑</span></button>
+                    <button [routerLink]="['/apps/memberCard']" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="detailBackButton" fxLayout="row"><span style="color:#fff">返回</span></button>
+                </div>
+
+            </ng-container>
+            <ng-container *ngIf="pageFlag==='edit'">
+                <div fxLayout="row">
+                    <button (click)="onUpdate()" class="mr-20" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="saveButton" fxLayout="row"><span style="color:#fff">保存</span></button>
+                    <button (click)="onCancel()" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="cancelButton" fxLayout="row"><span style="color:#fff">取消</span></button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="pageFlag==='create'">
+                <div fxLayout="row">
+                    <button (click)="onSave()" class="mr-20"  fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="createSaveButton" fxLayout="row"><span style="color:#fff">保存</span></button>
+                    <button [routerLink]="['/apps/memberCard']" fxLayout="row" fxLayoutAlign="center center" mat-raised-button id="createCancelButton" fxLayout="row"><span style="color:#fff">取消</span></button>
+                </div>
+
+            </ng-container>
+        </div>
+        <!-- CONTENT -->
+        <div class="content" fxLayout="row">
+            <div class="content-left" fxLayout="column">
+                <form fxLayout="column" class="w-100-p h-100-p" [formGroup]="settingInfoForm">
+                    <div fxLayout="row" class="content-input" *ngIf="pageFlag==='detail'">
+                        <mat-form-field appearance="outline" class="w-50-p mr-20">
+                            <mat-label>会员卡编号</mat-label>
+                            <input matInput formControlName="vipCode">
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" class="content-input">
+                        <mat-form-field appearance="outline" class="w-50-p mr-20">
+                            <mat-label>会员卡名称</mat-label>
+                            <mat-select formControlName="vipName">
+                                <ng-container *ngFor="let item of initialMemberLevelData;">
+                                    <mat-option [value]=item.id >{{item.levelName}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                            <mat-error>请输入会员卡名称</mat-error>
+                        </mat-form-field>
+                    </div>
+                   <!-- <div fxLayout="row" class="content-input">
+                        <span class="mr-20" style="margin-top:10px;">获取条件</span>
+                        <mat-form-field appearance="outline" class="w-30-p mr-24">
+                            <mat-select formControlName="condition">
+                                <mat-option value="1" >成长值</mat-option>
+                                <mat-option value="2" >购买</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <input class="growth-input mr-8" formControlName="startValue" [readOnly]="readonlyFlag">
+                        <div fxLayout="row" style="margin-top:10px;">
+                            <span class="mr-8"><span class="mr-4">≤</span>成长值<span class="ml-4">≤</span></span>
+                        </div>
+                        <input class="growth-input" formControlName="endValue" [readOnly]="readonlyFlag">
+                    </div>-->
+                    <div fxLayout="row" class="content-input">
+                        <span class="mr-48 name-title" >卡样</span>
+                        <ng-container *ngIf="!imgSrc && pageFlag!='detail'">
+                            <div fxLayout="row" fxLayoutAlign="start end">
+                                <div fxLayout="row" fxLayoutAlign="center center" class="card-model mr-8" (click)="openUploadImgDialog(uploadImgDloag)">
+                                    <mat-icon style="color: #62B3DF">cloud_upload</mat-icon>
+                                    <span style="color: #62B3DF">添加卡片</span>
+                                </div>
+                                <span class="card-des" fxLayout="row">上传图片比例为650×360px,大小不得超过1M,支持JPG,PNG,SVG文件</span>
+                            </div>
+                        </ng-container>
+
+                        <img *ngIf="!imgSrc && pageFlag==='detail'"  class="card-photo" >
+                        <img *ngIf="imgSrc" (click)="openUploadImgDialog(uploadImgDloag)" class="card-photo" [src]="imgSrc">
+
+                    </div>
+                    <div fxLayout="column" class="mt-16">
+                        <span class="mb-4">权益说明</span>
+                        <quill-editor [modules]="quillConfigMember"  (onEditorCreated)="EditorCreatedMember($event)" [placeholder]="'请输入内容'"
+                                      [styles]="{height:'150px'}"  [(ngModel)]="editorContent" [ngModelOptions]="{standalone: true}" [readOnly]="readonlyFlag"></quill-editor>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+
+<ng-template #uploadImgDloag >
+    <div mat-dialog-title class="dialog-manage-title_tips">
+        <div class="img-title"><span class="title_dialog_">卡样图片</span></div>
+        <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+    </div>
+    <mat-dialog-content>
+        <div class="MatDialogFrozenClass_tips">
+            <div class="MatDialogFrozenClass1">
+                <div class="up_input_load">
+                    <div class="file-path">
+                        <input type="text" value="{{activityImgName}}" >
+                    </div>
+                    <div class="file-upLoad-btu">
+                        <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                        <input type="file" value="" accept=".jpg,.png,.svg" class="up_input" (change)="CouponImgUpload($event)">
+                    </div>
+                </div>
+                <div class="tips_color_w_h">
+                    <span class="tips-color">上传图片比例为650×360px,大小不得超过1M,支持JPG,PNG,SVG文件</span>
+                </div>
+                <div class="Progress-Bar">
+                    <section class="example-section" >
+                        <ng-container *ngIf="notUploading===false">
+                            <mat-progress-bar
+                                    class="example-margin"
+                                    color="accent"
+                                    mode="determinate"
+                                    [value]="progressLoad"
+                            >
+                            </mat-progress-bar>
+                        </ng-container>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="btu_dialog_Frozen_tips">
+            <button mat-raised-button color="accent"  (click)="onUploadImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+            <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+        </div>
+    </mat-dialog-content>
+</ng-template>

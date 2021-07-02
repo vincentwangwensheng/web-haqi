@@ -1,0 +1,530 @@
+@import "src/@fuse/scss/fuse";
+
+.content{
+  /*width: 100%;
+  height: 100%;*/
+  display: flex;
+  // padding-bottom: 20px;
+  justify-content: space-between;
+  height: 88%;
+  @include media-breakpoint('lt-md'){
+    height: auto;
+  }
+  .content-left{
+    overflow-y: auto;
+    width: 49%;
+    height: 100%;
+    border:1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      margin-bottom: 20px;
+      height: auto;
+    }
+    .content-input{
+      width:100%;
+      ::ng-deep {
+        .mat-form-field-appearance-outline .mat-form-field-flex {
+          height: 50px;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-wrapper{
+          margin:0;
+        }
+      }
+    }
+    .div-logo-img{
+
+      .upload-logo {
+        cursor: pointer;
+        width: 72px;
+        height: 72px;
+        border: 1px dashed #5DA2D1;
+        border-radius: 6px;
+        background-color: #F5FEFF;
+        position: relative;
+        .up-logo-icon {
+          position: absolute;
+        }
+        .up-logo-in-icon {
+          .up-logo-input {
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            padding: 0px;
+          }
+          .up-icon-close {
+            z-index: 10;
+            position: absolute;
+          }
+        }
+
+        span {
+          color: #3DA5E7;
+        }
+
+        .mat-sp-logo {
+          width: 50px !important;
+          height: 50px !important;
+          ::ng-deep{
+             svg{
+              width: 50px !important;
+              height: 50px !important;
+            }
+          }
+
+        }
+      }
+
+    }
+    .brand-label{
+      width:100%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      .label-all-content{
+        width: 100%;
+        flex-wrap: wrap;
+        .increace-reduce-button{
+          margin-right: 10px;
+          cursor: pointer;
+          width:90px;
+          height:24px;
+          background-color: #2392D6;
+          //border: 1px dashed #2392D6;
+          border-radius: 6px;
+          img{
+            width:14px;
+            height:14px;
+            margin-right: 5px;
+          }
+        }
+        .label-data-div{
+          background-color: #ECF7FD;
+          border: 1px dashed #298DF8;
+          border-radius: 4px;
+          padding: 0 10px;
+          .font-color{
+            color: #72a6de;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  .content-right{
+    width: 49%;
+    height: 100%;
+    border:1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+   // max-height: 79vh;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .brand-photo-div{
+       flex-wrap: wrap;
+      .brand-photo{
+        cursor: pointer;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        width: 169px;
+        height:129px;
+        //flex-wrap: wrap;
+        border: 1px dashed #5DA2D1;
+        border-radius: 6px;
+        background-color: #F5FEFF;
+        span{
+          color:#3DA5E7;
+        }
+
+      }
+      .brand-image{
+        position: relative;
+        img{
+          margin-right: 20px;
+          margin-bottom: 20px;
+          width: 169px;
+          height:129px;
+          border-radius: 6px;
+        }
+        mat-icon{
+          position: absolute;
+          right: 20px;
+          cursor: pointer;
+        }
+      }
+      .brand-new-up{
+        border-radius: 6px;
+        border: 1px dashed #5DA2D1;
+        background-color: #F5FEFF;
+      }
+      .imgRealBrand{
+        cursor: pointer;
+        width: 169px;
+        height: 129px;
+        border: 1px dashed #5DA2D1;
+        border-radius: 6px;
+        background-color: #F5FEFF;
+        position: relative;
+        span{
+          color:#3DA5E7;
+        }
+        .upMatIcon{
+          position: absolute;
+        }
+        .up-del-class{
+          .upInPut{
+            cursor: pointer;
+            width: 169px;
+            height: 129px;
+            opacity: 0;
+            padding: 0px;
+            position: relative;
+          }
+          .upImgClose{
+            z-index: 10;
+            position: absolute;
+          }
+        }
+
+      }
+
+
+    }
+
+  }
+}
+
+.brand-form-h{
+  height: 100%;
+  max-height: 81vh;
+  @include media-breakpoint('lt-md') {
+    height: auto;
+    max-height: none;
+  }
+}
+
+// 上传文件与预览文件部分
+::ng-deep {
+  #uploadLogoDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 72.5%;
+    }
+  }
+
+  #uploadBrandDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 72.5%;
+    }
+  }
+
+  #previewImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  #MemberTagDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #FormLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #StroeLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+}
+
+.dialog-manage-title_tips{
+  display: flex;
+  width: 100%;
+  height: 18%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.dialog-manage-title_tips_img_preview{
+  display: flex;
+  width: 100%;
+  height: 7%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+.MatDialogFrozenClass_tips{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70%;
+  .MatDialogFrozenClass1{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    .up_input_load{
+      width: 80%;
+      margin-left: 10%;
+      border-radius: 10px;
+      border: 1px solid #CCCCCC;
+      display: flex;
+      justify-content: space-between;
+      height: 4.5rem;
+      align-items: center;
+      .file-path{
+        width: 70%;
+        padding: 0px;
+        height: 100%;
+        input {
+          border: none;
+          padding: 0px;
+          border-radius: 10px;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .file-upLoad-btu{
+        width: 27%;
+        height: 100%;
+        margin-right: 2%;
+        display: flex;
+        position: relative;
+        align-items: flex-end;
+        justify-content: flex-start;
+        align-items: center;
+        .up_input{
+          position: relative;
+          cursor: pointer;
+          width: 100%;
+          height: 80%;
+          opacity: 0;
+        }
+        .btu-file-up{
+          position: absolute;
+          width: 100%;
+          height: 80%;
+        }
+
+      }
+    }
+    .tips_color_w_h{
+      display: flex;
+      width: 80%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .tips-color{
+        font-size: 10px;
+        color: #2295db;
+      }
+    }
+    .Progress-Bar{
+      display: flex;
+      width: 80%;
+      height: 30%;
+      margin-left: 10%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .example-section{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        .example-margin{
+          margin: 0 10px;
+        }
+      }
+    }
+
+  }
+  img{
+    width: 500px;
+    height: 500px;
+  }
+}
+.btu_dialog_Frozen_tips{
+  display: flex;
+  margin-left: 47.6%;
+  width: 42%;
+  border-radius: 15px;
+  justify-content: space-between;
+  button{
+    width: 46%;
+  }
+}
+
+.MatDialogImgPreview_tips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 460px;
+    height: 460px;
+  }
+}
+
+::ng-deep{
+  #integralDialogId{
+    padding: 0!important;
+  }
+}
+.content-coupon-word{
+  width:100%;
+  height:100%;
+  .coupon-dialog{
+    margin-right:20px;
+    width: 55%;
+    height: 90%;
+  }
+  .integral-coupon-add-content{
+    width: 45%;
+    height: 100%;
+    margin-right:20px;
+    .integral-coupon-add{
+      overflow-y: auto;
+      width:100%;
+      height:90%;
+      border: 1px dashed #ccc;
+      .coupon-detail-des{
+        width:calc(100% - 20px);
+        height:30%;
+        margin: 10px;
+        background: #EBF7FF;
+        font-size:12px;
+      }
+      .amount-select{
+        width:calc(100% - 10px);
+        height:10%;
+        margin-left:10px;
+        margin-bottom: 10px;
+        font-size:12px;
+        .right-margin{
+          margin-right: 20px;
+          font-size: 12px;
+        }
+      }
+      .exchange-integral{
+        width:calc(100% - 20px);
+        height:35px;
+        margin-left:10px;
+        margin-right: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        font-size:12px;
+        input{
+          width:40%;
+          height:100%;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
+      .other-integral-content{
+        width:100%;
+        height: calc(60% - 75px);
+        margin-top:10px;
+        .other-integral-title{
+          margin-left:10px;
+          font-size: 12px;
+          margin-bottom:15px;
+        }
+        .other-integral-input-list{
+          .other-integral-input{
+            .input-field{
+              width: 40%;
+              margin-right: 5px;
+              margin-left: 10px;
+              font-size: 14px;
+            }
+            ::ng-deep {
+              .mat-form-field-appearance-outline .mat-form-field-flex {
+                height: 35px;
+              }
+              /*  .mat-form-field.mat-form-field-type-mat-select .mat-form-field-infix{
+                  border-top-width: 0;
+                }*/
+              .mat-form-field-appearance-outline .mat-form-field-wrapper{
+                padding-bottom: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .button-select{
+      margin-top:20px;
+      .btu-bottom{
+        margin-right:20px;
+      }
+    }
+  }
+
+}
+

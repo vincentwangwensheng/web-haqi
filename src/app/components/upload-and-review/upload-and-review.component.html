@@ -1,0 +1,84 @@
+<div class="w-50-p" fxLayout="row" fxLayoutAlign="flex-start center">
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="activity-photo">
+        <div fxFlex="16" fxLayout="row">
+            <span>{{title}}</span>
+        </div>
+        <div class="ready-upload-part">
+            <div class="up-input-btu">
+                <button mat-raised-button color="accent"
+                        (click)="openUploadImgDiloag(uploadImgDloag)" class="up-input-btu-btu"
+                        ngDefaultControl>
+                    <img src="assets/images/cards/upLoad.png">上传
+                </button>
+            </div>
+            <div class="preview-img">
+                <button [disabled]="!uploadFile.previewImgStatus" mat-raised-button
+                        (click)="openPreviewDilog(previewImgDloag)" class="preview-up-input-btu-btu"
+                        ngDefaultControl>
+                    <mat-icon color="accent">insert_photo</mat-icon>
+                    <span class="span-accent-color">预览</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传的窗口-->
+<ng-template #uploadImgDloag>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="uploadImageClass">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title">
+                <span class="title_dialog_">{{title}}</span>
+            </div>
+            <div class="img-close">
+                <button mat-icon-button mat-dialog-close>
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{uploadFile.imgName}}">
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button color="accent" class="btu-file-up">添加文件</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg"
+                                   class="up_input" (change)="couponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">图片格式为jpg，png，gif，文件大小不大于1MB，尺寸690x300px</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section">
+                            <ng-container *ngIf="uploadFile.uploading===true">
+                                <mat-progress-bar class="example-margin" color="accent" mode="determinate"
+                                                  [value]="uploadFile.progressLoad"></mat-progress-bar>
+                            </ng-container>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent" (click)="onUploadImg()" [disabled]="uploadFile.uploadStatus">
+                    上传
+                </button>
+                <button mat-raised-button color="accent" mat-dialog-close [disabled]="uploadFile.finishStatus">完成
+                </button>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+<!--上传预览的窗口-->
+<ng-template #previewImgDloag>
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+         fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p" *ngIf="!uploadFile.imgPreLoading">
+            <img *ngIf="uploadFile.imgSrc" [src]="uploadFile.imgSrc" class="w-100-p h-100-p">
+        </div>
+        <mat-spinner color="accent" *ngIf="uploadFile.imgPreLoading" mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>

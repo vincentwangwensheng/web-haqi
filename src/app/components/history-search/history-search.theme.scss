@@ -1,0 +1,88 @@
+@mixin history-search($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $is-dark: map-get($theme, is-dark);
+  %light-box-shadow {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+  %dark-box-shadow {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  }
+  %theme-color {
+    color: mat-color($accent, 600);
+  }
+
+  // 历史搜索自动补全
+  .history-search {
+    overflow: hidden;
+    // css方式隐藏选项 如果是ngIf ngFor来操作会触发autoComplete的隐藏
+    .delete-option {
+      display: none !important;
+    }
+    // 选项高度
+    .mat-option {
+      height: 40px !important;
+    }
+    // 快捷键选中
+    .mat-option.mat-active {
+      @extend %theme-color;
+      background: inherit !important;
+    }
+    @extend %light-box-shadow;
+    border-radius: 5px;
+    // 搜索历史 和删除所有
+    & > div:nth-child(1) {
+      &:hover {
+        span:nth-child(2) {
+          transition: opacity 0.5s;
+          opacity: 1;
+        }
+      }
+      height: 40px;
+      span:nth-child(1) {
+        cursor: default;
+      }
+      span:nth-child(2) {
+        transition: opacity 0.5s;
+        opacity: 0;
+        &:hover {
+          cursor: pointer;
+          @extend %theme-color;
+        }
+      }
+    }
+    // 循环的选项
+    & > div:nth-child(2) {
+      overflow: auto;
+      max-height: 216px;
+      & > div {
+        border-radius: 5px;
+        &:hover {
+          @extend %dark-box-shadow;
+          span:nth-child(2) {
+            transition: opacity 0.5s;
+            opacity: 1;
+          }
+        }
+        mat-option:hover {
+          background: inherit;
+        }
+        span:nth-child(1) {
+          height: 40px
+        }
+        span:nth-child(2) {
+          margin-right: 16px;
+          opacity: 0;
+          transition: opacity 0.5s;
+          &:hover {
+            cursor: pointer;
+            @extend %theme-color;
+          }
+        }
+      }
+    }
+  }
+}

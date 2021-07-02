@@ -1,0 +1,52 @@
+
+
+.max-h{
+  max-height: 40vh;
+}
+
+.two_but{
+  min-height: 70px;
+}
+
+.but-color1{
+
+  button{
+    width: 88px;
+    background-color: #6BD5FF;
+    color: #ffffff;
+  }
+}
+
+.but-color2{
+  button{
+    width: 88px;
+    background-color: #FF8888;
+    color: #ffffff;
+  }
+}
+
+.but-color3{
+  button{
+    width: 88px;
+    background-color: #4EAE57;
+    color: #ffffff;
+  }
+}
+
+.green-button-w{
+  width: 88px;
+}
+
+.tips_img{
+  width: 100px;
+  height: 100px;
+}
+::ng-deep{
+  .mat-pseudo-checkbox-checked:after {
+    width: 8px !important;
+    height: 3px !important;
+  }
+  .mat-pseudo-checkbox-checked{
+    background-color: #039BE5 !important;
+  }
+}

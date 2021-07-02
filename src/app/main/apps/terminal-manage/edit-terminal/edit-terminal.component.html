@@ -1,0 +1,216 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button *ngIf="editFlag===0||editFlag===2" mat-stroked-button [disabled]="onSaving||onSvgLoading"
+                        (click)="onSaveClick()"
+                        class="save-button">保存
+                </button>
+                <button *ngIf="editFlag===1" mat-stroked-button [disabled]="onSaving||onSvgLoading" (click)="showEdit()"
+                        class="save-button">编辑
+                </button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <div [formGroup]="terminalGroup" id="terminalForm" fusePerfectScrollbar class="left-content normal-form-fields"
+         fxLayout="column"
+         fxLayoutAlign="start start" fxFlexFill>
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}" class="w-100-p"
+             fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <app-auto-select class="w-48-p" [label]="'商场编号'" [selectControl]="terminalGroup.get('mallId')"
+                             [filterOptions]="filterMallById"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场编号不存在！'" [showField]="'mallId'"
+                             (selectionChange)="onSelectionChange($event,'mallName','mallName')"
+                             [secondaryField]="'mallName'" [requiredMsg]="'商场编号不能为空！'"
+            ></app-auto-select>
+            <app-auto-select class="w-48-p" [label]="'商场名称'" [selectControl]="terminalGroup.get('mallName')"
+                             [filterOptions]="filterMallByName"
+                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                             [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId','mallId')"
+                             [requiredMsg]="'商场名称不能为空！'"
+            ></app-auto-select>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>街区名称</mat-label>
+                <input matInput autocomplete="off" formControlName="terminalName">
+                <mat-error *ngIf="terminalGroup.get('terminalName').hasError('required')">
+                    <span>街区名称不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>楼层</mat-label>
+                <input matInput autocomplete="off" readonly formControlName="floors">
+            </mat-form-field>
+            <mat-form-field class="text-area w-100-p" appearance="outline">
+                <mat-label>简介</mat-label>
+                <textarea matInput cdkTextareaAutosize
+                          formControlName="desc"
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="3"
+                          cdkAutosizeMaxRows="6"></textarea>
+            </mat-form-field>
+        </div>
+        <div (drop)="onFileDrop($event)" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"
+             class="w-100-p terminal-upload"
+             fxLayout="column" fxLayoutAlign="start start">
+            <mat-divider class="w-100-p mb-24" style="position: relative"></mat-divider>
+            <span class="font-size-17 font-weight-600">街区楼层</span>
+            <div class="w-100-p"
+                 fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+                <div *ngIf="uploadSVGs.length>0" class="w-100-p my-8  secondary-text font-size-13" fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                    <span fxLayout="row" fxLayoutAlign="space-around center" class="w-10-p">序号</span>
+                    <span fxLayout="row" fxLayoutAlign="center center" class="w-30-p pl-24">预览<span
+                            class="font-size-12 secondary-text">(拖动以排序)</span></span>
+                    <span fxLayout="row" fxLayoutAlign="center center" class="w-20-p">文件名<span
+                            class="font-size-12 secondary-text">(街区代号-楼层)</span></span>
+                    <span class="w-35-p pl-12">楼层名称<span class="font-size-12 secondary-text">(低层到高层)</span></span>
+                </div>
+                <div cdkDropList (cdkDropListDropped)="sortList($event)" class="w-100-p sort-list">
+                    <div cdkDrag [cdkDragDisabled]="editFlag===1" *ngFor="let item of uploadSVGs;let i=index"
+                         [@animate]="{value:'*',params:{y:'50%',delay:100*i+'ms',duration:'600ms'}}"
+                         class="edit-upload svg-preview pl-24 my-4">
+                        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+                          <span class="w-10-p" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                                fxLayout="row" fxLayoutAlign="start center"
+                                matTooltipPosition="above">{{i + 1}}</span>
+                            <img class="w-30-p" [src]="item.imgUrl?item.imgUrl:''">
+                            <ng-container *ngIf="item.imgUrl">
+                                <img *cdkDragPreview [src]="item.imgUrl">
+                            </ng-container>
+                            <span [ngStyle]="{'color':editFlag===1?'#aaaaaa':'initial'}" fxLayout="row"
+                                  fxLayoutAlign="start center"
+                                  class="text-ellipsis w-20-p">{{item.name}}</span>
+                            <input matInput autocomplete="off" class="normal-input w-20-p h-32" [value]="item.editableName?item.editableName:''"
+                                   (input)="onFloorNameInput($event,item)">
+                            <button matTooltip="上传地图" mat-icon-button
+                                    [ngStyle]="{'visibility':editFlag===1?'hidden':'visible'}"
+                                    [disabled]="onMapLoading||onSvgSaving||editFlag===1"
+                                    (click)="uploadFilePreviewTrigger(uploadFilePreviewSingle)">
+                                <mat-icon>cloud_upload</mat-icon>
+                            </button>
+                            <input #uploadFilePreviewSingle [accept]="['.svg']" type="file" hidden
+                                   (change)="getFilePreview($event,i)"/>
+                            <button mat-icon-button matTooltip="删除楼层"
+                                    [ngStyle]="{'visibility':editFlag===1?'hidden':'visible'}"
+                                    [disabled]="onMapLoading||onSvgSaving||editFlag===1"
+                                    (click)="deleteUploadSVG(item,i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100-p mt-40" *ngIf="onSvgLoading" fxLayout="row" fxLayoutAlign="space-around center">
+                    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+                </div>
+                <button class="mt-20" *ngIf="!onSvgLoading" mat-raised-button color="accent" fxFlexAlign="center"
+                        [ngClass]="{'button-disabled':editFlag===1}" (click)="addFloor()" [disabled]="editFlag===1">新增
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<input #uploadFilePreview multiple [accept]="['.svg','.zip']" type="file" hidden
+       (change)="getFilePreview($event)"/>
+<ng-template #rightContent>
+    <div [@animate]="{value:'*',params:{x:'100%',delay:'300ms',duration:'300ms'}}"
+         *ngIf="!onSvgLoading&&uploadMaps.length>0"
+         class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="font-size-16 font-weight-600">地图预览</span>
+        <div fxLayout="row" fxLayoutAlign="start center">
+        </div>
+    </div>
+    <div class="right-content" id="rightMap"
+         fxLayout="column-reverse" fxLayoutAlign="start start" fxFlexFill>
+        <div id="tMap" fxLayout="column" fxLayoutAlign="start start">
+            <ng-container *ngFor="let item of uploadMaps;let i =index">
+                <div [@animate]="{value:'*',params:{y:'100%',delay:200*i+'ms',duration:'500ms'}}" [id]="item.id"
+                     [ngClass]="{'rotating-animation':animationOn}" class="w-100-p svg-content">
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<!--更新SVG弹框-->
+<ng-template #update>
+    <h2 mat-dialog-title>系统提示</h2>
+    <div class="update-title px-8 mb-16" fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="h4 font-weight-600">
+                    街区地图更新信息如下：
+                </span>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <span class="add-block px-4"></span><span
+                    class="px-4 mr-16">增加</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <span class="disabled-block px-4"></span><span
+                    class="px-4">停用</span>
+            </div>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+            <div class="update-content" fxLayout="column" fxLayoutAlign="start center">
+                <div>
+                    <div class="content" fxLayout="row wrap"
+                         [fxLayoutAlign]="mapChanges&&mapChanges.length>0?'start center':'center center'">
+                        <ng-container *ngFor="let floor of mapChanges;let i=index">
+                            <span [ngClass]="{'add-word':floor.add,'disabled-word':floor.delete}">{{floor.id}}{{(i === mapChanges.length - 1) ? '' : '、'}}</span>
+                        </ng-container>
+                        <span *ngIf="mapChanges&&mapChanges.length===0" class="add-word">地图无更新内容！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,125 @@
+<div class="page-layout carded fullwidth inner-scroll" *ngIf="!responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+<div class="page-layout carded fullwidth" *ngIf="responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<ng-template #content>
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <div>
+                <h2 class="m-0">新建分群</h2>
+            </div>
+            <div>
+                <button mat-raised-button class="btu-bottom" color="accent" (click)="toSave()" [disabled]="!isCanSave">
+                    <mat-icon>save</mat-icon>保存
+                </button>&nbsp;&nbsp;&nbsp;
+                <button mat-raised-button color="accent" (click)="goBack()">
+                    <span class="iconfont iconback mat-icon-12 mr-8"></span>
+                    <span>返回</span>
+                </button>
+            </div>
+        </div>
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card *ngIf="!responsive" fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start"  class="left-panel">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <mat-card *ngIf="responsive" fxLayout="column" fxLayoutAlign="start start" class="left-panel">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--左边内容-->
+            <ng-template #leftContent>
+                <div class="left-title">分群规则</div>
+                <div [formGroup]="baseForm" class="w-100-p" fxLayout="row wrap" fxLayoutAlign="space-between start">
+                    <mat-form-field class="w-48-p" appearance="outline" style="height:65px;">
+                        <mat-label>分群名称</mat-label>
+                        <input matInput formControlName="categoryName">
+                        <mat-error *ngIf="baseForm.get('categoryName').hasError('required')">
+                            <span>分群名称不能为空！</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-48-p" appearance="outline" style="height:65px;">
+                        <mat-label>分群描述</mat-label>
+                        <input matInput formControlName="categoryDescribe">
+                        <mat-error *ngIf="baseForm.get('categoryDescribe').hasError('required')">
+                            <span>分群描述不能为空！</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <app-auto-select class="w-48-p" [label]="'商场编号'" [selectControl]="baseForm.get('mallId')"
+                                     [filterOptions]="filterMallById"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场编号不存在！'" [showField]="'mallId'"
+                                     (selectionChange)="onSelectionChange($event,'mallName','mallName')"
+                                     [secondaryField]="'mallName'" [requiredMsg]="'商场编号不能为空！'"></app-auto-select>
+                    <app-auto-select class="w-48-p" [label]="'商场名称'" [selectControl]="baseForm.get('mallName')"
+                                     [filterOptions]="filterMallByName"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                                     [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId','mallId')"
+                                     [requiredMsg]="'商场名称不能为空！'"></app-auto-select>
+                </div>
+                <div class="group-rule">
+                    <div class="group-rule-item" *ngFor="let item of relations;let i=index">
+                        <div class="group-item-delete">
+                            <div>
+                                <mat-icon (click)="removeCard(i)" class="add-button">remove_circle</mat-icon>
+                            </div>
+                        </div>
+                        <div class="group-item-relation">
+                            <div>
+                                <mat-form-field appearance="outline" id="relationChecked">
+                                    <mat-select [(value)]="item['relationType']">
+                                        <mat-option value="AND">与</mat-option>
+                                        <mat-option value="OR">或</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="group-item-tags">
+                            <mat-chip-list>
+                               <button mat-raised-button style="background-color: #039BE5;color: white;" class="tag-button" (click)="editTag(i, tagTemplate)">
+                                   <span class="iconfont iconedit mr-4"></span>添加标签
+                               </button>
+                               <mat-chip class="tag-chip" *ngFor="let tag of item['relationValue'];let j=index" [selectable]="true" [removable]="true" (removed)="remove(i, j)">
+                                   {{tag.tagName?tag.tagName:tag.name}}<mat-icon matChipRemove>cancel</mat-icon>
+                               </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                    </div>
+                </div>
+                <div class="group-rule-add">
+                    <div class="group-rule-add-button">
+                        <span>
+                            <mat-icon (click)="addCard()" class="add-button group-rule-add-icon">add_circle</mat-icon>
+                        </span>
+                        <span>添加规则</span>
+                    </div>
+                    <div>
+                        <button mat-raised-button class="refresh-member" (click)="refreshMember()">
+                            刷新成员
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+            <!--右边内容-->
+            <div fxLayout="column" fxLayoutAlign="start start" class="right-panel" fxLayoutGap="18px">
+                <mat-card fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <span class="font-size-13 detail-info">成员列表</span>
+                        </div>
+                    </div>
+                    <app-table-list [noScrollPaging]="responsive" [overPanel]="true" [stick]="true" [rows]="rows"
+                                    [columns]="columns" [page]="page"  (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                                    (searchClear)="onSearch()" (search)="onSearch()"></app-table-list>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [tagType]="''"  [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                  (dataSelect)="onSelect($event)"></app-merchants-tag-management>
+</ng-template>

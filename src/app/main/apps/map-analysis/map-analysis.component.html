@@ -1,0 +1,581 @@
+<div class="page-layout carded right-sidebar inner-scroll absolute-container" (window:resize)="onResize()">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- 单元号操作 -->
+    <fuse-sidebar class="sidebar" name="carded-right-sidebar-2" position="right"
+                  [lockedOpen]="'gt-md'">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="sidebar-header accent" fxLayout="column" fxLayoutAlign="end center">
+            <app-history-search #historySearch [historyKey]="historyKey" [showSearch]="pathList.length>0"
+                                (searchChange)="onSearchPath($event)"
+                                (optionSelected)="optionSelect($event)" (inputReset)="resetSearchPath()"
+            ></app-history-search>
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content p-4">
+            <div *ngIf="!mapLoading" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 fxFlexFill fxLayout="column" fxLayoutAlign="start center">
+                <div class="w-100-p" fxLayout="column" fxLayoutAlign="start start"
+                     *ngFor="let item of filterBTypePathList">
+                    <div *ngIf="item.pathList.length>0" class="w-100-p h-40" fxLayout="row"
+                         fxLayoutAlign="space-between center">
+                        <div class="px-12" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                            <span class="rect-block mr-12" [ngStyle]="{'background':item.color}"></span>
+                            <span class="font-size-15 font-weight-600"
+                                  [ngStyle]="{'color':item.color}">{{item.name}}</span>
+                            <span>({{item.pathList.length}})</span>
+                        </div>
+                        <button class="dark-box-shadow-hover" *ngIf="item.pathList.length>0" mat-icon-button
+                                (click)="item.folded=!item.folded">
+                            <mat-icon *ngIf="item.folded">keyboard_arrow_up</mat-icon>
+                            <mat-icon *ngIf="!item.folded">keyboard_arrow_down</mat-icon>
+                        </button>
+                    </div>
+                    <cdk-virtual-scroll-viewport itemSize="50" class="search-buttons w-100-p"
+                                                 [ngStyle]="{'height':(item.pathList.length>=5?5:item.pathList.length)*50+'px','min-height':(item.pathList.length>=5?5:item.pathList.length)*50+'px'}"
+                                                 @fadeInOut *ngIf="!item.folded&&item.pathList.length>0">
+                        <ng-container *cdkVirtualFor="let path of item.pathList">
+                            <button mat-button [ngClass]="{'search-selected':path.selected}"
+                                    (click)="enterMapByPath(path)">
+                                <div class="button-div" fxLayout="row" fxLayoutAlign="space-around center">
+                                    <span *ngIf="path.storeName">{{path.storeName}}</span>
+                                    <span class="font-size-12">{{path.areaNo}}</span>
+                                </div>
+                            </button>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+                <ng-container *ngIf="filterNoTypeList.pathList.length>0">
+                    <div class="w-100-p h-40" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="px-12" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                            <span class="rect-block mr-12" [ngStyle]="{'background':filterNoTypeList.color}"></span>
+                            <span class="font-size-15 font-weight-600" [ngStyle]="{'color':filterNoTypeList.color}">{{filterNoTypeList.name|translate}}</span>
+                            <span>({{filterNoTypeList.pathList.length}})</span>
+                        </div>
+                        <button class="dark-box-shadow-hover" mat-icon-button
+                                (click)="filterNoTypeList.folded=!filterNoTypeList.folded">
+                            <mat-icon *ngIf="filterNoTypeList.folded">keyboard_arrow_up</mat-icon>
+                            <mat-icon *ngIf="!filterNoTypeList.folded">keyboard_arrow_down</mat-icon>
+                        </button>
+                    </div>
+                    <cdk-virtual-scroll-viewport itemSize="50"
+                                                 [ngStyle]="{'height':(filterNoTypeList.pathList.length>=5?5:filterNoTypeList.pathList.length)*50+'px','min-height':(filterNoTypeList.pathList.length>=5?5:filterNoTypeList.pathList.length)*50+'px'}"
+                                                 class="search-buttons my-8 w-100-p" @fadeInOut
+                                                 *ngIf="!filterNoTypeList.folded">
+                        <ng-container *cdkVirtualFor="let path of filterNoTypeList.pathList">
+                            <button mat-button [ngClass]="{'search-selected':path.selected}"
+                                    (click)="enterMapByPath(path)">
+                                <div class="button-div" fxLayout="row" fxLayoutAlign="space-around center">
+                                    <span class="w-50-p text-ellipsis" *ngIf="path.storeName">{{path.storeName}}</span>
+                                    <span class="w-50-p font-size-12">{{path.areaNo}}</span>
+                                </div>
+                            </button>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </ng-container>
+            </div>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center ml-24">
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="start center">
+            <h2 class="m-0">地图数据分析</h2>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <!--切换统一商场下的街区-->
+            <!--<div *ngIf="!mapSelected&&!editShow&&terminals.length>1"-->
+            <!--[@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'500ms'}}"-->
+            <!--class="terminal-buttons p-8" fxLayout="row" fxLayoutAlign="space-between center">-->
+            <!--<button id="left-terminal" mat-icon-button (click)="changeTerminal('left')">-->
+            <!--<mat-icon matTooltip="{{'airport.changeTerminal'|translate}}" matTooltipPosition="right">-->
+            <!--chevron_left-->
+            <!--</mat-icon>-->
+            <!--</button>-->
+            <!--<button id="right-terminal" mat-icon-button (click)="changeTerminal('right')">-->
+            <!--<mat-icon matTooltip="{{'airport.changeTerminal'|translate}}" matTooltipPosition="left">-->
+            <!--chevron_right-->
+            <!--</mat-icon>-->
+            <!--</button>-->
+            <!--</div>-->
+
+            <!--选择楼层-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'500ms'}}"
+                 *ngIf="terminalOn" class="floor-buttons"
+                 fxLayout="column-reverse"
+                 fxLayoutAlign="start start">
+                <ng-container>
+                    <button [@animate]="{value:'*',params:{y:'100%',delay:200*i+'ms',duration:'300ms'}}" mat-button
+                            [ngClass]="{'floor-selected':floor.selected}" (click)="selectFloor(i)"
+                            *ngFor="let floor of floors;let i=index">{{floor.name}}
+                    </button>
+                </ng-container>
+            </div>
+
+            <!--keyboards-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" class="shortcut-keys p-16"
+                 fxLayout="row" fxLayoutAlign="start center" *ngIf="terminalOn">
+                <button mat-icon-button (click)="showShortcutKeys(keyboard)">
+                    <mat-icon matTooltip="{{'airport.shortcutKeys.title'|translate}}" matTooltipPosition="above">
+                        help_outline
+                    </mat-icon>
+                </button>
+                <ng-template #keyboard>
+                    <table class="keyboard w-100-p">
+                        <tr>
+                            <td colspan="2">
+                                {{'airport.shortcutKeys.title'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.share">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="h2">
+                                {{'airport.shortcutKeys.all'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.all">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="h2">
+                                {{'airport.shortcutKeys.map'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.map">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                    </table>
+
+                    <!--<div fxLayout="column" fxLayoutAlign="start center">-->
+                    <!--<div class="h1">{{'airport.shortcutKeys.title'|translate}}</div>-->
+                    <!--<div class="h2">{{'airport.shortcutKeys.all'|translate}}</div>-->
+                    <!--<div *ngFor="let key of shortcutKeys.all" fxLayout="row" fxLayoutAlign="space-between center">-->
+                    <!--<div>{{key.shortcut}}</div>-->
+                    <!--<div>{{key.keyboard}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="h2">{{'airport.shortcutKeys.map'|translate}}</div>-->
+                    <!--<div *ngFor="let key of shortcutKeys.map" fxLayout="row" fxLayoutAlign="space-between center">-->
+                    <!--<div>{{key.shortcut}}</div>-->
+                    <!--<div>{{key.keyboard}}</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </ng-template>
+            </div>
+
+            <!--上下楼层-->
+            <div @slideInRightSlow
+                 *ngIf="mapSelected"
+                 class="upDown-buttons p-16" fxLayout="column" fxLayoutAlign="start center">
+                <button id="upFloor" mat-icon-button (click)="changeSelectedFloor('up')">
+                    <mat-icon matTooltip="{{'airport.upFloor'|translate}}" matTooltipPosition="left">expand_less
+                    </mat-icon>
+                </button>
+                <button id="returnAll" mat-icon-button (click)="returnAll()">
+                    <mat-icon matTooltip="{{'airport.home'|translate}}" matTooltipPosition="left">home</mat-icon>
+                </button>
+                <button id="downFloor" mat-icon-button (click)="changeSelectedFloor('down')">
+                    <mat-icon matTooltip="{{'airport.downFloor'|translate}}" matTooltipPosition="left">expand_more
+                    </mat-icon>
+                </button>
+            </div>
+            <!--操作面板-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 [ngClass]="{'hide-navigation':slideOnOff}" (mouseenter)="onMouseEnterLeave($event)"
+                 (mouseleave)="onMouseEnterLeave($event)" *ngIf="mapSelected" class="nav-buttons p-16"
+                 fxLayout="column" fxLayoutAlign="start center">
+                <div id="nav-1" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start center">
+                    <button id="zoomOut" mat-icon-button (click)="mapZoom('out')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.out'|translate}}"
+                                  matTooltipPosition="above">zoom_out
+                        </mat-icon>
+                    </button>
+                    <button id="resetMap" mat-icon-button (click)="resetMap()">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.reset'|translate}}"
+                                  matTooltipPosition="above">control_camera
+                        </mat-icon>
+                    </button>
+                    <button id="zoomIn" mat-icon-button (click)="mapZoom('in')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.in'|translate}}"
+                                  matTooltipPosition="above">zoom_in
+                        </mat-icon>
+                    </button>
+                </div>
+                <div id="nav-2" fxLayout="row" fxLayoutAlign="start center" fxLayout.lt-md="column"
+                     fxLayoutAlign.lt-md="start center">
+                    <!--<button id="fixNav" mat-icon-button (click)="toggleFix()" [ngSwitch]="fixSlide">-->
+                    <!--<mat-icon *ngSwitchCase="true" [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.loose'|translate}}"  matTooltipPosition="above">gps_not_fixed</mat-icon>-->
+                    <!--<mat-icon *ngSwitchCase="false" [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.fix'|translate}}"  matTooltipPosition="above">gps_fixed</mat-icon>-->
+                    <!--</button>-->
+                    <button id="upNav" mat-icon-button (click)="mapNavigate('up')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.up'|translate}}"
+                                  matTooltipPosition="above">arrow_drop_up
+                        </mat-icon>
+                    </button>
+                </div>
+                <div id="nav-3" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start center">
+                    <button id="leftNav" mat-icon-button (click)="mapNavigate('left')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.left'|translate}}"
+                                  matTooltipPosition="above">arrow_left
+                        </mat-icon>
+                    </button>
+                    <button id="downNav" mat-icon-button (click)="mapNavigate('down')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.down'|translate}}"
+                                  matTooltipPosition="below">arrow_drop_down
+                        </mat-icon>
+                    </button>
+                    <button id="rightNav" mat-icon-button (click)="mapNavigate('right')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.right'|translate}}"
+                                  matTooltipPosition="above">arrow_right
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- CONTENT TOOLBAR -->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 class="px-24 h-50 toolbar" [ngClass]="{'cancel-border':mapSelected}" fxLayout="row"
+                 fxLayoutAlign="space-between center">
+                <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                            (click)="openSidebar()">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <!--集团商场街区选择-->
+                    <app-auto-select class="mt-24 " [label]="'集团'" [appearance]="'legacy'" [matIcon]="'business'"
+                                     [notFindMsg]="'当前搜索的集团不存在！'" (selectionChange)="onSelectionChange($event,'blocId')"
+                                     [showIcon]="false"
+                                     [showField]="'blocName'" [secondaryField]="'blocId'" [filterOptions]="filterBlocs"
+                                     [selectControl]="blocControl"></app-auto-select>
+                    <app-auto-select *ngIf="filterMall" class="mt-24 " [label]="'商场'" [appearance]="'legacy'"
+                                     [showIcon]="false"
+                                     [filterOptions]="filterMall" [selectControl]="mallControl"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                                     [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId')"
+                    ></app-auto-select>
+                    <app-auto-select *ngIf="filterTerminal" class="mt-24 " [label]="'街区'"
+                                     [selectControl]="terminalControl"
+                                     [showIcon]="false" [appearance]="'legacy'"
+                                     [filterOptions]="filterTerminal"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的街区名称不存在！'" [showField]="'terminalName'"
+                                     [secondaryField]="'terminalNo'"
+                                     (selectionChange)="onSelectionChange($event,'terminalNo')"
+                    ></app-auto-select>
+                </div>
+                <div *ngIf="mapSelected"
+                     [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="space-between center" fxLayoutGap="8px">
+                    <mat-slide-toggle *ngIf="showHeat" [(ngModel)]="showTrend" (change)="openOrCloseHeatTrend($event)">客流热力动向
+                    </mat-slide-toggle>
+                    <mat-slide-toggle *ngIf="showHeatToggle" [(ngModel)]="showHeat" (change)="showOrHideHeatMap($event)">客流热力图层
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!--empty terminal upload area-->
+            <!--加载loading-->
+            <div [@animate]="{value:'*',params:{duration:'300ms',y:'10%'}}" *ngIf="mapLoading"
+                 class="place-holder p-16" fxLayout="row"
+                 fxLayoutAlign="center center">
+                <mat-progress-spinner
+                        color="accent"
+                        mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+            <!--无地图提示-->
+            <div @fadeInOut
+                 *ngIf="!terminalOn&&!mapLoading&&filterTerminal&&filterBlocs&&filterMall&&terminalControl.value"
+                 class="place-holder p-16"
+                 fxLayout="row"
+                 fxLayoutAlign="center center">
+                <div fxLayout="column" fxLayoutAlign="center center" class="theme-color font-size-15" fxLayoutGap="8px">
+                    <mat-icon>info</mat-icon>
+                    <span>当前街区无地图，</span>
+                    <div>
+                        <span>请在</span>
+                        <span class="font-weight-600">街区管理</span>
+                        <span>中上传地图后再重新访问</span>
+                        <span class="font-weight-600">街区地图！</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div id="main-content" class="w-100-p h-100-p" fxLayout="row"
+                 fxLayoutAlign="start start">
+                <div
+                        [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'300ms'}}"
+                        id="mallContainer" tabindex="-1"
+                        class="content mallContainer p-24">
+                    <svg hidden>
+                        <defs>
+                            <g id="place">
+                                <path d="M6.36,20.51c-2.1-4.2-4-7.9-5.8-11.7a6.26,6.26,0,0,1,1.7-7.4,6.45,6.45,0,0,1,7.8-.2,6.09,6.09,0,0,1,2.1,7.3C10.46,12.41,8.46,16.31,6.36,20.51Zm-.1-19a5,5,0,0,0-4.9,4.8,5.27,5.27,0,0,0,4.8,5,5.08,5.08,0,0,0,5-5A5,5,0,0,0,6.26,1.51Z"></path>
+                            </g>
+                        </defs>
+                    </svg>
+                    <div id="mall"
+                         [ngClass]="{'display-show':mapSelected&&!changeFloor,'transition':mallTransition,
+                     'mall-selected':mapSelected,'mall-basic-transform':!mapSelected,
+                     'transition-scale':transitionScale}">
+                        <ng-container *ngFor="let item of uploadMaps;let i =index">
+                            <div [@animate]="{value:'*',params:{y:'100%',delay:200*i+'ms',duration:'500ms'}}"
+                                 [id]="item.id"
+                                 [ngClass]="{'rotating-animation':animationOn}" class="w-100-p svg-content">
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--rotating on off-->
+                    <div [@animate]="{value:'*',params:{x:'100%',delay:'300ms',duration:'300ms'}}"
+                         *ngIf="!mapSelected&&terminalOn"
+                         class="rotate-button p-16" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-slide-toggle [checked]="animationOn" labelPosition="before" (change)="rotatingChange()">
+                            {{'airport.rotate'|translate}}
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <!--单元详情浮框-->
+                <div *ngIf="showInfo" [@animate]="{value:'*',params:{scale:'0.1',delay:'300ms',duration:'300ms'}}"
+                     [ngStyle]="{'left':currentPath.x}" id="area-info" cdkDrag cdkDragBoundary="#main-content"
+                     fxLayout="column" fxLayoutAlign="start start" class="border-radius-4 dark-box-shadow">
+                    <!--标题-->
+                    <div class="h-40 theme-background w-100-p px-8" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>详情</span>
+                        <button mat-icon-button (click)="showInfo=false">
+                            <mat-icon>close_circle</mat-icon>
+                        </button>
+                    </div>
+                    <!--内容-->
+                    <div class="w-100-p p-12 font-size-13" fxLayout="column" fxLayoutAlign="start start"
+                         fxLayoutGap="8px">
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
+                            <img [src]="currentPath.logo" class="w-48 h-48 mr-24">
+                            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="4px">
+                                <span>{{currentPath.storeName}}</span>
+                                <span>{{currentPath?.score}}</span>
+                            </div>
+                        </div>
+                        <mat-chip-list>
+                            <mat-chip [selectable]="true" (click)="currentPath.current='week'"
+                                      [ngClass]="{'accent':currentPath.current==='week'||!currentPath.current}" class="h-32 cursor-pointer">
+                                近一周
+                            </mat-chip>
+                            <mat-chip [selectable]="true" (click)="currentPath.current='month'"
+                                      [ngClass]="{'accent':currentPath.current==='month'}" class="h-32 cursor-pointer">
+                                近一月
+                            </mat-chip>
+                            <mat-chip [selectable]="true" (click)="currentPath.current='year'"
+                                      [ngClass]="{'accent':currentPath.current==='year'}" class=" h-32 cursor-pointer">
+                                全年
+                            </mat-chip>
+                        </mat-chip-list>
+                        <mat-divider class="w-100-p" style="position: relative"></mat-divider>
+                        <div class="w-100-p" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="row" class="w-50-p" fxLayoutAlign="space-between center">
+                                    <span>销售额</span>
+                                    <ng-container [ngSwitch]="currentPath.current">
+                                        <ng-container *ngSwitchCase="'week'">
+                                            <span [ngClass]="{'green-triangle':currentPath['weekSaleCompare']==='up','red-triangle':currentPath['weekSaleCompare']==='down'}">
+                                                {{currentPath['weekSaleCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'month'">
+                                            <span [ngClass]="{'green-triangle':currentPath['monthSaleCompare']==='up','red-triangle':currentPath['monthSaleCompare']==='down'}">
+                                                {{currentPath['monthSaleCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'year'">
+                                            <span [ngClass]="{'green-triangle':currentPath['yearSaleCompare']==='up','red-triangle':currentPath['yearSaleCompare']==='down'}">
+                                                {{currentPath['yearSaleCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center"
+                                          *ngSwitchCase="'week'">{{currentPath?.weekSale}}</span>
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center" *ngSwitchCase="'month'">{{currentPath?.monthSale}}</span>
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center"
+                                          *ngSwitchCase="'year'">{{currentPath?.yearSale}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="row" class="w-50-p" fxLayoutAlign="space-between center">
+                                    <span>提袋率</span>
+                                    <ng-container [ngSwitch]="currentPath.current">
+                                        <ng-container *ngSwitchCase="'week'">
+                                            <span [ngClass]="{'green-triangle':currentPath['weekRatioCompare']==='up','red-triangle':currentPath['weekRatioCompare']==='down'}">
+                                                {{currentPath['weekRatioCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'month'">
+                                            <span [ngClass]="{'green-triangle':currentPath['monthRatioCompare']==='up','red-triangle':currentPath['monthRatioCompare']==='down'}">
+                                                {{currentPath['monthRatioCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'year'">
+                                            <span [ngClass]="{'green-triangle':currentPath['yearRatioCompare']==='up','red-triangle':currentPath['yearRatioCompare']==='down'}">
+                                                {{currentPath['yearRatioCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekRatio}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthRatio}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearRatio}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="row" class="w-50-p" fxLayoutAlign="space-between center">
+                                    <span>客单价</span>
+                                    <ng-container [ngSwitch]="currentPath.current">
+                                        <ng-container *ngSwitchCase="'week'">
+                                            <span [ngClass]="{'green-triangle':currentPath['weekPriceCompare']==='up','red-triangle':currentPath['weekPriceCompare']==='down'}">
+                                                {{currentPath['weekPriceCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'month'">
+                                            <span [ngClass]="{'green-triangle':currentPath['monthPriceCompare']==='up','red-triangle':currentPath['monthPriceCompare']==='down'}">
+                                                {{currentPath['monthPriceCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'year'">
+                                            <span [ngClass]="{'green-triangle':currentPath['yearPriceCompare']==='up','red-triangle':currentPath['yearPriceCompare']==='down'}">
+                                                {{currentPath['yearPriceCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekPrice}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthPrice}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearPrice}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="row" class="w-50-p" fxLayoutAlign="space-between center">
+                                    <span>进店客流</span>
+                                    <ng-container [ngSwitch]="currentPath.current">
+                                        <ng-container *ngSwitchCase="'week'">
+                                            <span [ngClass]="{'green-triangle':currentPath['weekFlowCompare']==='up','red-triangle':currentPath['weekFlowCompare']==='down'}">
+                                                {{currentPath['weekFlowCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'month'">
+                                            <span [ngClass]="{'green-triangle':currentPath['monthFlowCompare']==='up','red-triangle':currentPath['monthFlowCompare']==='down'}">
+                                                {{currentPath['monthFlowCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'year'">
+                                            <span [ngClass]="{'green-triangle':currentPath['yearFlowCompare']==='up','red-triangle':currentPath['yearFlowCompare']==='down'}">
+                                                {{currentPath['yearFlowCompare']==='same'?'～':''}}
+                                            </span>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekFlow}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthFlow}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearFlow}}</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <mat-divider class="w-100-p" style="position: relative"></mat-divider>
+                        <div class="w-100-p" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span class="font-size-13 secondary-text">同层平均</span>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span class="w-50-p" fxLayout="row" fxLayoutAlign="start center">销售额</span>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center" *ngSwitchCase="'week'">{{currentPath?.weekAverageSale}}</span>
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center" *ngSwitchCase="'month'">{{currentPath?.monthAverageSale}}</span>
+                                    <span class="w-50-p text-ellipsis" fxLayout="row-reverse"
+                                          fxLayoutAlign="start center" *ngSwitchCase="'year'">{{currentPath?.yearAverageSale}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>提袋率</span>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekAverageRatio}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthAverageRatio}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearAverageRatio}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>客单价</span>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekAveragePrice}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthAveragePrice}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearAveragePrice}}</span>
+                                </ng-container>
+                            </div>
+                            <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                                <span>进店客流</span>
+                                <ng-container [ngSwitch]="currentPath.current">
+                                    <span *ngSwitchCase="'week'">{{currentPath?.weekAverageFlow}}</span>
+                                    <span *ngSwitchCase="'month'">{{currentPath?.monthAverageFlow}}</span>
+                                    <span *ngSwitchCase="'year'">{{currentPath?.yearAverageFlow}}</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+<!--tips-->
+<ng-template #tips>
+    <div class="h-100-p" fxLayout="column" fxLayoutAlign="space-between start">
+        <span class="h2 font-weight-900">{{'airport.tips.tip'|translate}}</span>
+        <div class="mat-typography p-8" fxLayout="column" fxLayoutAlign="space-between start">
+            <span class="h4 font-weight-600 mb-8">{{'airport.tips.tipTitle'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip1'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip2-1'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip2-2'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip3'|translate}}</span>
+        </div>
+        <div class="w-100-p" fxLayout="row" fxLayoutAlign="center center">
+            <button class="w-80-p" mat-raised-button color="accent" [mat-dialog-close]="true">
+                {{'dialog.ensure'|translate}}
+            </button>
+        </div>
+    </div>
+</ng-template>

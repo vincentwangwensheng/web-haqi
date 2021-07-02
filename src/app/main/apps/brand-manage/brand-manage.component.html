@@ -1,0 +1,6 @@
+<app-table-list [title]="'nav.brandManagement.brandList'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [createButton]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createBrand()"
+>
+</app-table-list>

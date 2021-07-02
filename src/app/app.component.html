@@ -1,0 +1,42 @@
+<!-- PROGRESS BAR -->
+<fuse-progress-bar></fuse-progress-bar>
+<!-- / PROGRESS BAR -->
+
+<!-- VERTICAL LAYOUT 1 -->
+<ng-container *ngIf="config.layout.style === 'vertical-layout-1'">
+    <vertical-layout-1></vertical-layout-1>
+</ng-container>
+<!-- / VERTICAL LAYOUT 1 -->
+
+<!-- VERTICAL LAYOUT 2 -->
+<ng-container *ngIf="config.layout.style === 'vertical-layout-2'">
+    <vertical-layout-2></vertical-layout-2>
+</ng-container>
+<!-- / VERTICAL LAYOUT 2 -->
+
+<!-- VERTICAL LAYOUT 3 -->
+<ng-container *ngIf="config.layout.style === 'vertical-layout-3'">
+    <vertical-layout-3></vertical-layout-3>
+</ng-container>
+<!-- / VERTICAL LAYOUT 3 -->
+
+<!-- HORIZONTAL LAYOUT 1 -->
+<ng-container *ngIf="config.layout.style === 'horizontal-layout-1'">
+    <horizontal-layout-1></horizontal-layout-1>
+</ng-container>
+<!-- / HORIZONTAL LAYOUT 1 -->
+
+<!-- THEME OPTIONS PANEL -->
+<!--<button cdkDrag mat-icon-button id="option-button" class="mat-elevation-z2 theme-options-button"-->
+<!--matTooltipPosition="above" matTooltip="{{'themeOptions.title'|translate}}"-->
+<!--(cdkDragStarted)="dragStarted()" (click)="toggleSidebarOpen('themeOptionsPanel')">-->
+<!--&lt;!&ndash;<mat-icon class="mat-icon-28">settings</mat-icon>&ndash;&gt;-->
+<!--<div>-->
+<!--<span class="iconfont iconsetting1 mat-icon-28"></span>-->
+<!--</div>-->
+<!--</button>-->
+
+<!--<fuse-sidebar name="themeOptionsPanel" class="theme-options-sidebar" position="right" [invisibleOverlay]="true">-->
+<!--<theme-options></theme-options>-->
+<!--</fuse-sidebar>-->
+<!-- / THEME OPTIONS PANEL -->

@@ -1,0 +1,18 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+    <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+        <span>{{title}}</span>
+        <div class="icon-button" [matDialogClose]="false">
+            <mat-icon>close</mat-icon>
+        </div>
+    </div>
+    <ng-content></ng-content>
+    <div class="w-100-p px-24 py-12 operate-buttons" fxLayout="row-reverse" fxLayoutAlign="start center">
+        <button class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+        <button [disabled]="saveDisabled" class="w-80 h-32" mat-flat-button color="accent"
+                [matDialogClose]="true">
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+    </div>
+</div>

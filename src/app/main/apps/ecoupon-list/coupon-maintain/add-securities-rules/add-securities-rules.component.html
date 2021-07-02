@@ -1,0 +1,26 @@
+<div  class="page-layout carded right-sidebar "><!--inner-scroll-->
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{'ElectronicVoucherManagement.AddSecuritiesRules.title'|translate}}</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="securities-rules-btu-class-me" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <!--头部按钮-->
+                <div id="edit-btu-id">
+                    <button  mat-raised-button (click)="toSaveBtu()" class="btu-bottom" color="accent" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                </div>
+                <div id="cancel-btu-id" >
+                    <button  mat-raised-button  (click)="toCancel()" class="btu-bottom" color="accent"  [disabled]="btuDis"><mat-icon>clear</mat-icon>{{'merchants.dataDetail.cancel'|translate}}</button>
+                </div>
+            </div>
+        </div>
+        <app-coupon-tempalte [CouponID]="systemParameter.Coupon_Rule_ID" [CouponMaintainID]="Coupon_Maintain_ID"
+                             [CouponEditOK]="systemParameter.CouponEditOK"    (navigateUrl)="toSave($event)"
+        ></app-coupon-tempalte>
+    </div>

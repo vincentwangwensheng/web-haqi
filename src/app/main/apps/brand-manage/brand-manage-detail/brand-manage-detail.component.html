@@ -1,0 +1,285 @@
+<div class="page-layout carded right-sidebar">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+
+
+    <!-- CENTER -->
+    <div class="center">
+        <div class="header accent p-24 title-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div class="subtitle secondary-text">
+                    <span *ngIf="pageTitle">{{pageTitle}}</span>
+                </div>
+            </div>
+            <div class="header-button" fxLayout="row" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}"> <!--  *ngIf="pageFlag === 'detail'"  -->
+
+                <ng-container  *ngIf="pageFlag === 'detail'" >
+                    <button  mat-raised-button (click)="onEdit()"  class="mr-20" color="fff"><mat-icon style="color: #039BE5">edit</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.edit'|translate}}</span></button>
+                    <button  mat-raised-button [routerLink]="'/apps/brandManage'" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>
+                </ng-container>
+
+                <ng-container  *ngIf="pageFlag === 'create'" >
+                    <button (click)="onSave()"  mat-raised-button  class="mr-20" color="fff" [disabled]="saveButtonFlag"><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>
+                    <button  mat-raised-button [routerLink]="'/apps/brandManage'" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>
+                </ng-container>
+
+                <ng-container  *ngIf="pageFlag === 'update'" >
+                    <button (click)="onUpdate()"  mat-raised-button  class="mr-20" color="fff" [disabled]="saveButtonFlag"><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>
+                    <button (click)="onCancel()"  mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>
+                </ng-container>
+
+
+            </div>
+            <!--<div class="header-button" fxLayout="row" *ngIf="pageFlag === 'create'" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">-->
+                <!--<button (click)="onSave()"  mat-raised-button  class="mr-20" color="fff" [disabled]="saveButtonFlag"><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>-->
+                <!--<button  mat-raised-button [routerLink]="'/apps/brandManage'" color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'marketingManage.detailMarketing.goBack'|translate}}</span></button>-->
+            <!--</div>-->
+            <!--<div class="header-button" fxLayout="row" *ngIf="pageFlag === 'update'" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">-->
+                <!--<button (click)="onUpdate()"  mat-raised-button  class="mr-20" color="fff" [disabled]="saveButtonFlag"><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>-->
+                <!--<button (click)="onCancel()"  mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>-->
+            <!--</div>-->
+        </div>
+        <!-- CONTENT -->
+        <div class="content" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayout="row" >
+
+            <div class="content-left" fxLayout="column">
+                <form fxLayout="column" class="w-92-p  brand-form-h pt-20 pb-20"  [formGroup]="brandForm" [autocomplete]="'off'">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="content-input" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-48-p ">
+                            <mat-label>{{'brand.id'|translate}}</mat-label> <!-- 品牌ID -->
+                            <input matInput formControlName="id">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-48-p">
+                            <mat-label>{{'brand.name'|translate}}</mat-label>  <!-- 品牌名称 -->
+                            <input matInput  formControlName="name">
+                            <mat-error>{{'brand.tips13'|translate}}</mat-error>  <!-- 请输入品牌名称 -->
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="content-input mt-12" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">
+                        <mat-form-field appearance="outline" class="w-48-p ">
+                            <mat-label>{{'brand.english'|translate}}</mat-label>  <!-- 英文名称 -->
+                            <input matInput formControlName="english">
+                            <mat-error>{{'brand.tips14'|translate}}</mat-error> <!-- 请输入英文名称 -->
+                        </mat-form-field>
+                    <!--    <div class="w-50-p h-50"></div>-->
+                        <mat-form-field appearance="outline" class="w-48-p ">
+                            <mat-label>{{'brand.enabled'|translate}}</mat-label>  <!-- 品牌维护 -->
+                            <mat-select formControlName="enabled">
+                                <mat-option *ngFor="let d of enabledS" [value]="d.id" >{{d.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="div-logo-img mb-20" fxLayout="row" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+
+                       <!--  (click)="openUploadLogoImgDialog(uploadLogoDialog)" -->
+
+                        <div matRipple class="upload-logo" fxLayout="column" fxLayoutAlign="center center">
+
+
+                            <ng-container *ngIf="!logoImgLoading">
+                                <ng-container *ngIf="!logoImgSrc">
+                                    <div fxLayout="column" fxLayoutAlign="center center" class="up-logo-icon">
+                                        <mat-icon [color]="'accent'">cloud_upload</mat-icon>
+                                        <span>{{'brand.upLogo'|translate}}</span> <!-- 上传LOGO -->
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="logoImgSrc">
+                                    <img  class="w-72 h-72 up-logo-icon" [src]="logoImgSrc">
+                                </ng-container>
+                            </ng-container>
+                            <mat-spinner color="accent" *ngIf="logoImgLoading" class="up-logo-icon mat-sp-logo"
+                                         mode="indeterminate"></mat-spinner>
+                            <div fxLayout="row" fxLayoutAlign="end start"
+                                 class="w-100-p h-100-p up-logo-in-icon show-icon-hover">
+                                <mat-icon color="warn" class="up-icon-close" *ngIf="logoImgSrc&&pageFlag != 'detail'"
+                                          (click)="delImg(null , 'logo')">close
+                                </mat-icon>
+                                <ng-container  *ngIf="pageFlag === 'detail'">
+                                    <div class="w-100-p h-100-p up-logo-input"></div>
+                                </ng-container>
+                                <ng-container  *ngIf="pageFlag !== 'detail'">
+                                    <input type="file" value="" class="w-100-p h-100-p up-logo-input" accept="image/jpg,image/png,image/gif,image/jpeg"
+                                           (change)="upBrandImg(null , $event , 'logo')">
+                                </ng-container>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div fxLayout="column" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                        <span class="mb-4">{{'brand.editorContent'|translate}}</span>  <!-- 品牌简介 -->
+                        <quill-editor [readOnly]="quillReadonlyFlag"  #quillEdit [modules]="quillConfig"
+                                      (onEditorCreated)="EditorCreated($event)"
+                                      [placeholder]="'brand.tips15'|translate" [styles]="{height:'150px'}"
+                                      [(ngModel)]="editorContent" [ngModelOptions]="{standalone: true}"></quill-editor>
+                    </div>
+
+                    <div class="brand-label" fxLayout="column" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}">
+                        <span class="mb-12">{{'brand.Tags'|translate}}</span> <!-- 品牌标签 -->
+                        <div fxLayout="row" class="label-all-content">
+                            <div *ngIf="pageFlag !='detail'" fxLayout="row" class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="editMerchantTagsTags(tagTemplate)">
+                                <img src="assets/images/cards/insertAndReduce.png">
+                                <span style="color:#fff">{{'marketingManage.addMarketing.increaseOrReduce'|translate}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center" class="label-data-div mr-12 mb-12" *ngFor="let item of merchantTags; let i = index;">
+                                <span class="mr-8">{{item.tagName}}</span>
+                                <mat-icon *ngIf="pageFlag != 'detail'" class="font-color" (click)="deleteTags(i)">cancel</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="content-right p-16" fxLayout="column" fxLayoutAlign="center center">
+                <div fxLayout="row" fxLayoutAlign="start start" fxFlex="8" class="w-96-p" [@animate]="{value:'*',params:{y:'100%',delay:'550ms',duration:'600ms'}}">
+                    <span>{{'brand.Image'|translate}}</span> <!-- 品牌图片 -->
+                </div>
+                <div fxLayout="row" fxFlex="92" fxLayoutAlign="space-around start" class="w-96-p brand-photo-div" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                    <!--<div *ngIf="pageFlag!='detail'" (click)="openUploadBrandImgDialog(uploadBrandDialog)" matRipple class="brand-photo mr-20" fxLayout="row" fxLayoutAlign="center center">-->
+                        <!--<mat-icon [color]="'accent'">cloud_upload</mat-icon>-->
+                        <!--<span>{{'brand.addImage'|translate}}</span> &lt;!&ndash; 添加图片 &ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<div class="brand-image" *ngFor="let item of brandImgSrcArray; let i = index;">-->
+                        <!--<img [src]="item">-->
+                        <!--<mat-icon *ngIf="pageFlag!='detail'" [color]="'warn'" (click)="deleteBrandImg(i)">highlight_off</mat-icon>-->
+                    <!--</div>-->
+                   <ng-container *ngFor="let img of brandImgSrcArray; let i=index;">
+                       <div fxLayout="row" fxLayoutAlign="center center" class="imgRealBrand mb-16" matRipple >
+
+                           <ng-container *ngIf="!img.loading">
+                               <ng-container *ngIf="img.src === 'no'">
+                                   <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p upMatIcon">
+                                       <mat-icon [color]="'accent'">cloud_upload</mat-icon>
+                                       <span>{{'brand.addImage'|translate}}</span>
+                                   </div>
+                               </ng-container>
+                               <ng-container *ngIf="img.src !== 'no'">
+                                   <img [src]="img.src" class="w-100-p h-100-p upMatIcon">
+                               </ng-container>
+                               <div class="w-100-p h-100-p upInPut" *ngIf="pageFlag === 'detail'"></div>
+                              <div fxLayout="row" fxLayoutAlign="end start"  class="w-100-p h-100-p up-del-class show-icon-hover"  *ngIf="pageFlag !== 'detail'">
+                                  <mat-icon  color="warn" class="upImgClose" *ngIf="img.src !== 'no'" (click)="delImg(i , 'brand')">close</mat-icon>
+                                  <input  type="file" value=""   class="w-100-p h-100-p upInPut" accept="image/jpg,image/png,image/gif,image/jpeg" (change)="upBrandImg(i , $event , 'brand')" >
+                              </div>
+                           </ng-container>
+                           <mat-spinner color="accent" *ngIf="img.loading"
+                                        mode="indeterminate"></mat-spinner>
+                       </div>
+                   </ng-container>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+
+
+<!--商户标签页面-->
+<ng-template #tagTemplate>
+    <app-merchants-tag-management [tagType]="'STORE'"  [selectedRows]="selectedTags" [overPanel]="true" [showButton]="false" [checkbox]="true"
+                                   (dataSelect)="onSelectTags($event)"></app-merchants-tag-management>
+</ng-template>
+
+
+<ng-template #uploadLogoDialog >
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title"><span class="title_dialog_">{{'brand.LOGOImage'|translate}}</span></div>  <!-- LOGO图片 -->
+            <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{logoImgName}}" >
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg" class="up_input" (change)="CouponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">{{'marketingManage.addMarketing.imageHints'|translate}}</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section" >
+                            <ng-container *ngIf="notUploading===false">
+                                <mat-progress-bar
+                                        class="example-margin"
+                                        color="accent"
+                                        mode="determinate"
+                                        [value]="progressLoad"
+                                >
+                                </mat-progress-bar>
+                            </ng-container>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent"  (click)="onUploadLogoImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+                <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+            </div>
+        </mat-dialog-content>
+    </div>
+
+</ng-template>
+
+<ng-template #uploadBrandDialog >
+    <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title class="dialog-manage-title_tips" cdkDragHandle>
+            <div class="img-title"><span class="title_dialog_">{{'brand.Image'|translate}}</span></div> <!-- 品牌图片 -->
+            <div  class="img-close"><button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button></div>
+        </div>
+        <mat-dialog-content>
+            <div class="MatDialogFrozenClass_tips">
+                <div class="MatDialogFrozenClass1">
+                    <div class="up_input_load">
+                        <div class="file-path">
+                            <input type="text" value="{{logoImgName}}" >
+                        </div>
+                        <div class="file-upLoad-btu">
+                            <button mat-raised-button  color="accent" class="btu-file-up">{{'marketingManage.addMarketing.addFile'|translate}}</button>
+                            <input type="file" value="" accept="image/jpg,image/png,image/gif,image/jpeg" class="up_input" (change)="CouponImgUpload($event)">
+                        </div>
+                    </div>
+                    <div class="tips_color_w_h">
+                        <span class="tips-color">{{'marketingManage.addMarketing.imageHints1'|translate}}</span>
+                    </div>
+                    <div class="Progress-Bar">
+                        <section class="example-section" >
+                            <ng-container *ngIf="notUploading===false">
+                                <mat-progress-bar
+                                        class="example-margin"
+                                        color="accent"
+                                        mode="determinate"
+                                        [value]="progressLoad"
+                                >
+                                </mat-progress-bar>
+                            </ng-container>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="btu_dialog_Frozen_tips">
+                <button mat-raised-button color="accent"  (click)="onUploadBrandImg()" [disabled]="uploadStatus">{{'marketingManage.addMarketing.upload'|translate}}</button>
+                <button mat-raised-button color="accent"  mat-dialog-close [disabled]="finishStatus">{{'marketingManage.addMarketing.finish'|translate}}</button>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>
+

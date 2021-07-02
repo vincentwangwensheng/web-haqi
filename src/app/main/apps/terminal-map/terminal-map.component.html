@@ -1,0 +1,1158 @@
+<div class="page-layout carded right-sidebar inner-scroll absolute-container" (window:resize)="onResize()">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- 单元号操作 -->
+    <fuse-sidebar class="sidebar" name="carded-right-sidebar-2" position="right"
+                  [lockedOpen]="'gt-md'">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="sidebar-header accent" fxLayout="column" fxLayoutAlign="end center">
+            <app-history-search #historySearch [historyKey]="historyKey" [showSearch]="pathList.length>0"
+                                (searchChange)="onSearchPath($event)"
+                                (optionSelected)="optionSelect($event)" (inputReset)="resetSearchPath()"
+            ></app-history-search>
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content p-4">
+            <div *ngIf="!mapLoading" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 fxFlexFill fxLayout="column" fxLayoutAlign="start center">
+                <div class="w-100-p" fxLayout="column" fxLayoutAlign="start start"
+                     *ngFor="let item of filterBTypePathList">
+                    <div *ngIf="item.pathList.length>0" class="w-100-p h-40" fxLayout="row"
+                         fxLayoutAlign="space-between center">
+                        <div class="px-12" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                            <span class="rect-block mr-12" [ngStyle]="{'background':item.color}"></span>
+                            <span class="font-size-15 font-weight-600"
+                                  [ngStyle]="{'color':item.color}">{{item.name}}</span>
+                            <span>({{item.pathList.length}})</span>
+                        </div>
+                        <button class="dark-box-shadow-hover" *ngIf="item.pathList.length>0" mat-icon-button
+                                (click)="item.folded=!item.folded">
+                            <mat-icon *ngIf="item.folded">keyboard_arrow_up</mat-icon>
+                            <mat-icon *ngIf="!item.folded">keyboard_arrow_down</mat-icon>
+                        </button>
+                    </div>
+                    <cdk-virtual-scroll-viewport itemSize="50" class="search-buttons w-100-p"
+                                                 [ngStyle]="{'height':(item.pathList.length>=5?5:item.pathList.length)*50+'px','min-height':(item.pathList.length>=5?5:item.pathList.length)*50+'px'}"
+                                                 @fadeInOut *ngIf="!item.folded&&item.pathList.length>0">
+                        <ng-container *cdkVirtualFor="let path of item.pathList">
+                            <button mat-button [ngClass]="{'search-selected':path.selected}"
+                                    (click)="enterMapByPath(path)">
+                                <div class="button-div" fxLayout="row" fxLayoutAlign="space-around center">
+                                    <span *ngIf="path.storeName">{{path.storeName}}</span>
+                                    <span class="font-size-12">{{path.areaNo}}</span>
+                                </div>
+                            </button>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+                <ng-container *ngIf="filterNoTypeList.pathList.length>0">
+                    <div class="w-100-p h-40" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="px-12" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="4px">
+                            <span class="rect-block mr-12" [ngStyle]="{'background':filterNoTypeList.color}"></span>
+                            <span class="font-size-15 font-weight-600" [ngStyle]="{'color':filterNoTypeList.color}">{{filterNoTypeList.name|translate}}</span>
+                            <span>({{filterNoTypeList.pathList.length}})</span>
+                        </div>
+                        <button class="dark-box-shadow-hover" mat-icon-button
+                                (click)="filterNoTypeList.folded=!filterNoTypeList.folded">
+                            <mat-icon *ngIf="filterNoTypeList.folded">keyboard_arrow_up</mat-icon>
+                            <mat-icon *ngIf="!filterNoTypeList.folded">keyboard_arrow_down</mat-icon>
+                        </button>
+                    </div>
+                    <cdk-virtual-scroll-viewport itemSize="50"
+                                                 [ngStyle]="{'height':(filterNoTypeList.pathList.length>=5?5:filterNoTypeList.pathList.length)*50+'px','min-height':(filterNoTypeList.pathList.length>=5?5:filterNoTypeList.pathList.length)*50+'px'}"
+                                                 class="search-buttons my-8 w-100-p" @fadeInOut
+                                                 *ngIf="!filterNoTypeList.folded">
+                        <ng-container *cdkVirtualFor="let path of filterNoTypeList.pathList">
+                            <button mat-button [ngClass]="{'search-selected':path.selected}"
+                                    (click)="enterMapByPath(path)">
+                                <div class="button-div" fxLayout="row" fxLayoutAlign="space-around center">
+                                    <span class="w-50-p text-ellipsis" *ngIf="path.storeName">{{path.storeName}}</span>
+                                    <span class="w-50-p font-size-12">{{path.areaNo}}</span>
+                                </div>
+                            </button>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </ng-container>
+            </div>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center ml-24">
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="start center">
+            <h2 class="m-0">街区地图</h2>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <!--切换统一商场下的街区-->
+            <!--<div *ngIf="!mapSelected&&!editShow&&terminals.length>1"-->
+            <!--[@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'500ms'}}"-->
+            <!--class="terminal-buttons p-8" fxLayout="row" fxLayoutAlign="space-between center">-->
+            <!--<button id="left-terminal" mat-icon-button (click)="changeTerminal('left')">-->
+            <!--<mat-icon matTooltip="{{'airport.changeTerminal'|translate}}" matTooltipPosition="right">-->
+            <!--chevron_left-->
+            <!--</mat-icon>-->
+            <!--</button>-->
+            <!--<button id="right-terminal" mat-icon-button (click)="changeTerminal('right')">-->
+            <!--<mat-icon matTooltip="{{'airport.changeTerminal'|translate}}" matTooltipPosition="left">-->
+            <!--chevron_right-->
+            <!--</mat-icon>-->
+            <!--</button>-->
+            <!--</div>-->
+
+            <!--选择楼层-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'500ms'}}"
+                 *ngIf="!editShow&&!mapEditShow&&terminalOn" class="floor-buttons"
+                 fxLayout="column-reverse"
+                 fxLayoutAlign="start start">
+                <ng-container>
+                    <button [@animate]="{value:'*',params:{y:'100%',delay:200*i+'ms',duration:'300ms'}}" mat-button
+                            [ngClass]="{'floor-selected':floor.selected}" (click)="selectFloor(i)"
+                            *ngFor="let floor of floors;let i=index">{{floor.name}}
+                    </button>
+                </ng-container>
+            </div>
+
+            <!--keyboards-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" class="shortcut-keys p-16"
+                 fxLayout="row" fxLayoutAlign="start center" *ngIf="terminalOn">
+                <button mat-icon-button (click)="showShortcutKeys(keyboard)">
+                    <mat-icon matTooltip="{{'airport.shortcutKeys.title'|translate}}" matTooltipPosition="above">
+                        help_outline
+                    </mat-icon>
+                </button>
+                <ng-template #keyboard>
+                    <table class="keyboard w-100-p">
+                        <tr>
+                            <td colspan="2">
+                                {{'airport.shortcutKeys.title'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.share">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="h2">
+                                {{'airport.shortcutKeys.all'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.all">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="h2">
+                                {{'airport.shortcutKeys.map'|translate}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of shortcutKeys.map">
+                            <td>{{item.shortcut}}</td>
+                            <td>{{item.keyboard}}</td>
+                        </tr>
+                    </table>
+
+                    <!--<div fxLayout="column" fxLayoutAlign="start center">-->
+                    <!--<div class="h1">{{'airport.shortcutKeys.title'|translate}}</div>-->
+                    <!--<div class="h2">{{'airport.shortcutKeys.all'|translate}}</div>-->
+                    <!--<div *ngFor="let key of shortcutKeys.all" fxLayout="row" fxLayoutAlign="space-between center">-->
+                    <!--<div>{{key.shortcut}}</div>-->
+                    <!--<div>{{key.keyboard}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="h2">{{'airport.shortcutKeys.map'|translate}}</div>-->
+                    <!--<div *ngFor="let key of shortcutKeys.map" fxLayout="row" fxLayoutAlign="space-between center">-->
+                    <!--<div>{{key.shortcut}}</div>-->
+                    <!--<div>{{key.keyboard}}</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </ng-template>
+            </div>
+
+            <!--上下楼层-->
+            <div @slideInRightSlow
+                 *ngIf="mapSelected&&!mapEditShow"
+                 class="upDown-buttons p-16" fxLayout="column" fxLayoutAlign="start center">
+                <button id="upFloor" mat-icon-button (click)="changeSelectedFloor('up')">
+                    <mat-icon matTooltip="{{'airport.upFloor'|translate}}" matTooltipPosition="left">expand_less
+                    </mat-icon>
+                </button>
+                <button id="returnAll" mat-icon-button (click)="returnAll()">
+                    <mat-icon matTooltip="{{'airport.home'|translate}}" matTooltipPosition="left">home</mat-icon>
+                </button>
+                <button id="downFloor" mat-icon-button (click)="changeSelectedFloor('down')">
+                    <mat-icon matTooltip="{{'airport.downFloor'|translate}}" matTooltipPosition="left">expand_more
+                    </mat-icon>
+                </button>
+            </div>
+            <!--操作面板-->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 [ngClass]="{'hide-navigation':slideOnOff}" (mouseenter)="onMouseEnterLeave($event)"
+                 (mouseleave)="onMouseEnterLeave($event)" *ngIf="mapSelected&&!mapEditShow" class="nav-buttons p-16"
+                 fxLayout="column" fxLayoutAlign="start center">
+                <div id="nav-1" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start center">
+                    <button id="zoomOut" mat-icon-button (click)="mapZoom('out')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.out'|translate}}"
+                                  matTooltipPosition="above">zoom_out
+                        </mat-icon>
+                    </button>
+                    <button id="resetMap" mat-icon-button (click)="resetMap()">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.reset'|translate}}"
+                                  matTooltipPosition="above">control_camera
+                        </mat-icon>
+                    </button>
+                    <button id="zoomIn" mat-icon-button (click)="mapZoom('in')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.in'|translate}}"
+                                  matTooltipPosition="above">zoom_in
+                        </mat-icon>
+                    </button>
+                </div>
+                <div id="nav-2" fxLayout="row" fxLayoutAlign="start center" fxLayout.lt-md="column"
+                     fxLayoutAlign.lt-md="start center">
+                    <!--<button id="fixNav" mat-icon-button (click)="toggleFix()" [ngSwitch]="fixSlide">-->
+                    <!--<mat-icon *ngSwitchCase="true" [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.loose'|translate}}"  matTooltipPosition="above">gps_not_fixed</mat-icon>-->
+                    <!--<mat-icon *ngSwitchCase="false" [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.fix'|translate}}"  matTooltipPosition="above">gps_fixed</mat-icon>-->
+                    <!--</button>-->
+                    <button id="upNav" mat-icon-button (click)="mapNavigate('up')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.up'|translate}}"
+                                  matTooltipPosition="above">arrow_drop_up
+                        </mat-icon>
+                    </button>
+                </div>
+                <div id="nav-3" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start center">
+                    <button id="leftNav" mat-icon-button (click)="mapNavigate('left')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.left'|translate}}"
+                                  matTooltipPosition="above">arrow_left
+                        </mat-icon>
+                    </button>
+                    <button id="downNav" mat-icon-button (click)="mapNavigate('down')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.down'|translate}}"
+                                  matTooltipPosition="below">arrow_drop_down
+                        </mat-icon>
+                    </button>
+                    <button id="rightNav" mat-icon-button (click)="mapNavigate('right')">
+                        <mat-icon [matTooltipShowDelay]="500" matTooltip="{{'airport.mapNavigation.right'|translate}}"
+                                  matTooltipPosition="above">arrow_right
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- CONTENT TOOLBAR -->
+            <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                 class="px-24 h-50 toolbar" [ngClass]="{'cancel-border':mapSelected}" fxLayout="row"
+                 fxLayoutAlign="space-between center">
+                <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                            (click)="openSidebar()">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <!--集团商场街区选择-->
+                    <app-auto-select class="mt-24 " [label]="'集团'" [appearance]="'legacy'" [matIcon]="'business'"
+                                     [notFindMsg]="'当前搜索的集团不存在！'" (selectionChange)="onSelectionChange($event,'blocId')"
+                                     [showIcon]="false"
+                                     [showField]="'blocName'" [secondaryField]="'blocId'" [filterOptions]="filterBlocs"
+                                     [selectControl]="blocControl"></app-auto-select>
+                    <app-auto-select *ngIf="filterMall" class="mt-24 " [label]="'商场'" [appearance]="'legacy'"
+                                     [showIcon]="false"
+                                     [filterOptions]="filterMall" [selectControl]="mallControl"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的商场名称不存在！'" [showField]="'mallName'"
+                                     [secondaryField]="'mallId'" (selectionChange)="onSelectionChange($event,'mallId')"
+                    ></app-auto-select>
+                    <app-auto-select *ngIf="filterTerminal" class="mt-24 " [label]="'街区'"
+                                     [selectControl]="terminalControl"
+                                     [showIcon]="false" [appearance]="'legacy'"
+                                     [filterOptions]="filterTerminal"
+                                     [matIcon]="'storefont'" [notFindMsg]="'当前搜索的街区名称不存在！'" [showField]="'terminalName'"
+                                     [secondaryField]="'terminalNo'"
+                                     (selectionChange)="onSelectionChange($event,'terminalNo')"
+                    ></app-auto-select>
+                </div>
+                <div class="operate-buttons" *ngIf="!mapSelected&&!editShow&&!pathClicked"
+                     [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                    <!--&lt;!&ndash;新建航站楼&ndash;&gt;-->
+                    <!--<button mat-raised-button color="accent"-->
+                    <!--(click)="createPanelShow()" mat-stroked-button>-->
+                    <!--<mat-icon fxHide.lt-sm>add_box</mat-icon>-->
+                    <!--<mat-icon fxHide.gt-xs matTooltip="{{'airport.createTerminal'|translate}}">add_box</mat-icon>-->
+                    <!--<span fxHide.lt-sm>{{'airport.createTerminal'|translate}}</span>-->
+                    <!--</button>-->
+                    <!--编辑按钮 打开编辑面板-->
+                    <button mat-raised-button color="accent" (click)="editPanelShow()">
+                        <mat-icon fxHide.lt-sm>info</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="详情">info</mat-icon>
+                        <span fxHide.lt-sm>详情</span>
+                    </button>
+                </div>
+                <!--保存航站楼编辑-->
+                <div class="operate-buttons" *ngIf="!mapSelected&&editShow&&expandPanel!==2"
+                     [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                    <!--<button mat-raised-button color="accent" [disabled]="onUploading||onSaving"-->
+                    <!--(click)="saveTerminalChange()">-->
+                    <!--<mat-icon fxHide.lt-sm>save</mat-icon>-->
+                    <!--<mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.save'|translate}}">save</mat-icon>-->
+                    <!--<span fxHide.lt-sm>{{'airport.edit.save'|translate}}</span>-->
+                    <!--</button>-->
+                    <button mat-raised-button color="accent"
+                            (click)="closeEditPanel()">
+                        <mat-icon fxHide.lt-sm>close</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.close'|translate}}">close</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.close'|translate}}</span>
+                    </button>
+                </div>
+                <!--下载历史上传数据-->
+                <div class="operate-buttons" *ngIf="!mapSelected&&editShow&&expandPanel===2"
+                     [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                    <button mat-raised-button color="accent" [disabled]="onSaving"
+                            (click)="saveTerminalChange()">
+                        <mat-icon fxHide.lt-sm>cloud_download</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.downloadHistory'|translate}}">save</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.downloadHistory'|translate}}</span>
+                    </button>
+                    <button mat-raised-button color="accent"
+                            (click)="closeEditPanel()">
+                        <mat-icon fxHide.lt-sm>close</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.close'|translate}}">close</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.close'|translate}}</span>
+                    </button>
+                </div>
+                <div [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}" fxLayout="row"
+                     fxLayoutAlign="space-between center" class="operate-buttons" *ngIf="mapSelected&&mapEditShow">
+                    <button mat-raised-button color="accent" (click)="clearData()">
+                        <mat-icon fxHide.lt-sm>close</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.clear'|translate}}">highlight_off</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.clear'|translate}}</span>
+                    </button>
+                    <button mat-raised-button color="accent" (click)="saveMapChange()">
+                        <mat-icon fxHide.lt-sm>save</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.save'|translate}}">save</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.save'|translate}}</span>
+                    </button>
+                    <button mat-raised-button color="accent" (click)="closeMapEdit()">
+                        <mat-icon fxHide.lt-sm>close</mat-icon>
+                        <mat-icon fxHide.gt-xs matTooltip="{{'airport.edit.close'|translate}}">close</mat-icon>
+                        <span fxHide.lt-sm>{{'airport.edit.close'|translate}}</span>
+                    </button>
+                </div>
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!--empty terminal upload area-->
+            <!--加载loading-->
+            <div [@animate]="{value:'*',params:{duration:'300ms',y:'10%'}}" *ngIf="mapLoading"
+                 [ngClass]="{'place-edit':editShow}"
+                 class="place-holder p-16" fxLayout="row"
+                 fxLayoutAlign="center center">
+                <mat-progress-spinner
+                        color="accent"
+                        mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+            <!--无地图提示-->
+            <div @fadeInOut
+                 *ngIf="!terminalOn&&!editShow&&!mapLoading&&filterTerminal&&filterBlocs&&filterMall&&terminalControl.value"
+                 class="place-holder p-16"
+                 fxLayout="row"
+                 fxLayoutAlign="center center">
+                <div fxLayout="column" fxLayoutAlign="center center" class="theme-color font-size-15" fxLayoutGap="8px">
+                    <mat-icon>info</mat-icon>
+                    <span>当前街区无地图，</span>
+                    <div>
+                        <span>请在</span>
+                        <span class="font-weight-600">街区管理</span>
+                        <span>中上传地图后再重新访问</span>
+                        <span class="font-weight-600">街区地图！</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div @slideInLeftSlow *ngIf="!terminalOn&&!editShow&&!mapLoading"-->
+            <!--class="place-holder p-16"-->
+            <!--fxLayout="row"-->
+            <!--fxLayoutAlign="center center" (drop)="onFileDrop($event)">-->
+            <!--<button *ngIf="!mapLoading" [disableRipple]="true" mat-ripple matRippleRadius="20"-->
+            <!--(click)="uploadFilePreviewTrigger(uploadFilePreview,true)"-->
+            <!--mat-button color="accent">-->
+            <!--<div fxLayout="column" fxLayoutAlign="center center">-->
+            <!--<mat-icon>add_circle_outline</mat-icon>-->
+            <!--<span>{{'airport.uploadSVG'|translate}}</span>-->
+            <!--<span>{{'airport.dragUpload'|translate}}</span>-->
+            <!--</div>-->
+            <!--</button>-->
+            <!--</div>-->
+            <!--<div [@slideInSlow]="leftOrRight" *ngIf="selectedTerminal===1&&!terminalOn&&!editShow&&!mapLoading"-->
+            <!--class="place-holder p-16"-->
+            <!--fxLayout="row"-->
+            <!--fxLayoutAlign="center center" (drop)="onFileDrop($event)">-->
+            <!--<button [disableRipple]="true" mat-ripple matRippleRadius="20"-->
+            <!--(click)="uploadFilePreviewTrigger(uploadFilePreview,true)"-->
+            <!--mat-button color="accent">-->
+            <!--<div fxLayout="column" fxLayoutAlign="center center">-->
+            <!--<mat-icon>add_circle_outline</mat-icon>-->
+            <!--<span>{{'airport.uploadSVG'|translate}}</span>-->
+            <!--<span>{{'airport.dragUpload'|translate}}</span>-->
+            <!--</div>-->
+            <!--</button>-->
+            <!--</div>-->
+            <!--<div @slideInRightSlow *ngIf="selectedTerminal===2&&!terminalOn&&!editShow&&!mapLoading"-->
+            <!--class="place-holder p-16"-->
+            <!--fxLayout="row"-->
+            <!--fxLayoutAlign="center center" (drop)="onFileDrop($event)">-->
+            <!--<button [disableRipple]="true" mat-ripple matRippleRadius="20"-->
+            <!--(click)="uploadFilePreviewTrigger(uploadFilePreview,true)"-->
+            <!--mat-button color="accent">-->
+            <!--<div fxLayout="column" fxLayoutAlign="center center">-->
+            <!--<mat-icon>add_circle_outline</mat-icon>-->
+            <!--<span>{{'airport.uploadSVG'|translate}}</span>-->
+            <!--<span>{{'airport.dragUpload'|translate}}</span>-->
+            <!--</div>-->
+            <!--</button>-->
+            <!--</div>-->
+
+            <!-- CONTENT -->
+            <div id="main-content" class="w-100-p h-100-p" fxLayout="row"
+                 fxLayoutAlign="start start">
+                <div [ngClass]="{'edit-mall':editShow,'edit-map':mapEditShow}"
+                     [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'300ms'}}"
+                     id="mallContainer" tabindex="-1"
+                     class="content mallContainer p-24">
+                    <svg hidden>
+                        <defs>
+                            <g id="place">
+                                <path d="M6.36,20.51c-2.1-4.2-4-7.9-5.8-11.7a6.26,6.26,0,0,1,1.7-7.4,6.45,6.45,0,0,1,7.8-.2,6.09,6.09,0,0,1,2.1,7.3C10.46,12.41,8.46,16.31,6.36,20.51Zm-.1-19a5,5,0,0,0-4.9,4.8,5.27,5.27,0,0,0,4.8,5,5.08,5.08,0,0,0,5-5A5,5,0,0,0,6.26,1.51Z"></path>
+                            </g>
+                        </defs>
+                    </svg>
+                    <div id="mall"
+                         [ngClass]="{'display-show':mapSelected&&!changeFloor,'transition':mallTransition,
+                     'mall-selected':mapSelected,'mall-basic-transform':!mapSelected,
+                     'transition-scale':transitionScale}">
+                        <ng-container *ngFor="let item of uploadMaps;let i =index">
+                            <div [@animate]="{value:'*',params:{y:'100%',delay:200*i+'ms',duration:'500ms'}}"
+                                 [id]="item.id"
+                                 [ngClass]="{'rotating-animation':animationOn}" class="w-100-p svg-content">
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--rotating on off-->
+                    <div [@animate]="{value:'*',params:{x:'100%',delay:'300ms',duration:'300ms'}}"
+                         *ngIf="!mapSelected&&terminalOn"
+                         class="rotate-button p-16" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-slide-toggle [checked]="animationOn" labelPosition="before" (change)="rotatingChange()">
+                            {{'airport.rotate'|translate}}
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <div [ngClass]="{'edit-panel':editShow,'edit-hidden':!editShow}">
+                    <!--<mat-card id="form-card">-->
+                    <div class="p-8" fxFlexFill>
+                        <mat-accordion>
+                            <mat-expansion-panel [expanded]="expandPanel === 0" (opened)="expandPanel=0" hideToggle>
+                                <mat-expansion-panel-header>
+                                    <!--<mat-panel-title>{{'airport.edit.editInfo'|translate}}</mat-panel-title>-->
+                                    <!--<mat-panel-description>{{'airport.edit.editDesc'|translate}}-->
+                                    <!--</mat-panel-description>-->
+                                    <!--<mat-icon>edit</mat-icon>-->
+                                    <mat-panel-title>街区信息</mat-panel-title>
+                                    <mat-panel-description>街区相关基本信息
+                                    </mat-panel-description>
+                                    <mat-icon>info</mat-icon>
+                                </mat-expansion-panel-header>
+                                <form class="edit-form normal-form-fields px-12 pt-12"
+                                      [formGroup]="terminalForm"
+                                      autocomplete="off"
+                                      fxLayout="row wrap"
+                                      fxLayoutAlign="space-between center">
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>商场编号</mat-label>
+                                        <input matInput readonly formControlName="mallId">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>商场名称</mat-label>
+                                        <input matInput readonly formControlName="mallName">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>{{'airport.edit.id'|translate}}</mat-label>
+                                        <input matInput readonly formControlName="terminalNo">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>{{'airport.edit.name'|translate}}</mat-label>
+                                        <input matInput readonly formControlName="terminalName">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>状态</mat-label>
+                                        <mat-select formControlName="enabled">
+                                            <mat-option [value]="true">正常</mat-option>
+                                            <mat-option [value]="false">冻结</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-48-p">
+                                        <mat-label>{{'airport.edit.floor'|translate}}</mat-label>
+                                        <input matInput readonly formControlName="floors">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="w-100-p">
+                                        <mat-label>{{'airport.edit.address'|translate}}</mat-label>
+                                        <input matInput readonly formControlName="address">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="text-area w-100-p">
+                                        <mat-label>{{'airport.edit.desc'|translate}}</mat-label>
+                                        <textarea matInput readonly cdkTextareaAutosize
+                                                  #autosize="cdkTextareaAutosize"
+                                                  cdkAutosizeMinRows="2"
+                                                  cdkAutosizeMaxRows="3"
+                                                  formControlName="desc"></textarea>
+                                    </mat-form-field>
+                                </form>
+                            </mat-expansion-panel>
+                            <!--<mat-expansion-panel [expanded]="expandPanel === 1" *ngIf="!createShow"-->
+                            <!--(opened)="expandPanel=1" hideToggle>-->
+                            <!--<mat-expansion-panel-header>-->
+                            <!--<mat-panel-title>{{'airport.edit.upload'|translate}}</mat-panel-title>-->
+                            <!--<ng-container [ngSwitch]="obeyRule">-->
+                            <!--<mat-panel-description-->
+                            <!--[@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"-->
+                            <!--*ngSwitchCase="0">{{'airport.edit.uploadDesc'|translate}}-->
+                            <!--</mat-panel-description>-->
+                            <!--<mat-panel-description-->
+                            <!--[@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"-->
+                            <!--*ngSwitchCase="1">{{'airport.edit.uploadCorrectDesc'|translate}}-->
+                            <!--</mat-panel-description>-->
+                            <!--<mat-panel-description-->
+                            <!--[@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"-->
+                            <!--*ngSwitchCase="2">{{'airport.edit.uploadOrderDesc'|translate}}-->
+                            <!--</mat-panel-description>-->
+                            <!--</ng-container>-->
+                            <!--<mat-icon>cloud_upload</mat-icon>-->
+                            <!--</mat-expansion-panel-header>-->
+                            <!--<div cdkDropList class="sort-list" (cdkDropListDropped)="sortList($event)"-->
+                            <!--fxLayout="column" fxLayoutAlign="start center" fxFlexFill>-->
+                            <!--<div cdkDrag *ngFor="let item of uploadSVGs;let i=index"-->
+                            <!--class="edit-upload svg-preview px-24 my-4">-->
+                            <!--<div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>-->
+                            <!--<div fxLayout="row" class="h-100-p w-90-p" fxLayoutAlign="start center"-->
+                            <!--fxLayoutGap="8px">-->
+                            <!--<span [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"-->
+                            <!--fxLayout="row" fxLayoutAlign="start center" *ngIf="obeyRule===2"-->
+                            <!--matTooltip="{{'airport.message.needSort'|translate}}"-->
+                            <!--matTooltipPosition="above">{{i + 1}}</span>-->
+                            <!--<span [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"-->
+                            <!--fxLayout="row" fxLayoutAlign="start center" *ngIf="obeyRule===1"><mat-icon-->
+                            <!--matTooltip="{{'airport.message.rightOrder'|translate}}"-->
+                            <!--matTooltipPosition="above">playlist_add_check</mat-icon></span>-->
+                            <!--<img [src]="item.imgUrl">-->
+                            <!--<img *cdkDragPreview [src]="item.imgUrl">-->
+                            <!--<span fxLayout="row" fxLayoutAlign="start center"-->
+                            <!--class="text-ellipsis">{{item.name}}</span>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<span fxLayout="column" fxLayoutAlign="start center">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<button mat-icon-button (click)="sortUploadSVGs('left',i)"><mat-icon>chevron_left</mat-icon></button>&ndash;&gt;-->
+                            <!--<button mat-icon-button [disabled]="onUploading||onSaving"-->
+                            <!--(click)="deleteUploadSVG(item)">-->
+                            <!--<mat-icon>delete</mat-icon>-->
+                            <!--</button>-->
+                            <!--&lt;!&ndash;<button mat-icon-button (click)="sortUploadSVGs('right',i)"><mat-icon>chevron_right</mat-icon></button>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--<button mat-button class="edit-upload"-->
+                            <!--(click)="uploadFilePreviewTrigger(uploadFilePreview)">-->
+                            <!--<div fxLayout="column" fxLayoutAlign="center center">-->
+                            <!--<mat-icon>add_circle_outline</mat-icon>-->
+                            <!--<span>{{'airport.uploadSVG'|translate}}</span>-->
+                            <!--<span>{{'airport.rightUpload'|translate}}</span>-->
+                            <!--</div>-->
+                            <!--</button>-->
+                            <!--</div>-->
+                            <!--</mat-expansion-panel>-->
+                            <mat-expansion-panel class="mb-56" (opened)="expandPanel=2;getHistorySvg()"
+                                                 [expanded]="expandPanel === 2"
+                                                 hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>{{'airport.edit.download'|translate}}</mat-panel-title>
+                                    <mat-panel-description>{{'airport.edit.downloadDesc'|translate}}
+                                    </mat-panel-description>
+                                    <mat-icon>cloud_download</mat-icon>
+                                </mat-expansion-panel-header>
+                                <div
+                                        [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'300ms'}}"
+                                >
+                                    <mat-form-field class="w-100-p px-20">
+                                        <mat-label>{{'airport.edit.search'|translate}}</mat-label>
+                                        <input matInput (keyup)="historyListFilter($event)">
+                                    </mat-form-field>
+                                    <ngx-datatable class="material"
+                                                   [messages]="
+                                                   {emptyMessage:'airport.message.historyEmpty'|translate,
+                                                   selectedMessage:'airport.history.selected'|translate,
+                                                   totalMessage:'airport.history.rowCount'|translate}"
+                                                   [displayCheck]="displayCheck"
+                                                   [selectionType]="'checkbox'"
+                                                   [columns]="columns"
+                                                   [headerHeight]="50"
+                                                   [footerHeight]="50"
+                                                   (activate)="onActivate($event)"
+                                                   [rowHeight]="40"
+                                                   [reorderable]="true"
+                                                   [swapColumns]="false"
+                                                   [rows]="filterRows"
+                                    >
+                                        <!--选择列-->
+                                        <ngx-datatable-column
+                                                [width]="50"
+                                                [maxWidth]="50"
+                                                [sortable]="false"
+                                                [draggable]="false"
+                                                [resizeable]="true"
+                                        >
+                                            <ng-template ngx-datatable-header-template let-row="row">
+                                                <mat-checkbox
+                                                        [checked]="filterRows.length===selectedSvg.length&&filterRows.length!==0"
+                                                        (change)="selectAllOrNot($event)"></mat-checkbox>
+                                            </ng-template>
+                                            <ng-template ngx-datatable-cell-template let-row="row">
+                                                <mat-checkbox [checked]="row.selected"
+                                                              style="position: absolute;left:17px"
+                                                              (change)="rowSelect(row,$event)"></mat-checkbox>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <!--展示列 头-->
+                                        <ng-container *ngFor="let column of columns">
+                                            <ngx-datatable-column [name]="column.name" *ngIf="column.name==='fileName'"
+                                                                  [minWidth]="100" [maxWidth]="100"
+                                                                  [canAutoResize]="true"
+                                            >
+                                                <ng-template let-column="column" let-sort="sortFn"
+                                                             ngx-datatable-header-template>
+                                                    <span style="cursor: pointer;" (click)="sort()">{{column.name|translate}}</span>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column [name]="column.name"
+                                                                  *ngIf="column.name==='uploadPerson'"
+                                                                  [minWidth]="150"
+                                                                  [canAutoResize]="true"
+                                            >
+                                                <ng-template let-column="column" let-sort="sortFn"
+                                                             ngx-datatable-header-template>
+                                                    <span style="cursor: pointer;" (click)="sort()">{{column.name|translate}}</span>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column [name]="column.name"
+                                                                  [minWidth]="170"
+                                                                  [canAutoResize]="true"
+                                                                  *ngIf="column.name==='uploadTime'"
+                                            >
+                                                <ng-template let-column="column" let-sort="sortFn"
+                                                             ngx-datatable-header-template>
+                                                    <span style="cursor: pointer;" (click)="sort()">{{column.name|translate}}</span>
+                                                </ng-template>
+                                                <ng-template
+                                                        let-row="row"
+                                                        let-value="value"
+                                                        ngx-datatable-cell-template
+                                                >
+                                                    <span class="mobile-hidden">{{ value|dateTransform:'/'}}</span>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                        </ng-container>
+                                        <ngx-datatable-footer>
+                                            <ng-template
+                                                    ngx-datatable-footer-template
+                                                    let-rowCount="rowCount"
+                                                    let-pageSize="pageSize"
+                                                    let-selectedCount="selectedCount"
+                                                    let-curPage="curPage"
+                                                    let-offset="offset"
+                                            >
+                                                <span>{{selectedSvg.length}} {{'airport.history.selected'|translate}} / {{rowCount}} {{'airport.history.rowCount'|translate}}</span>
+                                            </ng-template>
+                                        </ngx-datatable-footer>
+                                    </ngx-datatable>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                    <!--</mat-card>-->
+                </div>
+                <div [ngClass]="{'map-show':mapEditShow,'map-hidden':!mapEditShow}" class="light-box-shadow p-8">
+                    <div class="map-edit p-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                        <div class="edit-header mb-24" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <button mat-button (click)="uploadImage(logo)" class="show-icon-hover">
+                                <img [id]="logo.id" [ngStyle]="{'display':logo.loading?'none':'block'}">
+                                <mat-icon [ngClass]="{'show-upload':!storeForm.get('logo').value}">photo_camera
+                                </mat-icon>
+                            </button>
+                            <button mat-button (click)="editTag(tag)">
+                                <mat-icon>add_circle</mat-icon>
+                                <span>{{'airport.edit.chooseTag'|translate}}</span>
+                            </button>
+                            <mat-chip-list>
+                                <mat-chip
+                                        *ngFor="let tag of tags;let i =index"
+                                        [selectable]="false"
+                                        [removable]="true"
+                                        [matTooltip]="tag.name"
+                                        matTooltipPosition="above"
+                                        class="accent custom-chip"
+                                        (removed)="remove(i)">
+                                    <span>{{tag.tagName}}</span>
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <form class="edit-form normal-form-fields px-8 mb-32" [formGroup]="storeForm" autocomplete="off"
+                              fxLayout="row wrap"
+                              fxLayoutAlign="space-between center">
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.areaNo'|translate}}</mat-label>
+                                <input matInput formControlName="areaNo">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>商户POS编号</mat-label>
+                                <input (focus)="openStore()" class="cursor-pointer" readonly matInput formControlName="storeNo">
+                                <mat-icon class="mat-icon-20" matSuffix>edit</mat-icon>
+                                <!--<button mat-button formControlName="'storeNo"></button>-->
+                                <!--<mat-select formControlName="store">-->
+                                <!--<mat-option *ngFor="let store of stores" [value]="store">-->
+                                <!--{{store.storeNo}}-->
+                                <!--</mat-option>-->
+                                <!--</mat-select>-->
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.storeName'|translate}}</mat-label>
+                                <input matInput formControlName="storeName">
+                            </mat-form-field>
+                            <app-auto-select class="w-48-p" [label]="'品牌名称'" [selectControl]="storeForm.get('brandCN')"
+                                             [filterOptions]="filterBrands" [secondaryField]="'english'"
+                                             (selectionChange)="onFormSelection($event,'brandEN','english')"
+                                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的品牌名称不存在！'"
+                                             [requiredMsg]="'品牌名称不能为空！'"
+                            ></app-auto-select>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.showName'|translate}}</mat-label>
+                                <input matInput formControlName="showName">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>商户状态</mat-label>
+                                <mat-select formControlName="enabled">
+                                    <mat-option [value]="true">正常</mat-option>
+                                    <mat-option [value]="false">冻结</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>一级业态</mat-label>
+                                <mat-select formControlName="businessType" [disableRipple]="true">
+                                    <div class="business-type" fxLayout="column"
+                                         fxLayoutAlign="start center" fxFlexFill>
+                                        <div mat-ripple fxLayout="row" *ngFor="let type of businessTypes"
+                                             fxLayoutAlign="space-between center">
+                                            <mat-option [value]="type" fxFlex="1 1 auto"
+                                                        (click)="onTypeSelect(type,'businessTypeId','id')">
+                                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                                    <span fxLayout="row" fxLayoutAlign="center center"
+                                                          class="text-ellipsis">{{type.name}}</span>
+                                                </div>
+                                            </mat-option>
+                                            <div class="color-div" fxLayout="row"
+                                                 fxLayoutAlign="space-around center">
+                                                    <span [style.background]="type.color"
+                                                          class="color-block mr-8"></span>
+                                                <span>{{type.color}}</span>
+                                                <button mat-icon-button class="delete-button"
+                                                        (click)="editColor(type)">
+                                                    <mat-icon class="theme-hover">edit</mat-icon>
+                                                </button>
+                                                <!--<button mat-icon-button class="delete-button"-->
+                                                <!--(click)="deleteBType(type)">-->
+                                                <!--<mat-icon class="theme-hover">delete</mat-icon>-->
+                                                <!--</button>-->
+                                            </div>
+                                        </div>
+                                        <div mat-ripple fxLayout="row" *ngIf="addBusinessType||editBusinessType"
+                                             fxLayoutAlign="space-between center">
+                                            <mat-form-field appearance="outline" class="left-input">
+                                                <input matInput [disabled]="true" [value]="editBType.name"
+                                                       (input)="saveNewType($event)">
+                                            </mat-form-field>
+                                            <div fxLayout="row" fxLayoutAlign="space-around center">
+                                                    <span [style.background]="editBType.color"
+                                                          class="color-block mr-8"></span>
+                                                <mat-form-field appearance="outline" class="color-div">
+                                                    <input matInput [value]="editBType.color" autocomplete="false"
+                                                           [cpUseRootViewContainer]="true"
+                                                           [cpPosition]="'top'"
+                                                           [cpPresetColors]="bTypeColors"
+                                                           [cpFallbackColor]="'#6D6D6D'"
+                                                           [cpCancelButtonClass]="'cancel-button'"
+                                                           [cpCancelButton]="true"
+                                                           [cpOKButton]="true"
+                                                           [cpOKButtonClass]="'ok-button'"
+                                                           [cpOKButtonText]="'dialog.ensure'|translate"
+                                                           [cpPresetLabel]="'colorPicker.presetLabel'|translate"
+                                                           [cpCancelButtonText]="'dialog.cancel'|translate"
+                                                           [(colorPicker)]="editBType.color"/>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="addBusinessType||editBusinessType" fxLayout="row"
+                                             class="operate-button"
+                                             fxLayoutAlign="space-around center">
+                                            <mat-option style="display: none"></mat-option>
+                                            <button mat-raised-button color="accent" (click)="saveBType()">
+                                                <mat-icon>check</mat-icon>
+                                                <span>{{'dialog.ensure'|translate}}</span>
+                                            </button>
+                                            <button mat-button color="accent" (click)="clearBType()">
+                                                <mat-icon>close</mat-icon>
+                                                <span>{{'dialog.cancel'|translate}}</span>
+                                            </button>
+                                        </div>
+                                        <!--<div *ngIf="!addBusinessType" class="h-40" mat-ripple-->
+                                        <!--(click)="addType()" fxLayout="row"-->
+                                        <!--fxLayoutAlign="center center">-->
+                                        <!--<mat-option style="display: none"></mat-option>-->
+                                        <!--<mat-icon>add</mat-icon>-->
+                                        <!--</div>-->
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                            <app-auto-select class="w-48-p" [label]="'二级业态'"
+                                             [selectControl]="storeForm.get('secondType')"
+                                             [filterOptions]="filterSecondTypes" [isEmptyMsg]="'当前一级业态下无二级业态！'"
+                                             [matIcon]="'storefont'" [notFindMsg]="'当前搜索的二级业态不存在！'"
+                                             [requiredMsg]="'二级业态不能为空！'"
+                                             (selectionChange)="onTypeSelect($event,'secondTypeId','id')"
+                            ></app-auto-select>
+                            <div class="w-100-p mb-24"
+                                 fxLayout="column" fxLayoutAlign="start start">
+                                <span class="secondary-text font-size-13">品牌简介</span>
+                                <quill-editor [modules]="modules" [placeholder]="'品牌简介(默认继承选择品牌)'" class="w-100-p"
+                                              (onEditorCreated)="onEditorCreated($event)"
+                                              [formControl]="storeForm.get('desc')"
+                                              [styles]="{'border-radius':'5px','min-height':'200px'}"
+                                ></quill-editor>
+                            </div>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.createdBy'|translate}}</mat-label>
+                                <input matInput formControlName="createdBy">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.createdDate'|translate}}</mat-label>
+                                <input matInput formControlName="createdDate">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.lastModifiedBy'|translate}}</mat-label>
+                                <input matInput formControlName="lastModifiedBy">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-48-p">
+                                <mat-label>{{'airport.edit.lastModifiedDate'|translate}}</mat-label>
+                                <input matInput formControlName="lastModifiedDate">
+                            </mat-form-field>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+<!--上传svg或zip-->
+<!--<input #uploadFile multiple [accept]="['.svg','.zip']" type="file" hidden-->
+<!--(change)="getFile($event)"/>-->
+<!--<input #uploadSingleFile [accept]="['.svg']" type="file" hidden-->
+<!--(change)="getFilePreview($event)"/>-->
+<!--init-->
+<ng-template #init>
+    <div class="h-100-p" fxLayout="column" fxLayoutAlign="space-between start">
+        <span class="h2 font-weight-900">{{'airport.tips.tip'|translate}}</span>
+        <div class="mat-typography p-8" fxLayout="column" fxLayoutAlign="space-between start">
+            <span class="h4 font-weight-600 mb-8">{{'airport.tips.initTipTitle'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.initTip1'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.initTip2'|translate}}</span>
+            <!--<span class="mb-8">{{'airport.tips.initTip2-2'|translate}}</span>-->
+            <span class="mb-8">{{'airport.tips.initTip3'|translate}}</span>
+        </div>
+        <div class="w-100-p" fxLayout="row" fxLayoutAlign="center center">
+            <button class="w-80-p" mat-raised-button color="accent" [mat-dialog-close]="true">
+                {{'dialog.ensure'|translate}}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<!--tips-->
+<ng-template #tips>
+    <div class="h-100-p" fxLayout="column" fxLayoutAlign="space-between start">
+        <span class="h2 font-weight-900">{{'airport.tips.tip'|translate}}</span>
+        <div class="mat-typography p-8" fxLayout="column" fxLayoutAlign="space-between start">
+            <span class="h4 font-weight-600 mb-8">{{'airport.tips.tipTitle'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip1'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip2-1'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip2-2'|translate}}</span>
+            <span class="mb-8">{{'airport.tips.tip3'|translate}}</span>
+        </div>
+        <div class="w-100-p" fxLayout="row" fxLayoutAlign="center center">
+            <button class="w-80-p" mat-raised-button color="accent" [mat-dialog-close]="true">
+                {{'dialog.ensure'|translate}}
+            </button>
+        </div>
+    </div>
+</ng-template>
+<!--商户对应-->
+<ng-template #corresponding>
+    <h2 mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">{{'airport.edit.corresponding'|translate}}
+        <span style="font-size: 15px"
+              *ngIf="currentPath">{{'airport.store.areaNo'|translate}}:{{currentPath.areaNo}}</span>
+        <mat-form-field>
+            <mat-label>{{'airport.edit.search'|translate}}</mat-label>
+            <input matInput [(ngModel)]="inputValue" (input)="resetStores($event)" (keyup.enter)="onStoreSearch()">
+        </mat-form-field>
+    </h2>
+    <mat-dialog-content class="px-0" fxLayout="column" fxLayoutAlign="start center">
+        <div *ngIf="selectStore" class="w-100-p my-4 light-box-shadow" fxLayout="row"
+             fxLayoutAlign="space-around center">
+            <div class="w-50-p" fxLayout="row" fxLayoutAlign="space-around center">
+                <h3 *ngIf="!isCurrent">{{'airport.store.select'|translate}}:{{selectStore.storeName}}</h3>
+                <h3 class="theme-color" *ngIf="isCurrent">
+                    {{'airport.store.current'|translate}}:{{selectStore.storeName}}</h3>
+                <h3 [ngClass]="{'theme-color':isCurrent}">
+                    {{'airport.store.corresponding'|translate}}:{{(selectStore.areaNo?'yes':'no')|translate}}</h3>
+            </div>
+        </div>
+        <ngx-datatable class="material" [ngClass]="{'has-corresponding':selectStore&&selectStore.areaNo&&!isCurrent}"
+                       [messages]="{emptyMessage:'airport.message.listEmpty'|translate,
+                                    selectedMessage:'airport.history.selected'|translate,
+                                    totalMessage:'airport.history.rowCount'|translate}"
+                       [selectionType]="'single'"
+                       [selected]="selectStores"
+                       [columns]="storeColumns"
+                       [footerHeight]="45"
+                       [count]="page.count"
+                       [externalPaging]="inputValue===''"
+                       [offset]="page.page"
+                       [limit]="page.size"
+                       [externalSorting]="true"
+                       (sort)="onSort($event)"
+                       [rowHeight]="40"
+                       [rows]="stores"
+                       (select)="onSelect($event)"
+                       (page)="onPage($event)"
+        >
+            <ngx-datatable-column [name]="'airport.store.no'|translate" [canAutoResize]="true">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <span>{{stores.indexOf(row)+1+page.page*page.size}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngFor="let column of storeColumns" [name]="column.name" [canAutoResize]="true"
+            >
+                <ng-template let-column="column" let-sort="sortFn"
+                             ngx-datatable-header-template>
+                    <span style="cursor: pointer;" (click)="sort()">{{'airport.store.'+column.name|translate}}</span>
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span [matTooltip]="value" matTooltipPosition="above">{{value}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+        <!--<mat-form-field appearance="outline" fxFlexFill>-->
+        <!--<mat-label>{{'airport.edit.areaNo'|translate}}</mat-label>-->
+        <!--<input matInput [formControl]="areaNoControl">-->
+        <!--</mat-form-field>-->
+        <!--<mat-form-field appearance="outline" fxFlexFill>-->
+        <!--<mat-label>{{'airport.edit.store'|translate}}</mat-label>-->
+        <!--<mat-select #select (valueChange)="storeSelect($event)" [formControl]="storeNoControl">-->
+        <!--<mat-option *ngFor="let store of filterStores" [value]="store.storeNo">-->
+        <!--{{store.storeNo}}-->
+        <!--</mat-option>-->
+        <!--</mat-select>-->
+        <!--</mat-form-field>-->
+        <!--<mat-form-field appearance="outline" fxFlexFill>-->
+        <!--<mat-label>{{'airport.edit.storeName'|translate}}</mat-label>-->
+        <!--<input matInput [formControl]="storeNameControl">-->
+        <!--</mat-form-field>-->
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [disabled]="!selectStore" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+<!--更新SVG弹框-->
+<ng-template #update>
+    <h2 mat-dialog-title>{{'airport.update.title'|translate}}</h2>
+    <div class="update-title px-8 mb-16" fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="h4 font-weight-600">
+                    {{'airport.update.info'|translate}}
+                </span>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <span class="add-block px-4"></span><span
+                    class="px-4 mr-16">{{'airport.update.add'|translate}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <span class="disabled-block px-4"></span><span
+                    class="px-4">{{'airport.update.disabled'|translate}}</span>
+            </div>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+            <div class="update-content" fxLayout="column" fxLayoutAlign="start center">
+                <div>
+                    <ng-container *ngFor="let change of mapChanges">
+                        <div class="add-word my-16" fxLayout="row" fxLayoutAlign="center center">
+                            ------ {{change.id}} ------
+                        </div>
+                        <div class="content" fxLayout="row wrap"
+                             [fxLayoutAlign]="change.changes&&change.changes.length>0?'start center':'center center'">
+                            <ng-container *ngFor="let floor of change.changes;let i=index">
+                                <span [ngClass]="{'add-word':floor.add,'disabled-word':floor.delete}">{{floor.id}}{{(i===change.changes.length-1)?'':'、'}}</span>
+                            </ng-container>
+                            <span *ngIf="change.changes&&change.changes.length===0" class="add-word">{{'airport.update.noUpdate'|translate}}</span>
+                            <span *ngIf="!change.changes"
+                                  class="no-update">{{'airport.update.noUpload'|translate}}</span>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+<!--商户对应已对应商户弹框-->
+<ng-template #cDialog>
+    <h2 mat-dialog-title>{{'airport.tips.tip'|translate}}</h2>
+    <mat-dialog-content class="mat-typography">
+        <span>{{'airport.store.content1'|translate}}
+            <b class="theme-color">“{{selectStore.storeName}}”</b>
+            {{'airport.store.content2'|translate}}
+            <b class="theme-color">“{{currentPath.areaNo}}”</b>
+            {{'airport.store.content3'|translate}}
+            {{'airport.store.content4'|translate}}
+        </span>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!--更改商户编号-->
+<ng-template #changeStore>
+    <h2 mat-dialog-title>{{'airport.tips.tip'|translate}}</h2>
+    <mat-dialog-content class="mat-typography">
+        <span>{{'airport.store.content1'|translate}}
+            <b class="theme-color">“{{selectStore.storeName}}”</b>
+            {{'airport.store.content2'|translate}}
+            <b class="theme-color">“{{currentPath.areaNo}}”</b>
+            {{'airport.store.content5'|translate}}
+            {{'airport.store.content6'|translate}}
+        </span>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!--清空单元号数据-->
+<ng-template #clearArea>
+    <h2 mat-dialog-title>{{'airport.tips.tip'|translate}}</h2>
+    <mat-dialog-content class="mat-typography">
+        <div>
+            {{'airport.store.content7'|translate}}
+        </div>
+        <div>
+            {{'airport.store.content8'|translate}}
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!--删除业态-->
+<ng-template #deleteType>
+    <h2 mat-dialog-title>{{'airport.tips.tip'|translate}}</h2>
+    <mat-dialog-content class="mat-typography">
+        <div class="py-8">
+            {{'airport.edit.businessType'|translate}}
+            <span class="theme-color">“{{selectType.name}}”</span>
+            {{'airport.store.content9'|translate}}
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" [mat-dialog-close]="true">
+            <mat-icon>check</mat-icon>
+            <span>{{'dialog.ensure'|translate}}</span>
+        </button>
+        <button mat-button color="accent" [mat-dialog-close]="false">
+            <mat-icon>close</mat-icon>
+            <span>{{'dialog.cancel'|translate}}</span>
+        </button>
+    </mat-dialog-actions>
+</ng-template>
+<!--选择标签-->
+<ng-template #tag>
+    <app-merchants-tag-management [selectedRows]="selectedTags" [checkbox]="true" [tagType]="'STORE'" [overPanel]="true"
+                                  [showButton]="false"
+                                  (dataSelect)="tagSelect($event)"
+    ></app-merchants-tag-management>
+</ng-template>

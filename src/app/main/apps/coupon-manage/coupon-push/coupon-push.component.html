@@ -1,0 +1,111 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">优惠券发放</h2>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <div fxLayout="column" fxLayoutAlign="start center" class="left-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="leftContentTop"></ng-container>
+                </mat-card>
+            </div>
+
+            <!--右边-->
+            <div fxLayout="column" fxLayoutAlign="start center" class="right-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+                </mat-card>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+</div>
+<ng-template #leftContentTop>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="15px" class="w-100-p">
+        <div [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'100ms',opacity:'0',delay:'100ms'}}">
+            推送对象
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p mall-all-content"
+             [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'200ms',opacity:'0',delay:'100ms'}}">
+            <div fxLayout="row">
+                <div class="increace-reduce-button" fxLayout="row" fxLayoutAlign="center center" (click)="openDriverList(driverTemplate)">
+                    <!--                <img src="assets/images/cards/insertAndReduce.png">-->
+                    <span style="color:#fff">会员添加</span>
+                </div>
+
+                <div class="increace-button ml-32" fxLayout="row" fxLayoutAlign="center center" (click)="openGroupMemberList(memberGroupTemplate)">
+                    <span style="color:#fff">会员群添加</span>
+                </div>
+            </div>
+
+            <div class="w-100-p label-content">
+                <div fxLayout="row" fxLayoutAlign="start center" *ngIf="allMemberList.length===0" class="item-button">
+                    <span>暂无</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center"  *ngFor="let driver of allMemberList; let i = index;" class="item-button">
+                    <span>{{driver.name}}</span>
+                    <mat-icon class="select-icon" (click)="deleteAllMember(i)">cancel</mat-icon>
+                </div>
+            </div>
+        </div>
+        <mat-divider [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'300ms',opacity:'0',delay:'100ms'}}"></mat-divider>
+        <div [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'400ms',opacity:'0',delay:'100ms'}}">
+            券规则
+        </div>
+        <div class="w-100-p" fxLayout="row wrap" fxLayoutAlign="start start" [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'500ms',delay:'100ms'}}">
+            <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMemberSelect(ruleTemplate)">
+                <mat-icon>add_circle_outline</mat-icon>
+                <span class="ml-4">添加对象</span>
+            </div>
+            <div class="member-cell p-8" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="2px" *ngIf="currentCouponRule" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:'100ms',duration:'500ms'}}">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p">
+                    <span>券名称:{{currentCouponRule?.name}}</span>
+                    <button mat-icon-button (click)="removeMember()" fxLayout="row" fxLayoutAlign="center center" class="w-24 h-24 remove-button">
+                        <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                    </button>
+                </div>
+                <span class="w-100-p" style="word-break: break-all;">券编码:{{currentCouponRule?.number}}</span>
+                <span class="w-100-p">有效期:
+                    <span>{{currentCouponRule?.validity}}</span>
+                </span>
+            </div>
+        </div>
+        <button mat-raised-button class="reissue-button" color="accent" (click)="saveCouponPush()" [disabled]="canClick"
+                [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'600ms',delay:'100ms'}}">
+            发放
+        </button>
+    </div>
+
+</ng-template>
+<ng-template #rightContent>
+    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center" [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'100ms'}}">
+        <span>操作记录</span>
+    </div>
+    <app-table-list [overPanel]="true" [stick]="true" [rows]="rows" [columns]="columns" [page]="page"
+                    (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()">
+    </app-table-list>
+</ng-template>
+
+
+<ng-template #driverTemplate>
+    <app-passengers-manage [overPanel]="true" [checkbox]="true" [selectedRows]="selectedDriverList" (dataSelect)="onDriverSelect($event)"></app-passengers-manage>
+</ng-template>
+
+<ng-template #ruleTemplate>
+    <app-coupon-rule [overPanel]="true" [createBut]="false" [singleSelect]="true" [selectedRow]="selectedCouponRule" [isPackage]="false"
+                     (dataSelect)="onMemberSelect($event)"></app-coupon-rule>
+</ng-template>
+
+<ng-template #memberGroupTemplate>
+    <app-member-group [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedGroupMemberList" (dataSelect)="onGroupMemberSelect($event)"></app-member-group>
+</ng-template>

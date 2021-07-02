@@ -1,0 +1,285 @@
+<div class="page-layout carded fullwidth inner-scroll two-card">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-stroked-button [disabled]="onSaving" (click)="onSaveClick()" class="save-button">保存</button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <div class="left-content" fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <form [formGroup]="roleGroup" autocomplete="off"
+              [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"
+              class="w-100-p normal-form-fields"
+              fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>角色名称</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="roleGroup.get('name').hasError('required')">
+                    角色名称不能为空！
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>角色说明</mat-label>
+                <input matInput formControlName="description">
+                <!--<mat-error *ngIf="roleGroup.get('name').hasError('required')">-->
+                <!--角色说明不能为空！-->
+                <!--</mat-error>-->
+            </mat-form-field>
+        </form>
+        <ng-container *ngTemplateOutlet="navigationTemplate"></ng-container>
+    </div>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content"
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill fxLayoutGap="24px">
+        <ng-container *ngTemplateOutlet="serverAuthTemplate"></ng-container>
+
+
+
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="type-panel w-100-p"
+             fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start"
+             fxLayoutGap="8px">
+            <!--一级纵向菜单-->
+            <ng-container *ngFor="let item of merchantNavigation;let i=index">
+                <div *ngIf="!allFolded" @fadeInOut
+                     class="w-100-p"
+                     fxLayout="column" fxLayoutAlign="start start">
+                    <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                        <mat-checkbox labelPosition="after" (change)="onParentChangeMerchant(item)"
+                                      [(ngModel)]="item.checked" [disabled]="allDisabled"
+                                      class="font-size-16 secondary-text">
+                            {{item.title}}
+                        </mat-checkbox>&nbsp;
+                        <button (click)="item.folded=!item.folded" class="w-32 h-32 dark-box-shadow-hover"
+                                mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                            <mat-icon *ngIf="!item.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                arrow_drop_up
+                            </mat-icon>
+                            <mat-icon *ngIf="item.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                arrow_drop_down
+                            </mat-icon>
+                        </button>
+                        <!--<div (click)="item.folded=!item.folded" fxLayout="row" fxLayoutAlign="start center"-->
+                        <!--class="h-32 cursor-pointer" fxFlex="1 1 auto"></div>-->
+                    </div>
+                    <ng-container *ngFor="let menu of item.children;let i=index">
+                        <!--二级纵向菜单-->
+                        <div *ngIf="!item.folded" @fadeInOut
+                             class="w-100-p type-content my-4"
+                             fxLayout="column" fxLayoutAlign="start start">
+                            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                                <mat-checkbox labelPosition="after" (change)="onParentChangeMerchant(menu)"
+                                              [(ngModel)]="menu.checked" [ngClass]="{'theme-color':!allDisabled}"
+                                              [disabled]="allDisabled"
+                                              class="font-size-14 font-weight-600">
+                                    {{menu.title}}
+                                </mat-checkbox>&nbsp;
+                                <button *ngIf="menu.children" (click)="menu.folded=!menu.folded"
+                                        class="w-32 h-32 dark-box-shadow-hover"
+                                        mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                                    <mat-icon *ngIf="!menu.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                        arrow_drop_up
+                                    </mat-icon>
+                                    <mat-icon *ngIf="menu.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                        arrow_drop_down
+                                    </mat-icon>
+                                </button>
+                                <div (click)="menu.folded=!menu.folded" fxLayout="row" fxLayoutAlign="start center"
+                                     class="h-32 cursor-pointer" fxFlex="1 1 auto"></div>
+                            </div>
+                            <div @fadeInOut *ngIf="!menu.folded&&menu.children" class="py-12" fxLayout="row wrap"
+                                 fxLayoutAlign="start center">
+                                <!--三级横向菜单-->
+                                <ng-container *ngFor="let child of menu.children">
+                                    <mat-checkbox labelPosition="after" (change)="reverseToMerchantParent()"
+                                                  [(ngModel)]="child.checked" [disabled]="allDisabled"
+                                                  class="type-checkbox font-weight-600 font-size-13 mt-4">
+                                        {{child.title}}
+                                    </mat-checkbox>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!--<div @fadeInOut *ngIf="!item.folded" class="py-12" fxLayout="row wrap" fxLayoutAlign="start center">-->
+                    <!--<ng-container *ngFor="let secondType of item.children">-->
+                    <!--<mat-checkbox labelPosition="after" [(ngModel)]="secondType.checked"-->
+                    <!--class="type-checkbox secondary-text font-size-13 mt-4">-->
+                    <!--{{secondType.title}}-->
+                    <!--</mat-checkbox>-->
+                    <!--</ng-container>-->
+                    <!--</div>-->
+                </div>
+            </ng-container>
+        </div>
+
+
+
+
+    </div>
+</ng-template>
+
+<!--中台接口权限-->
+<ng-template #serverAuthTemplate>
+    <ng-container *ngFor="let serverAuth of serverAuthorities">
+        <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}"
+             class="w-100-p"
+             fxLayout="column" fxLayoutAlign="start start">
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p mb-8">
+                <mat-checkbox labelPosition="after" (change)="onServerAuthParent(serverAuth)"
+                              [disabled]="allDisabled"
+                              [(ngModel)]="serverAuth.checked" [matTooltip]="serverAuth.tooltip" matTooltipPosition="above"
+                              class="font-size-17">
+                    {{serverAuth.first}}
+                </mat-checkbox>&nbsp;
+                <button *ngIf="serverAuth.children" (click)="serverAuth.folded=!serverAuth.folded"
+                        class="w-32 h-32 dark-box-shadow-hover"
+                        mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                    <mat-icon *ngIf="!serverAuth.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                        arrow_drop_up
+                    </mat-icon>
+                    <mat-icon *ngIf="serverAuth.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                        arrow_drop_down
+                    </mat-icon>
+                </button>
+            </div>
+            <div @fadeInOut *ngIf="!serverAuth.folded&&serverAuth.children" fxLayout="row wrap"
+                 fxLayoutAlign="start center">
+                <!--中台权限-->
+                <ng-container *ngFor="let child of serverAuth.children">
+                    <mat-checkbox labelPosition="after" (change)="reverseServerAuth()"
+                                  [(ngModel)]="child.checked" [disabled]="allDisabled"
+                                  [ngClass]="{'warn-color':child.warn}"
+                                  class="type-checkbox font-weight-600 font-size-15 mt-4 mx-4">
+                        {{child.description}}
+                    </mat-checkbox>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
+<!--后台功能菜单-->
+<ng-template #navigationTemplate>
+    <div [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="w-100-p mb-8"
+         fxLayout="row" fxLayoutAlign="start center">
+        <mat-checkbox labelPosition="after" (change)="selectAllOrNot($event)" [(ngModel)]="allChecked"
+                      class="font-size-17" [disabled]="allDisabled" matTooltipPosition="above"
+                      [matTooltip]="'控制该角色所包含的后台菜单的显示和访问权限。'">
+            功能权限
+        </mat-checkbox>&nbsp;
+        <button (click)="foldAllOrNot()" class="w-32 h-32 dark-box-shadow-hover" mat-icon-button fxLayout="row"
+                fxLayoutAlign="space-around center">
+            <mat-icon *ngIf="!allFolded" class="mat-icon-18" style="margin-bottom: 2px">arrow_drop_up</mat-icon>
+            <mat-icon *ngIf="allFolded" class="mat-icon-18" style="margin-bottom: 2px">arrow_drop_down</mat-icon>
+        </button>
+        <!--<div (click)="foldAllOrNot()" fxLayout="row" fxLayoutAlign="start center" class="h-32 cursor-pointer"-->
+        <!--fxFlex="1 1 auto"></div>-->
+    </div>
+    <div [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}" class="type-panel w-100-p"
+         fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start"
+         fxLayoutGap="8px">
+        <!--一级纵向菜单-->
+        <ng-container *ngFor="let item of navigation;let i=index">
+            <div *ngIf="!allFolded" @fadeInOut
+                 class="w-100-p"
+                 fxLayout="column" fxLayoutAlign="start start">
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                    <mat-checkbox labelPosition="after" (change)="onParentChange(item)"
+                                  [(ngModel)]="item.checked" [disabled]="allDisabled"
+                                  class="font-size-16 secondary-text">
+                        {{item.title}}
+                    </mat-checkbox>&nbsp;
+                    <button (click)="item.folded=!item.folded" class="w-32 h-32 dark-box-shadow-hover"
+                            mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                        <mat-icon *ngIf="!item.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                            arrow_drop_up
+                        </mat-icon>
+                        <mat-icon *ngIf="item.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                            arrow_drop_down
+                        </mat-icon>
+                    </button>
+                    <!--<div (click)="item.folded=!item.folded" fxLayout="row" fxLayoutAlign="start center"-->
+                    <!--class="h-32 cursor-pointer" fxFlex="1 1 auto"></div>-->
+                </div>
+                <ng-container *ngFor="let menu of item.children;let i=index">
+                    <!--二级纵向菜单-->
+                    <div *ngIf="!item.folded" @fadeInOut
+                         class="w-100-p type-content my-4"
+                         fxLayout="column" fxLayoutAlign="start start">
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p">
+                            <mat-checkbox labelPosition="after" (change)="onParentChange(menu)"
+                                          [(ngModel)]="menu.checked" [ngClass]="{'theme-color':!allDisabled}"
+                                          [disabled]="allDisabled"
+                                          class="font-size-14 font-weight-600">
+                                {{menu.title}}
+                            </mat-checkbox>&nbsp;
+                            <button *ngIf="menu.children" (click)="menu.folded=!menu.folded"
+                                    class="w-32 h-32 dark-box-shadow-hover"
+                                    mat-icon-button fxLayout="row" fxLayoutAlign="space-around center">
+                                <mat-icon *ngIf="!menu.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                    arrow_drop_up
+                                </mat-icon>
+                                <mat-icon *ngIf="menu.folded" class="mat-icon-18" style="margin-bottom: 2px">
+                                    arrow_drop_down
+                                </mat-icon>
+                            </button>
+                            <div (click)="menu.folded=!menu.folded" fxLayout="row" fxLayoutAlign="start center"
+                                 class="h-32 cursor-pointer" fxFlex="1 1 auto"></div>
+                        </div>
+                        <div @fadeInOut *ngIf="!menu.folded&&menu.children" class="py-12" fxLayout="row wrap"
+                             fxLayoutAlign="start center">
+                            <!--三级横向菜单-->
+                            <ng-container *ngFor="let child of menu.children">
+                                <mat-checkbox labelPosition="after" (change)="reverseToParent()"
+                                              [(ngModel)]="child.checked" [disabled]="allDisabled"
+                                              class="type-checkbox font-weight-600 font-size-13 mt-4">
+                                    {{child.title}}
+                                </mat-checkbox>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+                <!--<div @fadeInOut *ngIf="!item.folded" class="py-12" fxLayout="row wrap" fxLayoutAlign="start center">-->
+                <!--<ng-container *ngFor="let secondType of item.children">-->
+                <!--<mat-checkbox labelPosition="after" [(ngModel)]="secondType.checked"-->
+                <!--class="type-checkbox secondary-text font-size-13 mt-4">-->
+                <!--{{secondType.title}}-->
+                <!--</mat-checkbox>-->
+                <!--</ng-container>-->
+                <!--</div>-->
+            </div>
+        </ng-container>
+    </div>
+</ng-template>

@@ -1,0 +1,961 @@
+@import "src/@fuse/scss/fuse";
+body{
+  width: 100%;
+  height: 100%;
+}
+.top-button-div{
+  margin-right:20px;
+  button{
+    margin-right: 10px;
+  }
+}
+
+.btu-class-me39{
+  width: 39%;
+}
+.btu-class-me15{
+  width: 15%;
+}
+
+
+.title-header{
+  //justify-content: space-between;
+  .btu-class-me{
+    display: flex;
+   // width: 39%;
+    justify-content: flex-end;
+    margin-right: 60px;
+    .header-button{
+      margin-right: 10px;
+    }
+    .btn-check{
+      width: 90px;
+      ::ng-deep{
+        background-color: #70C7FF;
+      }
+    }
+    .btn-reject{
+      width: 90px;
+      ::ng-deep{
+        background-color: #E2394E;
+      }
+    }
+
+  }
+}
+
+// 总体的内容content
+.content-all{
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  width:100%;
+  height: 100%;
+  @include media-breakpoint('lt-md'){
+    justify-content: flex-start;
+  }
+  // 左侧内容
+  .content-left{
+    display: flex;
+    width:49%;
+    max-height: 81vh;
+    border:1px solid #ccc;
+    border-radius: 8px;
+   // margin-bottom:20px;
+    box-sizing: border-box;
+    background: #fff;
+    overflow: auto;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      margin-bottom: 20px;
+    }
+    .type-radio{
+      display: flex;
+      width:100%;
+      height:50px;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      padding-left:20px;
+      box-sizing: border-box;
+      .radio-content{
+        display: flex;
+        height:100%;
+        width:50%;
+        //justify-content: space-between;
+        .radio-button-right-margin{
+          margin-left:20px;
+          margin-right: 20px;
+        }
+      }
+    }
+    .content-input-down{
+      display: flex;
+      box-sizing: border-box;
+      height: 80%;
+      width:calc(100% - 40px);;
+      margin: 20px;
+      //border: 1px solid green;
+      /* form{
+         width:100%;
+         height:100%;
+       }*/
+      .content-divClass{
+        width: 100%;
+        height: 50px;
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+        }
+      }
+      .idDiv{
+        .preheatTimeDiv{
+          width:50%;
+          ::ng-deep {
+            .mat-form-field-appearance-outline .mat-form-field-infix{
+              padding: 0;
+            }
+          }
+        }
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+        }
+        margin-top:15px;
+      }
+      .start-end-time{
+        margin-top: -10px;
+        .start-time-picker{
+          margin-right:5px;
+        }
+        ::ng-deep {
+          .mat-form-field-appearance-outline .mat-form-field-flex {
+            height: 50px;
+          }
+        }
+      }
+      .activity-photo{
+        //margin-top:20px;
+        width: 100%;
+        .ready-upload-part{
+          display: flex;
+          align-items: center;
+          width: 85%;
+          .up-input-btu{
+            width: 18.7%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .up-input-btu-btu{
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .preview-img{
+            width: 18.7%;
+            height: 100%;
+            //margin-left: 20px;
+            display: flex;
+            .preview-up-input-btu-btu{
+              width: 100%;
+              height: 100%;
+              .span-accent-color{
+                color: #555555;
+                font-size: 1.3rem;
+              }
+            }
+          }
+        }
+      }
+      .activity-regulation{
+        margin-top:20px;
+      }
+      .activity-des{
+        width:100%;
+        /*height:120px;*/
+        border:1px solid #ccc;
+        //border-radius: 8px;
+        margin-top: 20px;
+        padding-bottom: 16px;
+        .engine-push{
+          margin-left:15px;
+          margin-top:15px;
+          .radio-button-right-margin{
+            margin-left:20px;
+          }
+        }
+        .activity-lable{
+          width: 100%;
+          margin-left: 15px;
+          margin-top:15px;
+          .label-title-name{
+            width: 86px;
+          }
+          .label-all-content{
+            width: calc(100% - 86px);
+            flex-wrap: wrap;
+          }
+          .increace-reduce-button{
+            margin-right: 10px;
+            cursor: pointer;
+            width:90px;
+            height:24px;
+            background-color: #2392D6;
+            //border: 1px dashed #2392D6;
+            border-radius: 6px;
+            img{
+              width:14px;
+              height:14px;
+              margin-right: 5px;
+            }
+          }
+          .label-content{
+            padding: 2px 10px;
+            margin-right: 10px;
+            background-color: #2392D6;
+            border-radius:6px;
+            .color-font{
+              color:#fff;
+            }
+            .select-icon{
+              cursor: pointer;
+            }
+          }
+
+
+        }
+        .checkbox-left-margin{
+          margin-left:30px;
+        }
+      }
+    }
+    .datetimepicker-style{
+      width: 100%;
+      height: 45px;
+      margin-top: -9px;
+      line-height: 18px;
+    }
+  }
+  .content-right{
+    display: flex;
+    width:49%;
+    height:100%;
+    max-height: 81vh;
+    border-radius: 8px;
+    box-sizing: border-box;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: auto;
+      max-height: none;
+    }
+    .status-div{
+      width:100%;
+      height:170px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      .status-word{
+        width:100%;
+        margin-left:20px;
+        span:nth-child(1) {
+          margin-right: 20%;
+        }
+        span:nth-child(2) {
+          color:#2392D6;
+        }
+      }
+      .engine-push{
+        width:100%;
+        margin-left:20px;
+
+        .radio-engine-content{
+          display: flex;
+          height:100%;
+          width:50%;
+          margin-right: 10%;
+          //justify-content: space-between;
+          .radio-button-right-margin{
+            margin-left:20px;
+            margin-right: 20px;
+          }
+        }
+      }
+      .lable-content{
+        width: 100%;
+        margin-left: 20px;
+        span:nth-child(1) {
+          margin-right: 10%;
+        }
+        .add-button{
+          width:68px;
+          height:25px;
+          border: 1px dashed #2392D6;
+          border-radius: 10px;
+          color:#2392D6;
+        }
+      }
+    }
+    .electronic-coupons-content{
+      width:100%;
+      //height:170px;
+      border: 1px solid #ccc;
+      background-color: #FFFFFF;
+      border-radius: 8px;
+     // margin-top:20px;
+      //overflow-x: auto;
+      .coupons-word{
+        margin-right: 5%;
+        margin-left: 20px;
+        //margin-bottom: 15%;
+        width: calc(100% - 20px);
+        height:20px;
+        //border: 1px solid red;
+        margin-top:12px;
+        margin-bottom:12px;
+      }
+      .electronic-coupons-content-add{
+        flex-wrap: wrap;
+        width:calc(100% - 20px);
+        //height:160px;
+        //border:1px solid green;
+        margin-left:20px;
+        .add-coupons{
+          width:30%;
+          height:110px;
+          border: 1px dashed #37a8ed;
+          border-radius: 10px;
+          color:#2392D6;
+          margin-right: 10px;
+          margin-bottom:12px;
+        }
+        .content-coupons{
+          margin-bottom:12px;
+          span{
+            margin-left: 10px;
+          }
+          width:30%;
+          height:110px;
+          //border: 1px dashed #ccc;
+          border-radius: 10px;
+          margin-right: 10px;
+          font-size: 11px;
+          //background-color: #F3F3F3;
+          background:  url('assets/images/backgrounds/ecoupon-bg.png') no-repeat;
+          background-size: 100% 100%;
+          .coupon-close-div{
+            margin-right: 5px;
+            width:100%;
+            .coupon-close-button{
+              color: red;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+
+    }
+
+
+    // 分组活动优惠券样式
+    .grouping-electronic-coupons-content{
+      width:100%;
+      //height:170px;
+      border: 1px solid #ccc;
+      //border-radius: 8px 8px 0 0;
+      //margin-top:20px;
+      //overflow-x: auto;
+      .coupons-word{
+        margin-right: 5%;
+        margin-left: 20px;
+        //margin-bottom: 15%;
+        width: calc(100% - 20px);
+        height:20px;
+        //border: 1px solid red;
+        margin-top:12px;
+        margin-bottom:12px;
+        .radio-button-right-margin{
+          margin-left:20px;
+        }
+        .grouping-coupon-close-button{
+          color:red;
+          margin-right:5px;
+          margin-left:20%;
+          cursor:pointer;
+        }
+      }
+
+
+      .electronic-coupons-content-add{
+        flex-wrap: wrap;
+        width:calc(100% - 20px);
+        //height:160px;
+        //border:1px solid green;
+        margin-left:20px;
+        .add-coupons{
+          width:30%;
+          height:110px;
+          border: 1px dashed #37a8ed;
+          border-radius: 10px;
+          color:#2392D6;
+          margin-right: 10px;
+          margin-bottom:12px;
+        }
+        .content-coupons{
+          margin-bottom:12px;
+          span{
+            margin-left: 10px;
+          }
+          width:30%;
+          height:110px;
+          //border: 1px dashed #ccc;
+          border-radius: 10px;
+          margin-right: 10px;
+          font-size: 11px;
+          //background-color: #F3F3F3;
+          background:  url('assets/images/backgrounds/ecoupon-bg.png') no-repeat;
+          background-size: 100% 100%;
+          .coupon-close-div{
+            margin-right: 5px;
+            width:100%;
+            .coupon-close-button{
+              color: red;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    // border上右两个方向8px
+    .border-top-right{
+      border-radius: 8px 8px 0 0;
+    }
+    // 设置20px的margin-top
+    .top-margin{
+      margin-top: 20px;
+    }
+    // 将border-top设置为0
+    .top-border{
+      border-top: 0;
+    }
+    // 添加券组
+    .add-groups-coupon{
+      width:100%;
+      height:50px;
+      border:1px solid #ccc;
+      border-radius: 0 0 8px 8px;
+      border-top: 0;
+      color:#2392D6;
+    }
+
+
+    // 积分电子券
+    .integral-coupon-content{
+      width:100%;
+      //height:120px;
+      border:1px solid #ccc;
+      background-color: #FFFFFF;
+      border-radius: 8px;
+     // margin-top: 20px;
+      .word-title-des{
+        margin-left:20px;
+      }
+      .add-integral-coupon{
+        width:calc(100% - 20px);
+        height:140px;
+        margin-top:12px;
+        margin-bottom:12px;
+        margin-left:10px;
+        marign-right:10px;
+        border: 1px dashed #2392D6;
+        border-radius: 4px;
+        color: #2392D6;
+      }
+      .integral-ticket{
+        width:calc(100% - 20px);
+        height:140px;
+        margin-top:12px;
+        margin-bottom:12px;
+        margin-left:10px;
+        marign-right:10px;
+        background:  url('assets/images/backgrounds/ecoupon-bg.png') no-repeat;
+        background-size: 100% 100%;
+        span{
+          font-size: 12px;
+        }
+        .integral-close-icon{
+          color: red;
+          cursor: pointer;
+          margin-right: 4px;
+        }
+      }
+
+    }
+
+    .activity-stage{
+      display: flex;
+      box-sizing: border-box;
+      width:100%;
+      height:60px;
+      border: 1px solid #ccc;
+
+      border-radius: 8px 8px 0 0;
+      margin-top:20px;
+      .activity-content{
+        width:100%;
+        margin-left:20px;
+        margin-right: 20px;
+      }
+    }
+    .activity-coupon{
+      width:100%;
+      height:205px;
+      border: 1px solid #ccc;
+      border-top: none;
+      background-color: #fff;
+
+      .time-coupon{
+        width:90%;
+        height: 100%;
+        .activity-time{
+          width:100%;
+          ::ng-deep {
+            .mat-form-field-appearance-outline .mat-form-field-flex {
+              height: 50px;
+            }
+          }
+          .datetimepicker-style{
+            width: 100%;
+            height: 45px;
+            margin-top: -27px;
+            line-height: 18px;
+          }
+        }
+        .electronic-coupons-content2{
+          width:100%;
+          height: calc(100% - 45px) !important;
+          //border: 1px solid #ccc;
+          border-radius: 8px;
+          margin-top:-25px;
+          overflow-x: auto;
+          .coupons-word{
+            margin-right: 5%;
+            margin-left: 20px;
+            margin-bottom: 15%;
+          }
+          .add-coupons{
+            width:29%;
+            height:80%;
+            border: 1px dashed #2392D6;
+            border-radius: 10px;
+            color:#2392D6;
+            margin-right: 10px;
+          }
+          .content-coupons{
+            span{
+              margin-left: 10px;
+            }
+            //overflow-x: auto;
+            width:35%;
+            height:80%;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+            margin-right: 10px;
+            font-size: 11px;
+            background-color: #F3F3F3;
+            .coupon-close-div{
+              margin-right: 5px;
+              width:100%;
+              .coupon-close-button{
+                color: red;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+      .activity-delete{
+        width:10%;
+        height:100%;
+        background-color: #F8F8F8;
+        .activity-coupon-close-button{
+          color: red;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.dialog-manage-title{
+  width: 100%;
+  height:50px;
+  background-color: #039be5;
+  color:#fff;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  line-height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left:10px;
+  padding-right:10px;
+  .search {
+    width:60%;
+    height:80%;
+    background: #fff;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+  }
+}
+mat-dialog-content{
+  margin: 0;
+  padding: 0;
+  height: calc(100% - 70px);
+  width:100%;
+}
+:host(::ng-deep .mat-dialog-container){
+  padding: 0!important;
+  height: 100%;
+}
+/* .mat-dialog-content{
+   max-height: 100%!important;
+ }*/
+.all-content{
+  margin-top:20px;
+  margin-left:20px;
+  margin-right:20px;
+  border: 1px solid green;
+  width:calc(100% - 40px);
+  height:90%;
+}
+.all-content-ticket{
+  width:100%;
+  height:100%;
+  .a_underline{
+    text-decoration:underline;
+    cursor: pointer;
+  }
+}
+
+// 文字超出部分隐藏为
+.span_di{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 活动阶段的标题样式调整
+.activity-input-padding{
+  ::ng-deep {
+    .mat-form-field-infix{
+      padding-top: 0;
+    }
+  }
+}
+.MatDialogImgPreview_tips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 460px;
+    height: 460px;
+  }
+}
+
+.dialog-manage-title_tips_img_preview{
+  display: flex;
+  width: 100%;
+  height: 7%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2B96D8;
+  .img-title{
+    margin-left: 2%;
+  }
+  .img-close{
+    margin-right: 2%;
+  }
+  .title_dialog_{
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  button{
+    mat-icon{
+      color: #ffffff;
+    }
+  }
+}
+
+// 上传文件与预览文件部分
+::ng-deep {
+  #uploadImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 72.5%;
+    }
+  }
+  #previewImageDialog_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  #MemberTagDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #FormLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+  #StroeLimitationDloag_{
+    padding: 0!important;
+    mat-dialog-content{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height: 86%;
+    }
+  }
+}
+
+.check-dialog-content{
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  .dialog-title{
+    width: 100%;
+    height: 45px;
+    background-color: #2494DC;
+  }
+  .div-content{
+    width: 100%;
+    height:150px;
+    textarea{
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  }
+  .button-reject{
+    button{
+      width:90px;
+      height:30px;
+      ::ng-deep{
+        background-color: #E2394E;
+      }
+    }
+  }
+}
+
+::ng-deep{
+  #checkDialogId{
+      padding: 0!important;
+  }
+
+  .electronic-group-buy-coupons-content{
+    width:100%;
+    //height:170px;
+    border: 1px solid #ccc;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    //margin-top:20px;
+    //overflow-x: auto;
+    .coupons-word{
+      margin-right: 5%;
+      margin-left: 20px;
+      //margin-bottom: 15%;
+      width: calc(100% - 20px);
+      height:20px;
+      //border: 1px solid red;
+      margin-top:12px;
+      margin-bottom:12px;
+    }
+    .electronic-coupons-content-add{
+      flex-wrap: wrap;
+      width:calc(100% - 20px);
+      //height:160px;
+      //border:1px solid green;
+      margin-left:20px;
+      .add-coupons{
+        width:100%;
+        height:140px;
+        border: 1px dashed #37a8ed;
+        border-radius: 10px;
+        color:#2392D6;
+        margin-right: 10px;
+        margin-bottom:12px;
+      }
+      .content-coupons{
+        margin-bottom:12px;
+        span{
+          margin-left: 10px;
+        }
+        width:30%;
+        height:110px;
+        //border: 1px dashed #ccc;
+        border-radius: 10px;
+        margin-right: 10px;
+        font-size: 11px;
+        //background-color: #F3F3F3;
+        background:  url('assets/images/backgrounds/ecoupon-bg.png') no-repeat;
+        background-size: 100% 100%;
+        .coupon-close-div{
+          margin-right: 5px;
+          width:100%;
+          .coupon-close-button{
+            color: red;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .value-selling-div{
+      width:100%;
+      .value-span{
+        margin-left: 20px;
+        //margin-right:20%;
+      }
+      .selling-input{
+        border: 1px solid #ccc;
+        width: 120px;
+        height: 20px;
+        border-radius: 4px;
+      }
+    }
+
+    .whether-refund{
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+
+
+  }
+}
+
+
+.mall-div{
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  padding: 20px;
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 25px;
+  }
+  .mall-all-content{
+    width: calc(100% - 86px);
+    flex-wrap: wrap;
+    .increace-reduce-button{
+      margin-right: 10px;
+      cursor: pointer;
+      width:90px;
+      height:24px;
+      background-color: #2392D6;
+      //border: 1px dashed #2392D6;
+      border-radius: 6px;
+      img{
+        width:14px;
+        height:14px;
+        margin-right: 5px;
+      }
+    }
+    .label-content{
+      padding: 0px 4px;
+      margin-right: 10px;
+      background-color: #2392D6;
+      border-radius:6px;
+      .color-font{
+        color:#fff;
+      }
+      .select-icon{
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.shop-div{
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  padding: 20px;
+  @include media-breakpoint('lt-md'){
+    margin-bottom: 25px;
+  }
+  .shop-all-content{
+    width: calc(100% - 120px);
+    flex-wrap: wrap;
+    .increace-reduce-button-s{
+      margin-right: 10px;
+      cursor: pointer;
+      width:90px;
+      height:24px;
+      background-color: #2392D6;
+      //border: 1px dashed #2392D6;
+      border-radius: 6px;
+      img{
+        width:14px;
+        height:14px;
+        margin-right: 5px;
+      }
+    }
+    .label-content-s{
+      padding: 0px 4px;
+      margin-right: 10px;
+      background-color: #2392D6;
+      border-radius:6px;
+      .color-font{
+        color:#fff;
+      }
+      .select-icon{
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+
+::ng-deep{
+  #preAcDialog{
+    padding: 0!important;
+  }
+
+}
+
+.group_coupon_sc{
+  overflow: auto;
+  max-height: 64vh;
+  background-color: #FFFFFF;
+  @include media-breakpoint('lt-md'){
+    max-height: none;
+  }
+}

@@ -1,0 +1,46 @@
+<app-table-list [title]="'常见问题'" [rows]="rows" [columns]="columns" [page]="page" (navigateDetail)="getDetail($event, openDialog)"
+                                                 (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()"
+                                                 [createButton]="true" (create)="createData(openDialog)">
+</app-table-list>
+<ng-template #openDialog>
+   <app-edit-dialog [title]="'常见问题'" (sureDo)="toSureDo()">
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" style="padding-top: 20px;" *ngIf="isCreate">
+            <form [formGroup]="basicFormAdd" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-50-p">
+                    <mat-label>商场</mat-label>
+                    <input matInput autocomplete="off" formControlName="mallName" (click)="selectMall(mall)">
+                    <mat-error>商场不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>问题</mat-label>
+                    <input matInput autocomplete="off" formControlName="question">
+                    <mat-error>问题不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start center" class="w-100-p errorStyle" fxLayoutGap="10px" style="padding-top: 20px;" *ngIf="!isCreate">
+            <form [formGroup]="basicForm" class="w-100-p">
+                <mat-form-field appearance="outline" class="w-50-p">
+                    <mat-label>商场</mat-label>
+                    <input matInput autocomplete="off" formControlName="mallName">
+                    <mat-error>商场不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>问题</mat-label>
+                    <input matInput autocomplete="off" formControlName="question">
+                    <mat-error>问题不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100-p">
+                    <mat-label>回复</mat-label>
+                    <input matInput autocomplete="off" formControlName="answer">
+                    <mat-error>回复不能为空</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </app-edit-dialog>
+</ng-template>
+
+<ng-template #mall>
+    <app-mall-manage [singleSelect]="true" [overPanel]="true" [selectedRow]="mallSource" (dataSelect)="onSelectMallType($event)">
+    </app-mall-manage>
+</ng-template>

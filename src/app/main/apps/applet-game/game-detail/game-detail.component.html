@@ -1,0 +1,137 @@
+<div class="page-layout carded fullwidth inner-scroll two-card">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{titles[editFlag]}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-stroked-button *ngIf="editFlag===1" (click)="showEdit()" class="save-button">编辑</button>
+                <button mat-stroked-button *ngIf="editFlag!==1" [disabled]="onSaving" (click)="onSaveClick()"
+                        class="save-button">保存
+                </button>
+                <button mat-raised-button (click)="goBack()" class="back-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column"
+             fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="left-panel pt-20 px-24">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--右边-->
+            <mat-card
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    class="right-panel  pt-20 px-24">
+                <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+            </mat-card>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+<ng-template #leftContent>
+    <div class="left-content" fxLayout="column" fxLayoutAlign="start start" fxFlexFill fusePerfectScrollbar>
+        <span class="mb-12">游戏详情</span>
+        <form autocomplete="off" [formGroup]="gameForm" class="normal-form-fields w-100-p" fxLayout="row wrap"
+              fxLayoutAlign="space-between start">
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>游戏ID</mat-label>
+                <input matInput formControlName="gameId">
+                <mat-error *ngIf="gameForm.get('gameId').hasError('required')">
+                    游戏ID不能为空！
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>游戏名称</mat-label>
+                <input matInput formControlName="gameName">
+                <mat-error *ngIf="gameForm.get('gameName').hasError('required')">
+                    游戏名称不能为空！
+                </mat-error>
+            </mat-form-field>
+            <app-material-date-picker class="w-48-p" #startTime (sourceDate)="onStartSourceDate($event,endTime)"
+                                      [timeControl]="gameForm.get('startTime')"
+                                      [config]="startConfig"
+                                      [label]="'游戏开始时间'">
+            </app-material-date-picker>
+            <app-material-date-picker class="w-48-p" #endTime (sourceDate)="onEndSourceDate($event,startTime)"
+                                      [timeControl]="gameForm.get('endTime')"
+                                      [config]="endConfig"
+                                      [label]="'游戏结束时间'"
+            ></app-material-date-picker>
+            <app-material-date-picker class="w-48-p" #showStartTime (sourceDate)="onStartSourceDate($event,showEndTime)"
+                                      [timeControl]="gameForm.get('showStartTime')"
+                                      [config]="startConfig"
+                                      [label]="'显示开始时间'">
+            </app-material-date-picker>
+            <app-material-date-picker class="w-48-p" #showEndTime (sourceDate)="onEndSourceDate($event,showStartTime)"
+                                      [timeControl]="gameForm.get('showEndTime')"
+                                      [config]="endConfig"
+                                      [label]="'显示结束时间'"
+            ></app-material-date-picker>
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>游戏地址</mat-label>
+                <input matInput formControlName="gameUrl">
+                <mat-error *ngIf="gameForm.get('gameUrl').hasError('required')">
+                    游戏地址不能为空！
+                </mat-error>
+            </mat-form-field>
+            <mat-slide-toggle [labelPosition]="'before'" formControlName="enabled" class="mb-24">
+                {{gameForm.value['enabled']?'正常':'冻结'}}
+            </mat-slide-toggle>
+            <div fxLayoutGap="20px" class="w-100-p mb-4" fxLayout="column" fxLayoutAlign="start start">
+                <span>关联商场</span>
+                <button mat-raised-button type="button" [disabled]="editFlag===1" [ngClass]="{'mall-select':currentRow,'dark-yellow-button':!currentRow}"
+                        (click)="openMallSelect(mallTemplate)">{{currentRow ? currentRow.mallName : '选择商场'}}</button>
+                <mat-error *ngIf="gameForm.get('mallId').touched&&gameForm.get('mallId').hasError('required')">
+                    请选择一个商场进行关联！
+                </mat-error>
+            </div>
+
+            <div fxLayoutGap="20px" class="w-100-p" fxLayout="column" fxLayoutAlign="start start">
+                <span>游戏封面</span>
+                <div class="game-cover" fxLayout="row" fxLayoutAlign="center center"
+                     [appFileUpload]="{params:{accept:'image/*'}}" [disabled]="editFlag===1"
+                     (uploadProgress)="onUploadProgress($event)">
+                    <span *ngIf="!gameForm.get('gameImg').value" class="font-size-16 secondary-text">点击上传图片</span>
+                    <img *ngIf="gameForm.get('gameImg').value" [src]="gameForm.get('gameImg').value|getUrlBySaveId">
+                </div>
+                <mat-error *ngIf="gameForm.get('gameImg').touched&&gameForm.get('gameImg').hasError('required')">
+                    请上传一个游戏封面！
+                </mat-error>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #rightContent>
+    <div class="right-content"
+         fxLayout="column" fxLayoutAlign="start start" fxFlexFill>
+        <mat-form-field appearance="outline" class="w-100-p">
+            <mat-label>游戏说明</mat-label>
+            <textarea matInput cdkTextareaAutosize
+                      [formControl]="gameForm.get('desc')"
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="8"
+                      cdkAutosizeMaxRows="8"
+            ></textarea>
+            <mat-error *ngIf="gameForm.get('desc').hasError('required')">
+                游戏说明不能为空！
+            </mat-error>
+        </mat-form-field>
+    </div>
+</ng-template>
+<ng-template #mallTemplate>
+    <app-mall-manage [singleSelect]="true" [overPanel]="true" [selectedRow]="selectedRow" [popUpYes]="true"
+                     (dataSelect)="onDataSelect($event)"></app-mall-manage>
+</ng-template>

@@ -1,0 +1,205 @@
+<div class="openCenterAllFlex"
+     [ngClass]="{ 'bgMCenterImgTT': currentProject === 'tt' , 'bgMCenterImgHX': currentProject === 'hx' }"
+     fxLayout="row" fxLayoutAlign="end end">
+
+    <!-- 图片部分 -->
+    <div class="bgOpenCenterImg"
+         [ngClass]="{'bgOpenCenterImgBCIA': currentProject === 'hq' }"
+         [@animate]="{value:'*',params:{opacity:0.8,duration:'300ms',delay:'300ms'}}"
+         fxLayout="column" fxLayoutAlign="end center" fxHide fxShow.gt-xs>
+
+
+        <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p img-bg-color" fxFlex="100">
+
+            <div fxLayout="column" fxLayoutAlign="start start" class="openBigTitle">
+
+                <!-- logoImg -->
+                <img *ngIf="logo_rectangle" [src]="logo_rectangle" [ngClass]="{'openBig-logoImg': currentProject === 'hq' , 'openBig-logoImgHX': currentProject === 'hx'  }" >
+
+                <!-- 大标题 -->
+                <span *ngIf="tlKey" class="openBig-bigTitle">{{(tlKey+'bigTitle')|translate}}</span>
+
+                <ng-container *ngIf="currentProject === 'hq' || currentProject === 'tt'">
+                    <!-- 小标题 -->
+                    <span *ngIf="tlKey" class="openBig-smallTitle">{{(tlKey+'describe')|translate}}</span>
+                </ng-container>
+
+                <ng-container *ngIf="currentProject === 'hx'">
+                    <div  *ngIf="tlKey" >
+                        <span class="openBig-smallTitle mr-8"><b>{{(tlKey+'describe1')|translate}}</b></span>
+                        <span class="openBig-smallTitle mr-12">{{(tlKey+'describe2')|translate}}</span>
+                        <span class="openBig-smallTitle mr-8"> <b>{{(tlKey+'describe3')|translate}}</b></span>
+                        <span class="openBig-smallTitle mr-12">{{(tlKey+'describe4')|translate}}</span>
+                    </div>
+                    <div  *ngIf="tlKey" >
+                        <span class="openBig-smallTitle mr-8"><b>{{(tlKey+'describe5')|translate}}</b></span>
+                        <span class="openBig-smallTitle mr-12">{{(tlKey+'describe6')|translate}}</span>
+                        <span class="openBig-smallTitle mr-8"> <b>{{(tlKey+'describe7')|translate}}</b></span>
+                        <span class="openBig-smallTitle mr-12">{{(tlKey+'describe8')|translate}}</span>
+                    </div>
+                </ng-container>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- 登陆部分 -->
+    <div fxLayout="column" fxLayoutAlign="start center" class="loginForm">
+
+        <!--logo 部分 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'400ms'}}" title="{{'openLogin.tips6'|translate}}" routerLink="home"
+             fxLayout="row" fxLayoutAlign="end center " class="w-100-p pr-20 opLoginLogo cursor-pointer">
+
+            <img  *ngIf="logo_login" [src]="logo_login">
+
+       </div>
+
+        <!--标题 部分 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'200ms'}}" fxLayout="row"
+             fxLayoutAlign="start end" class="opLoginTitle">
+            <ng-container *ngIf="!registerIng">
+                <span  *ngIf="tlKey"  class="opLoginSpan">{{(tlKey+'loginTitle')|translate}}</span>
+            </ng-container>
+            <ng-container *ngIf="registerIng">
+                <span  *ngIf="tlKey"   class="opLoginSpan">{{(tlKey+'registerTitle')|translate}}</span>
+            </ng-container>
+        </div>
+
+
+        <div [@animate]="{value:'*',params:{scale:0.5,duration:'300ms',delay:'300ms'}}" fxLayout="column"
+             fxLayoutAlign="start center" class="opLoginPut">
+            <!--登陆 部分 -->
+            <ng-container *ngIf="!registerIng">
+                <form [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="end center"
+                      class="opLoginPutF ">
+
+                    <!-- 登陆填写框 -->
+                    <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p name-pwd">
+                        <mat-form-field appearance="outline" class="w-100-p "   [floatLabel]="'always'">
+                            <mat-label>{{'loginPage.username'|translate}}</mat-label>
+                            <input matInput formControlName="username" autocomplete="on">
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                                {{'loginPage.usernameM'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="w-100-p"   [floatLabel]="'always'">
+                            <mat-label>{{'loginPage.password'|translate}}</mat-label>
+                            <input matInput type="password" autocomplete="on" formControlName="password">
+                            <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                            <mat-error *ngIf="loginForm.get('password').errors">
+                                {{'loginPage.passwordM'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <!-- 记住密码 -->
+                    <!--<div fxLayout="row" fxLayoutAlign="start end" class="w-100-p RePa">-->
+                    <!--<mat-checkbox  aria-label="记住密码" class="rememberCheck">-->
+                    <!--记住密码-->
+                    <!--</mat-checkbox>-->
+                    <!--</div>-->
+
+                    <!-- 登陆取消 按钮-->
+                    <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p loginBut">
+
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p op-login-confirm-but">
+                            <button mat-raised-button (click)="openLogin()" [disabled]="loginDisabled||loginForm.invalid">
+                                {{'openLogin.login_but'|translate}} <!-- 登陆-->
+                            </button>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p mt-28 op-login-register-but">
+                            <button mat-raised-button (click)="toRegister()" [disabled]="loginDisabled">
+                                {{'openLogin.register_but'|translate}}  <!-- 注册-->
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </ng-container>
+
+            <!-- 注册部分 -->
+            <ng-container *ngIf="registerIng">
+                <form [formGroup]="registerForm" fxLayout="column" fxLayoutAlign="end center"
+                      class="opLoginPutF ">
+
+
+                    <!-- 注册填写框 -->
+                    <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p name-pwd">
+                        <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                            <mat-label> {{'openLogin.mobile'|translate}}</mat-label> <!-- 手机号码-->
+                            <input matInput formControlName="mobile" autocomplete="on">
+                            <mat-icon matSuffix class="secondary-text">phone_android</mat-icon>
+                            <mat-error *ngIf="registerForm.get('mobile').hasError('required')">
+                                {{'openLogin.mobileRequired'|translate}}  <!-- 请输入手机号码-->
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="w-100-p" [floatLabel]="'always'">
+                            <mat-label> {{'openLogin.captcha'|translate}}</mat-label>  <!-- 验证码-->
+                            <input matInput autocomplete="on" formControlName="captcha">
+                            <button matSuffix mat-raised-button [color]="'accent'" (click)="sendMessage()" [disabled]="codeSendDis">
+                                {{codeSendTitle}}
+                            </button>
+                            <mat-error *ngIf="registerForm.get('captcha').hasError('required')">
+                                {{'openLogin.captchaRequired'|translate}}   <!-- 请输入验证码 -->
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+
+                    <!-- 取消 按钮-->
+                    <div fxLayout="column" fxLayoutAlign="end center" class="w-100-p op-registerBut">
+
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p op-login-register-but">
+                            <button mat-raised-button (click)="registerSuccess(reConfirm)">
+                                {{'openLogin.register_but'|translate}}   <!-- 注册 -->
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- 返回登陆 -->
+                    <div fxLayout="row" fxLayoutAlign="end end" class="w-100-p h-10-p hasAccount" >
+                        <span>  {{'openLogin.tips1'|translate}}</span><a (click)="toLogin()"> {{'openLogin.toLogin'|translate}}</a>   <!-- 已有账号？  去登陆 -->
+                    </div>
+
+                </form>
+
+            </ng-container>
+
+
+        </div>
+
+        <!-- 版本号 -->
+        <div [@animate]="{value:'*',params:{x:'100%',duration:'300ms',delay:'600ms'}}" fxLayout="row"
+             fxLayoutAlign="end end " class="versionD pr-12">
+            <span>{{'version'|translate}}</span>
+            <span hidden>8c75cda4</span><span>0.2.76</span>
+        </div>
+
+    </div>
+</div>
+
+
+<!--密码提示-->
+<ng-template #reConfirm>
+    <app-confirm-dialog [title]="'openLogin.tips5'|translate" [cancelButton]="false">
+        <span class="font-size-13 secondary-text"> {{'openLogin.tips2'|translate}}&nbsp;</span>  <!--注册账户“   -->
+        <span class="font-size-15 theme-color font-weight-600">
+            {{usernameContent}}
+        </span>
+        <span class="font-size-13 secondary-text">&nbsp;{{'openLogin.tips3'|translate}}</span>  <!--”成功，自动生成密码为“  -->
+        <span class="font-size-15 theme-color font-weight-600">{{passwordContent}}</span>
+        <span class="font-size-13 secondary-text">{{'openLogin.tips4'|translate}}</span> <!--”。请留存该密码，或之后进行修改密码！ -->
+    </app-confirm-dialog>
+</ng-template>

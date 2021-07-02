@@ -1,0 +1,23 @@
+::ng-deep{
+  #deleteAppClass{
+    padding: 0px;
+  }
+}
+
+.delTitleColor{
+  background-color: #2B96D8;
+  span{
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+  button{
+    mat-icon{
+      color: #FFFFFF;
+    }
+  }
+}
+
+.delContentSpan{
+  color: #000000;
+  font-size: 20px;
+}

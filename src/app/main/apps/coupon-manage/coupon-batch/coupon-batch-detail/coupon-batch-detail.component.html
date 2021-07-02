@@ -1,0 +1,125 @@
+<div class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+        <!-- CONTENT HEADER -->
+        <div class="header accent py-24" fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">{{title.get(operation)}}</h2>
+            <div @slideInRightSlow fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button mat-raised-button *ngIf="operation === 'detail'" (click)="editProject()" class="w-button shallow-button">编辑</button>
+                <button mat-raised-button *ngIf="operation === 'create'" (click)="saveProject()" class="w-button shallow-button">保存</button>
+                <button mat-raised-button *ngIf="operation === 'edit'" (click)="saveProject()" class="w-button shallow-button">保存</button>
+                <button mat-raised-button (click)="goBack()" class="w-button">取消</button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="18px" class="left-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-20-p pt-20 px-24" style="min-height: 100px;">
+                    <ng-container *ngTemplateOutlet="leftContentTop"></ng-container>
+                </mat-card>
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-80-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="leftContentBottom"></ng-container>
+                </mat-card>
+            </div>
+
+            <!--右边-->
+            <div fxLayout="column" fxLayoutAlign="start center" class="right-panel">
+                <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-100-p pt-20 px-24">
+                    <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+                </mat-card>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+</div>
+<ng-template #leftContentTop>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="36px" class="h-30" [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'600ms'}}">
+        <div>
+            <span>选择券规则</span>
+        </div>
+        <div>
+            <button mat-raised-button color="accent" class="addCouponButton" (click)="openMemberSelect(CouponMaintainDialog)" [disabled]="operation !== 'create'">
+                <mat-icon>add</mat-icon>添加
+            </button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #leftContentBottom>
+    <div fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p overflowControl" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+        <ng-container *ngFor="let item of couponBatchList">
+            <ng-container class="w-100-p">
+                <div *ngIf="item.name!=='券面图案'" fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-20">
+                    <div class="w-15-p setMinWidth">{{item.name}}</div>
+                    <div class="w-10-p"></div>
+                    <div *ngIf="!currentRule" class="w-40-p h-100-p couponBackground"></div>
+                    <div *ngIf="currentRule" class="w-75-p h-100-p text-ellipsis" [matTooltip]="item.value" matTooltipPosition="left">{{item.value}}</div>
+                </div>
+                <div *ngIf="item.name==='券面图案'" fxLayout="row" fxLayoutAlign="start start" class="w-100-p h-60">
+                    <div class="w-15-p setMinWidth">{{item.name}}</div>
+                    <div class="w-10-p"></div>
+                    <div *ngIf="!item.value" class="w-40-p h-100-p couponBackground"></div>
+                    <img *ngIf="item.value" [src]="item.value" class="w-40-p h-100-p">
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-template>
+<ng-template #rightContent>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="15px" class="w-100-p">
+        <form fusePerfectScrollbar [formGroup]="couponBatchForm" autocomplete="off" fxLayout="column" fxLayoutAlign="start start"
+              class="w-100-p overflowControlLeftContent normal-form-fields pt-12 pb-12 pr-24">
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'100ms'}}">
+                <mat-form-field appearance="outline" class="w-50-p">
+                    <mat-label>券批次号</mat-label>
+                    <input matInput autocomplete="off" required formControlName="couponNumber">
+                    <mat-error>券批次号不能为空</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" [floatLabel]="'always'" class="w-50-p">
+                    <mat-label>状态</mat-label>
+                    <mat-select formControlName="enabled">
+                        <mat-option [value]="true">已上线</mat-option>
+                        <mat-option [value]="false">已下线</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p" fxLayoutGap="10px" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'100ms'}}">
+                <mat-form-field appearance="outline" class="w-50-p">
+                    <mat-label>批次类型</mat-label>
+                    <mat-select formControlName="batchType" required>
+                        <mat-option *ngFor="let item of batchTypeList" [value]="item['id']">{{item['name']}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-50-p">
+                    <mat-label>批次数量</mat-label>
+                    <input matInput autocomplete="off" formControlName="total" required value="" oninput="value=value.replace(/[^\d]/g,'')">
+                    <mat-error>批次数量不能为空</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'100ms'}}">
+                <app-material-date-picker #startDate class="w-50-p" [floatLabel]="'always'" [timeControl]="couponBatchForm.get('beginTime')"
+                                          [required]="true"  (sourceDate)="onSourceDate($event,endDate , startDate , 'startTime')" [config]="configStartTime"
+                                          [label]="'开始时间'">
+                </app-material-date-picker>
+                <app-material-date-picker #endDate class="w-50-p" [floatLabel]="'always'" [timeControl]="couponBatchForm.get('endTime')"
+                                          [required]="true" (sourceDate)="onSourceDate($event,endDate , startDate , 'endTime')" [config]="configEndTime"
+                                          [label]="'结束时间'">
+                </app-material-date-picker>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!-- 选择券规则弹框 -->
+<ng-template #CouponMaintainDialog>
+    <app-coupon-rule [overPanel]="true" [createBut]="false" [singleSelect]="true" [selectedRow]="selectedRule" [isPackage]="false"
+                     (dataSelect)="onMemberSelect($event)"></app-coupon-rule>
+</ng-template>

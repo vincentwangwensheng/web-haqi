@@ -1,0 +1,173 @@
+.activity-photo {
+  width: 100%;
+  .ready-upload-part {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    .up-input-btu {
+      width: 18%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .up-input-btu-btu {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .preview-img {
+      width: 18%;
+      height: 100%;
+      margin-left: 3.5%;
+      display: flex;
+      .preview-up-input-btu-btu {
+        width: 100%;
+        height: 100%;
+        .span-accent-color {
+          color: #555555;
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}
+// 上传的窗口
+::ng-deep {
+  #uploadImageDialog_ {
+    padding: 0;
+  }
+}
+.uploadImageClass{
+  .dialog-manage-title_tips {
+    display: flex;
+    width: 100%;
+    height: 18%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2B96D8;
+    .img-title {
+      margin-left: 2%;
+    }
+    .img-close {
+      margin-right: 2%;
+    }
+    .title_dialog_ {
+      font-size: 1.4rem;
+      color: #ffffff;
+      font-weight: 500;
+    }
+    button {
+      mat-icon {
+        color: #ffffff;
+      }
+    }
+  }
+  mat-dialog-content {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 72.5%;
+    .MatDialogFrozenClass_tips {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 70%;
+      .MatDialogFrozenClass1 {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        .up_input_load {
+          width: 80%;
+          margin-left: 10%;
+          border-radius: 10px;
+          border: 1px solid #CCCCCC;
+          display: flex;
+          justify-content: space-between;
+          height: 4.5rem;
+          align-items: center;
+          .file-path {
+            width: 70%;
+            padding: 0px;
+            height: 100%;
+            input {
+              border: none;
+              padding: 0px;
+              border-radius: 10px;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .file-upLoad-btu {
+            width: 27%;
+            height: 100%;
+            margin-right: 2%;
+            display: flex;
+            position: relative;
+            align-items: flex-end;
+            justify-content: flex-start;
+            align-items: center;
+            .up_input {
+              position: relative;
+              cursor: pointer;
+              width: 100%;
+              height: 80%;
+              opacity: 0;
+            }
+            .btu-file-up {
+              position: absolute;
+              width: 100%;
+              height: 80%;
+            }
+
+          }
+        }
+        .tips_color_w_h {
+          display: flex;
+          width: 80%;
+          margin-left: 10%;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          .tips-color {
+            font-size: 10px;
+            color: #2295db;
+          }
+        }
+        .Progress-Bar {
+          display: flex;
+          width: 80%;
+          height: 30%;
+          margin-left: 10%;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          .example-section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            .example-margin {
+              margin: 0 10px;
+            }
+          }
+        }
+
+      }
+      img {
+        width: 500px;
+        height: 500px;
+      }
+    }
+    .btu_dialog_Frozen_tips {
+      display: flex;
+      margin-left: 47.6%;
+      width: 42%;
+      border-radius: 15px;
+      justify-content: space-between;
+      button {
+        width: 46%;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,71 @@
+<app-table-list [title]="'一级业态'" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event,editGroup)" [createButton]="true"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="onSearch()"
+                (create)="create(editGroup)"
+>
+</app-table-list>
+<ng-template #editGroup>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start start">
+        <div class="h-48 accent w-100-p px-16" fxLayout="row" fxLayoutAlign="space-between center">
+            <span>{{editTitle[editStatus]}}</span>
+            <div class="icon-button" [matDialogClose]="false">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <form [formGroup]="groupForm" autocomplete="off" class="px-24 py-12 mt-12 normal-form-fields w-100-p"
+              fxLayout="row wrap"
+              fxLayoutAlign="space-between center">
+            <mat-form-field *ngIf="editStatus!==0" appearance="outline" class="w-48-p">
+                <mat-label>ID</mat-label>
+                <input matInput formControlName="id">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>业态名称</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="groupForm.get('name').hasError('required')">
+                    <span>业态名称不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="auto" class="w-48-p">
+                <mat-label>业态颜色</mat-label>
+                <input matInput  readonly
+                       colorPicker
+                       (colorPickerChange)="onColorChange($event)"
+                       [cpUseRootViewContainer]="true"
+                       [cpPosition]="'top'"
+                       [cpPresetColors]="['#d42121','#eb8500','#c921d4','#419ef6','#046686','#b4c900']"
+                       [cpFallbackColor]="'#aaaaaa'"
+                       [cpCancelButtonClass]="'cancel-button'"
+                       [cpCancelButton]="true"
+                       [cpOKButton]="true"
+                       [cpOKButtonClass]="'ok-button'"
+                       [cpOKButtonText]="'dialog.ensure'|translate"
+                       [cpPresetLabel]="'colorPicker.presetLabel'|translate"
+                       [cpCancelButtonText]="'dialog.cancel'|translate" formControlName="color"
+                       [style.background]="groupForm.get('color').value">
+                <mat-error *ngIf="groupForm.get('color').hasError('required')">
+                    <span>业态颜色不能为空！</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-48-p">
+                <mat-label>状态</mat-label>
+                <mat-select formControlName="enabled">
+                    <mat-option [value]="true">正常</mat-option>
+                    <mat-option [value]="false">冻结</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="w-100-p operate-buttons" fxLayout="row-reverse" fxLayoutAlign="start center">
+                <button class="w-80 h-32" mat-stroked-button color="accent" [matDialogClose]="false">
+                    取消
+                </button>
+                <button *ngIf="editStatus===1" class="w-80 h-32" mat-flat-button color="accent" (click)="showEdit()">
+                    编辑
+                </button>
+                <button *ngIf="editStatus===0||editStatus===2" class="w-80 h-32" mat-flat-button color="accent"
+                        (click)="save()">
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

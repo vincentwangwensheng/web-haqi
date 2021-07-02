@@ -1,0 +1,6 @@
+<app-table-list [title]="'TagManagement.MerchantsTagManagement.title'|translate" [rows]="rows" (search)="onSearch()" [checkbox]="checkbox"
+                [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)" [selectedRows]="selectedRows" [overPanel]="overPanel"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (dataSelect)="onSelect($event)"
+                [createButton]="showButton" (create)="createTag()"
+>
+</app-table-list>

@@ -1,0 +1,152 @@
+<div class="page-layout carded fullwidth inner-scroll" *ngIf="!responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+<div class="page-layout carded fullwidth inner-scroll" *ngIf="responsive">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<ng-template #content>
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent py-24"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 class="m-0">积分调整</h2>
+        </div>
+        <div class="content pb-8 h-100-p w-100-p" fxlayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <!--左边-->
+            <mat-card *ngIf="!responsive" fusePerfectScrollbar fxLayout="column" fxLayoutAlign="start start"  class="left-panel" fxLayoutGap="16px">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <mat-card *ngIf="responsive" fxLayout="column" fxLayoutAlign="start start" class="left-panel" fxLayoutGap="16px">
+                <ng-container *ngTemplateOutlet="leftContent"></ng-container>
+            </mat-card>
+            <!--左边内容-->
+            <ng-template #leftContent>
+                <!--调整对象-->
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'100ms'}}" class="w-100-p"
+                     fxLayout="column" fxLayoutAlign="start start">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <span class="font-size-13 detail-info">调整对象</span>
+                        </div>
+                    </div>
+                </div>
+                <div [@animate]="{value:'*',params:{y:'100%',opacity:'0',duration:'300ms',delay:'200ms'}}" class="w-100-p member-select" fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMemberSelect(memberTemplate)">
+                        <mat-icon>add_circle_outline</mat-icon>
+                        <span class="ml-4">添加对象</span>
+                    </div>
+                    <div *ngIf="currentMember" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:'100ms',duration:'500ms'}}" class="member-cell p-8" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="2px">
+                        <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="false"><!-- 常旅客ID先隐藏 -->
+                            <span>常旅客ID：&nbsp;&nbsp;{{currentMember.id}}</span>
+                            <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMember()" fxLayout="row" fxLayoutAlign="center center">
+                                <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                            </button>
+                        </div>
+                        <span class="w-100-p clearCurrentMember">手机号：&nbsp;{{currentMember.mobile}}</span>
+                        <span class="w-100-p clearCurrentMember">会员等级：&nbsp;{{currentMember.level}}</span>
+                        <span class="w-100-p clearCurrentMember">当前积分：&nbsp;{{currentMember.point}}</span>
+                        <span class="w-100-p clearCurrentMember">状态：&nbsp;{{currentMember.enabled}} </span>
+                    </div>
+                </div>
+                <mat-divider [@animate]="{value:'*',params:{y:'10px',opacity:'0',duration:'300ms',opacity:'0',delay:'300ms'}}"></mat-divider>
+                <div class="adjust-detail mb-0">
+                    <div class="adjust-detail-title">
+                        <p>调整明细</p>
+                    </div>
+                    <form [formGroup]="adjustDetail">
+                        <div class="adjust-detail-content">
+                            <div><p>调整原因:</p></div>
+                            <div>
+                                <select formControlName="type">
+                                    <option value="REPLENISH">积分补录</option>
+                                    <option value="ADJUST">积分调整</option>
+                                </select>
+                            </div>
+                            <div><p>积分供应商:</p></div>
+<!--                            <div>-->
+<!--                                <mat-form-field appearance="outline" (click)="openPointSupplier(PointSupplier)">-->
+<!--                                    <input placeholder="请选择" matInput [autocomplete]="'off'" formControlName="provider">-->
+<!--                                </mat-form-field>-->
+<!--                            </div>-->
+                            <div><input type="text" formControlName="provider" disabled></div>
+                            <div><p>商场:</p></div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input type="text" placeholder="请选择" matInput [autocomplete]="'off'" formControlName="mallInfo" (click)="openMall(mallTemplate)">
+                                </mat-form-field>
+                            </div>
+                            <div><p>店铺:</p></div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input type="text" placeholder="请选择" matInput formControlName="storeInfo" [autocomplete]="'off'" (click)="openStore(storeTemplate)">
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="'REPLENISH' === adjustDetail.value['type']"><p>流水单号:</p></div>
+                            <div *ngIf="'REPLENISH' === adjustDetail.value['type']"><input type="text" formControlName="serialNumber" ></div>
+                            <div *ngIf="'REPLENISH' === adjustDetail.value['type']"><p >消费金额:</p></div>
+                            <div *ngIf="'REPLENISH' === adjustDetail.value['type']"><input type="text" formControlName="amount"  (input)="toGetPoint()"></div>
+                            <div *ngIf="'REPLENISH' !== adjustDetail.value['type']"><p>调整积分:</p></div>
+                            <div *ngIf="'REPLENISH' !== adjustDetail.value['type']"><input type="text" formControlName="point" (input)="inputAdjustPoint($event)"></div>
+
+                            <div fxLayout="row" class="w-100-p" *ngIf="'REPLENISH' === adjustDetail.value['type']">
+                                <div><p>订单时间:</p></div>
+                                <app-material-date-picker id="orderTimePicker" [label]="''" [timeControl]="adjustDetail.get('orderTime')"></app-material-date-picker>
+
+                            </div>
+<!--                            <div *ngIf="'REPLENISH' === adjustDetail.value['type']"></div>-->
+
+                        </div>
+                    </form>
+
+                </div>
+                <quill-editor class="mt-16"  [styles]="{height:'160px'}" [placeholder]="'说明...'"
+                               [(ngModel)]="editorContent"
+                ></quill-editor>
+
+                <div class="adjust-detail-save mb-8">
+                                      <button (click)="saveAdjustDetail()">调整</button>
+                                  </div>
+
+
+
+            </ng-template>
+            <!--右边内容-->
+            <div fxLayout="column" fxLayoutAlign="start start" class="right-panel" fxLayoutGap="18px">
+                <mat-card fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+                            <span class="font-size-13 detail-info">操作记录</span>
+                        </div>
+                    </div>
+                    <app-table-list [noScrollPaging]="responsive" [overPanel]="true" [stick]="true" [rows]="rows"
+                                    [columns]="columns" [page]="page"  (tablePaging)="onPage($event)" (tableSort)="onSort($event)"
+                                    (searchClear)="onSearch()" (search)="onSearch()"></app-table-list>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #memberTemplate>
+    <app-passengers-manage [overPanel]="true" [singleSelect]="true" [selectedRow]="selectedMember" [createButton]="false"
+                           (dataSelect)="onMemberSelect($event)" [statusCondition]="false"></app-passengers-manage>
+</ng-template>
+
+<!-- 打开积分供应商列表-->
+<!--<ng-template #PointSupplier>-->
+<!--    <app-members-list  [overPanel]="true" [singleSelect]="true"-->
+<!--                       [selectedRow]="pointSelect" (dataSelect)="selectPoint($event)"> </app-members-list>-->
+<!--</ng-template>-->
+
+<!-- 关联 商户 -->
+<ng-template #storeTemplate>
+    <app-store-manage (dataSelect)="onSelectShop($event)" [overPanel]="true" [createButton]="false"  [selectedFiled]="'storeNo'"  [popUpYes]="true"
+                      [selectedRow]="selectedShops" [singleSelect]="true" [mallID]="mallId"></app-store-manage>
+</ng-template>
+
+
+<!--关联商场-->
+<ng-template #mallTemplate>
+    <app-mall-list [createFlag]="false" [overPanel]="true" [singleSelect]="true"
+                   [selectedRow]="selectedMalls" (dataSelect)="onSelectMalls($event)"></app-mall-list>
+</ng-template>

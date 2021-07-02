@@ -1,0 +1,16 @@
+<app-table-list [title]="'marketingManage.data.title'|translate" [rows]="rows" (search)="onSearch()"
+                [columns]="columns" [page]="page"  [singleSelect]="singleSelect" [selectedRow]="selectedRow"
+                [overPanel]="overPanel"  [checkbox]="checkbox" [selectedRows]="selectedRows" (dataSelect)="onSelect($event)"
+                (navigateDetail)="getDetail($event)" [createButton]="createButton" [resetSelect]="resetSelect"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()"
+                (create)="createActivity()" [hasStatistics]="false" (navigateStatistics)="linkToStatistics($event)"
+                [detailMenu]="detailMenu"
+>
+</app-table-list>
+
+<ng-template #progressBar>
+    <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p progressBarClass">
+        <div class="fileSpinner">loading...</div><!-- 进度 百分之多少-->
+        <mat-spinner color="accent" class="matSpinner"  mode="indeterminate"></mat-spinner>
+    </div>
+</ng-template>

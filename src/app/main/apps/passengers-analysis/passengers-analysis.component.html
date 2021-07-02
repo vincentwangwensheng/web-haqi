@@ -1,0 +1,151 @@
+<div class="page-layout carded fullwidth inner-scroll">
+  <div class="top-bg accent"></div>
+  <div class="center" fusePerfectScrollbar>
+<!--    <div class="header accent py-24 normal-form-fields" fxLayout="row" fxLayoutAlign="space-between center">-->
+<!--      <h2 class="m-0">会员统计</h2>-->
+<!--      <mat-form-field class="w-160">-->
+<!--        <mat-select  [(value)]="mallId" (selectionChange)="mallChange()">-->
+<!--          <mat-option *ngFor="let item of mallList" [value]="item['mallId']">-->
+<!--            {{item['mallName']}}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+    <div class=" py-24 w-100-p header-bg-color header"
+         fxLayout="row" fxLayoutAlign="start center" >
+      <h2 class="m-0 header-title-color">会员统计</h2>
+      <div class="re-select-but w-20-p ml-12" >
+        <mat-form-field class="w-100-p">
+            <mat-select  [(value)]="mallId" (selectionChange)="mallChange()">
+              <mat-option *ngFor="let item of mallList" [value]="item['mallId']">
+                {{item['mallName']}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="24px" class="content pb-8 w-100-p" fusePerfectScrollbar>
+      <!--上边-->
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="w-100-p">
+        <!--左边-->
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="24px" fxFlex="72">
+          <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="2%" class="w-100-p">
+            <div fxFlex="32">
+              <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-260">
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-25-p">
+                  <span class="titleSpan">会员累计</span>
+                  <span class="titleNum">{{memberTotalNumber}}<span class="titleNumUnit">（人）</span></span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-75-p">
+                  <div #memberTotalEle class="w-100-p h-100-p"></div>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="32">
+              <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-260">
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-25-p">
+                  <span class="titleSpan">会员销售</span>
+                  <span class="titleNum">{{memberSale}}<span class="titleNumUnit">（元）</span></span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-75-p">
+                  <div #memberSalesEle class="w-100-p h-100-p"></div>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="32">
+              <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-260">
+                <div fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-25-p">
+                  <span class="titleSpan">会员活跃</span>
+                  <span class="titleNum">{{memberActivity}}<span class="titleNumUnit">（次）</span></span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-75-p">
+                  <div #memberActivityEle class="w-100-p h-100-p"></div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px" class="w-100-p">
+            <div class="w-100-p">
+              <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-440">
+                <div fxLayout="row" fxLayoutAlign="space-between start" class="w-100-p h-10-p">
+                  <span class="titleSpan">注册人数</span>
+                  <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="4px" class="rightDateChecked">
+                    <p [class.selectBg]="visitPersonIndex===6" (click)="getPersonNumberChangeLine('user_count', 'days', 6);">7天</p>
+                    <p [class.selectBg]="visitPersonIndex===13" (click)="getPersonNumberChangeLine('user_count', 'days', 13);">14天</p>
+                    <p [class.selectBg]="visitPersonIndex===29" (click)="getPersonNumberChangeLine('user_count', 'days', 29);">30天</p>
+                    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-280">
+                      <app-material-date-picker #startDate class="w-50-p" [floatLabel]="'never'"
+                                                [timeControl]="visitPersonForm.get('beginTime')"
+                                                [required]="true"
+                                                (sourceDate)="onSourceDate1($event, endDate, startDate , 'startTime')"
+                                                [config]="configStartTime"
+                                                [label]="'开始时间'">
+                      </app-material-date-picker>
+                      <app-material-date-picker #endDate class="w-50-p" [floatLabel]="'never'"
+                                                [timeControl]="visitPersonForm.get('endTime')"
+                                                [required]="true"
+                                                (sourceDate)="onSourceDate1($event, endDate, startDate , 'endTime')"
+                                                [config]="configEndTime"
+                                                [label]="'结束时间'">
+                      </app-material-date-picker>
+                    </div>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-90-p">
+                  <div #registerNumberLineEle class="w-100-p h-100-p"></div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <!--右边-->
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="24px" fxFlex="26" class="mr-0">
+          <div class="w-100-p">
+            <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-300">
+              <div fxLayout="column" fxLayoutAlign="space-between start" class="w-100-p h-5-p">
+                <span class="titleSpan">性别占比</span>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-95-p">
+                <div #rolePercentEle class="w-100-p h-100-p"></div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="w-100-p">
+            <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-400">
+              <div fxLayout="column" fxLayoutAlign="space-between start" class="w-100-p h-0-p">
+                <span class="titleSpan">等级结构</span>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-100-p">
+                <div #gradeOrganizationEle class="w-100-p h-100-p"></div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <!--下边-->
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="w-100-p mb-0">
+        <div  fxFlex="49">
+          <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-360">
+            <div fxLayout="column" fxLayoutAlign="space-between start" class="w-100-p h-15-p">
+              <span class="titleSpan">会员年龄结构</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-85-p">
+              <div #memberAgeEle class="w-100-p h-100-p"></div>
+            </div>
+          </mat-card>
+        </div>
+        <div  fxFlex="49">
+          <mat-card fxLayout="column" fxLayoutAlign="start start" class="w-100-p h-360">
+            <div fxLayout="column" fxLayoutAlign="space-between start" class="w-100-p h-15-p">
+              <span class="titleSpan">会员价值</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p h-85-p">
+              <div #memberValueEle class="w-100-p h-100-p"></div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

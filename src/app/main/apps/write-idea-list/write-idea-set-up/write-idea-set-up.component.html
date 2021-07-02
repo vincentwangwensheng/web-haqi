@@ -1,0 +1,332 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{'PuSentiment.setUp.title' |translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="write-idea-set-btu-class" [@animate]="{value:'*',params:{x:'100%',duration:'700ms',delay:'300ms'}}">
+                <div id="save-btu-id">
+                    <button  mat-raised-button   class="btu-bottom" color="accent" (click)="toSaveSet()" [disabled]="btuDis"> <mat-icon>save</mat-icon>{{'merchants.dataDetail.save'|translate}}</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="write-idea-set-all-flex">
+            <form class="setUpForm" [formGroup]="FormOption">
+
+                <div class="idea-set-flex-left">
+                    <div class="idea-set-left-flex">
+
+                        <!-- 会员限制 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                                  [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}"  class="set-left-part1 mt-12">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.numberLim' |translate}}</span><!-- 会员限制 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">
+                                <section fxLayout="row" fxLayoutAlign="start center"  class="section-set-left-part1">
+                                    <mat-checkbox
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.NumLimitNo"
+                                            (change)="LimitCheckChange($event , 'no')"
+                                    >
+                                        {{'PuSentiment.setUp.close' |translate}}<!-- 关闭 -->
+                                    </mat-checkbox>
+                                    <mat-checkbox
+                                            class="ml-16"
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.NumLimitYes"
+                                            (change)="LimitCheckChange($event , 'yes')"
+                                    >
+                                        {{'PuSentiment.setUp.open' |translate}}<!-- 开启 -->
+                                    </mat-checkbox>
+                                </section>
+                            </div>
+                        </div>
+
+                        <!-- 等级限制 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}" class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.classLimit' |translate}}</span><!-- 等级限制 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content idea-set-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-select formControlName="classLimit">
+                                        <mat-option *ngFor="let d of NumberLim" [value]="d.id" >{{d.levelName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div fxLayout="row" fxLayoutAlign="start center" class="set-left-part1-select-des">
+                                    <span  class="left-part-title-font pl-12">{{'PuSentiment.setUp.above' |translate}}</span><!-- 以上 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 图片评论 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"  class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.picture' |translate}}</span><!-- 图片评论 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">
+                                <section fxLayout="row" fxLayoutAlign="start center"  class="section-set-left-part1">
+                                    <mat-checkbox
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.pictureNo"
+                                            (change)="ImgWriteCheckChange($event , 'no')"
+                                    >
+                                        {{'PuSentiment.setUp.close' |translate}}<!-- 关闭 -->
+                                    </mat-checkbox>
+                                    <mat-checkbox
+                                            class="ml-16"
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.pictureYes"
+                                            (change)="ImgWriteCheckChange($event , 'yes')"
+                                    >
+                                        {{'PuSentiment.setUp.open' |translate}}<!-- 开启 -->
+                                    </mat-checkbox>
+
+                                </section>
+                            </div>
+                        </div>
+
+                        <!-- 评论点赞 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}"  class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.commentGive' |translate}}</span><!-- 评论点赞 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">
+                                <section fxLayout="row" fxLayoutAlign="start center"  class="section-set-left-part1">
+                                    <mat-checkbox
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.commentGiveNo"
+                                            (change)="ImgThumbsCheckChange($event , 'no')"
+                                    >
+                                        {{'PuSentiment.setUp.close' |translate}}<!-- 关闭 -->
+                                    </mat-checkbox>
+                                    <mat-checkbox
+                                            class="ml-16"
+                                            [labelPosition]="'before'"
+                                            [checked]="limitCheckbox?.commentGiveYes"
+                                            (change)="ImgThumbsCheckChange($event , 'yes')"
+                                    >
+                                        {{'PuSentiment.setUp.open' |translate}}<!-- 开启 -->
+                                    </mat-checkbox>
+
+                                </section>
+                            </div>
+                        </div>
+
+                        <!-- 点赞异常 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'750ms',duration:'600ms'}}"   class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.exceptionGive' |translate}}</span><!-- 点赞异常 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">
+                                <div  fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2">
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch1">
+                                        <span class="left-part-title-font">{{'PuSentiment.setUp.MinuteExceed' |translate}}</span><!-- 每分钟，超过 -->
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch2 idea-set-mat-point">
+                                        <mat-form-field appearance="outline" >
+                                            <input   matInput   autocomplete="off"  formControlName="exceptionGive"  oninput="value=value.replace(/[^\d]/g,'')"  >
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch3">
+                                        <span class="left-part-title-font">{{'PuSentiment.setUp.onceGive' |translate}}</span><!-- 次点赞 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 评分异常 -->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}"    class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.exceptionComment' |translate}}</span><!-- 评分异常 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">
+                                <div  fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2">
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch4">
+                                        <span class="left-part-title-font">{{'PuSentiment.setUp.scoreLowerThan' |translate}}</span><!-- 评分低于 -->
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch2 idea-set-mat-point">
+                                        <mat-form-field appearance="outline" >
+                                            <input   matInput   autocomplete="off"   formControlName="exceptionComment"
+                                                     oninput="value=value.replace(/[^\d^\.]+/g,'')"   (blur)="scoreChangeSet()" (input)="scoreChangeSet()" >
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch3">
+                                        <span class="left-part-title-font">{{'PuSentiment.setUp.scoreUnit' |translate}}</span><!-- 分 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 评论违规 -->
+                        <!--<div fxLayout="row" fxLayoutAlign="start center"-->
+                             <!--[@animate]="{value:'*',params:{y:'100%',delay:'820ms',duration:'600ms'}}"   class="set-left-part1">-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-title">-->
+                                <!--<span class="left-part-title-font">{{'PuSentiment.setUp.violationString' |translate}}</span>&lt;!&ndash; 评论违规 &ndash;&gt;-->
+                            <!--</div>-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center"  class="set-left-part1-content">-->
+                                <!--<div  fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2">-->
+                                    <!--<div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch5">-->
+                                        <!--<span class="left-part-title-font">{{'PuSentiment.setUp.violationThen' |translate}}</span>&lt;!&ndash; 评论违规超过 &ndash;&gt;-->
+                                    <!--</div>-->
+                                    <!--<div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch2 idea-set-mat-point">-->
+                                        <!--<mat-form-field appearance="outline" >-->
+                                            <!--<input   matInput   autocomplete="off"    formControlName="violation"  oninput="value=value.replace(/[^\d]/g,'')"  >-->
+                                        <!--</mat-form-field>-->
+                                    <!--</div>-->
+                                    <!--<div fxLayout="row" fxLayoutAlign="start center" class="section-set-left-part2-ch3">-->
+                                        <!--<span class="left-part-title-font">{{'PuSentiment.setUp.violation' |translate}}</span>&lt;!&ndash; 次 &ndash;&gt;-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!-- 修改人修改时间-->
+                        <div fxLayout="row" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'850ms',duration:'600ms'}}"   class="set-left-part1">
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="set-left-part1-content2 idea-set-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'">
+                                    <mat-label>{{'PuSentiment.setUp.lastModifiedBy' |translate}}</mat-label><!-- 修改人 -->
+                                    <input  matInput autocomplete="off"    formControlName="lastModifiedBy"    >
+                                </mat-form-field>
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'"  >
+                                    <mat-label>{{'PuSentiment.setUp.lastModifiedDate' |translate}}</mat-label><!-- 修改时间 -->
+                                    <input  matInput autocomplete="off"   formControlName="lastModifiedDate"   >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="idea-set-flex-right">
+                    <div class="idea-set-right-flex">
+                        <div fxLayout="column" fxLayoutAlign="start center"
+                             [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"   class="idea-set-right-part">
+                            <div fxLayout="row" fxLayoutAlign="start center" class="idea-set-right-title">
+                                <span class="left-part-title-font">{{'PuSentiment.setUp.SensitiveWord' |translate}}</span><!-- 敏感词汇 -->
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="dataTable-search">
+                                 <div fxLayout="row" fxLayoutAlign="start start"  class="search-con idea-set-mat-point">
+                                     <mat-form-field appearance="outline"  >
+                                         <!-- 请输入搜索内容 -->
+                                         <input  matInput autocomplete="off" value="" placeholder="{{'PuSentiment.setUp.tips4' |translate}}" id="wordInput"
+                                                 (input)="wordChangeSetClear($event)" >
+                                         <button mat-icon-button  matSuffix  (click)="wordChangeSet('iconSearch')">
+                                             <mat-icon color="accent">search</mat-icon>
+                                         </button>
+                                     </mat-form-field>
+                                 </div>
+                                 <div fxLayout="row" fxLayoutAlign="end start" class="add-btu">
+                                      <button mat-raised-button class="add-btu-ch"
+                                              (click)="openAddDialog( 'add' ,wordDialog)">{{'PuSentiment.setUp.add' |translate}}</button><!-- 添加 -->
+                                 </div>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start center" class="idea-set-right-table">
+                                <ngx-datatable
+                                        [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}"
+                                        fxFlexFill class="material"
+                                        [messages]="{emptyMessage:''}"
+                                        [selectionType]="'single'"
+                                        [selected]="selectWords"
+                                        [columns]="wordsColumns"
+                                        [footerHeight]="50"
+                                        [count]="page.count"
+                                        [offset]="page.page"
+                                        [limit]="page.size"
+                                        [externalSorting]="true"
+                                        [rowHeight]="40"
+                                        [rows]="words"
+                                        [externalPaging]="true"
+                                        (page)="onPage($event)"
+                                >
+                                    <ngx-datatable-column [name]="'airport.store.no'|translate" [width]="mCouponColumnWidth">
+                                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                            <span>{{words.indexOf(row)+1+page.page*page.size}}</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column *ngFor="let column of wordsColumns" [name]="column?.name" [canAutoResize]="true" [width]="mCouponColumnWidth"
+                                    >
+                                        <ng-template let-column="column" let-sort="sortFn"
+                                                     ngx-datatable-header-template>
+                                            <span style="cursor: pointer;" (click)="sort()">{{'PuSentiment.setUp.'+column?.name|translate}}</span>
+                                        </ng-template>
+                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                            <!--日期-->
+                                            <ng-container  *ngIf="column?.name.toLowerCase().indexOf('date')!==-1||column?.name.toLowerCase().indexOf('time')!==-1">
+                                                      <span class="text-ellipsis user-select" [matTooltip]="value|newDateTransform:'/'"
+                                                            [matTooltipPosition]="'above'">
+                                                                {{value|newDateTransform:'/'}}
+                                                       </span>
+                                            </ng-container>
+                                            <!-- 其他直接显示-->
+                                            <ng-container *ngIf="column?.name.toLowerCase().indexOf('date')===-1&&column?.name.toLowerCase().indexOf('time')===-1
+                                                          && column?.name!=='operation'">
+                                                <span [matTooltip]="value" matTooltipPosition="above" >{{value}}</span>
+                                            </ng-container>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column [sortable]="false" [width]="mCouponColumnWidth"  [canAutoResize]="true">
+                                        <ng-template ngx-datatable-header-template>
+                                            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
+                                                <span class="cursor-pointer font-size-12 text-ellipsis py-8">{{'PuSentiment.setUp.operation'|translate}}</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <img  class="edit-Btu" src="assets/images/cards/editor.png" (click)="openAddDialog(row , wordDialog)">
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+<ng-template #wordDialog>
+    <div fxLayout="column" fxLayoutAlign="center center" class="wordDiClass" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+        <div mat-dialog-title  fxLayout="row" fxLayoutAlign="center center " class="wordDialog-title" cdkDragHandle><!--添加-->
+            <div  fxLayout="row" fxLayoutAlign="space-between center"  class="wordDialog-title-child">
+                <span >{{wordCOrD}}</span>
+                <button  mat-icon-button 	 mat-dialog-close ><mat-icon>clear</mat-icon></button>
+            </div>
+        </div>
+        <mat-dialog-content  fxLayout="row" fxLayoutAlign="center center " class="wordDialog-content-p">
+            <div fxLayout="column" fxLayoutAlign="center center" class="wordDialog-content">
+                <form  fxLayout="column" fxLayoutAlign="center center"  [formGroup]="formWord" class="formWordClass">
+                    <div fxLayout="row" fxLayoutAlign="center end" class="wordDialog-input pb-8 idea-set-mat-point">
+                        <mat-form-field appearance="outline"  [floatLabel]="'always'" >
+                            <mat-label>{{'PuSentiment.setUp.SensitiveWord' |translate}}</mat-label> <!-- 敏感词汇 -->
+                            <input   matInput   autocomplete="off" formControlName="word" >
+                        </mat-form-field>
+                    </div>
+                </form>
+
+                <div fxLayout="row" fxLayoutAlign="end center"  class="wordDialog-button" fxLayoutGap="15px">
+                    <button   mat-raised-button color="accent" (click)="wordSave()">{{'PuSentiment.setUp.save' |translate}}</button><!-- 保存 -->
+                    <button   mat-raised-button color="accent" (click)="wordCancel()">{{'PuSentiment.setUp.cancel' |translate}}</button><!-- 取消 -->
+                </div>
+            </div>
+        </mat-dialog-content>
+    </div>
+</ng-template>

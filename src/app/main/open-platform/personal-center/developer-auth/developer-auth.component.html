@@ -1,0 +1,233 @@
+<div  class="page-layout carded right-sidebar ">
+    <div class="top-bg accent"></div>
+    <div class="center">
+
+        <div class="header accent" fxLayout="row"  fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div fxLayout="column" fxLayoutAlign="start start" >
+                    <div class="subtitle secondary-text">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-btu-class"   [@animate]="{value:'*',params:{x:'100%',delay:'500ms',duration:'600ms'}}">
+                <ng-container  *ngIf="authDetailType === 'examine' || authDetailType === 'developerListEdit'">
+                    <button  mat-raised-button  (click)="toReturn()"  [disabled]="butDis">
+                        返回
+                    </button>
+                </ng-container>
+            </div>
+        </div>
+
+
+        <div class="d-auth-all-flex">
+            <form class="d-auth-all-form" [formGroup]="authForm" [autocomplete]="'off'">
+                <!-- 左 -->
+                <div class="d-auth-flex-left">
+
+                    <div class="d-auth-left-flex pt-16">
+
+                        <!-- 企业名称 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'200ms',duration:'600ms'}}">
+                            <span fxFlex="15">企业名称</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55">
+                                    <input  matInput   formControlName="companyName">
+                                    <mat-error *ngIf="authForm.hasError('forbiddenChNo' , 'companyName')"> {{authForm.getError('forbiddenCh' , 'companyName')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 申请人姓名 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'300ms',duration:'600ms'}}">
+                            <span fxFlex="15">申请人姓名</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55">
+                                    <input  matInput   formControlName="name">
+                                    <mat-error>姓名为必填项</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 手机号 提交认证的时候不显示 显示认证信息的时候需要显示-->
+                        <!--<div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'400ms',duration:'600ms'}}">-->
+                            <!--<span fxFlex="15">手机号</span>-->
+                            <!--<div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">-->
+                                <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55" class="mr-8">-->
+                                    <!--<input  matInput  >-->
+                                <!--</mat-form-field>-->
+                                <!--<button mat-raised-button color="accent" fxFlex="15" class="mr-8">验证码</button>-->
+                                <!--<mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="22">-->
+                                    <!--<input  matInput  >-->
+                                <!--</mat-form-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!-- 邮箱 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'500ms',duration:'600ms'}}">
+                            <span fxFlex="15">邮箱</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55">
+                                    <input  matInput   formControlName="email">
+                                    <mat-error *ngIf="authForm.hasError('forbiddenChNo' , 'email')"> {{authForm.getError('forbiddenCh' , 'email')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 证件类型 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'600ms',duration:'600ms'}}">
+                            <span fxFlex="15">证件类型</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55">
+                                    <mat-select formControlName="licenseType">
+                                        <mat-option *ngFor="let d of cardType" [value]="d.id" >{{d.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- 营业执照号 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'700ms',duration:'600ms'}}">
+                            <span fxFlex="15">营业执照号</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+                                <mat-form-field appearance="outline"  [floatLabel]="'always'" fxFlex="55">
+                                    <input  matInput  formControlName="licenseId">
+                                    <mat-error *ngIf="authForm.hasError('forbiddenChNo' , 'licenseId')"> {{authForm.getError('forbiddenCh' , 'licenseId')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <!-- 上传营业执照 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-12" [@animate]="{value:'*',params:{y:'100%',delay:'800ms',duration:'600ms'}}">
+                            <span fxFlex="15">营业执照</span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" class="d-auth-mat-point">
+
+                                <div fxLayout="column" fxLayoutAlign="center center" class="d-auth-upload" matRipple >
+                                    <ng-container *ngIf="!imgLoading">
+                                        <ng-container *ngIf="imgSrc === 'no'">
+                                            <div fxLayout="column" fxLayoutAlign="center center"  class="d-auth-img">
+                                                <mat-icon [color]="'accent'">cloud_upload</mat-icon>
+                                                <span>上传图片</span>
+                                            </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="imgSrc !== 'no'">
+                                            <img [src]="imgSrc" class="d-auth-img">
+                                        </ng-container>
+                                        <ng-container  *ngIf="authDetailType === 'examine' || authDetailType === 'developerListEdit'">
+                                            <div fxLayout="row" fxLayoutAlign="end end " class="ImgBig">
+                                                <mat-icon  [color]="'accent'"  (click)="openBigImg(bigImg)">zoom_in</mat-icon>
+                                                <!--<button mat-icon-button color="accent" (click)="openBigImg(bigImg)"><mat-icon>search</mat-icon></button>-->
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="authDetailType === 'Auth'">
+                                            <ng-container *ngIf="butType === 'auth'|| butType === 'wait'">
+                                                <div fxLayout="row" fxLayoutAlign="end end " class="ImgBig">
+                                                    <mat-icon  [color]="'accent'"  (click)="openBigImg(bigImg)">zoom_in</mat-icon>
+                                                    <!--<button mat-icon-button color="accent" (click)="openBigImg(bigImg)"><mat-icon>search</mat-icon></button>-->
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="butType === 'sum'">
+
+                                                <div fxLayout="row" fxLayoutAlign="end end" class="w-100-p h-100-p upFile">
+                                                    <input type="file" class=" inputUp " accept="image/jpg,image/png,image/gif,image/jpeg"  (change)="realUpload($event)">
+                                                    <mat-icon  [color]="'accent'" class="upImgBig" *ngIf="imgSrc !== 'no'"  (click)="openBigImg(bigImg)">zoom_in</mat-icon>
+                                                </div>
+
+                                            </ng-container>
+                                        </ng-container>
+
+                                    </ng-container>
+
+                                    <mat-spinner color="accent" *ngIf="imgLoading"
+                                                 mode="indeterminate"></mat-spinner>
+
+                                </div>
+
+
+                                <div fxLayout="row" fxLayoutAlign="start end"  class="d-auth-upload-des" fxFlex="35">
+                                      <span>  上传图片比例为120x170px,大小不得超过1M，支持JPG,PNG文件  </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 提交 、 等待审核、已认证  按钮 -->
+                        <div fxLayout="row" fxLayoutAlign="start center" class="w-92-p mt-8 mb-32" [@animate]="{value:'*',params:{y:'100%',delay:'900ms',duration:'600ms'}}">
+                            <span fxFlex="15"><!--空占位--></span>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="85" >
+
+                                <ng-container *ngIf="authDetailType === 'Auth'">
+                                    <ng-container *ngIf="butType === 'sum'">
+                                        <button mat-raised-button fxFlex="22" color="accent" class="d-auth-sum-but" (click)="appSubmit()">提交申请</button>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="butType === 'auth'">
+                                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="22" class="d-auth-auth-but">
+                                            <button mat-raised-button >
+                                                <mat-icon>check_circle</mat-icon>
+                                                已认证
+                                            </button>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="butType === 'wait'">
+                                        <button mat-raised-button fxFlex="22" [disabled]="true" class="d-auth-wait-but">待审核</button>
+                                    </ng-container>
+                                </ng-container>
+
+                                <!--<ng-container  *ngIf="authDetailType === 'developerListEdit'">-->
+                                    <!--<button mat-raised-button fxFlex="22" [disabled]="true" class="d-auth-wait-but">待审核</button>-->
+                                <!--</ng-container>-->
+
+                                <ng-container  *ngIf="authDetailType === 'examine' || authDetailType === 'developerListEdit'">
+
+                                    <ng-container *ngIf="butType === 'wait'">
+                                        <div fxFlex="18" fxLayout="row" fxLayoutAlign="center center" class="d-auth-pass-but">
+                                            <button mat-raised-button   fxFlex="90" (click)="ToExamine('pass')">通过</button>
+                                        </div>
+                                        <div fxFlex="18" fxLayout="row" fxLayoutAlign="center center" class="d-auth-reject-but">
+                                            <button mat-raised-button  fxFlex="90"  (click)="ToExamine('reject')">驳回</button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="butType === 'auth'">
+                                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="22" class="d-auth-auth-but">
+                                            <button mat-raised-button >
+                                                <mat-icon>check_circle</mat-icon>
+                                                已认证
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="butType === 'sum'">
+                                        <button mat-raised-button fxFlex="22" [disabled]="true" class="d-auth-wait-but">已驳回</button>
+                                    </ng-container>
+
+                                </ng-container>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!-- 右 -->
+                <div class="d-auth-flex-right">
+                    <div class="d-auth-right-flex">
+
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #bigImg>
+    <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
+        <img [src]="imgSrc"  class="w-100-p h-100-p">
+    </div>
+</ng-template>

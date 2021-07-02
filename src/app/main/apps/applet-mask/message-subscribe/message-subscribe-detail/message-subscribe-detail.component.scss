@@ -1,0 +1,75 @@
+@import "src/@fuse/scss/fuse";
+// 选项卡
+.tabsContent{
+  height: 100%;
+  width: 100%;
+  min-width: 150px;
+  border-right: 1px solid rgba(128,128,128,0.1);
+  .itemContent{
+    padding: 15px 0 15px 24px;
+    width: 100%;
+    text-decoration: none!important;
+    cursor: not-allowed;
+    &:hover{
+      color: #2B96D8;
+    }
+  }
+}
+.demoActive{
+  background-color: #E7F7FF;
+  border-right: 3px solid #039BE5;
+  color: #2B96D8;
+}
+
+h3{
+  margin-top: 0;
+  font-weight: bold;
+}
+.contentFirstStyle{
+  div{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    div{
+      &:nth-child(1){
+        width: 100px;
+        margin-bottom: 28px;
+      }
+      &:nth-child(2){
+        width: 30%;
+        min-width: 150px;
+        mat-form-field{
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+.contentThirdStyle{
+  display: flex;
+  flex-direction: row;
+  div{
+    &:nth-child(1){
+      width: 50%;
+      div{
+        width: 100%;
+      }
+    }
+    &:nth-child(2){
+      width: 50%;
+    }
+  }
+
+}
+
+.saveButton{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

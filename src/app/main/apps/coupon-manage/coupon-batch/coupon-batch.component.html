@@ -1,0 +1,4 @@
+<app-table-list [title]="'优惠券批次'" [rows]="rows" [columns]="columns" [page]="page" (navigateDetail)="getDetail($event)"
+                (tablePaging)="onPage($event)" (tableSort)="onSort($event)" (searchClear)="clearSearch()" (search)="onSearch()"
+                [createButton]="true" (create)="createConfiguration()">
+</app-table-list>
