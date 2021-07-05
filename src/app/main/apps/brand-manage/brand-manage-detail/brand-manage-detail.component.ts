@@ -525,7 +525,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 this.selectedTags = [];
             }
         });
-
     }
 
 
@@ -605,7 +604,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
 
     // 上传品牌图片
     upBrandImg(p, e, para) {
-
         const oneM = 1024 * 1024;
         const file = e.target.files[0];
         if (file.size > oneM) {
@@ -657,8 +655,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
 
                     });
             }
-        }, error1 => {
-
         });
     }
 
@@ -682,88 +678,8 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-
-    // ---------------------------
-
-    // 旧  上传brand图片
-    onUploadBrandImg() {
-
-        if (!this.logoFormData) {
-            this.snackBar.open(this.translate.instant('brand.tips1'), '✖'); //  请选择一个文件
-            return;
-        }
-        this.loading.show();
-        this.notUploading = false;
-        this.fileTransferService.uploadFile(this.logoFormData).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-            if (res.type === 1) {
-                this.progressLoad = (res.loaded / res.total) * 100;  // 上传长度
-            }
-            if (res.status === 200) {
-                // this.previewImgStatus = false;
-                this.progressLoad = 100;
-                this.notUploading = true;
-                this.uploadStatus = true;
-                this.finishStatus = false;
-                this.currentBrandImgSaveId = res['body'];
-                this.loading.hide();
-
-                if (this.currentBrandImgSaveId) {
-                    this.fileTransferService.previewFile(this.currentBrandImgSaveId).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-                        rest => {
-                            const fileReader = new FileReader();
-                            fileReader.readAsDataURL(rest);
-                            fileReader.onloadend = (res1) => {
-                                const result = res1.target['result'];
-                                // this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                                this.brandImgSaveIdArray.push(this.currentBrandImgSaveId);
-                                this.brandImgSrcArray.push(this.sanitizer.bypassSecurityTrustUrl(result));
-                            };
-                        },
-                        error1 => {
-
-                        });
-                }
-
-
-            } else {
-            }
-        }, error1 => {
-
-        });
-    }
-
-    // 旧 删除一张品牌照片
-    deleteBrandImg(i) {
-        this.brandImgSrcArray.splice(i, 1);
-        this.brandImgSaveIdArray.splice(i, 1);
-    }
-
-    // 打开上传品牌图片
-    openUploadBrandImgDialog(uploadBrandDialog) {
-        if (this.brandImgSrcArray.length >= 5) {
-            this.snackBar.open(this.translate.instant('brand.tips2'), '✖'); //  最多上传5张品牌图片
-            return;
-        }
-        if (!this.dialog.getDialogById('uploadBrandDialog_')) {
-            this.uploadStatus = false;
-            this.finishStatus = true;
-            this.logoFormData = null;
-            this.logoImgName = '';
-            this.dialog.open(uploadBrandDialog, {
-                id: 'uploadBrandDialog_',
-                width: '500px',
-                height: '245px',
-                hasBackdrop: true,
-                position: {top: '200px'}
-            });
-        }
-    }
-
-
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-
 }

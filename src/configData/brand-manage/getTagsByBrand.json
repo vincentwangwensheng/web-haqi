@@ -1,0 +1,49 @@
+{
+  "memberTag" : null,
+  "activityTag" : null,
+  "storeTag" : null,
+  "brandTag" : [ {
+    "id" : 4,
+    "firstLevel" : "模型",
+    "secondLevel" : "品牌消费偏好",
+    "tagName" : "健康",
+    "tagRemarks" : "品牌评分=累计购买次数*2.718^{-0.0003（距离上一次打标签天数n*24）}",
+    "tagSource" : "store",
+    "tagType" : "STORE",
+    "score" : 0,
+    "selfSign" : null,
+    "createdBy" : "system",
+    "createdDate" : "2020-10-29T02:34:57Z",
+    "lastModifiedBy" : "system",
+    "lastModifiedDate" : "2020-10-29T02:34:57Z"
+  }, {
+    "id" : 16,
+    "firstLevel" : "模型",
+    "secondLevel" : "品牌消费偏好",
+    "tagName" : "亲子",
+    "tagRemarks" : "品牌评分=累计购买次数*2.718^{-0.0003（距离上一次打标签天数n*24）} 累计购买可以通过优惠券核销或者消费积分触发\n",
+    "tagSource" : "store",
+    "tagType" : "STORE",
+    "score" : 0,
+    "selfSign" : null,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2021-01-13T07:24:58.950497Z",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2021-01-13T07:24:58.950497Z"
+  }, {
+    "id" : 17,
+    "firstLevel" : "模型",
+    "secondLevel" : "品牌消费偏好",
+    "tagName" : "生活",
+    "tagRemarks" : "品牌评分=累计购买次数*2.718^{-0.0003（距离上一次打标签天数n*24）} 累计购买可以通过优惠券核销或者消费积分触发\n",
+    "tagSource" : "store",
+    "tagType" : "STORE",
+    "score" : 0,
+    "selfSign" : null,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2021-01-13T07:25:22.239905Z",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2021-01-13T07:25:22.239905Z"
+  } ],
+  "articleTag" : null
+}

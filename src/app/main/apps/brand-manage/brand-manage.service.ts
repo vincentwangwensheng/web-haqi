@@ -21,11 +21,13 @@ export class BrandManageService {
     const searchApi = this.utils.getMultiSearch(page, size, sort, search);
     return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandList + searchApi
         , {observe: 'response'});
+    // return this.http.get('configData/brand-manage/getBrandList.json');
   }
 
   //  根据id获取品牌详情
   getBrandDetailById(id){
     return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandDetailById + '?id=' + id);
+    //   return this.http.get('configData/brand-manage/getBrandDetailById.json');
   }
 
   // 更新品牌信息
@@ -37,6 +39,8 @@ export class BrandManageService {
    // 获取对应的品牌标签
     getTagsByBrand(brandId){
         return this.http.get(sessionStorage.getItem('baseUrl') + environment.getTagsByBrand + '?brandId=' + brandId);
+        // return this.http.get('configData/brand-manage/getTagsByBrand.json');
+
     }
 
     // 根据品牌识别号设置其所需要的标签

@@ -25,6 +25,7 @@
             "assets": [
               "src/favicon.png",
               "src/assets",
+              "src/configData",
               "src/configs"
             ],
             "styles": [
