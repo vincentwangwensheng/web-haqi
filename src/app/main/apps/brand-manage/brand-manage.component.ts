@@ -58,9 +58,11 @@ export class BrandManageComponent implements OnInit, OnDestroy {
     initSearch() {
         this.loading.show();
         this.brandManageService.multiSearchBrandLists(this.page.page, this.page.size, this.page.sort).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-            if (res['body']['content']) {
-                this.rows = res['body']['content']; // this.transFormRes(res['body']['content']) ;
-                this.page.count = res['body']['totalElements'];
+            if (res['content']) {
+                // this.rows = res['body']['content']; // this.transFormRes(res['body']['content']) ;
+                // this.page.count = res['body']['totalElements'];
+                this.rows = res['content']; // this.transFormRes(res['body']['content']) ;
+                this.page.count = res['totalElements'];
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -91,9 +93,11 @@ export class BrandManageComponent implements OnInit, OnDestroy {
             }
         });
         this.brandManageService.multiSearchBrandLists(this.page.page, this.page.size, this.page.sort, multiSearch).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-            if (res['body']) {
-                this.rows = res['body']['content']; // this.transFormRes(res['body']['content']) ;
-                this.page.count = res['body']['totalElements'];
+            if (res) {
+                // this.rows = res['body']['content']; // this.transFormRes(res['body']['content']) ;
+                // this.page.count = res['body']['totalElements'];
+                this.rows = res['content']; // this.transFormRes(res['body']['content']) ;
+                this.page.count = res['totalElements'];
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }

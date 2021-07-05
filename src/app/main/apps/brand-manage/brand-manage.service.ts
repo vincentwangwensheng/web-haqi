@@ -18,16 +18,16 @@ export class BrandManageService {
 
   //  获取品牌列表
   multiSearchBrandLists(page, size, sort, search?): Observable<any> {
-    const searchApi = this.utils.getMultiSearch(page, size, sort, search);
-    return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandList + searchApi
-        , {observe: 'response'});
-    // return this.http.get('configData/brand-manage/getBrandList.json');
+    // const searchApi = this.utils.getMultiSearch(page, size, sort, search);
+    // return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandList + searchApi
+    //     , {observe: 'response'});
+    return this.http.get('configData/brand-manage/getBrandList.json');
   }
 
   //  根据id获取品牌详情
   getBrandDetailById(id){
-    return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandDetailById + '?id=' + id);
-    //   return this.http.get('configData/brand-manage/getBrandDetailById.json');
+    // return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBrandDetailById + '?id=' + id);
+      return this.http.get('configData/brand-manage/getBrandDetailById.json');
   }
 
   // 更新品牌信息

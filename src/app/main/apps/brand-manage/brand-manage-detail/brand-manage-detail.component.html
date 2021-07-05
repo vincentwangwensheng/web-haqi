@@ -28,7 +28,8 @@
 
                 <ng-container  *ngIf="pageFlag === 'update'" >
                     <button (click)="onUpdate()"  mat-raised-button  class="mr-20" color="fff" [disabled]="saveButtonFlag"><mat-icon style="color: #039BE5">save</mat-icon><span style="color:#039BE5">{{'brand.save'|translate}}</span></button>
-                    <button (click)="onCancel()"  mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>
+<!--                    <button (click)="onCancel()"  mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>-->
+                    <button [routerLink]="'/apps/brandManage'" mat-raised-button  color="fff"><mat-icon style="color: #039BE5">close</mat-icon><span style="color:#039BE5">{{'brand.close'|translate}}</span></button>
                 </ng-container>
             </div>
 

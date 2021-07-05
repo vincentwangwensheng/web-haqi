@@ -149,16 +149,18 @@ export class TagDetailManagementComponent implements OnInit, OnDestroy {
         if (this.profileForm.get('firstLevel').value === '自定义标签' && this.profileForm.get('secondLevel').value === '自定义标签'){
             tags.selfSign = true;
         }
-        this.tagManagementService.createMerchantTagList(tags).subscribe(
-            () => {
-                this.router.navigate(['/apps/MerchantsTagManagement']).then();
-                this.snackBar.open(this.translate.instant('TagManagement.MerchantsTagManagement.tips4'), '✖'); //  新增商户标签成功
-            }, () => {
-                this.saveButtonStatus = false;
-            }, () => {
-
-            }
-        );
+        this.snackBar.open('待开发！');
+        return;
+        // this.tagManagementService.createMerchantTagList(tags).subscribe(
+        //     () => {
+        //         this.router.navigate(['/apps/MerchantsTagManagement']).then();
+        //         this.snackBar.open(this.translate.instant('TagManagement.MerchantsTagManagement.tips4'), '✖'); //  新增商户标签成功
+        //     }, () => {
+        //         this.saveButtonStatus = false;
+        //     }, () => {
+        //
+        //     }
+        // );
     }
 
 
@@ -207,14 +209,16 @@ export class TagDetailManagementComponent implements OnInit, OnDestroy {
             tags.selfSign = true;
         }
         tags.lastModifiedDate = this.formatToZoneDateTime(tags.lastModifiedDate);
-        this.tagManagementService.updateMerchantTag(tags).subscribe(() => {
-            this.router.navigate(['/apps/MerchantsTagManagement']).then();
-            this.snackBar.open(this.translate.instant('TagManagement.MerchantsTagManagement.tips5'), '✖'); //  修改商户标签成功
-        }, () => {
-            this.saveButtonStatus = false;
-        }, () => {
-
-        });
+        this.snackBar.open('待开发！');
+        return;
+        // this.tagManagementService.updateMerchantTag(tags).subscribe(() => {
+        //     this.router.navigate(['/apps/MerchantsTagManagement']).then();
+        //     this.snackBar.open(this.translate.instant('TagManagement.MerchantsTagManagement.tips5'), '✖'); //  修改商户标签成功
+        // }, () => {
+        //     this.saveButtonStatus = false;
+        // }, () => {
+        //
+        // });
     }
 
     IsNull(para) {

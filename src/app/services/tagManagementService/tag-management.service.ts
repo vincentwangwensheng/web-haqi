@@ -16,13 +16,15 @@ export class TagManagementService {
 
     // 获取标签列表
     searchTagList(page, size, sort, search?, filter?): Observable<any> {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchLabelList + searchApi, {observe: 'response'});
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchLabelList + searchApi, {observe: 'response'});
+        return this.http.get('configData/tag-management/searchLabelList.json');
     }
 
     // 获取标签详情
     getLabelById(id): Observable<any> {
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchLabelList + '?id.equals=' + id);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchLabelList + '?id.equals=' + id);
+        return this.http.get('configData/tag-management/searchLabelListById.json');
     }
 
     // 新增商户标签数据

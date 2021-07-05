@@ -135,8 +135,10 @@ export class MerchantsTagManagementComponent implements OnInit, OnDestroy {
         }
         this.tagManagementService.searchTagList(this.page.page, this.page.size, this.page.sort, null, this.filter).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res['body'];
-                this.page.count = res['headers'].get('X-Total-Count');
+                // this.rows = res['body'];
+                // this.page.count = res['headers'].get('X-Total-Count');
+                this.rows = res;
+                this.page.count = 1;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -168,8 +170,10 @@ export class MerchantsTagManagementComponent implements OnInit, OnDestroy {
         }
         this.tagManagementService.searchTagList(this.page.page, this.page.size, this.page.sort, multiSearch, this.filter).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res['body'];
-                this.page.count = res['headers'].get('X-Total-Count');
+                // this.rows = res['body'];
+                // this.page.count = res['headers'].get('X-Total-Count');
+                this.rows = res;
+                this.page.count = 1;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }

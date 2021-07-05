@@ -120,40 +120,46 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 this.currentLogoImgSaveId = res['logo'];
                 if (this.currentLogoImgSaveId) {
                     this.logoImgLoading = true;
-                    this.fileTransferService.previewFile(this.currentLogoImgSaveId).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-                        rest => {
-                            const fileReader = new FileReader();
-                            fileReader.readAsDataURL(rest);
-                            fileReader.onloadend = (res1) => {
-                                const result = res1.target['result'];
-                                this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                                this.logoImgLoading = false;
-                            };
-                        });
+                    // this.fileTransferService.previewFile(this.currentLogoImgSaveId).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+                    //     rest => {
+                    //         const fileReader = new FileReader();
+                    //         fileReader.readAsDataURL(rest);
+                    //         fileReader.onloadend = (res1) => {
+                    //             const result = res1.target['result'];
+                    //             this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+                    //             this.logoImgLoading = false;
+                    //         };
+                    //     });
+                    this.logoImgSrc = 'http://127.0.0.1:19181/device/export/device/A8-logo.png';
+                    this.logoImgLoading = false;
                 }
                 this.editorContent = res['desc'];
                 this.getTagsByBrand(res['id']);
                 const brandImgIdArray = res['images'].split(',');
                 for (let i = 0; i < brandImgIdArray.length; i++) {
                     this.brandImgSrcArray[i] = {src: 'no', loading: true};
-                    this.fileTransferService.previewFile(brandImgIdArray[i]).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-                        rest => {
-                            const fileReader = new FileReader();
-                            fileReader.readAsDataURL(rest);
-                            fileReader.onloadend = (res1) => {
-                                const result = res1.target['result'];
-                                this.brandImgSaveIdArray[i] = {saveID: brandImgIdArray[i]};
-                                this.brandImgSrcArray[i] = {
-                                    src: this.sanitizer.bypassSecurityTrustUrl(result),
-                                    loading: false
-                                };
-                            };
-                        },
-                        error1 => {
-                            this.brandImgSrcArray[i] = {src: 'no', loading: false};
-                        }, () => {
-                            this.brandImgSrcArray[i] = {src: 'no', loading: false};
-                        });
+                    // this.fileTransferService.previewFile(brandImgIdArray[i]).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+                    //     rest => {
+                    //         const fileReader = new FileReader();
+                    //         fileReader.readAsDataURL(rest);
+                    //         fileReader.onloadend = (res1) => {
+                    //             const result = res1.target['result'];
+                    //             this.brandImgSaveIdArray[i] = {saveID: brandImgIdArray[i]};
+                    //             this.brandImgSrcArray[i] = {
+                    //                 src: this.sanitizer.bypassSecurityTrustUrl(result),
+                    //                 loading: false
+                    //             };
+                    //         };
+                    //     },
+                    //     error1 => {
+                    //         this.brandImgSrcArray[i] = {src: 'no', loading: false};
+                    //     }, () => {
+                    //         this.brandImgSrcArray[i] = {src: 'no', loading: false};
+                    //     });
+                    this.brandImgSrcArray[i] = {
+                        src: 'http://127.0.0.1:19181/device/export/device/A8-logo.png',
+                        loading: false
+                    };
                 }
                 this.loading.hide();
             });
@@ -219,15 +225,17 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         this.merchantTags.forEach(r => {
             r.tagType = 'STORE';
         });
-        this.loading.show();
-        this.brandManageService.createBrandInfo(brandFormValue).subscribe((res) => {
-            const id = res.body['id'] + '';
-            this.snackBar.open(this.translate.instant('brand.tips9'), '✖'); //  新建成功
-            this.setBrandTags(id);
-
-        }, () => {
-            this.saveButtonFlag = false;
-        });
+        this.snackBar.open('待开发！');
+        return;
+        // this.loading.show();
+        // this.brandManageService.createBrandInfo(brandFormValue).subscribe((res) => {
+        //     const id = res.body['id'] + '';
+        //     this.snackBar.open(this.translate.instant('brand.tips9'), '✖'); //  新建成功
+        //     this.setBrandTags(id);
+        //
+        // }, () => {
+        //     this.saveButtonFlag = false;
+        // });
     }
 
     // 编辑状态的取消
@@ -336,11 +344,13 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         }
         brandFormValue['images'] = brandImgSaveId;
         brandFormValue['id'] = +this.activatedRoute.snapshot.paramMap.get('id');
-        this.saveButtonFlag = true;
-        this.brandManageService.updateBrandInfo(brandFormValue).subscribe((res) => {
-            this.snackBar.open(this.translate.instant('brand.tips12'), '✖'); // 编辑成功
-            this.setBrandTags(this.activatedRoute.snapshot.paramMap.get('id'));
-        });
+        this.snackBar.open('待开发！');
+        return;
+        // this.saveButtonFlag = true;
+        // this.brandManageService.updateBrandInfo(brandFormValue).subscribe((res) => {
+        //     this.snackBar.open(this.translate.instant('brand.tips12'), '✖'); // 编辑成功
+        //     this.setBrandTags(this.activatedRoute.snapshot.paramMap.get('id'));
+        // });
     }
 
     onEdit() {
@@ -440,37 +450,48 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         } else {
             this.logoImgLoading = true;
         }
-        this.fileTransferService.uploadFileNotBar(this.upBrandFormData).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-            const saveID = res;
-            if (saveID) {
-                this.fileTransferService.previewFile(saveID).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-                    rest => {
-                        const fileReader = new FileReader();
-                        fileReader.readAsDataURL(rest);
-                        fileReader.onloadend = (res1) => {
-                            const result = res1.target['result'];
-                            if (para === 'brand') {
-                                this.brandImgSaveIdArray[p] = {saveID: saveID};
-                                this.brandImgSrcArray[p] = {
-                                    src: this.sanitizer.bypassSecurityTrustUrl(result),
-                                    loading: false
-                                };
-                            } else {
-                                this.currentLogoImgSaveId = saveID;
-                                this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                                this.logoImgLoading = false;
-                            }
-                        };
-                    },
-                    error1 => {
-                        if (para === 'brand') {
-                            this.brandImgSrcArray[p] = {src: 'no', loading: false};
-                        } else {
-                            this.logoImgLoading = false;
-                        }
-                    });
-            }
-        });
+        // this.fileTransferService.uploadFileNotBar(this.upBrandFormData).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        //     const saveID = res;
+        //     if (saveID) {
+        //         this.fileTransferService.previewFile(saveID).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+        //             rest => {
+        //                 const fileReader = new FileReader();
+        //                 fileReader.readAsDataURL(rest);
+        //                 fileReader.onloadend = (res1) => {
+        //                     const result = res1.target['result'];
+        //                     if (para === 'brand') {
+        //                         this.brandImgSaveIdArray[p] = {saveID: saveID};
+        //                         this.brandImgSrcArray[p] = {
+        //                             src: this.sanitizer.bypassSecurityTrustUrl(result),
+        //                             loading: false
+        //                         };
+        //                     } else {
+        //                         this.currentLogoImgSaveId = saveID;
+        //                         this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+        //                         this.logoImgLoading = false;
+        //                     }
+        //                 };
+        //             },
+        //             error1 => {
+        //                 if (para === 'brand') {
+        //                     this.brandImgSrcArray[p] = {src: 'no', loading: false};
+        //                 } else {
+        //                     this.logoImgLoading = false;
+        //                 }
+        //             });
+        //     }
+        // });
+        if (para === 'brand') {
+            // this.brandImgSaveIdArray[p] = {saveID: saveID};
+            this.brandImgSrcArray[p] = {
+                src: 'http://127.0.0.1:19181/device/export/device/A8-logo.png',
+                loading: false
+            };
+        } else {
+            // this.currentLogoImgSaveId = saveID;
+            this.logoImgSrc = 'http://127.0.0.1:19181/device/export/device/A8-logo.png';
+            this.logoImgLoading = false;
+        }
     }
 
     // 删除品牌、logo图片
