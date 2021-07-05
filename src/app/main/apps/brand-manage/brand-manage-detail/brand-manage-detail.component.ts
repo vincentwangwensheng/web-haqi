@@ -67,7 +67,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
             english: new FormControl({value: '', disabled: false}, Validators.required),
             enabled: new FormControl({value: true, disabled: false}, Validators.required),
         });
-
     }
 
     ngOnInit() {
@@ -87,28 +86,22 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         this.getBrandInfo();
     }
 
-
     setConfig() {
         this.quillConfig = {
             toolbar: [
                 ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
                 ['blockquote', 'code-block'],
-
                 [{'header': 1}, {'header': 2}],               // custom button values
                 [{'list': 'ordered'}, {'list': 'bullet'}],
                 [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
                 [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
                 [{'direction': 'rtl'}],                         // text direction
-
                 [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
                 [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
                 [{'color': []}, {'background': []}],          // dropdown with defaults from theme
                 [{'font': []}],
                 [{'align': []}],
-
                 ['clean'],                                         // remove formatting button
-
                 ['link', 'image']                         // link and image,
             ]
         };
@@ -122,7 +115,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
             this.pageTitle = this.translate.instant('brand.detail');  // '品牌详情';
             this.brandManageService.getBrandDetailById(id).subscribe(res => {
                 this.primitiveData = res;
-
                 this.brandForm.patchValue(res);
                 this.brandForm.disable();
                 this.currentLogoImgSaveId = res['logo'];
@@ -137,13 +129,9 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                                 this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
                                 this.logoImgLoading = false;
                             };
-                        },
-                        error1 => {
-
                         });
                 }
                 this.editorContent = res['desc'];
-                // this.merchantTags = res['labels']; // 获取对应标签信息
                 this.getTagsByBrand(res['id']);
                 const brandImgIdArray = res['images'].split(',');
                 for (let i = 0; i < brandImgIdArray.length; i++) {
@@ -155,9 +143,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                             fileReader.onloadend = (res1) => {
                                 const result = res1.target['result'];
                                 this.brandImgSaveIdArray[i] = {saveID: brandImgIdArray[i]};
-                                //  this.brandImgSaveIdArray.push(brandImgIdArray[i]);
-                                //   this.brandImgSrcArray.push(this.sanitizer.bypassSecurityTrustUrl(result));
-                                // this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
                                 this.brandImgSrcArray[i] = {
                                     src: this.sanitizer.bypassSecurityTrustUrl(result),
                                     loading: false
@@ -171,9 +156,7 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                         });
                 }
                 this.loading.hide();
-
             });
-
         } else if (this.pageFlag === 'create') {
             this.pageTitle = this.translate.instant('brand.create');  // '品牌新建';
             this.quillReadonlyFlag = false;
@@ -202,7 +185,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
             this.snackBar.open(this.translate.instant('brand.tips8'), '✖'); //  请添加品牌图片
             return;
         }
-
         let imgUpF = false;
         this.brandImgSrcArray.forEach(
             r => {
@@ -211,24 +193,17 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
         if (!imgUpF) {
             this.snackBar.open(this.translate.instant('brand.tips8'), '✖'); //  请添加品牌图片
             return;
         }
-
         const brandFormValue = this.brandForm.value;
         brandFormValue['logo'] = this.currentLogoImgSaveId;
         brandFormValue['desc'] = this.editorContent;
-
-        // brandFormValue['labels'] = this.merchantTags;
-
         const saveIdCopy = [];
         this.brandImgSaveIdArray.forEach(r => {
             saveIdCopy.push(r.saveID);
         });
-
-
         let brandImgSaveId = '';
         for (let i = 0; i < saveIdCopy.length; i++) {
             if (i !== saveIdCopy.length - 1) {
@@ -237,11 +212,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 brandImgSaveId += saveIdCopy[i];
             }
         }
-
-
-        const save_l = brandImgSaveId.length;
-
-
         brandFormValue['images'] = brandImgSaveId;
         delete brandFormValue['id'];
         this.saveButtonFlag = true;
@@ -249,7 +219,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         this.merchantTags.forEach(r => {
             r.tagType = 'STORE';
         });
-
         this.loading.show();
         this.brandManageService.createBrandInfo(brandFormValue).subscribe((res) => {
             const id = res.body['id'] + '';
@@ -259,7 +228,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         }, () => {
             this.saveButtonFlag = false;
         });
-
     }
 
     // 编辑状态的取消
@@ -289,18 +257,9 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                         this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
                         this.logoImgLoading = false;
                     };
-                },
-                error1 => {
-
                 });
         }
         this.editorContent = this.primitiveData['desc'];
-        /*const labelIdsArray = this.primitiveData['labelIds'].split(',');
-        for (let i = 0; i < labelIdsArray.length; i++) {
-          this.tagManagementService.getLabelById(labelIdsArray[i]).subscribe(result => {
-            this.merchantTags.push(result);
-          });
-        }*/
         this.getTagsByBrand(this.primitiveData['id']);
         this.merchantTags = this.primitiveData['labels'];
         const brandImgIdArray = this.primitiveData['images'].split(',');
@@ -312,9 +271,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                     fileReader.readAsDataURL(rest);
                     fileReader.onloadend = (res1) => {
                         const result = res1.target['result'];
-                        // this.brandImgSaveIdArray.push(brandImgIdArray[i]);
-                        // this.brandImgSrcArray.push(this.sanitizer.bypassSecurityTrustUrl(result));
-                        // this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
                         this.brandImgSaveIdArray[i] = {saveID: brandImgIdArray[i]};
                         this.brandImgSrcArray[i] = {src: this.sanitizer.bypassSecurityTrustUrl(result), loading: false};
                     };
@@ -348,8 +304,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
             this.snackBar.open(this.translate.instant('brand.tips8'), '✖'); //  请添加品牌图片
             return;
         }
-
-
         let imgUpF = false;
         this.brandImgSrcArray.forEach(
             r => {
@@ -358,25 +312,13 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
         if (!imgUpF) {
             this.snackBar.open(this.translate.instant('brand.tips8'), '✖'); //  请添加品牌图片
             return;
         }
-
         const brandFormValue = this.brandForm.value;
         brandFormValue['logo'] = this.currentLogoImgSaveId;
         brandFormValue['desc'] = this.editorContent;
-        /*let labelIdsString = '';
-        for (let i = 0; i < this.merchantTags.length; i++) {
-          if (i !== this.merchantTags.length - 1) {
-            labelIdsString += this.merchantTags[i].id + ',';
-          } else {
-            labelIdsString += this.merchantTags[i].id;
-          }
-        }*/
-        // brandFormValue['labels'] = this.merchantTags;
-
         const saveIdCopy = [];
         this.brandImgSaveIdArray.forEach(r => {
             if (r.saveID !== null) {
@@ -392,17 +334,14 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 brandImgSaveId += saveIdCopy[i];
             }
         }
-
         brandFormValue['images'] = brandImgSaveId;
         brandFormValue['id'] = +this.activatedRoute.snapshot.paramMap.get('id');
         this.saveButtonFlag = true;
-
         this.brandManageService.updateBrandInfo(brandFormValue).subscribe((res) => {
             this.snackBar.open(this.translate.instant('brand.tips12'), '✖'); // 编辑成功
             this.setBrandTags(this.activatedRoute.snapshot.paramMap.get('id'));
         });
     }
-
 
     onEdit() {
         this.pageTitle = this.translate.instant('brand.edit'); //  '品牌编辑';
@@ -447,7 +386,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
 
     // 上传logo图片
     onUploadLogoImg() {
-
         if (!this.logoFormData) {
             this.snackBar.open(this.translate.instant('brand.tips1'), '✖');  //  请选择一个文件
             return;
@@ -459,148 +397,27 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                 this.progressLoad = (res.loaded / res.total) * 100;  // 上传长度
             }
             if (res.status === 200) {
-                // this.previewImgStatus = false;
                 this.progressLoad = 100;
                 this.notUploading = true;
                 this.uploadStatus = true;
                 this.finishStatus = false;
                 this.currentLogoImgSaveId = res['body'];
                 this.loading.hide();
-
                 if (this.currentLogoImgSaveId) {
                     this.logoImgLoading = true;
-                    this.fileTransferService.previewFile(this.currentLogoImgSaveId).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-                        rest => {
-
-                            const fileReader = new FileReader();
-                            fileReader.readAsDataURL(rest);
-                            fileReader.onloadend = (res1) => {
-                                const result = res1.target['result'];
-                                this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                                this.logoImgLoading = false;
-                            };
-                        },
-                        error1 => {
-
-                        });
+                    this.fileTransferService.previewFile(this.currentLogoImgSaveId).pipe(takeUntil(this._unsubscribeAll)).subscribe(rest => {
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(rest);
+                        fileReader.onloadend = (res1) => {
+                            const result = res1.target['result'];
+                            this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+                            this.logoImgLoading = false;
+                        };
+                    });
                 }
-
-
-            } else {
-            }
-        }, error1 => {
-
-        });
-    }
-
-    // 删除logo图片
-    deleteLogoImg() {
-        this.logoImgSrc = null;
-        this.currentLogoImgSaveId = null;
-    }
-
-    // checkbox选中商户标签
-    onSelectTags(event) {
-        this.selectedTags = event;
-    }
-
-    // 获取标签
-    getTagsByBrand(id) {
-        this.brandManageService.getTagsByBrand(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
-            res => {
-                this.merchantTags = res['brandTag'];
-            }
-        );
-    }
-
-    // 打开选择标签列表
-    editMerchantTagsTags(tagTemplate: TemplateRef<any>) {
-        this.selectedTags = [];
-        Object.assign(this.selectedTags, this.merchantTags);
-        this.dialog.open(tagTemplate, {id: 'tagTemplate', width: '80%'}).afterClosed().subscribe(res => {
-            if (res) {
-                this.merchantTags = [];
-                Object.assign(this.merchantTags, this.selectedTags);
-            } else {
-                this.selectedTags = [];
             }
         });
     }
-
-
-    setBrandTags(id) {
-        // 保存完成后 将标签信息存到对应的集合里
-        const brandT: any = [];
-        this.merchantTags.forEach(r => {
-            brandT.push({id: r.id});
-        });
-        const brand_vm = {
-            brandId: id,
-            tagList: brandT
-        };
-        this.brandManageService.setBrandTags(brand_vm).pipe().subscribe(res => {
-                this.saveButtonFlag = false;
-                this.router.navigate(['/apps/brandManage']).then(() => {
-                    this.snackBar.open(this.translate.instant('brand.tips10'), '✖'); //  标签绑定成功
-                });
-                this.loading.hide();
-            }, error1 => {
-                this.snackBar.open(this.translate.instant('brand.tips11'), '✖');  // 标签绑定失败
-                this.saveButtonFlag = false;
-                this.loading.hide();
-            },
-            () => {
-                this.saveButtonFlag = false;
-                this.loading.hide();
-            });
-    }
-
-
-    deleteTags(index) {
-        this.merchantTags.splice(index, 1);
-    }
-
-    // 富文本编辑框 图片处理
-    EditorCreated(event) {
-        const toolbar = event.getModule('toolbar');
-        toolbar.addHandler('image', this.imageHandler.bind(this));
-        this.editor = event;
-    }
-
-    imageHandler() {
-        const Imageinput = document.createElement('input');
-        Imageinput.setAttribute('type', 'file');
-        Imageinput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
-        Imageinput.classList.add('ql-image');
-        Imageinput.addEventListener('change', () => {
-            const file = Imageinput.files[0];
-            const data: FormData = new FormData();
-            data.append('files', file);
-            if (Imageinput.files != null && Imageinput.files[0] != null) {
-                this.brandManageService.FileUploadNotBar(data).pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-                    if (res !== undefined && res !== 'undefined') {
-                        const range = this.editor.getSelection(true);
-                        const index = range.index + range.length;
-                        this.editor.setSelection(1 + range.index);
-                        this.editor.insertEmbed(range.index, 'image', sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res);
-                        const desc = this.editorContent;
-                        let changeValue = '';
-                        if (this.IsNull(desc)) {
-                            changeValue = desc + '<img src="' + sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res + '">';
-                        } else {
-                            changeValue = '<img src="' + sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res + '">';
-                        }
-                        this.editorContent = changeValue;
-                        this.editor.focus();
-                    }
-                }, error1 => {
-                    this.loading.hide();
-                });
-            }
-        });
-        Imageinput.click();
-    }
-
 
     // 上传品牌图片
     upBrandImg(p, e, para) {
@@ -643,7 +460,6 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                                 this.logoImgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
                                 this.logoImgLoading = false;
                             }
-
                         };
                     },
                     error1 => {
@@ -652,12 +468,10 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
                         } else {
                             this.logoImgLoading = false;
                         }
-
                     });
             }
         });
     }
-
 
     // 删除品牌、logo图片
     delImg(i, p) {
@@ -670,12 +484,114 @@ export class BrandManageDetailComponent implements OnInit, OnDestroy {
         }
     }
 
+    /********************* 品牌简介 *******************/
+    // 富文本编辑框 图片处理
+    EditorCreated(event) {
+        const toolbar = event.getModule('toolbar');
+        toolbar.addHandler('image', this.imageHandler.bind(this));
+        this.editor = event;
+    }
+
+    imageHandler() {
+        const Imageinput = document.createElement('input');
+        Imageinput.setAttribute('type', 'file');
+        Imageinput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
+        Imageinput.classList.add('ql-image');
+        Imageinput.addEventListener('change', () => {
+            const file = Imageinput.files[0];
+            const data: FormData = new FormData();
+            data.append('files', file);
+            if (Imageinput.files != null && Imageinput.files[0] != null) {
+                this.brandManageService.FileUploadNotBar(data).pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
+                    if (res !== undefined && res !== 'undefined') {
+                        const range = this.editor.getSelection(true);
+                        const index = range.index + range.length;
+                        this.editor.setSelection(1 + range.index);
+                        this.editor.insertEmbed(range.index, 'image', sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res);
+                        const desc = this.editorContent;
+                        let changeValue = '';
+                        if (this.IsNull(desc)) {
+                            changeValue = desc + '<img src="' + sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res + '">';
+                        } else {
+                            changeValue = '<img src="' + sessionStorage.getItem('baseUrl') + environment.CouponShowImg + '?saveId=' + res + '">';
+                        }
+                        this.editorContent = changeValue;
+                        this.editor.focus();
+                    }
+                }, error1 => {
+                    this.loading.hide();
+                });
+            }
+        });
+        Imageinput.click();
+    }
+
     IsNull(para) {
         if ('undefined' !== para && undefined !== para && '' !== para && null !== para) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /*********************** 品牌标签 ******************/
+    // 获取标签
+    getTagsByBrand(id) {
+        this.brandManageService.getTagsByBrand(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            res => {
+                this.merchantTags = res['brandTag'];
+            }
+        );
+    }
+
+    // checkbox选中商户标签
+    onSelectTags(event) {
+        this.selectedTags = event;
+    }
+
+    // 打开选择标签列表
+    editMerchantTagsTags(tagTemplate: TemplateRef<any>) {
+        this.selectedTags = [];
+        Object.assign(this.selectedTags, this.merchantTags);
+        this.dialog.open(tagTemplate, {id: 'tagTemplate', width: '80%'}).afterClosed().subscribe(res => {
+            if (res) {
+                this.merchantTags = [];
+                Object.assign(this.merchantTags, this.selectedTags);
+            } else {
+                this.selectedTags = [];
+            }
+        });
+    }
+
+    deleteTags(index) {
+        this.merchantTags.splice(index, 1);
+    }
+
+    setBrandTags(id) {
+        // 保存完成后 将标签信息存到对应的集合里
+        const brandT: any = [];
+        this.merchantTags.forEach(r => {
+            brandT.push({id: r.id});
+        });
+        const brand_vm = {
+            brandId: id,
+            tagList: brandT
+        };
+        this.brandManageService.setBrandTags(brand_vm).pipe().subscribe(res => {
+                this.saveButtonFlag = false;
+                this.router.navigate(['/apps/brandManage']).then(() => {
+                    this.snackBar.open(this.translate.instant('brand.tips10'), '✖'); //  标签绑定成功
+                });
+                this.loading.hide();
+            }, error1 => {
+                this.snackBar.open(this.translate.instant('brand.tips11'), '✖');  // 标签绑定失败
+                this.saveButtonFlag = false;
+                this.loading.hide();
+            },
+            () => {
+                this.saveButtonFlag = false;
+                this.loading.hide();
+            });
     }
 
     ngOnDestroy(): void {
