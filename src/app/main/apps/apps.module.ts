@@ -5,7 +5,13 @@ import { AdvertisingScreenComponent } from './advertising-screen/advertising-scr
 const routes: Routes =
     [
         {path: '', redirectTo: 'groupManage', pathMatch: 'full'},
-        /** 主数据维护*/
+        /** 品牌管理 */
+        // 品牌列表
+        {
+            path: 'brandManage',
+            loadChildren: () => import('./brand-manage/brand-manage.module').then(m => m.BrandManageModule),
+        },
+        /** 主数据维护 */
         // 集团管理
         {
             path: 'groupManage',
@@ -37,13 +43,11 @@ const routes: Routes =
             path: 'terminalManage/edit/:id',
             loadChildren: () => import('./mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
         },
-
         // 街区地图
         {
             path: 'terminalMap',
             loadChildren: () => import('./mall-management/terminal-map/terminal-map.module').then(m => m.TerminalMapModule)
         },
-
         // 商户数据
         {
             path: 'storeManage',
@@ -64,13 +68,162 @@ const routes: Routes =
             path: 'secondType',
             loadChildren: () => import('./mall-management/bs-type/second-type/second-type.module').then(m => m.SecondTypeModule)
         },
+        /********** 营销策略 *******/
+        // 营销策略
+        {
+            path: 'strategy',
+            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
+            data: {title: '营销策略列表'},
+        },
+        {
+            path: 'strategyView',
+            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
+            data: {title: '营销策略审核'},
+        },
+        // 新建营销策略
+        {
+            path: 'strategyCreate',
+            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
+        },
+        // 编辑营销策略
+        {
+            path: 'strategy/edit',
+            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
+        },
+        /*********************活动配置*******************/
+        // 优惠卷列表
+        {
+            path: 'couponList',
+            data: {title: '优惠券列表'},
+            loadChildren: () => import('./coupon-manage/coupon-list/coupon-list.module').then(m => m.CouponListModule)
+        },
+        // 优惠卷批次
+        {
+            path: 'couponBatch',
+            data: {title: '优惠券批次'},
+            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch.module').then(m => m.CouponBatchModule)
+        },
+        // 优惠卷批次-详情
+        {
+            path: 'couponBatch/detail',
+            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
+            data: {operation: 'detail', title: '优惠券批次详情'}
+        },
+        {
+            path: 'couponBatch/create',
+            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
+            data: {operation: 'create', title: '新建优惠券批次'}
+        },
+        // 优惠卷规则
+        {
+            path: 'couponRule',
+            data: {title: '优惠券规则'},
+            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule.module').then(m => m.CouponRuleModule)
+        },
+        {
+            path: 'couponRule/edit',
+            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
+            data: {operation: 'detail', title: '优惠券规则详情'}
+        },
+        {
+            path: 'couponRule/create',
+            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
+            data: {operation: 'create', title: '新建优惠券规则'}
+        },
+        // 优惠卷推送
+        {
+            path: 'couponPush',
+            data: {title: '优惠券推送'},
+            loadChildren: () => import('./coupon-manage/coupon-push/coupon-push.module').then(m => m.CouponPushModule)
+        },
+        // 活动列表
+        {
+            path: 'activityList',
+            data: {title: '活动列表'},
+            loadChildren: () => import('./coupon-manage/activity-list/activity-list.module').then(m => m.ActivityListModule)
+        },
+        {
+            path: 'activityList/edit',
+            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
+            data: {operation: 'detail', title: '活动详情'}
+        },
+        {
+            path: 'activityList/create',
+            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
+            data: {operation: 'create', title: '新建活动'}
+        },
+        // 活动审核
+        {
+            path: 'activityReview',
+            data: {title: '活动审核'},
+            loadChildren: () => import('./coupon-manage/activity-review/activity-review.module').then(m => m.ActivityReviewModule)
+        },
+        {
+            path: 'activityReview/edit',
+            loadChildren: () => import('./coupon-manage/activity-review/activity-review-detail/activity-review-detail.module').then(m => m.ActivityReviewDetailModule),
+            data: {operation: 'detail', title: '活动审核详情'}
+        },
+        /*************** 预约报名 **************/
+        // 预约报名  事件列表
+        {
+            path: 'appointmentList',
+            loadChildren: () => import('./appointment/appointment-list/appointment.module').then(m => m.AppointmentModule),
+        },
+        // 预约报名  新建事件
+        {
+            path: 'appointmentAdd/:id',
+            loadChildren: () => import('./appointment/appointment-add/appointment-add.module').then(m => m.AppointmentAddModule),
+        },
+        // 预约报名  编辑事件
+        {
+            path: 'appointmentList/edit/:id',
+            loadChildren: () => import('./appointment/appointment-add/appointment-add.module').then(m => m.AppointmentAddModule),
+        },
+        // 预约报名  申请列表
+        {
+            path: 'applicationList',
+            loadChildren: () => import('./appointment/application-list/application-list.module').then(m => m.ApplicationListModule),
+        },
+
+
+
+
+        /******** 内容管理 *********/
+        // 商户反馈
+        {path: 'merchantFeedback', loadChildren: () => import('./contentManage/merchant-feedback/merchant-feedback.module').then(m => m.MerchantFeedbackModule)},
+        // 常见问题
+        {path: 'standardQuestion', loadChildren: () => import('./contentManage/standard-question/standard-question.module').then(m => m.StandardQuestionModule)},
+        // 会员反馈
+        {path: 'memberFeedback', loadChildren: () => import('./contentManage/member-feedback/member-feedback.module').then(m => m.MemberFeedbackModule)},
+        // 商户公告
+        {path: 'merchantNotice', loadChildren: () => import('./contentManage/merchant-notice/merchant-notice.module').then(m => m.MerchantNoticeModule)},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // 地图
-        // {
-        //     path: 'airport',
-        //     // 动态导入 esnext新功能 旧的字符串导入将会淘汰
-        //     loadChildren: () => import('./airport-map/airport-map.module').then(m => m.AirportMapModule),
-        // },
+        {
+            path: 'airport',
+            // 动态导入 esnext新功能 旧的字符串导入将会淘汰
+            loadChildren: () => import('./airport-map/airport-map.module').then(m => m.AirportMapModule),
+        },
         // 终端管理 激活码
         {
             path: 'activation',
@@ -87,27 +240,7 @@ const routes: Routes =
             path: 'marketingPlan',
             loadChildren: () => import('./marketing-calendar/calendar.module').then(m => m.CalendarModule)
         },
-        // 营销策略
-        {
-            path: 'strategy',
-            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
-            data: {title: '营销策略列表'},
-        },
-        {
-            path: 'strategyView',
-            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
-            data: {title: '营销策略审核'},
-        },
-        // 新建流程
-        {
-            path: 'strategyCreate',
-            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
-        },
-        // 编辑流程
-        {
-            path: 'strategy/edit',
-            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
-        },
+
         // // 营销数据分析
         // {
         //     path: 'AnalysisOfMarketingData/:id',
@@ -153,15 +286,6 @@ const routes: Routes =
             data: {operation: 'detail'}
 
         },
-        /******** 内容管理 *********/
-        // 商户反馈
-        {path: 'merchantFeedback', loadChildren: () => import('./contentManage/merchant-feedback/merchant-feedback.module').then(m => m.MerchantFeedbackModule)},
-        // 常见问题
-        {path: 'standardQuestion', loadChildren: () => import('./contentManage/standard-question/standard-question.module').then(m => m.StandardQuestionModule)},
-        // 会员反馈
-        {path: 'memberFeedback', loadChildren: () => import('./contentManage/member-feedback/member-feedback.module').then(m => m.MemberFeedbackModule)},
-        // 商户公告
-        {path: 'merchantNotice', loadChildren: () => import('./contentManage/merchant-notice/merchant-notice.module').then(m => m.MerchantNoticeModule)},
 
         // 电子券列表
         {
@@ -317,11 +441,7 @@ const routes: Routes =
             path: 'integralAdjustment',
             loadChildren: () => import('./integral-adjustment/integral-adjustment.module').then(m => m.IntegralAdjustmentModule)
         },
-        // 品牌管理 -- 品牌列表
-        {
-            path: 'brandManage',
-            loadChildren: () => import('./brand-manage/brand-manage.module').then(m => m.BrandManageModule),
-        },
+
         // 品牌详情
         {
             path: 'brandManage/Detail/:id',
@@ -560,26 +680,7 @@ const routes: Routes =
             path: 'relationPassengerTags',
             loadChildren: () => import('./relation-passenger-tags/relation-passenger-tags.module').then(m => m.RelationPassengerTagsModule),
         },
-        // 预约报名  事件列表
-        {
-            path: 'appointmentList',
-            loadChildren: () => import('./appointment/appointment-list/appointment.module').then(m => m.AppointmentModule),
-        },
-        // 预约报名  新建事件
-        {
-            path: 'appointmentAdd/:id',
-            loadChildren: () => import('./appointment/appointment-add/appointment-add.module').then(m => m.AppointmentAddModule),
-        },
-        // 预约报名  编辑事件
-        {
-            path: 'appointmentList/edit/:id',
-            loadChildren: () => import('./appointment/appointment-add/appointment-add.module').then(m => m.AppointmentAddModule),
-        },
-        // 预约报名  申请列表
-        {
-            path: 'applicationList',
-            loadChildren: () => import('./appointment/application-list/application-list.module').then(m => m.ApplicationListModule),
-        },
+
         // 预约报名  付款记录
         {
             path: 'paymentRecord',
@@ -607,79 +708,7 @@ const routes: Routes =
             loadChildren: () => import('./account-manage/account-manage.module').then(m => m.AccountManageModule)
         },
 
-        /*********************活动配置*******************/
-        // 优惠卷列表
-        {
-            path: 'couponList',
-            data: {title: '优惠券列表'},
-            loadChildren: () => import('./coupon-manage/coupon-list/coupon-list.module').then(m => m.CouponListModule)
-        },
-        // 优惠卷批次
-        {
-            path: 'couponBatch',
-            data: {title: '优惠券批次'},
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch.module').then(m => m.CouponBatchModule)
-        },
-        // 优惠卷批次-详情
-        {
-            path: 'couponBatch/detail',
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
-            data: {operation: 'detail', title: '优惠券批次详情'}
-        },
-        {
-            path: 'couponBatch/create',
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
-            data: {operation: 'create', title: '新建优惠券批次'}
-        },
-        // 优惠卷规则
-        {
-            path: 'couponRule',
-            data: {title: '优惠券规则'},
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule.module').then(m => m.CouponRuleModule)
-        },
-        {
-            path: 'couponRule/edit',
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
-            data: {operation: 'detail', title: '优惠券规则详情'}
-        },
-        {
-            path: 'couponRule/create',
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
-            data: {operation: 'create', title: '新建优惠券规则'}
-        },
-        // 优惠卷推送
-        {
-            path: 'couponPush',
-            data: {title: '优惠券推送'},
-            loadChildren: () => import('./coupon-manage/coupon-push/coupon-push.module').then(m => m.CouponPushModule)
-        },
-        // 活动列表
-        {
-            path: 'activityList',
-            data: {title: '活动列表'},
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list.module').then(m => m.ActivityListModule)
-        },
-        {
-            path: 'activityList/edit',
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
-            data: {operation: 'detail', title: '活动详情'}
-        },
-        {
-            path: 'activityList/create',
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
-            data: {operation: 'create', title: '新建活动'}
-        },
-        // 活动审核
-        {
-            path: 'activityReview',
-            data: {title: '活动审核'},
-            loadChildren: () => import('./coupon-manage/activity-review/activity-review.module').then(m => m.ActivityReviewModule)
-        },
-        {
-            path: 'activityReview/edit',
-            loadChildren: () => import('./coupon-manage/activity-review/activity-review-detail/activity-review-detail.module').then(m => m.ActivityReviewDetailModule),
-            data: {operation: 'detail', title: '活动审核详情'}
-        },
+
         // 会员报表，默认第一个是生日月报表
         {
             path: 'memberReport',
