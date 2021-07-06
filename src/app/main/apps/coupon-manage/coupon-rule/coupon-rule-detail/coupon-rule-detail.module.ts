@@ -14,7 +14,7 @@ import {
     MatSlideToggleModule
 } from '@angular/material';
 import {DataPreviewModule} from '../../../../../components/data-preview/data-preview.module';
-import {StoreManageExportModule} from '../../../store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../../mall-management/store-mange/store-manage-export.module';
 
 @NgModule({
   declarations: [

@@ -6,8 +6,8 @@ import {MerchantNoticeComponent} from './merchant-notice.component';
 import {EditDialogModule} from '../../../../components/edit-dialog/edit-dialog.module';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
 import {MatRadioModule} from '@angular/material';
-import {MallManageExportModule} from '../../mall-manage/mall-manage-export.module';
-import {StoreManageExportModule} from '../../store-mange/store-manage-export.module';
+import {MallManageExportModule} from '../../mall-management/mall-manage/mall-manage-export.module';
+import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
 import {DataPreviewModule} from '../../../../components/data-preview/data-preview.module';
 
 

@@ -5,7 +5,7 @@ import {TableListModule} from '../../../../components/table-list/table-list.modu
 import {StandardQuestionComponent} from './standard-question.component';
 import {EditDialogModule} from '../../../../components/edit-dialog/edit-dialog.module';
 import {AutoSelectModule} from '../../../../components/auto-select/auto-select.module';
-import {MallManageExportModule} from '../../mall-manage/mall-manage-export.module';
+import {MallManageExportModule} from '../../mall-management/mall-manage/mall-manage-export.module';
 
 
 @NgModule({

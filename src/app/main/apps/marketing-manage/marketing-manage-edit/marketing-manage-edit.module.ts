@@ -37,7 +37,7 @@ import {MerchantsTagManagementExportModule} from '../../tag-management/merchants
 import {ActivityPreCommonModule} from '../activity-pre-common/activity-pre-common.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MembersListExportModule} from '../../bonus-point-rules/members-list/members-list.export.module';
-import {StoreManageExportModule} from '../../store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
 
 const routes: Routes = [
   {

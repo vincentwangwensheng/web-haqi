@@ -1,0 +1,191 @@
+@import "../../../../../@fuse/scss/fuse";
+h3{
+  margin-top: 0;
+  font-weight: bold;
+}
+.card-model{
+  border: 1px dashed #8DC4DF;
+  border-radius: 6px;
+  background-color: #F9FDFF;
+  cursor:pointer;
+  margin-right: 8px;
+  margin-bottom: 4px;
+  color: #62B3DF;
+  margin-right: 30px;
+}
+.imgType{
+  font-size: 8px;
+}
+.saveButton{
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  cursor: pointer;
+}
+.content{
+  width:100%;
+  .content-left{
+    width: 60%;
+    padding:20px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    background-color: #fff;
+    .name-number{
+      width: 10%;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .name-title-left{
+      width: 35%;
+      height: 40px;
+      margin-right: 40px;
+      .card-content-input{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+    }
+    .name-title-right{
+      width:35%;
+      height: 40px;
+      .symbol{
+        font-size: 18px;
+        margin-right: 20px;
+      }
+      .value-content-input{
+        width:50%;
+        height: 40px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+      .add-button{
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.titleBottom{
+  text-align: center;
+  width: 180px;
+  margin-right: 30px;
+}
+
+.closeOrderDialogStyle {
+  div:first-child{
+    div:first-child{
+      height: 60px;
+      text-align: center;
+      line-height: 60px;
+    }
+  }
+  .hintContent{
+    padding: 24px 24px 12px 24px;
+    .hintContentLeft{
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      img{
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+  }
+  .dialogTitle {
+    background-color: #02A5EF;
+    margin-bottom: 0px;
+    height: 45px;
+    color: white;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-left: 24px;
+    border-radius: 3px 3px 0 0;
+  }
+  .dialogContent {
+    margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    p{
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+    mat-form-field{
+      width:100%;
+      textarea{
+        width:100%;
+      }
+    }
+  }
+  .dialogAction {
+    float: right;
+    padding-right: 24px;
+    padding-bottom:16px;
+    button:first-child{
+      background-color: #02A5EF;
+      color: white;
+    }
+    button:last-child{
+      color: #02A5EF;
+    }
+  }
+}
+.add-button {
+  width: 180px;
+  min-height: 100px;
+  max-height: 200px;
+  opacity: 0.8;
+  font-size: 13px;
+  cursor: pointer;
+  color: #0397e5;
+  border-radius: 5px;
+  margin: 6px;
+  border: 1px dashed #0397e5;
+}
+.reissue-button {
+  width: 100px;
+  margin-top: 40px;
+}
+.member-cell {
+  @extend %cell;
+}
+%cell {
+  background: #ebf7ff;
+  background-size: 100% 100%;
+  width: 180px;
+  height: 100px;
+  min-height: 100px;
+  max-height: 200px;
+  user-select: text;
+  padding: 0 8px;
+  margin: 6px;
+  border: 1px dashed #0397e5;
+  border-radius: 5px;
+  font-size: 10px;
+  & > div {
+    height: 16px
+  }
+  & > span {
+    margin-bottom: 4px;
+  }
+  .remove-button {
+    bottom: 6px;
+    left: 6px;
+    position: relative;
+  }
+}
+// 弹框整体设置,#frozenTips为打开弹框时的id，其所在位置就是mat-dialog-container标签
+::ng-deep {
+  #frozenTips{
+    margin: 0px;
+    padding: 0 0 24px 0!important;
+    overflow: visible;
+    .mat-form-field-wrapper{
+      padding-bottom: 0;
+    }
+  }
+}

@@ -10,7 +10,7 @@ import {
     MatSelectModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {MemberExportCardModule} from '../../member-card/member-export-card.module';
+import {MemberExportCardModule} from '../../memberManagement/member-card/member-export-card.module';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
 import {QuillModule} from 'ngx-quill';
 import {RootModule} from '../../../../root.module';

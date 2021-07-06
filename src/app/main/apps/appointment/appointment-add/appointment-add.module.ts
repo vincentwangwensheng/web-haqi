@@ -16,7 +16,7 @@ import {
 } from '@angular/material';
 import {QUILL_CONFIG_TOKEN, QuillModule} from 'ngx-quill';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
-import {MemberExportCardModule} from '../../member-card/member-export-card.module';
+import {MemberExportCardModule} from '../../memberManagement/member-card/member-export-card.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {UploadImgModule} from '../../../../components/upload-img/upload-img.module';
 import {MallListExportModule} from '../../mall-list/mall-list-export.module';

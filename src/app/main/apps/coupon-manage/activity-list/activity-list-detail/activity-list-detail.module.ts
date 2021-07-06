@@ -8,8 +8,8 @@ import {CouponRuleExportModule} from '../../coupon-rule/coupon-rule-export.modul
 import {ActivityListDetailComponent} from './activity-list-detail.component';
 import {CouponManageService} from '../../coupon-manage.service';
 import {DataPreviewModule} from '../../../../../components/data-preview/data-preview.module';
-import {MemberExportCardModule} from '../../../member-card/member-export-card.module';
-import {MallManageExportModule} from '../../../mall-manage/mall-manage-export.module';
+import {MemberExportCardModule} from '../../../memberManagement/member-card/member-export-card.module';
+import {MallManageExportModule} from '../../../mall-management/mall-manage/mall-manage-export.module';
 import {ActivityListExportModule} from '../activity-list-export.module';
 
 @NgModule({

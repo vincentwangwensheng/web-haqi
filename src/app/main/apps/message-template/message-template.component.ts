@@ -9,7 +9,7 @@ import {PassengersManageService} from '../../../services/passengersManageService
 import {NewDateTransformPipe} from '../../../pipes/date-new-date-transform/new-date-transform.pipe';
 import {takeUntil} from 'rxjs/operators';
 import {MessageTemplateService} from './message-template.service';
-import {StoreManageService} from '../store-mange/store.manage.service';
+import {StoreManageService} from '../mall-management/store-mange/store.manage.service';
 
 @Component({
     selector: 'app-message-template',

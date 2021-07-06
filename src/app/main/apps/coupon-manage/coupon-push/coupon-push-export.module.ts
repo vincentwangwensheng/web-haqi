@@ -6,8 +6,8 @@ import {TableListModule} from '../../../../components/table-list/table-list.modu
 import {CouponManageService} from '../coupon-manage.service';
 import {RouterModule} from '@angular/router';
 import {CouponRuleExportModule} from '../coupon-rule/coupon-rule-export.module';
-import {PassengersManageExportModule} from '../../passengers-manage/passengers-manage-export.module';
-import {MemberGroupExportModule} from '../../member-group/member-group-export.module';
+import {PassengersManageExportModule} from '../../memberManagement/passengers-manage/passengers-manage-export.module';
+import {MemberGroupExportModule} from '../../memberManagement/member-group/member-group-export.module';
 // import {UsersManageExportModule} from '../../users-manage/users-manage-export.module';
 
 @NgModule({

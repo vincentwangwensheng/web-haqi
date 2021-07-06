@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
-import {StoreManageService} from '../store-mange/store.manage.service';
+import {StoreManageService} from '../mall-management/store-mange/store.manage.service';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';

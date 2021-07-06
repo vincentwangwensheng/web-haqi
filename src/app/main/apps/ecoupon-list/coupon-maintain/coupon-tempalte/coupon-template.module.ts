@@ -24,10 +24,10 @@ import {QUILL_CONFIG_TOKEN, QuillModule} from 'ngx-quill';
 import {MaterialDatePickerModule} from '../../../../../components/material-date-picker/material-date-picker.module';
 import {SharedModule} from '../../../../../../@fuse/shared.module';
 import {CouponTemplateComponent} from './coupon-template.component';
-import {PassengersManageExportModule} from '../../../passengers-manage/passengers-manage-export.module';
-import {StoreManageExportModule} from '../../../store-mange/store-manage-export.module';
+import {PassengersManageExportModule} from '../../../memberManagement/passengers-manage/passengers-manage-export.module';
+import {StoreManageExportModule} from '../../../mall-management/store-mange/store-manage-export.module';
 import {BusinessTypeModule} from '../../../business-type/business-type.module';
-import {MemberExportCardModule} from '../../../member-card/member-export-card.module';
+import {MemberExportCardModule} from '../../../memberManagement/member-card/member-export-card.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {UploadImgModule} from '../../../../../components/upload-img/upload-img.module';
 

@@ -9,60 +9,60 @@ const routes: Routes =
         // 集团管理
         {
             path: 'groupManage',
-            loadChildren: () => import('./group-manage/group-manage.module').then(m => m.GroupManageModule),
+            loadChildren: () => import('./mall-management/group-manage/group-manage.module').then(m => m.GroupManageModule),
         },
         // 商场管理
         {
             path: 'mallManage',
-            loadChildren: () => import('./mall-manage/mall-manage.module').then(m => m.MallManageModule)
+            loadChildren: () => import('./mall-management/mall-manage/mall-manage.module').then(m => m.MallManageModule)
         },
         {
             path: 'mallManage/create',
-            loadChildren: () => import('./mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
+            loadChildren: () => import('./mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
         },
         {
             path: 'mallManage/edit/:id',
-            loadChildren: () => import('./mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
+            loadChildren: () => import('./mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
         },
         // 街区管理
         {
             path: 'terminalManage',
-            loadChildren: () => import('./terminal-manage/terminal-manage.module').then(m => m.TerminalManageModule)
+            loadChildren: () => import('./mall-management/terminal-manage/terminal-manage.module').then(m => m.TerminalManageModule)
         },
         {
             path: 'terminalManage/create',
-            loadChildren: () => import('./terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
+            loadChildren: () => import('./mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
         },
         {
             path: 'terminalManage/edit/:id',
-            loadChildren: () => import('./terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
+            loadChildren: () => import('./mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
         },
 
         // 街区地图
         {
             path: 'terminalMap',
-            loadChildren: () => import('./terminal-map/terminal-map.module').then(m => m.TerminalMapModule)
+            loadChildren: () => import('./mall-management/terminal-map/terminal-map.module').then(m => m.TerminalMapModule)
         },
 
         // 商户数据
         {
             path: 'storeManage',
-            loadChildren: () => import('./store-mange/store-manage.module').then(m => m.StoreManageModule),
+            loadChildren: () => import('./mall-management/store-mange/store-manage.module').then(m => m.StoreManageModule),
         },
         {
             path: 'storeManage/create',
-            loadChildren: () => import('./store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
+            loadChildren: () => import('./mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
         },
         {
             path: 'storeManage/edit/:id',
-            loadChildren: () => import('./store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
+            loadChildren: () => import('./mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
         },
         // 业态
-        {path: 'businessType', loadChildren: () => import('./bs-type/bs-type.module').then(m => m.BsTypeModule)},
+        {path: 'businessType', loadChildren: () => import('./mall-management/bs-type/bs-type.module').then(m => m.BsTypeModule)},
 
         {
             path: 'secondType',
-            loadChildren: () => import('./bs-type/second-type/second-type.module').then(m => m.SecondTypeModule)
+            loadChildren: () => import('./mall-management/bs-type/second-type/second-type.module').then(m => m.SecondTypeModule)
         },
 
         // 地图
@@ -108,16 +108,11 @@ const routes: Routes =
             path: 'strategy/edit',
             loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
         },
-        // 营销数据分析
-        {
-            path: 'AnalysisOfMarketingData/:id',
-            loadChildren: () => import('./passengers-analysis/analysis-of-marketing-data/analysis-of-marketing-data.module').then(m => m.AnalysisOfMarketingDataModule)
-        },
-        // 地图数据分析
-        {
-            path: 'mapAnalysis',
-            loadChildren: () => import('./map-analysis/map-analysis.module').then(m => m.MapAnalysisModule)
-        },
+        // // 营销数据分析
+        // {
+        //     path: 'AnalysisOfMarketingData/:id',
+        //     loadChildren: () => import('./passengers-analysis/analysis-of-marketing-data/analysis-of-marketing-data.module').then(m => m.AnalysisOfMarketingDataModule)
+        // },
         // 商业预测分析
         {
             path: 'businessForecast',
@@ -139,11 +134,6 @@ const routes: Routes =
         {
             path: 'marketingManage/marketingManageEdit/:id',
             loadChildren: () => import('./marketing-manage/marketing-manage-edit/marketing-manage-edit.module').then(m => m.MarketingManageEditModule)
-        },
-        // 营销管理 跳转统计
-        {
-            path: 'marketingManage/AnalysisOfMarketingData/:id',
-            loadChildren: () => import('./passengers-analysis/analysis-of-marketing-data/analysis-of-marketing-data.module').then(m => m.AnalysisOfMarketingDataModule)
         },
         {
             path: 'marketingManageComponent/essay',
@@ -347,7 +337,7 @@ const routes: Routes =
         // 常旅客管理 常旅客列表 会员列表
         {
             path: 'passengersManage',
-            loadChildren: () => import('./passengers-manage/passengers-manage.module').then(m => m.PassengersManageModule)
+            loadChildren: () => import('./memberManagement/passengers-manage/passengers-manage.module').then(m => m.PassengersManageModule)
         },
         // 常旅客管理 常旅客详情
         // {
@@ -357,7 +347,7 @@ const routes: Routes =
         // 会员详情
         {
             path: 'passengersManage/passengersManageDetail/:id',
-            loadChildren: () => import('./passengers-manage/passengers-detail/passengers-detail.module').then(m => m.PassengersDetailModule)
+            loadChildren: () => import('./memberManagement/passengers-manage/passengers-detail/passengers-detail.module').then(m => m.PassengersDetailModule)
         },
         // 常旅客管理 -- 会员基础设置
         {
@@ -380,51 +370,51 @@ const routes: Routes =
         // 会员卡列表
         {
             path: 'memberCard',
-            loadChildren: () => import('./member-card/member-card.module').then(m => m.MemberCardModule),
+            loadChildren: () => import('./memberManagement/member-card/member-card.module').then(m => m.MemberCardModule),
         },
         // 会员卡新增
         {
             path: 'memberCard/add',
-            loadChildren: () => import('./member-card/member-card-detail/member-card-detail.module').then(m => m.MemberCardDetailModule),
+            loadChildren: () => import('./memberManagement/member-card/member-card-detail/member-card-detail.module').then(m => m.MemberCardDetailModule),
             data: {operation: 'create'}
         },
         // 会员卡详情
         {
             path: 'memberCard/edit/:id',
-            loadChildren: () => import('./member-card/member-card-detail/member-card-detail.module').then(m => m.MemberCardDetailModule),
+            loadChildren: () => import('./memberManagement/member-card/member-card-detail/member-card-detail.module').then(m => m.MemberCardDetailModule),
             data: {operation: 'detail'}
         },
         // 常旅客会员 ---->常旅客画像
         {
             path: 'portrait',
-            loadChildren: () => import('./member-portrait/member-portrait.module').then(m => m.MemberPortraitModule)
+            loadChildren: () => import('./memberManagement/member-portrait/member-portrait.module').then(m => m.MemberPortraitModule)
         },
         // 拍照积分列表
         {
             path: 'pictureIntegral',
-            loadChildren: () => import('./picture-integral/picture-integral.module').then(m => m.PictureIntegralModule)
+            loadChildren: () => import('./memberManagement/picture-integral/picture-integral.module').then(m => m.PictureIntegralModule)
         },
         // 常旅客分群
         {
             path: 'memberGroup',
-            loadChildren: () => import('./member-group/member-group.module').then(m => m.MemberGroupModule)
+            loadChildren: () => import('./memberManagement/member-group/member-group.module').then(m => m.MemberGroupModule)
         },
         // 常旅客分群-新增
         {
             path: 'memberGroup/memberGroupAdd',
-            loadChildren: () => import('./member-group/member-group-add/member-group-add.module').then(m => m.MemberGroupAddModule),
+            loadChildren: () => import('./memberManagement/member-group/member-group-add/member-group-add.module').then(m => m.MemberGroupAddModule),
             data: {operation: 'create'}
         },
         // 常旅客分群-编辑
         {
             path: 'memberGroup/memberGroupEdit',
-            loadChildren: () => import('./member-group/member-group-edit/member-group-edit.module').then(m => m.MemberGroupEditModule),
+            loadChildren: () => import('./memberManagement/member-group/member-group-edit/member-group-edit.module').then(m => m.MemberGroupEditModule),
             data: {operation: 'detail'}
         },
         // 会员设置
         {
             path: 'memberSetting',
-            loadChildren: () => import('./member-setting/member-setting.module').then(m => m.MemberSettingModule),
+            loadChildren: () => import('./memberManagement/member-setting/member-setting.module').then(m => m.MemberSettingModule),
         },
         /*********** 渠道管理 ************/
         // 订阅消息管理
@@ -696,21 +686,16 @@ const routes: Routes =
             loadChildren: () => import('./report-manage/report-down-manage/report-main-manage.module').then(m => m.ReportMainManageModule),
             data: {operation: 'birth', title: '会员报表之生日月报表'}
         },
-        // 会员统计
-        {
-            path: 'passengersAnalysis',
-            loadChildren: () => import('./passengers-analysis/passengers-analysis.module').then(m => m.PassengersAnalysisModule)
-        },
+        // // 会员统计
+        // {
+        //     path: 'passengersAnalysis',
+        //     loadChildren: () => import('./passengers-analysis/passengers-analysis.module').then(m => m.PassengersAnalysisModule)
+        // },
         // 小程序统计
-        {
-            path: 'BusinessDataAnalysis',
-            loadChildren: () => import('./passengers-analysis/business-data-analysis/business-data-analysis.module').then(m => m.BusinessDataAnalysisModule)
-        },
-        // 活动统计
-        {
-        path: 'activityAnalysis',
-        loadChildren: () => import('./passengers-analysis/activity-analysis/activity-analysis.module').then(m => m.ActivityAnalysisModule)
-        },
+        // {
+        //     path: 'BusinessDataAnalysis',
+        //     loadChildren: () => import('./passengers-analysis/business-data-analysis/business-data-analysis.module').then(m => m.BusinessDataAnalysisModule)
+        // },
 
     ];
 

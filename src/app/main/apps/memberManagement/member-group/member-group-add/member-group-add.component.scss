@@ -1,0 +1,141 @@
+@import "../../../../../../@fuse/scss/fuse";
+
+.content {
+  .left-panel {
+    width: 50%;
+    height: 100%;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+      height: unset;
+    }
+    .left-title {
+      margin-bottom: 16px;
+    }
+    .group-rule {
+      width: 100%;
+      padding: 6px 2px 0 2px;
+      background-color: #f5f5f5;
+      border-radius: 3px;
+      max-height: 350px;
+      overflow: hidden scroll;
+      .group-rule-item {
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        height: 53px;
+        border-bottom: 2px solid #FFFFFF;
+        .group-item-delete {
+          flex: 1.2;
+          height: 100%;
+          display: flex;
+          text-align: center;
+          div {
+            align-self: center;
+            mat-icon {
+              color:red;
+              cursor: pointer;
+            }
+          }
+        }
+        .group-item-relation {
+          flex: 3;
+          height: 100%;
+          display: flex;
+          text-align: center;
+          div{
+            align-self: center;
+            margin-top: 10px;
+          }
+        }
+        .group-item-tags {
+          flex: 14;
+          height: 100%;
+          text-align: center;
+          overflow-x: hidden;
+          border: 1px dashed #dfe5dd;
+          border-radius: 8px;
+          padding: 5px;
+          mat-chip-list{
+            button{
+              display: flex;
+              margin: 4px 0 4px 4px;
+              height: 27px;
+              padding: 0 4px;
+              background-color: #E0E0E0;
+            }
+          }
+        }
+      }
+    }
+    .group-rule-add {
+      display: flex;
+      margin-top: 10px;
+      width: 100%;
+      .group-rule-add-button {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 20px;
+        .group-rule-add-icon {
+          color:#2395DB;
+          cursor: pointer;
+        }
+      }
+      .refresh-member{
+        background-color: #039BE5;
+        color: white;
+        height: 34px;
+      }
+    }
+  }
+
+  .right-panel {
+    width: 50%;
+    height: 100%;
+    @include media-breakpoint('lt-md') {
+      width: 100%;
+    }
+    mat-card {
+      width: 100%;
+      height: 100%;
+      @include media-breakpoint('lt-md') {
+        height: initial;
+      }
+    }
+  }
+}
+
+
+
+
+::ng-deep{
+  .mat-form-field-flex{
+    padding-top: 8px;
+    padding-bottom: 12px;
+    height: 42px;
+  }
+  .mat-form-field-wrapper{
+    padding-bottom: 12px;
+  }
+  #relationChecked{
+    .mat-form-field-wrapper{
+      width: 70px;
+    }
+  }
+}
+
+.tag-button {
+  height: 28px;
+  min-height: 24px;
+  font-size: 13px;
+  padding: 0 12px;
+  font-weight: normal;
+  border-radius: 5px;
+  background-color: #039BE5;
+  color: white;
+}
+.tag-chip {
+  @extend .tag-button;
+  background: #ECF7FD;
+  border: 1px dashed #aaaaaa80;
+}
+

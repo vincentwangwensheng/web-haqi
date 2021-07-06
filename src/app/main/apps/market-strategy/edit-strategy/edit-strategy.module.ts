@@ -21,10 +21,10 @@ import {MerchantsTagManagementExportModule} from '../../tag-management/merchants
 import {MarketingManageExportModule} from '../../marketing-manage/marketing-manage-export.module';
 import {FuseSidebarModule} from '../../../../../@fuse/components';
 import {MessageTemplateExportModule} from '../../message-template/message-template-export.module';
-import {StoreManageExportModule} from '../../store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
 import {CouponListModule} from '../coupon-list/coupon-list.module';
 import {ActivityListExportModule} from '../../coupon-manage/activity-list/activity-list-export.module';
-import {MallManageExportModule} from '../../mall-manage/mall-manage-export.module';
+import {MallManageExportModule} from '../../mall-management/mall-manage/mall-manage-export.module';
 
 @NgModule({
     declarations: [EditStrategyComponent],

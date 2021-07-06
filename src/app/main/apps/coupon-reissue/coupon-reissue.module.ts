@@ -3,7 +3,7 @@ import {CouponReissueComponent} from './coupon-reissue.component';
 import {RootModule} from '../../../root.module';
 import {RouterModule} from '@angular/router';
 import {MatCardModule, MatFormFieldModule, MatInputModule} from '@angular/material';
-import {PassengersManageExportModule} from '../passengers-manage/passengers-manage-export.module';
+import {PassengersManageExportModule} from '../memberManagement/passengers-manage/passengers-manage-export.module';
 import {CouponMaintainExportModule} from '../ecoupon-list/coupon-maintain/coupon-maintain-export.module';
 import {TableListModule} from '../../../components/table-list/table-list.module';
 import {MarketingManageExportModule} from '../marketing-manage/marketing-manage-export.module';

@@ -1,5 +1,3 @@
-import {ActivityAnalysisComponent} from '../main/apps/passengers-analysis/activity-analysis/activity-analysis.component';
-
 export const locale = {
     lang: 'zh-CN',
     data: {

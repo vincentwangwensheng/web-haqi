@@ -90,9 +90,8 @@ $typography: mat-typography-config(
 // apps
 @import "src/app/main/apps/market-strategy/edit-strategy/edit-strategy.theme";
 @import "src/app/main/apps/marketing-calendar/calendar.theme";
-@import "src/app/main/apps/terminal-manage/edit-terminal/edit-terminal.theme";
-@import "src/app/main/apps/terminal-map/terminal-map.theme";
-@import "src/app/main/apps/map-analysis/map-analysis.theme";
+@import "main/apps/mall-management/terminal-manage/edit-terminal/edit-terminal.theme";
+@import "main/apps/mall-management/terminal-map/terminal-map.theme";
 
 // pages
 @import "src/app/main/pages/authentication/login-2/login-2.theme";
@@ -144,7 +143,6 @@ $typography: mat-typography-config(
   @include calendar-theme($theme);
   @include edit-terminal($theme);
   @include terminal-map($theme);
-  @include map-analysis($theme);
 
   // Pages
   @include login-2-theme($theme);
