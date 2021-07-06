@@ -8,7 +8,7 @@ import {MaterialDatePickerModule} from '../../../../../components/material-date-
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
 import {RelationPassengerTagsExportModule} from '../../../relation-passenger-tags/relation-passenger-tags-export.module';
-import {MerchantsTagManagementExportModule} from '../../../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../../../haqi/merchants-tag-management/merchants-tag-management-export.module';
 import {NewDateTransformPipe} from '../../../../../pipes/date-new-date-transform/new-date-transform.pipe';
 import {QUILL_CONFIG_TOKEN} from 'ngx-quill';
 

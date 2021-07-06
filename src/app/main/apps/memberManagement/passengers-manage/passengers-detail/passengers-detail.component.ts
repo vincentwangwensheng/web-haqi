@@ -8,10 +8,10 @@ import {NewDateTransformPipe} from '../../../../../pipes/date-new-date-transform
 import {Subject} from 'rxjs';
 import {RelationPassengerTagsService} from '../../../relation-passenger-tags/relation-passenger-tags.service';
 import {MatDialog} from '@angular/material';
-import {CouponManageService} from '../../../coupon-manage/coupon-manage.service';
+import {CouponManageService} from '../../../haqi/coupon-manage/coupon-manage.service';
 import {DatePipe} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {MerchantsTagManagementComponent} from "../../../tag-management/merchants-tag-management/merchants-tag-management.component";
+import {MerchantsTagManagementComponent} from "../../../haqi/merchants-tag-management/merchants-tag-management.component";
 
 @Component({
   selector: 'app-passengers-detail',

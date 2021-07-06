@@ -32,7 +32,7 @@ import {QUILL_CONFIG_TOKEN, QuillModule} from 'ngx-quill';
 import {MaterialDatePickerModule} from '../../../../../components/material-date-picker/material-date-picker.module';
 import {EssayAddComponent} from './essay-add.component';
 import {NewDateTransformPipe} from '../../../../../pipes/date-new-date-transform/new-date-transform.pipe';
-import {MerchantsTagManagementExportModule} from '../../../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../../../haqi/merchants-tag-management/merchants-tag-management-export.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const routes: Routes = [

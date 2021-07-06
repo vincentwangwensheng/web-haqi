@@ -29,7 +29,7 @@ import {ColorPickerModule} from 'ngx-color-picker';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {RootModule} from '../../../root.module';
 import {DateTransformPipe} from '../../../pipes/date-transform/date-transform.pipe';
-import {MerchantsTagManagementExportModule} from '../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../haqi/merchants-tag-management/merchants-tag-management-export.module';
 
 @NgModule({
     declarations: [AirportMapComponent],

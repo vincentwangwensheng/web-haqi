@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AppletCarouselListComponent} from './applet-carousel-list.component';
-import {BrandManageComponent} from '../brand-manage/brand-manage.component';
+import {BrandManageComponent} from '../haqi/brand-manage/brand-manage.component';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from '../../../../@fuse/shared.module';
 import {FuseSidebarModule} from '../../../../@fuse/components';

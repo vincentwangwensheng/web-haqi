@@ -5,7 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {FuseProgressBarService} from '../../../../../@fuse/components/progress-bar/progress-bar.service';
 import {NotifyAsynService} from '../../../../services/notify-asyn.service';
-import {BrandManageService} from '../../brand-manage/brand-manage.service';
+import {BrandManageService} from '../../haqi/brand-manage/brand-manage.service';
 import {takeUntil} from 'rxjs/operators';
 import {IntegralRuleListService} from './integral-rule-list.service';
 

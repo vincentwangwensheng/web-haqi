@@ -25,7 +25,7 @@ import {MaterialDatePickerModule} from '../../../../../components/material-date-
 import {SharedModule} from '../../../../../../@fuse/shared.module';
 import {CouponTemplateComponent} from './coupon-template.component';
 import {PassengersManageExportModule} from '../../../memberManagement/passengers-manage/passengers-manage-export.module';
-import {StoreManageExportModule} from '../../../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../../haqi/mall-management/store-mange/store-manage-export.module';
 import {BusinessTypeModule} from '../../../business-type/business-type.module';
 import {MemberExportCardModule} from '../../../memberManagement/member-card/member-export-card.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';

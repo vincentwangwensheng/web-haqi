@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {FuseProgressBarService} from '../../../../@fuse/components/progress-bar/progress-bar.service';
-import {StoreManageService} from '../mall-management/store-mange/store.manage.service';
+import {StoreManageService} from '../haqi/mall-management/store-mange/store.manage.service';
 import {NotifyAsynService} from '../../../services/notify-asyn.service';
 import {PassengersManageService} from '../../../services/passengersManageService/passengers-manage.service';
 import {NewDateTransformPipe} from '../../../pipes/date-new-date-transform/new-date-transform.pipe';

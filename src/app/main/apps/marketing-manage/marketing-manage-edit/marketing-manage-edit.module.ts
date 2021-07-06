@@ -33,11 +33,11 @@ import {NewDateTransformPipe} from '../../../../pipes/date-new-date-transform/ne
 import {QUILL_CONFIG_TOKEN, QuillModule} from 'ngx-quill';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
 import {MallListExportModule} from '../../mall-list/mall-list-export.module';
-import {MerchantsTagManagementExportModule} from '../../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../../haqi/merchants-tag-management/merchants-tag-management-export.module';
 import {ActivityPreCommonModule} from '../activity-pre-common/activity-pre-common.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MembersListExportModule} from '../../bonus-point-rules/members-list/members-list.export.module';
-import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../haqi/mall-management/store-mange/store-manage-export.module';
 
 const routes: Routes = [
   {

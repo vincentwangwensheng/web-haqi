@@ -1,5 +1,5 @@
 import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {EditStrategyComponent} from '../main/apps/market-strategy/edit-strategy/edit-strategy.component';
+import {EditStrategyComponent} from '../main/apps/haqi/market-strategy/edit-strategy/edit-strategy.component';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 

@@ -13,7 +13,7 @@ import {IntegralRuleService} from './integral-rule.service';
 import {take, takeUntil} from 'rxjs/operators';
 import {MemberLevelService} from '../../../../services/memberLevelService/member-level.service';
 import {AccountManageService} from '../../account-manage/account-manage.service';
-import {EditStoreService} from '../../mall-management/store-mange/edit-store/edit-store.service';
+import {EditStoreService} from '../../haqi/mall-management/store-mange/edit-store/edit-store.service';
 
 @Component({
     selector: 'app-integral-rule',

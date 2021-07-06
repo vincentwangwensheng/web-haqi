@@ -16,7 +16,7 @@ import {PassengersManageExportModule} from '../../passengers-manage/passengers-m
 import {PassengersTagManagementExportModule} from '../../../tag-management/passengers-tag-management/passengers-tag-management-export.module';
 import {CouponMaintainExportModule} from '../../../ecoupon-list/coupon-maintain/coupon-maintain-export.module';
 import {MarketingManageExportModule} from '../../../marketing-manage/marketing-manage-export.module';
-import {MerchantsTagManagementExportModule} from '../../../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../../../haqi/merchants-tag-management/merchants-tag-management-export.module';
 import {AutoSelectModule} from '../../../../../components/auto-select/auto-select.module';
 
 @NgModule({

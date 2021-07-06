@@ -10,9 +10,9 @@ import {RouterModule} from '@angular/router';
 import {MatCheckboxModule, MatRadioModule, MatSlideToggleModule, MatTabsModule} from '@angular/material';
 import {NewDateTransformPipe} from '../../../../pipes/date-new-date-transform/new-date-transform.pipe';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
-import {GroupManageExportModule} from '../../mall-management/group-manage/group-manage-export.module';
+import {GroupManageExportModule} from '../../haqi/mall-management/group-manage/group-manage-export.module';
 import {MallListExportModule} from '../../mall-list/mall-list-export.module';
-import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../haqi/mall-management/store-mange/store-manage-export.module';
 
 
 

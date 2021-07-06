@@ -11,7 +11,7 @@ import {MatCheckboxModule, MatSlideToggleModule, MatTabsModule} from '@angular/m
 import {NewDateTransformPipe} from '../../../../pipes/date-new-date-transform/new-date-transform.pipe';
 import {MemberSettingComponent} from './member-setting.component';
 import {MaterialDatePickerModule} from '../../../../components/material-date-picker/material-date-picker.module';
-import {CouponRuleExportModule} from '../../coupon-manage/coupon-rule/coupon-rule-export.module';
+import {CouponRuleExportModule} from '../../haqi/coupon-manage/coupon-rule/coupon-rule-export.module';
 
 @NgModule({
   declarations: [MemberSettingComponent],

@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {RootModule} from '../../../../root.module';
 import {AddConsumeBonusPointRuleComponent} from './add-consume-bonus-point-rule.component';
 import {MatCheckboxModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
-import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../haqi/mall-management/store-mange/store-manage-export.module';
 import {BusinessTypeModule} from '../../business-type/business-type.module';
 
 

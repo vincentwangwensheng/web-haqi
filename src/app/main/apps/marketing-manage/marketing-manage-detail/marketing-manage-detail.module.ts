@@ -28,11 +28,11 @@ import {FormsModule} from '@angular/forms';
 import {MarketingManageDetailComponent} from './marketing-manage-detail.component';
 import {CustomPipesModule} from '../../../../pipes/customPipes.module';
 import {QUILL_CONFIG_TOKEN, QuillModule} from 'ngx-quill';
-import {MerchantsTagManagementExportModule} from '../../tag-management/merchants-tag-management/merchants-tag-management-export.module';
+import {MerchantsTagManagementExportModule} from '../../haqi/merchants-tag-management/merchants-tag-management-export.module';
 import {ActivityPreCommonModule} from '../activity-pre-common/activity-pre-common.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NewDateTransformPipe} from '../../../../pipes/date-new-date-transform/new-date-transform.pipe';
-import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../../haqi/mall-management/store-mange/store-manage-export.module';
 
 const routes: Routes = [
   {

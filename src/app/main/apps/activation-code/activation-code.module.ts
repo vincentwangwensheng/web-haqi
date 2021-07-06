@@ -4,7 +4,7 @@ import {RootModule} from '../../../root.module';
 import {MatInputModule, MatRadioModule} from '@angular/material';
 import {TableListModule} from '../../../components/table-list/table-list.module';
 import {ConfirmDialogModule} from '../../../components/confirm-dialog/confirm-dialog.module';
-import {StoreManageExportModule} from '../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../haqi/mall-management/store-mange/store-manage-export.module';
 import {RouterModule} from '@angular/router';
 
 

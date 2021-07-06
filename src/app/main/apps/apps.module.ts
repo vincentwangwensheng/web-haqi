@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import { AdvertisingScreenComponent } from './advertising-screen/advertising-screen.component';
 
 const routes: Routes =
     [
@@ -9,158 +8,158 @@ const routes: Routes =
         // 品牌列表
         {
             path: 'brandManage',
-            loadChildren: () => import('./brand-manage/brand-manage.module').then(m => m.BrandManageModule),
+            loadChildren: () => import('./haqi/brand-manage/brand-manage.module').then(m => m.BrandManageModule),
         },
         /** 主数据维护 */
         // 集团管理
         {
             path: 'groupManage',
-            loadChildren: () => import('./mall-management/group-manage/group-manage.module').then(m => m.GroupManageModule),
+            loadChildren: () => import('./haqi/mall-management/group-manage/group-manage.module').then(m => m.GroupManageModule),
         },
         // 商场管理
         {
             path: 'mallManage',
-            loadChildren: () => import('./mall-management/mall-manage/mall-manage.module').then(m => m.MallManageModule)
+            loadChildren: () => import('./haqi/mall-management/mall-manage/mall-manage.module').then(m => m.MallManageModule)
         },
         {
             path: 'mallManage/create',
-            loadChildren: () => import('./mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
+            loadChildren: () => import('./haqi/mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
         },
         {
             path: 'mallManage/edit/:id',
-            loadChildren: () => import('./mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
+            loadChildren: () => import('./haqi/mall-management/mall-manage/edit-mall/edit-mall.module').then(m => m.EditMallModule)
         },
         // 街区管理
         {
             path: 'terminalManage',
-            loadChildren: () => import('./mall-management/terminal-manage/terminal-manage.module').then(m => m.TerminalManageModule)
+            loadChildren: () => import('./haqi/mall-management/terminal-manage/terminal-manage.module').then(m => m.TerminalManageModule)
         },
         {
             path: 'terminalManage/create',
-            loadChildren: () => import('./mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
+            loadChildren: () => import('./haqi/mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
         },
         {
             path: 'terminalManage/edit/:id',
-            loadChildren: () => import('./mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
+            loadChildren: () => import('./haqi/mall-management/terminal-manage/edit-terminal/edit-terminal.module').then(m => m.EditTerminalModule)
         },
         // 街区地图
         {
             path: 'terminalMap',
-            loadChildren: () => import('./mall-management/terminal-map/terminal-map.module').then(m => m.TerminalMapModule)
+            loadChildren: () => import('./haqi/mall-management/terminal-map/terminal-map.module').then(m => m.TerminalMapModule)
         },
         // 商户数据
         {
             path: 'storeManage',
-            loadChildren: () => import('./mall-management/store-mange/store-manage.module').then(m => m.StoreManageModule),
+            loadChildren: () => import('./haqi/mall-management/store-mange/store-manage.module').then(m => m.StoreManageModule),
         },
         {
             path: 'storeManage/create',
-            loadChildren: () => import('./mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
+            loadChildren: () => import('./haqi/mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
         },
         {
             path: 'storeManage/edit/:id',
-            loadChildren: () => import('./mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
+            loadChildren: () => import('./haqi/mall-management/store-mange/edit-store/edit-store.module').then(m => m.EditStoreModule)
         },
         // 业态
-        {path: 'businessType', loadChildren: () => import('./mall-management/bs-type/bs-type.module').then(m => m.BsTypeModule)},
+        {path: 'businessType', loadChildren: () => import('./haqi/mall-management/bs-type/bs-type.module').then(m => m.BsTypeModule)},
 
         {
             path: 'secondType',
-            loadChildren: () => import('./mall-management/bs-type/second-type/second-type.module').then(m => m.SecondTypeModule)
+            loadChildren: () => import('./haqi/mall-management/bs-type/second-type/second-type.module').then(m => m.SecondTypeModule)
         },
         /********** 营销策略 *******/
         // 营销策略
         {
             path: 'strategy',
-            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
+            loadChildren: () => import('./haqi/market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
             data: {title: '营销策略列表'},
         },
         {
             path: 'strategyView',
-            loadChildren: () => import('./market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
+            loadChildren: () => import('./haqi/market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
             data: {title: '营销策略审核'},
         },
         // 新建营销策略
         {
             path: 'strategyCreate',
-            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
+            loadChildren: () => import('./haqi/market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
         },
         // 编辑营销策略
         {
             path: 'strategy/edit',
-            loadChildren: () => import('./market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
+            loadChildren: () => import('./haqi/market-strategy/edit-strategy/edit-strategy.module').then(m => m.EditStrategyModule),
         },
         /*********************活动配置*******************/
         // 优惠卷列表
         {
             path: 'couponList',
             data: {title: '优惠券列表'},
-            loadChildren: () => import('./coupon-manage/coupon-list/coupon-list.module').then(m => m.CouponListModule)
+            loadChildren: () => import('./haqi/coupon-manage/coupon-list/coupon-list.module').then(m => m.CouponListModule)
         },
         // 优惠卷批次
         {
             path: 'couponBatch',
             data: {title: '优惠券批次'},
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch.module').then(m => m.CouponBatchModule)
+            loadChildren: () => import('./haqi/coupon-manage/coupon-batch/coupon-batch.module').then(m => m.CouponBatchModule)
         },
         // 优惠卷批次-详情
         {
             path: 'couponBatch/detail',
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
             data: {operation: 'detail', title: '优惠券批次详情'}
         },
         {
             path: 'couponBatch/create',
-            loadChildren: () => import('./coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/coupon-batch/coupon-batch-detail/coupon-batch-detail.module').then(m => m.CouponBatchDetailModule),
             data: {operation: 'create', title: '新建优惠券批次'}
         },
         // 优惠卷规则
         {
             path: 'couponRule',
             data: {title: '优惠券规则'},
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule.module').then(m => m.CouponRuleModule)
+            loadChildren: () => import('./haqi/coupon-manage/coupon-rule/coupon-rule.module').then(m => m.CouponRuleModule)
         },
         {
             path: 'couponRule/edit',
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
             data: {operation: 'detail', title: '优惠券规则详情'}
         },
         {
             path: 'couponRule/create',
-            loadChildren: () => import('./coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/coupon-rule/coupon-rule-detail/coupon-rule-detail.module').then(m => m.CouponRuleDetailModule),
             data: {operation: 'create', title: '新建优惠券规则'}
         },
         // 优惠卷推送
         {
             path: 'couponPush',
             data: {title: '优惠券推送'},
-            loadChildren: () => import('./coupon-manage/coupon-push/coupon-push.module').then(m => m.CouponPushModule)
+            loadChildren: () => import('./haqi/coupon-manage/coupon-push/coupon-push.module').then(m => m.CouponPushModule)
         },
         // 活动列表
         {
             path: 'activityList',
             data: {title: '活动列表'},
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list.module').then(m => m.ActivityListModule)
+            loadChildren: () => import('./haqi/coupon-manage/activity-list/activity-list.module').then(m => m.ActivityListModule)
         },
         {
             path: 'activityList/edit',
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
             data: {operation: 'detail', title: '活动详情'}
         },
         {
             path: 'activityList/create',
-            loadChildren: () => import('./coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/activity-list/activity-list-detail/activity-list-detail.module').then(m => m.ActivityListDetailModule),
             data: {operation: 'create', title: '新建活动'}
         },
         // 活动审核
         {
             path: 'activityReview',
             data: {title: '活动审核'},
-            loadChildren: () => import('./coupon-manage/activity-review/activity-review.module').then(m => m.ActivityReviewModule)
+            loadChildren: () => import('./haqi/coupon-manage/activity-review/activity-review.module').then(m => m.ActivityReviewModule)
         },
         {
             path: 'activityReview/edit',
-            loadChildren: () => import('./coupon-manage/activity-review/activity-review-detail/activity-review-detail.module').then(m => m.ActivityReviewDetailModule),
+            loadChildren: () => import('./haqi/coupon-manage/activity-review/activity-review-detail/activity-review-detail.module').then(m => m.ActivityReviewDetailModule),
             data: {operation: 'detail', title: '活动审核详情'}
         },
         /*************** 预约报名 **************/
@@ -185,18 +184,34 @@ const routes: Routes =
             loadChildren: () => import('./appointment/application-list/application-list.module').then(m => m.ApplicationListModule),
         },
 
-
-
+        /******** 标签管理 *********/
+        // 标签列表
+        {
+            path: 'MerchantsTagManagement',
+            loadChildren: () => import('./haqi/merchants-tag-management/merchants-tag-management.module').then(m => m.MerchantsTagManagementModule)
+        },
+        // 标签列表 - 详情
+        {
+            path: 'MerchantsTagManagement/TagDetailManagement/:id',
+            loadChildren: () => import('./haqi/merchants-tag-management/tag-detail-management/tag-detail-management.module').then(m => m.TagDetailManagementModule),
+            data: {operation: 'detail'}
+        },
+        // 标签列表 - 新增
+        {
+            path: 'MerchantsTagManagement/createMerchantsTag',
+            loadChildren: () => import('./haqi/merchants-tag-management/tag-detail-management/tag-detail-management.module').then(m => m.TagDetailManagementModule),
+            data: {operation: 'create'}
+        },
 
         /******** 内容管理 *********/
         // 商户反馈
-        {path: 'merchantFeedback', loadChildren: () => import('./contentManage/merchant-feedback/merchant-feedback.module').then(m => m.MerchantFeedbackModule)},
+        {path: 'merchantFeedback', loadChildren: () => import('./haqi/contentManage/merchant-feedback/merchant-feedback.module').then(m => m.MerchantFeedbackModule)},
         // 常见问题
-        {path: 'standardQuestion', loadChildren: () => import('./contentManage/standard-question/standard-question.module').then(m => m.StandardQuestionModule)},
+        {path: 'standardQuestion', loadChildren: () => import('./haqi/contentManage/standard-question/standard-question.module').then(m => m.StandardQuestionModule)},
         // 会员反馈
-        {path: 'memberFeedback', loadChildren: () => import('./contentManage/member-feedback/member-feedback.module').then(m => m.MemberFeedbackModule)},
+        {path: 'memberFeedback', loadChildren: () => import('./haqi/contentManage/member-feedback/member-feedback.module').then(m => m.MemberFeedbackModule)},
         // 商户公告
-        {path: 'merchantNotice', loadChildren: () => import('./contentManage/merchant-notice/merchant-notice.module').then(m => m.MerchantNoticeModule)},
+        {path: 'merchantNotice', loadChildren: () => import('./haqi/contentManage/merchant-notice/merchant-notice.module').then(m => m.MerchantNoticeModule)},
 
 
 
@@ -341,23 +356,7 @@ const routes: Routes =
             path: 'purchaseHistory',
             loadChildren: () => import('./purchase-history/purchase-history.module').then(m => m.PurchaseHistoryModule)
         },
-        // 标签管理 - 商户标签  品牌标签
-        {
-            path: 'MerchantsTagManagement',
-            loadChildren: () => import('./tag-management/merchants-tag-management/merchants-tag-management.module').then(m => m.MerchantsTagManagementModule)
-        },
-        // 标签管理 - 商户标签【品牌标签】详情
-        {
-            path: 'MerchantsTagManagement/TagDetailManagement/:id',
-            loadChildren: () => import('./tag-management/merchants-tag-management/tag-detail-management/tag-detail-management.module').then(m => m.TagDetailManagementModule),
-            data: {operation: 'detail'}
-        },
-        // 新增商户标签
-        {
-            path: 'MerchantsTagManagement/createMerchantsTag',
-            loadChildren: () => import('./tag-management/merchants-tag-management/tag-detail-management/tag-detail-management.module').then(m => m.TagDetailManagementModule),
-            data: {operation: 'create'}
-        },
+
         // 标签管理 - 常旅客标签
         {
             path: 'PassengersTagManagement',
@@ -445,13 +444,13 @@ const routes: Routes =
         // 品牌详情
         {
             path: 'brandManage/Detail/:id',
-            loadChildren: () => import('./brand-manage/brand-manage-detail/brand-manage-detail.module').then(m => m.BrandManageDetailModule),
+            loadChildren: () => import('./haqi/brand-manage/brand-manage-detail/brand-manage-detail.module').then(m => m.BrandManageDetailModule),
             data: {operation: 'detail'}
         },
         // 品牌新建
         {
             path: 'brandManage/create',
-            loadChildren: () => import('./brand-manage/brand-manage-detail/brand-manage-detail.module').then(m => m.BrandManageDetailModule),
+            loadChildren: () => import('./haqi/brand-manage/brand-manage-detail/brand-manage-detail.module').then(m => m.BrandManageDetailModule),
             data: {operation: 'create'}
         },
         // 常旅客管理 常旅客列表 会员列表

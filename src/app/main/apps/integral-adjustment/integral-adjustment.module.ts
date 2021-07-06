@@ -15,7 +15,7 @@ import {PassengersManageExportModule} from '../memberManagement/passengers-manag
 import {CouponMaintainExportModule} from '../ecoupon-list/coupon-maintain/coupon-maintain-export.module';
 import {MarketingManageExportModule} from '../marketing-manage/marketing-manage-export.module';
 import {MembersListExportModule} from '../bonus-point-rules/members-list/members-list.export.module';
-import {StoreManageExportModule} from '../mall-management/store-mange/store-manage-export.module';
+import {StoreManageExportModule} from '../haqi/mall-management/store-mange/store-manage-export.module';
 import {MallListExportModule} from '../mall-list/mall-list-export.module';
 import {MaterialDatePickerModule} from '../../../components/material-date-picker/material-date-picker.module';
 import {NewDateTransformPipe} from '../../../pipes/date-new-date-transform/new-date-transform.pipe';

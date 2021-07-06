@@ -1,0 +1,95 @@
+@import "../../../../../../../@fuse/scss/fuse";
+
+.left-panel {
+  width: 50%;
+  height: 100%;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: 100vh
+  }
+}
+
+.right-panel {
+  width: 50%;
+  height: 100%;
+  @include media-breakpoint('lt-md') {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+.save-button {
+  background-color: #6BD5FF !important;
+  width: 80px;
+}
+
+.back-button {
+  width: 80px;
+}
+
+mat-divider {
+  position: relative;
+  border-top-color: #aaaaaa80;
+}
+
+
+#allMap {
+  min-height: 250px;
+  transition: visibility 0.5s ease-in-out;
+}
+
+::ng-deep {
+  .BMap_cpyCtrl, .anchorBL {
+    display: none;
+  }
+
+  #overlayMap {
+    padding: 0
+  }
+
+  #olMap {
+    width: 100%;
+    height: calc(100% - 100px)
+  }
+}
+
+.position-loading {
+  position: absolute;
+  left: 15%
+}
+
+.part-1 {
+  mat-form-field {
+    width: 48%
+  }
+}
+
+.w-48-p {
+  width: 48%
+}
+
+.right-content {
+  max-height: 40vh;
+}
+
+.type-panel {
+  max-height: calc(100%);
+  overflow: auto;
+  padding: 0 20px 0 0;
+}
+
+.type-checkbox {
+  min-width: 120px
+
+}
+
+.type-content {
+  border: 1px #cccccc solid;
+  padding: 0 12px;
+  border-radius: 5px;
+}
+
+.info-form {
+  max-height: 40vh;
+  padding: 10px 20px 10px 0;
+}

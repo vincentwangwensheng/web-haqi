@@ -17,8 +17,8 @@ import {PassengersDetailComponent} from './passengers-detail.component';
 import {CommonModule, DatePipe} from '@angular/common';
 import {TranslateModule} from '@ngx-translate/core';
 import {EditDialogModule} from '../../../../../components/edit-dialog/edit-dialog.module';
-import {CouponManageService} from '../../../coupon-manage/coupon-manage.service';
-import {MerchantsTagManagementExportModule} from "../../../tag-management/merchants-tag-management/merchants-tag-management-export.module";
+import {CouponManageService} from '../../../haqi/coupon-manage/coupon-manage.service';
+import {MerchantsTagManagementExportModule} from "../../../haqi/merchants-tag-management/merchants-tag-management-export.module";
 
 
 
