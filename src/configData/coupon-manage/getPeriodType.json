@@ -1,0 +1,16 @@
+[ {
+  "id" : "AFTERNOW",
+  "name" : "领取时间N秒后过期",
+  "desc" : "从领取时间开始计算N秒后失效",
+  "info" : "Second 秒数,Long 类型"
+}, {
+  "id" : "DEFAULT",
+  "name" : "默认规则",
+  "desc" : "使用券规则时间",
+  "info" : "无"
+}, {
+  "id" : "FIXED",
+  "name" : "固定期间",
+  "desc" : "固定期间",
+  "info" : "PeriodBeginTime 开始时间,PeriodEndTime 结束时间,格式yyyyMMddHHmmss"
+} ]

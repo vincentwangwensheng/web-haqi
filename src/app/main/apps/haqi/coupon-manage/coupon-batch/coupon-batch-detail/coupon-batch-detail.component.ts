@@ -146,6 +146,8 @@ export class CouponBatchDetailComponent implements OnInit, OnDestroy {
   }
 
   saveProject(){
+    this.snackBar.open('待开发！', '✖');
+    return;
     if (this.operation === 'create'){
       this.couponBatchForm.markAllAsTouched();
       if (this.currentRule === null){

@@ -274,7 +274,7 @@
         <p>申请店铺</p>
         <div fxLayout="row" fxLayoutAlign="start center" class="w-100-ps headPhoto" fxLayoutGap="10px"
              [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'100ms'}}">
-            <img [src]="storeForm.value['imgId']" class="w-100-p h-100-p" *ngIf="storeForm.value['imgId']">
+            <img [src]="'http://vincentwang.xyz:8080/picture/444.jpg'" class="w-100-p h-100-p">
         </div>
         <div fxLayout="row" fxLayoutAlign="start center" class="w-100-p normal-form-fields" fxLayoutGap="10px"
              [@animate]="{value:'*',params:{y:'100%',delay:'100ms',duration:'100ms'}}">
@@ -303,7 +303,8 @@
     <div cdkDrag cdkDragRootElement=".cdk-overlay-pane"
          fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p">
         <div fxLayout="row" fxLayoutAlign="center center" class="w-100-p h-100-p" *ngIf="!uploadFile.imgPreLoading">
-            <img *ngIf="uploadFile.imgSrc" [src]="uploadFile.imgSrc" class="w-100-p h-100-p" >
+<!--            <img *ngIf="uploadFile.imgSrc" [src]="uploadFile.imgSrc" class="w-100-p h-100-p" >-->
+            <img [src]="'http://vincentwang.xyz:8080/picture/444.jpg'" class="w-100-p h-100-p" >
         </div>
         <mat-spinner color="accent" *ngIf="uploadFile.imgPreLoading" mode="indeterminate"></mat-spinner>
     </div>

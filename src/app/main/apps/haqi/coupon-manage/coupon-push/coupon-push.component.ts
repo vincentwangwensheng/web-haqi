@@ -174,6 +174,8 @@ export class CouponPushComponent implements OnInit, OnDestroy {
         'couponNumber': this.currentCouponRule['number'],
         'userList': driverLicenseIdList
       };
+      this.snackBar.open('待开发！', '✖');
+      return;
       this.canClick = true;
       this.couponManageService.toGiveCoupon(data).subscribe(res => {
         this.snackBar.open('发送成功！', '✖');
@@ -201,9 +203,10 @@ export class CouponPushComponent implements OnInit, OnDestroy {
   initSearch(multiSearch?) {
     this.loading.show();
     this.couponManageService.toGetCouponPushList(this.page.page, this.page.size, this.page.sort, multiSearch, this.filter).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      if (res['body']) {
-        this.rows = res['body'];
-        this.page.count = res['headers'].get('X-Total-Count');
+      if (res) {
+        this.rows = res;
+        // this.page.count = res['headers'].get('X-Total-Count');
+        this.page.count = 1;
         if (this.rows.length === 0) {
           this.snackBar.open(this.translate.instant('未查询到数据'), '✖');
         } else {

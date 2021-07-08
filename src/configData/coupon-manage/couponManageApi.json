@@ -1,0 +1,11 @@
+[ {
+  "id" : "DEFAULT",
+  "name" : "默认批次类型",
+  "desc" : "默认批次类型",
+  "info" : null
+}, {
+  "id" : "EXTERNAL",
+  "name" : "外部批次类型",
+  "desc" : "外部批次类型",
+  "info" : null
+} ]

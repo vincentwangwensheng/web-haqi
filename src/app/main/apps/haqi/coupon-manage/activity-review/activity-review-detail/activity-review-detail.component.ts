@@ -205,17 +205,17 @@ export class ActivityReviewDetailComponent implements OnInit, OnDestroy {
     }
 
     getStoreImg(id){
-        this.couponManageService.previewFile(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(res);
-            fileReader.onloadend = (res1) => {
-                const result = res1.target['result'];
-                // this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                this.storeForm.patchValue({
-                    imgId: this.sanitizer.bypassSecurityTrustUrl(result)
-                });
-            };
-        });
+        // this.couponManageService.previewFile(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        //     const fileReader = new FileReader();
+        //     fileReader.readAsDataURL(res);
+        //     fileReader.onloadend = (res1) => {
+        //         const result = res1.target['result'];
+        //         // this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+        //         this.storeForm.patchValue({
+        //             imgId: this.sanitizer.bypassSecurityTrustUrl(result)
+        //         });
+        //     };
+        // });
     }
 
     // 将字符串时间格式转化为UTC
@@ -329,20 +329,20 @@ export class ActivityReviewDetailComponent implements OnInit, OnDestroy {
     /********** 会员限制 **********/
     // 获取会员列表
     toGetLevelList(data) {
-        this.couponManageService.searchMemberCardList().subscribe(res => {
-            this.levelSource = [];
-            if (res.body) {
-                if (data[0] === '__ALL__') {
-                    this.levelSource.push('__ALL__');
-                } else {
-                    res.body.forEach(item => {
-                        if (data.includes(item.id + '')) {
-                            this.levelSource.push(item['levelName']);
-                        }
-                    });
-                }
-            }
-        });
+        // this.couponManageService.searchMemberCardList().subscribe(res => {
+        //     this.levelSource = [];
+        //     if (res.body) {
+        //         if (data[0] === '__ALL__') {
+        //             this.levelSource.push('__ALL__');
+        //         } else {
+        //             res.body.forEach(item => {
+        //                 if (data.includes(item.id + '')) {
+        //                     this.levelSource.push(item['levelName']);
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
     }
 
     // 预览事件
@@ -373,6 +373,8 @@ export class ActivityReviewDetailComponent implements OnInit, OnDestroy {
     }
 
     toSure(){
+        this.snackBar.open('待开发！', '✖');
+        return;
         if (!this.flag && !this.reasonAdjust){
             this.snackBar.open('请输入您的意见！');
         } else {

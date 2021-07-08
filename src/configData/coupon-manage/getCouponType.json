@@ -1,0 +1,31 @@
+[ {
+  "id" : "CASH",
+  "name" : "代金券",
+  "desc" : "代金券",
+  "info" : null
+}, {
+  "id" : "DEFAULT",
+  "name" : "默认券",
+  "desc" : "默认券",
+  "info" : null
+}, {
+  "id" : "DISCOUNT",
+  "name" : "满折券",
+  "desc" : "满折券",
+  "info" : null
+}, {
+  "id" : "FULLDISCOUNT",
+  "name" : "满减券",
+  "desc" : "满减券",
+  "info" : null
+}, {
+  "id" : "GOODS",
+  "name" : "商品券",
+  "desc" : "商品券",
+  "info" : null
+}, {
+  "id" : "PARKING",
+  "name" : "停车券",
+  "desc" : "停车券",
+  "info" : null
+} ]

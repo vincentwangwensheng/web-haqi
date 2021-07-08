@@ -1,0 +1,21 @@
+[ {
+  "id" : "DEFAULT",
+  "name" : "默认活动",
+  "desc" : "用于需要领取的活动",
+  "info" : null
+}, {
+  "id" : "REDEEM",
+  "name" : "积分兑换活动",
+  "desc" : "积分兑换活动",
+  "info" : null
+}, {
+  "id" : "STORE",
+  "name" : "商家活动",
+  "desc" : "用于商家报名活动生成",
+  "info" : null
+}, {
+  "id" : "STORESIGNUP",
+  "name" : "商户报名活动",
+  "desc" : "商户报名参加活动的活动",
+  "info" : null
+} ]

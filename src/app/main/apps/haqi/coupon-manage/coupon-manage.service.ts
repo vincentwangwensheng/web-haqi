@@ -17,24 +17,25 @@ export class CouponManageService {
     /******************优惠券列表*****************/
     // 获取优惠券列表
     toGetCouponList(page, size, sort, search?, filter?): Observable<any> {
-        let searchApi = '';
-        if (search && search.length !== 0) {
-            const info = search.map(item => {
-                            if (item['name'] === 'clearBy') {
-                                item = 'clearBy.specified=' + item['value'];
-                            } else if (item['name'] === 'enabled'){
-                                item = 'enabled.equals=' + item['value'];
-                            } else if (item['name'] === 'userId'){
-                                item = 'userId.contains=' + item['value'];
-                            }
-                            return item;
-                        }).join('&');
-            searchApi = `?page=${page}&size=${size}&sort=${sort}&` + info;
-        } else {
-            searchApi = `?page=${page}&size=${size}&sort=${sort}`;
-        }
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponList + searchApi
-            , {observe: 'response'});
+        // let searchApi = '';
+        // if (search && search.length !== 0) {
+        //     const info = search.map(item => {
+        //                     if (item['name'] === 'clearBy') {
+        //                         item = 'clearBy.specified=' + item['value'];
+        //                     } else if (item['name'] === 'enabled'){
+        //                         item = 'enabled.equals=' + item['value'];
+        //                     } else if (item['name'] === 'userId'){
+        //                         item = 'userId.contains=' + item['value'];
+        //                     }
+        //                     return item;
+        //                 }).join('&');
+        //     searchApi = `?page=${page}&size=${size}&sort=${sort}&` + info;
+        // } else {
+        //     searchApi = `?page=${page}&size=${size}&sort=${sort}`;
+        // }
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponList + searchApi
+        //     , {observe: 'response'});
+        return this.http.get('configData/coupon-manage/getCouponList.json');
     }
 
     // 导出优惠券列表
@@ -62,9 +63,10 @@ export class CouponManageService {
     /******************优惠券规则*****************/
     // 获取优惠券批次列表
     toGetCouponBatchList(page, size, sort, search?): Observable<any> {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search);
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponBatchList + searchApi
-            , {observe: 'response'});
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponBatchList + searchApi
+        //     , {observe: 'response'});
+        return this.http.get('configData/coupon-manage/getCouponBatchList.json');
     }
 
     // 新建优惠券批次(post)
@@ -74,7 +76,8 @@ export class CouponManageService {
 
     // 根据id获取优惠券批次详情(get)
     getCouponBatchDetailById(id): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponBatchDetailById + id);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponBatchDetailById + id);
+        return this.http.get('configData/coupon-manage/getCouponBatchDetailById.json');
     }
 
     // 开关优惠券批次(put)
@@ -84,20 +87,22 @@ export class CouponManageService {
 
     // 获取优惠券批次类型(get)
     toGetBatchTypeList(): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.batchType);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.batchType);
+        return this.http.get('configData/coupon-manage/couponManageApi.json');
     }
 
     /******************优惠券规则*****************/
     // 获取优惠券规则列表
     toGetCouponRuleList(page, size, sort, search?, filter?, flag?): Observable<any> {
-        let searchApi = '';
-        if (flag !== '') {
-            searchApi = `?page=${page}&size=${size}&sort=${sort}&query=couponType:${flag}`;
-        } else {
-            searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
-        }
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponRuleList + searchApi
-            , {observe: 'response'});
+        // let searchApi = '';
+        // if (flag !== '') {
+        //     searchApi = `?page=${page}&size=${size}&sort=${sort}&query=couponType:${flag}`;
+        // } else {
+        //     searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
+        // }
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponRuleList + searchApi
+        //     , {observe: 'response'});
+        return this.http.get('configData/coupon-manage/getCouponRuleList.json');
     }
 
     // 新建优惠券规则(post)
@@ -107,7 +112,8 @@ export class CouponManageService {
 
     // 根据id获取优惠券规则详情(get)
     toGetCouponRuleDetailById(id): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponRuleDetailById + id);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponRuleDetailById + id);
+        return this.http.get('configData/coupon-manage/getCouponRuleDetailById.json');
     }
 
     // 根据id更新优惠券规则(put)
@@ -117,7 +123,8 @@ export class CouponManageService {
 
     // 优惠券类型(get)
     toGetCouponType(): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponType);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponType);
+        return this.http.get('configData/coupon-manage/getCouponType.json');
     }
 
     // 更新优惠券状态(put)
@@ -128,9 +135,10 @@ export class CouponManageService {
     /*******优惠券发放*****/
     // 获取优惠券发放列表
     toGetCouponPushList(page, size, sort, search?, filter?): Observable<any> {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter) + `&activityNumber.equals=后台发券`; // query微服务
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponList + searchApi
-            , {observe: 'response'});
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter) + `&activityNumber.equals=后台发券`; // query微服务
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getCouponList + searchApi
+        //     , {observe: 'response'});
+        return this.http.get('configData/coupon-manage/getCouponList.json');
         // let couponName = '';
         // let beginTime = '';
         // let endTime = '';
@@ -224,17 +232,11 @@ export class CouponManageService {
 
     // 获取活动列表
     toGetActivityList(page, size, sort, search?, filter?): Observable<any> {
-        // const queryFront = `?page=${page}&size=${size}&sort=${sort}`;
-        // let searchApi;
-        // if (flag === 'activityList') { // 活动列表
-        //   searchApi = queryFront + '&reviewStatus.equals=true'; // // reviewStatus为true 已审核
-        // } else if (flag === 'activityReview'){ // 活动审核
-        //   searchApi = queryFront + '&reviewStatus.equals=false'; // reviewStatus为false 待审核
-        // }
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter); // query微服务
-        console.log(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityList + searchApi);
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityList + searchApi
-            , {observe: 'response'});
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter); // query微服务
+        // console.log(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityList + searchApi);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityList + searchApi
+        //     , {observe: 'response'});
+        return this.http.get('configData/coupon-manage/getActivityList.json');
     }
 
     // 新增套餐(post)
@@ -244,7 +246,8 @@ export class CouponManageService {
 
     // 根据id获取套餐详情(get)
     toGetActivityDetailById(id): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityDetailById + id  + '?withJoinedCount=true');
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityDetailById + id  + '?withJoinedCount=true');
+        return this.http.get('configData/coupon-manage/getActivityDetailById.json');
     }
 
     // 根据id更新套餐详情(put)
@@ -254,7 +257,8 @@ export class CouponManageService {
 
     // 获取活动类型活动类型(get)
     toGetActivityTypeList(): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityTypeList);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getActivityTypeList);
+        return this.http.get('configData/coupon-manage/getActivityTypeList.json');
     }
 
     // 活动通过/驳回
@@ -280,7 +284,8 @@ export class CouponManageService {
 
     // 获取核销时间类型(get)
     toGetPeriodType(): Observable<any> {
-        return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getPeriodType);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + couponManageApi.getPeriodType);
+        return this.http.get('configData/coupon-manage/getPeriodType.json');
     }
 
     // 多条件查询常旅客列表

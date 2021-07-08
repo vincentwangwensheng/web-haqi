@@ -332,6 +332,8 @@ export class ActivityListDetailComponent implements OnInit, OnDestroy {
     }
 
     toSaveProject() {
+        this.snackBar.open('待开发！', '✖');
+        return;
         const data = {
             'beginTime': this.activityForm.value['beginTime'],
             'canRefund': this.activityForm.value['canRefund'],
@@ -512,15 +514,17 @@ export class ActivityListDetailComponent implements OnInit, OnDestroy {
                     hasBackdrop: true,
                 });
             }
-            this.couponManageService.previewFile(this.uploadFile.umgUploadSuccessId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(res);
-                fileReader.onloadend = (res1) => {
-                    const result = res1.target['result'];
-                    this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-                    this.uploadFile.imgPreLoading = false;
-                };
-            });
+            // this.couponManageService.previewFile(this.uploadFile.umgUploadSuccessId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+            //     const fileReader = new FileReader();
+            //     fileReader.readAsDataURL(res);
+            //     fileReader.onloadend = (res1) => {
+            //         const result = res1.target['result'];
+            //         this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+            //         this.uploadFile.imgPreLoading = false;
+            //     };
+            // });
+            this.uploadFile.imgPreLoading = false;
+            this.snackBar.open('上传接口待开发!', '✖');
         }
     }
 
@@ -563,24 +567,24 @@ export class ActivityListDetailComponent implements OnInit, OnDestroy {
     /******会员限制******/
     // 获取会员列表
     toGetLevelList(data?) {
-        this.couponManageService.searchMemberCardList().subscribe(res => {
-            this.levelSourceLength = res.body.length;
-            this.levelSource = [];
-            this.levelShow = [];
-            if (res.body && data) {
-                if (data[0] === '__ALL__') {
-                    this.levelSource = res.body;
-                    this.levelShow.push('__ALL__');
-                } else {
-                    res.body.forEach(item => {
-                        if (data.includes(item.id + '')) {
-                            this.levelSource.push(item);
-                            this.levelShow.push(item['levelName']);
-                        }
-                    });
-                }
-            }
-        });
+        // this.couponManageService.searchMemberCardList().subscribe(res => {
+        //     this.levelSourceLength = res.body.length;
+        //     this.levelSource = [];
+        //     this.levelShow = [];
+        //     if (res.body && data) {
+        //         if (data[0] === '__ALL__') {
+        //             this.levelSource = res.body;
+        //             this.levelShow.push('__ALL__');
+        //         } else {
+        //             res.body.forEach(item => {
+        //                 if (data.includes(item.id + '')) {
+        //                     this.levelSource.push(item);
+        //                     this.levelShow.push(item['levelName']);
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
     }
 
     // 打开活动选择

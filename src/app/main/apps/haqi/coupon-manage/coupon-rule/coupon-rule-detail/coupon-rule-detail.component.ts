@@ -279,6 +279,8 @@ export class CouponRuleDetailComponent implements OnInit {
       };
       data['beginTime'] = new Date(data['beginTime']).toISOString();
       data['endTime'] = new Date(data['endTime']).toISOString();
+      this.snackBar.open('待开发！', '✖');
+      return;
       this.canSave = false;
       if (this.operation === 'create'){
         data['autoCreateBatch'] = true;
@@ -424,15 +426,17 @@ export class CouponRuleDetailComponent implements OnInit {
           hasBackdrop: true ,
         });
       }
-      this.couponManageService.previewFile(this.uploadFile.umgUploadSuccessId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(res);
-        fileReader.onloadend = (res1) => {
-          const result = res1.target['result'];
-          this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
-          this.uploadFile.imgPreLoading = false;
-        };
-      });
+      // this.couponManageService.previewFile(this.uploadFile.umgUploadSuccessId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+      //   const fileReader = new FileReader();
+      //   fileReader.readAsDataURL(res);
+      //   fileReader.onloadend = (res1) => {
+      //     const result = res1.target['result'];
+      //     this.uploadFile.imgSrc = this.sanitizer.bypassSecurityTrustUrl(result);
+      //     this.uploadFile.imgPreLoading = false;
+      //   };
+      // });
+      this.uploadFile.imgPreLoading = false;
+      this.snackBar.open('上传接口待开发!', '✖');
     }
   }
 

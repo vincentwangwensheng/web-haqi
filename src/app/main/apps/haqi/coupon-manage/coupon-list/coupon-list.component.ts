@@ -43,7 +43,8 @@ export class CouponListComponent implements OnInit, OnDestroy {
     this.customButtons = [
       {
         name: '导出', iconFont: '', class: 'shallow-button', fn: () => {
-          this.exportList();
+          // this.exportList();
+          this.snackBar.open('待开发！');
         }
       }
     ];
@@ -154,9 +155,10 @@ export class CouponListComponent implements OnInit, OnDestroy {
   initSearch(search) {
     this.loading.show();
     this.couponManageService.toGetCouponList(this.page.page, this.page.size, this.page.sort , search, this.filter).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      if (res['body']) {
-        this.rows = res.body;
-        this.page.count = res.headers.get('x-total-count');
+      if (res) {
+        this.rows = res;
+        // this.page.count = res.headers.get('x-total-count');
+        this.page.count = 1;
         if (this.rows.length === 0) {
           this.snackBar.open('未查询到数据', '✖');
         } else {

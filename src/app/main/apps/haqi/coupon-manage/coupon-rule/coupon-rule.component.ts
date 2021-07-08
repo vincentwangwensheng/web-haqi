@@ -132,9 +132,10 @@ export class CouponRuleComponent implements OnInit, OnDestroy {
       this.filter = [{name: 'type', value: 'PARKING'}];
     }
     this.couponManageService.toGetCouponRuleList(this.page.page, this.page.size, this.page.sort , search, this.filter, flag).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      if (res['body']) {
-        this.rows = res.body;
-        this.page.count = res.headers.get('x-total-count');
+      if (res) {
+        this.rows = res;
+        // this.page.count = res.headers.get('x-total-count');
+        this.page.count = 1;
         if (this.rows.length === 0) {
           this.snackBar.open('未查询到数据', '✖');
         } else {

@@ -1,0 +1,30 @@
+{
+  "createdBy" : "dominic1212",
+  "createdDate" : "2021-06-30T17:22:07.450365+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2021-06-30T17:22:07.450365+08:00",
+  "id" : 174,
+  "number" : "1f68e492a3834c5c8c1aac24fcc69e54",
+  "name" : "2021测试券",
+  "ruleText" : "<p>hahha</p>",
+  "enabled" : false,
+  "beginTime" : "2021-06-30T00:00:00+08:00",
+  "endTime" : "2022-03-31T23:59:59+08:00",
+  "periodType" : "DEFAULT",
+  "type" : "DEFAULT",
+  "store" : [ "__ALL__" ],
+  "value" : 3.00,
+  "threshold" : 5.01,
+  "oncePickupQuantity" : 1,
+  "price" : 5.00,
+  "showValidity" : 0,
+  "canGift" : true,
+  "pic" : [ "1154" ],
+  "activities" : null,
+  "codes" : null,
+  "batches" : null,
+  "extParams" : {
+    "quantity" : "100",
+    "giftMax" : "5"
+  }
+}
