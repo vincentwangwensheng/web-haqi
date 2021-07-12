@@ -89,8 +89,8 @@ export class GroupManageComponent implements OnInit, OnDestroy {
         this.loading.show();
         this.groupService.getBlocList(this.page.page, this.page.size, this.page.sort , null , this.popUpYes).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.content;
-                this.page.count = res.totalElements;
+                this.rows = res['content'];
+                this.page.count = res['totalElements'];
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -110,8 +110,8 @@ export class GroupManageComponent implements OnInit, OnDestroy {
         });
         this.groupService.getBlocList(this.page.page, this.page.size, this.page.sort, multiSearch, this.popUpYes).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.content;
-                this.page.count = res.totalElements;
+                this.rows = res['content'];
+                this.page.count = res['totalElements'];
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -150,11 +150,12 @@ export class GroupManageComponent implements OnInit, OnDestroy {
     }
 
     saveGroup() {
-        if (this.groupForm.valid) {
-            this.dialogRef.close(true);
-        } else {
-            this.groupForm.markAllAsTouched();
-        }
+        this.snackBar.open('待开发！', '✖');
+        // if (this.groupForm.valid) {
+        //     this.dialogRef.close(true);
+        // } else {
+        //     this.groupForm.markAllAsTouched();
+        // }
     }
 
     create(addGroup) {

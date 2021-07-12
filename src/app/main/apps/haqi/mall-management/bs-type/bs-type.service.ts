@@ -13,12 +13,14 @@ export class BsTypeService {
     }
 
     searchTypes(page, size, sort, search?, filter?) {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchTypes + searchApi, {observe: 'response'});
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search, filter);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.searchTypes + searchApi, {observe: 'response'});
+        return this.http.get('configData/mall-management/searchTypes.json');
     }
 
     getTypeById(id) {
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getTypeById + '?id=' + id);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getTypeById + '?id=' + id);
+        return this.http.get('configData/mall-management/secondTypeById.json');
     }
 
     postType(data) {

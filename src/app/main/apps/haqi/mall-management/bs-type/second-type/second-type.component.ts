@@ -59,7 +59,7 @@ export class SecondTypeComponent implements OnInit, OnDestroy {
     initAutoSelect() {
         this.secondService.searchBusinessTypes(0, 0x3f3f3f3f, 'lastModifiedDate,desc').subscribe(res => {
             if (res) {
-                this.selectSource = res.body;
+                this.selectSource = res['body'];
                 this.filterSelect = this.utils.getFilterOptions(this.formGroup.get('businessTypeName'), this.selectSource, 'name', 'color');
             }
         });
@@ -96,8 +96,9 @@ export class SecondTypeComponent implements OnInit, OnDestroy {
         this.loading.show();
         this.secondService.searchTypes(this.page.page, this.page.size, this.page.sort).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.body;
-                this.page.count = Number(res.headers.get('x-total-count'));
+                this.rows = res as any;
+                // this.page.count = Number(res['headers'].get('x-total-count'));
+                this.page.count = 2;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -117,8 +118,9 @@ export class SecondTypeComponent implements OnInit, OnDestroy {
         });
         this.secondService.searchTypes(this.page.page, this.page.size, this.page.sort, multiSearch).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.body;
-                this.page.count = Number(res.headers.get('x-total-count'));
+                this.rows = res as any;
+                // this.page.count = Number(res['headers'].get('x-total-count'));
+                this.page.count = 2;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -157,6 +159,8 @@ export class SecondTypeComponent implements OnInit, OnDestroy {
     }
 
     save() {
+        this.snackBar.open('待开发！', '✖');
+        return;
         if (this.formGroup.valid) {
             this.dialogRef.close(true);
         } else {
@@ -190,9 +194,9 @@ export class SecondTypeComponent implements OnInit, OnDestroy {
     getDetail(event, editGroup) {
         this.loading.show();
         this.secondService.getTypeById(event.id).subscribe(res => {
-            this.getBusinessTypeById(res.businessTypeId).then(type => {
+            this.getBusinessTypeById(res['businessTypeId']).then(type => {
                 this.editStatus = 1;
-                res.businessTypeName = type ? type.name : '';
+                res['businessTypeName'] = type ? type.name : '';
                 this.formGroup.patchValue(res);
                 this.formGroup.disable();
                 this.loading.hide();

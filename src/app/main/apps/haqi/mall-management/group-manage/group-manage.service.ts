@@ -16,12 +16,13 @@ export class GroupManageService {
     }
 
     getBlocList(page, size, sort, search? , popUpYes?) {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search);
-        let url = environment.getBlocList;
-        if (popUpYes){
-            url = environment.getBlocBasicsList;
-        }
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + url + searchApi);
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search);
+        // let url = environment.getBlocList;
+        // if (popUpYes){
+        //     url = environment.getBlocBasicsList;
+        // }
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + url + searchApi);
+        return this.http.get('configData/mall-management/getBlocList.json');
     }
 
     createBloc(data) {
@@ -33,7 +34,8 @@ export class GroupManageService {
     }
 
     getBlocById(id) {
-        return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBlocById + '?id=' + id);
+        // return this.http.get(sessionStorage.getItem('baseUrl') + environment.getBlocById + '?id=' + id);
+        return this.http.get('configData/mall-management/getBlocById.json');
     }
 
 }

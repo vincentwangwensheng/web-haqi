@@ -16,16 +16,18 @@ export class MallManageService {
     }
 
     getMallList(page, size, sort, search? , popUpYes? ): Observable<any> {
-        const searchApi = this.utils.getMultiSearch(page, size, sort, search);
-        let url = environment.getMallList;
-        if (popUpYes){
-            url = environment.getBasicsMallList;
-        }
-        return this.http.get(sessionStorage.getItem('baseUrl') + url + searchApi);
+        // const searchApi = this.utils.getMultiSearch(page, size, sort, search);
+        // let url = environment.getMallList;
+        // if (popUpYes){
+        //     url = environment.getBasicsMallList;
+        // }
+        // return this.http.get(sessionStorage.getItem('baseUrl') + url + searchApi);
+        return this.http.get('configData/mall-management/getMallList.json');
     }
 
     getMallById(id) {
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getMallById + '?id=' + id);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getMallById + '?id=' + id);
+        return this.http.get('configData/mall-management/getMallById.json');
     }
 
     createMall(data) {
@@ -38,11 +40,13 @@ export class MallManageService {
 
     // 一级业态
     getTypeList() {
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getTypeList);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getTypeList);
+        return this.http.get('configData/mall-management/getTypeList.json');
     }
 
     // 二级业态
     getSecondTypeList() {
-        return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getSecondTypeList);
+        // return this.http.get<any>(sessionStorage.getItem('baseUrl') + environment.getSecondTypeList);
+        return this.http.get('configData/mall-management/getSecondTypeList.json');
     }
 }

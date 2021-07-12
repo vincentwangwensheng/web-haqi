@@ -1,0 +1,82 @@
+{
+  "id" : 1,
+  "mallId" : "0001",
+  "mallName" : "荆门种子广场",
+  "position" : "112.233929,31.065767",
+  "address" : "湖北省荆门市泉水大道",
+  "province" : "湖北省",
+  "city" : "荆门市",
+  "street" : "泉水大道",
+  "desc" : "<p>全国首家运用科技赋能的“新型城市社交空间”，是实地集团自建自营的社区型购物中心，重点服务实地社区及周边辐射小区居民，以家庭生活的核心诉求为中心，为顾客提供完善的服务配套，让城市社区生活更加便捷、有趣。</p>",
+  "blocId" : "001",
+  "blocName" : "实地集团",
+  "enabled" : true,
+  "createdBy" : "dominic1212",
+  "createdDate" : "2020-10-21T15:23:56.40778+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2020-11-23T11:53:26.011164+08:00",
+  "brevityCode" : "JMsdpz",
+  "mallShortName" : "荆门广场",
+  "mobile" : "32323",
+  "transportation" : "<p>湖北省荆门市东宝区泉水大道与新台西路交汇处。</p><p>交通线路:紫薇雅筑专线。 专线1:天鹅广场房管局站 专线2:龙泉中学站</p><p>电话：0724-8655671</p>",
+  "businessTypes" : [ {
+    "id" : 2,
+    "name" : "一级业态测试",
+    "color" : "string",
+    "enabled" : true,
+    "createdBy" : "vector",
+    "createdDate" : "2020-10-20T15:47:00.082079+08:00",
+    "lastModifiedBy" : "vector",
+    "lastModifiedDate" : "2020-10-20T15:47:00.082079+08:00"
+  }, {
+    "id" : 3,
+    "name" : "服装1",
+    "color" : "#8c2323",
+    "enabled" : false,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2020-10-21T15:14:56.606525+08:00",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2020-10-21T15:15:10.70616+08:00"
+  }, {
+    "id" : 4,
+    "name" : "餐饮",
+    "color" : "#aaaaaa",
+    "enabled" : true,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2020-11-04T10:24:53.620929+08:00",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2020-11-04T10:25:37.373553+08:00"
+  } ],
+  "secondTypes" : [ {
+    "id" : 1,
+    "businessTypeId" : 2,
+    "businessTypeName" : null,
+    "name" : "二级业态测试1",
+    "enabled" : false,
+    "createdBy" : "vector",
+    "createdDate" : "2020-10-20T15:49:54.490518+08:00",
+    "lastModifiedBy" : "widzz",
+    "lastModifiedDate" : "2020-10-21T15:01:56.446248+08:00"
+  }, {
+    "id" : 3,
+    "businessTypeId" : 4,
+    "businessTypeName" : null,
+    "name" : "特色餐饮",
+    "enabled" : true,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2020-11-04T10:25:25.960983+08:00",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2020-11-04T10:25:25.961015+08:00"
+  }, {
+    "id" : 2,
+    "businessTypeId" : 3,
+    "businessTypeName" : null,
+    "name" : "洋装",
+    "enabled" : false,
+    "createdBy" : "dominic1212",
+    "createdDate" : "2020-10-21T15:15:33.713843+08:00",
+    "lastModifiedBy" : "dominic1212",
+    "lastModifiedDate" : "2020-10-21T15:15:41.1934+08:00"
+  } ],
+  "terminalDTOS" : null
+}

@@ -1,0 +1,37 @@
+[ {
+  "id" : 1,
+  "name" : "一级业态测试1",
+  "color" : "string1",
+  "enabled" : true,
+  "createdBy" : "vector",
+  "createdDate" : "2020-10-20T15:45:08.800952+08:00",
+  "lastModifiedBy" : "vector",
+  "lastModifiedDate" : "2020-10-20T15:46:10.035075+08:00"
+}, {
+  "id" : 2,
+  "name" : "一级业态测试",
+  "color" : "string",
+  "enabled" : true,
+  "createdBy" : "vector",
+  "createdDate" : "2020-10-20T15:47:00.082079+08:00",
+  "lastModifiedBy" : "vector",
+  "lastModifiedDate" : "2020-10-20T15:47:00.082079+08:00"
+}, {
+  "id" : 3,
+  "name" : "服装1",
+  "color" : "#8c2323",
+  "enabled" : false,
+  "createdBy" : "dominic1212",
+  "createdDate" : "2020-10-21T15:14:56.606525+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2020-10-21T15:15:10.70616+08:00"
+}, {
+  "id" : 4,
+  "name" : "餐饮",
+  "color" : "#aaaaaa",
+  "enabled" : true,
+  "createdBy" : "dominic1212",
+  "createdDate" : "2020-11-04T10:24:53.620929+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2020-11-04T10:25:37.373553+08:00"
+} ]

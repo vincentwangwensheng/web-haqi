@@ -78,8 +78,9 @@ export class BsTypeComponent implements OnInit, OnDestroy {
         this.loading.show();
         this.bsService.searchTypes(this.page.page, this.page.size, this.page.sort).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.body;
-                this.page.count = Number(res.headers.get('x-total-count'));
+                this.rows = res as any;
+                // this.page.count = Number(res['headers'].get('x-total-count'));
+                this.page.count = 2;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -99,8 +100,9 @@ export class BsTypeComponent implements OnInit, OnDestroy {
         });
         this.bsService.searchTypes(this.page.page, this.page.size, this.page.sort, multiSearch).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
             if (res) {
-                this.rows = res.body;
-                this.page.count = Number(res.headers.get('x-total-count'));
+                this.rows = res as any;
+                // this.page.count = Number(res['headers'].get('x-total-count'));
+                this.page.count = 2;
                 if (this.rows.length === 0) {
                     this.snackBar.open(this.translate.instant('tableList.listEmpty'), '✖');
                 }
@@ -139,6 +141,8 @@ export class BsTypeComponent implements OnInit, OnDestroy {
     }
 
     save() {
+        this.snackBar.open('待开发！', '✖');
+        return;
         if (this.groupForm.valid) {
             this.dialogRef.close(true);
         } else {

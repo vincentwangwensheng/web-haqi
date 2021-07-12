@@ -140,10 +140,10 @@ export class EditMallComponent implements OnInit, AfterViewInit {
     initBlocs(data?) {
         return new Promise(resolve => {
             this.groupService.getBlocList(0, 0x3f3f3f3f, 'lastModifiedDate,desc' , null , true).subscribe(res => {
-                if (res.content && res.content.length > 0) {
-                    this.blocs = res.content.filter(item => item.enabled);
+                if (res['content'] && res['content'].length > 0) {
+                    this.blocs = res['content'].filter(item => item.enabled);
                     if (data && data.blocId) {
-                        const bloc = res.content.find(item => item.blocId === data.blocId);
+                        const bloc = res['content'].find(item => item.blocId === data.blocId);
                         if (bloc) {
                             data.blocName = bloc.blocName;
                             this.mallGroup.patchValue(data, {emitEvent: false});
@@ -209,31 +209,33 @@ export class EditMallComponent implements OnInit, AfterViewInit {
 
     // 保存按钮点击
     onSaveClick() {
-        if (this.editFlag === 0) {
-            this.saveData().then(data => {
-                this.mallService.createMall(data).subscribe(res => {
-                    this.loading.hide();
-                    this.onSaving = false;
-                    this.goBack();
-                    this.snackBar.open('新建商场成功！', '✓');
-                }, error1 => {
-                    this.onSaving = false;
-                });
-            });
-
-        } else {
-            this.saveData().then(data => {
-                this.mallService.updateMall(data).subscribe(res => {
-                    this.loading.hide();
-                    this.onSaving = false;
-                    this.goBack();
-                    this.snackBar.open('更新商场成功！', '✓');
-                }, error1 => {
-                    this.onSaving = false;
-                });
-            });
-
-        }
+        this.snackBar.open('待开发！', '✓');
+        return;
+        // if (this.editFlag === 0) {
+        //     this.saveData().then(data => {
+        //         this.mallService.createMall(data).subscribe(res => {
+        //             this.loading.hide();
+        //             this.onSaving = false;
+        //             this.goBack();
+        //             this.snackBar.open('新建商场成功！', '✓');
+        //         }, error1 => {
+        //             this.onSaving = false;
+        //         });
+        //     });
+        //
+        // } else {
+        //     this.saveData().then(data => {
+        //         this.mallService.updateMall(data).subscribe(res => {
+        //             this.loading.hide();
+        //             this.onSaving = false;
+        //             this.goBack();
+        //             this.snackBar.open('更新商场成功！', '✓');
+        //         }, error1 => {
+        //             this.onSaving = false;
+        //         });
+        //     });
+        //
+        // }
     }
 
     // 获取表单的验证内容
@@ -279,13 +281,13 @@ export class EditMallComponent implements OnInit, AfterViewInit {
                 this.mallGroup.patchValue(data, {emitEvent: false});
                 this.disableAll();
             });
-            const positions = res.position.split(',');
+            const positions = res['position'].split(',');
             this.getNewMapAndLocation(positions[0], positions[1]).then(r => {
                 this.miniMap.addOverlay(new BMap.Marker(r));
                 this.currentPoint = r;
             });
-            const types = res.businessTypes;
-            const second = res.secondTypes;
+            const types = res['businessTypes'];
+            const second = res['secondTypes'];
             this.initTypes().then(rs => {
                 let notAll = false; // 是否有未选中的
                 this.totalTypes.forEach(type => {

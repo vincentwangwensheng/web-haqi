@@ -1,0 +1,31 @@
+[ {
+  "id" : 3,
+  "businessTypeId" : 4,
+  "businessTypeName" : "餐饮",
+  "name" : "特色餐饮",
+  "enabled" : true,
+  "createdBy" : "dominic1212",
+  "createdDate" : "2020-11-04T10:25:25.960983+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2020-11-04T10:25:25.961015+08:00"
+}, {
+  "id" : 2,
+  "businessTypeId" : 3,
+  "businessTypeName" : "服装1",
+  "name" : "洋装",
+  "enabled" : false,
+  "createdBy" : "dominic1212",
+  "createdDate" : "2020-10-21T15:15:33.713843+08:00",
+  "lastModifiedBy" : "dominic1212",
+  "lastModifiedDate" : "2020-10-21T15:15:41.1934+08:00"
+}, {
+  "id" : 1,
+  "businessTypeId" : 2,
+  "businessTypeName" : "一级业态测试",
+  "name" : "二级业态测试1",
+  "enabled" : false,
+  "createdBy" : "vector",
+  "createdDate" : "2020-10-20T15:49:54.490518+08:00",
+  "lastModifiedBy" : "widzz",
+  "lastModifiedDate" : "2020-10-21T15:01:56.446248+08:00"
+} ]
