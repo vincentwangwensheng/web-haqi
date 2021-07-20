@@ -164,13 +164,6 @@ export const Navigation: FuseNavigation[] = [
                         translate: 'nav.marketingStrategy.list',
                         type: 'item',
                         url: 'apps/strategy'
-                    },
-                    {
-                        id: 'ROLE_BACKEND_APPS_STRATEGY_LIST_VIEW',
-                        title: '营销策略审核',
-                        translate: 'nav.marketingStrategy.listView',
-                        type: 'item',
-                        url: 'apps/strategyView'
                     }
                 ]
             },

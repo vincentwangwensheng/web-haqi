@@ -17,14 +17,14 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import {MaterialDatePickerModule} from '../../../../../components/material-date-picker/material-date-picker.module';
 import {CouponMaintainExportModule} from '../../../ecoupon-list/coupon-maintain/coupon-maintain-export.module';
 import {PassengersTagManagementExportModule} from '../../../tag-management/passengers-tag-management/passengers-tag-management-export.module';
-import {MerchantsTagManagementExportModule} from '../../merchants-tag-management/merchants-tag-management-export.module';
 import {MarketingManageExportModule} from '../../../marketing-manage/marketing-manage-export.module';
 import {FuseSidebarModule} from '../../../../../../@fuse/components';
 import {MessageTemplateExportModule} from '../../../message-template/message-template-export.module';
-import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
 import {CouponListModule} from '../coupon-list/coupon-list.module';
 import {ActivityListExportModule} from '../../coupon-manage/activity-list/activity-list-export.module';
 import {MallManageExportModule} from '../../mall-management/mall-manage/mall-manage-export.module';
+import {StoreManageExportModule} from '../../mall-management/store-mange/store-manage-export.module';
+import {MerchantsTagManagementExportModule} from '../../merchants-tag-management/merchants-tag-management-export.module';
 
 @NgModule({
     declarations: [EditStrategyComponent],

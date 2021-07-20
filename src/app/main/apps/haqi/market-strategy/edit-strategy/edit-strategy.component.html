@@ -14,20 +14,16 @@
            <!--保存取消操作-->
             <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px">
                 <button mat-button (click)="save()" [disableRipple]="true" matRipple [matRippleRadius]="15" [matRippleColor]="'#000000'"
-                        color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!isViewPage">
+                        color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row" fxLayoutAlign="space-between center">
                     <span class="iconfont iconsave  mr-8"></span>
                     <span>保存</span>
                 </button>
-                <button (click)="goBack()" mat-button [disableRipple]="true" matRipple [matRippleRadius]="15"
+                <button (click)="cancel()" mat-button [disableRipple]="true" matRipple [matRippleRadius]="15"
                         [matRippleColor]="'#000000'" color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row"
                         fxLayoutAlign="space-between center">
                     <span class="iconfont iconreject mat-icon-12 mr-8"></span>
                     <span>取消</span>
                 </button>
-                <button mat-raised-button class="w-button shallow-button" *ngIf="isViewPage" (click)="toReview('pass')">通过</button>
-                <button mat-raised-button class="w-button red-button" *ngIf="isViewPage" (click)="toReview('reject')">驳回</button>
-                <button mat-raised-button class="w-button green-button" *ngIf="!isViewPage && isReload && !isEnabled" (click)="toReuse('use')">启用</button>
-                <button mat-raised-button class="w-button dark-yellow-button" *ngIf="!isViewPage && isReload && isEnabled" (click)="toReuse('stop')">禁用</button>
             </div>
         </div>
         <!-- / CONTENT HEADER -->
@@ -217,15 +213,7 @@
                             <mat-label>选择营销活动（可选）</mat-label>
                             <input class="select-activity" readonly [value]="currentActivity?currentActivity.name:''" (focus)="openActivity(activities)" matInput>
                         </mat-form-field>
-                        <mat-form-field appearance="outline" class="w-100-p">
-                            <mat-label>策略状态</mat-label>
-                            <mat-select formControlName="auditStatus" [disabled]="true">
-                                <mat-option [value]="'APPROVED'">待审核</mat-option>
-                                <mat-option [value]="'REVIEWED'">已发布</mat-option>
-                                <mat-option [value]="'REJECT'">驳回</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-slide-toggle class="pl-8 mb-24" labelPosition="before" formControlName="enabled" [disabled]="true">
+                        <mat-slide-toggle class="pl-8 mb-24" labelPosition="before" formControlName="enabled">
                             启用
                         </mat-slide-toggle>
                         <mat-form-field appearance="outline" class="w-100-p text-area">

@@ -25,13 +25,9 @@ export class StrategyService {
     }
 
     // 营销策略列表
-    getAllProcesses(page, size, sort, isViewPage, search?) {
+    getAllProcesses(page, size, sort, search?) {
         const searchApi = this.utils.getMultiSearch(page, size, sort, search);
-        if (isViewPage){
-            return this.http.get(sessionStorage.getItem('baseUrl') + environment.processesView + searchApi, {observe: 'response'});
-        } else {
-            return this.http.get(sessionStorage.getItem('baseUrl') + environment.processes + searchApi + '&auditStatus.in=REVIEWED,REJECT', {observe: 'response'});
-        }
+        return this.http.get(sessionStorage.getItem('baseUrl') + environment.processes + searchApi, {observe: 'response'});
     }
 
     // 创建营销策略

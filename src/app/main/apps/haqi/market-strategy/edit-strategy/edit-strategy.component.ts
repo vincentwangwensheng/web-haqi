@@ -120,7 +120,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
     isReload = false; // 是否带参编辑
     isCopy = false; // 是否复刻
     detailId = '';
-    isEnabled = false; // 是否启用
     currentProject = '';
     links = [{name: '权益策略'}, {name: '活动策略'}];
     activeLink = 0;
@@ -146,8 +145,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
     orderPointFilterControl = new FormControl('', Validators.required); // 金额过滤
     weekList = [];
     dayList = [];
-    // 判断是否是审核页面
-    isViewPage = false;
 
     constructor(
         private fileDownload: FileDownloadService,
@@ -167,8 +164,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
         private dateTransformPipe: DateTransformPipe
     ) {
         this.detailId = this.activatedRoute.snapshot.queryParamMap.get('id');
-        this.isViewPage = this.activatedRoute.snapshot.queryParamMap.get('isViewPage') + '' === 'true' ? true : false;
-        this.isEnabled = this.activatedRoute.snapshot.queryParamMap.get('enabled') + '' === 'true' ? true : false;
         this.isCopy = Boolean(this.activatedRoute.snapshot.queryParamMap.get('enabled'));
         this.activeLink = this.activatedRoute.snapshot.queryParamMap.get('type') === 'Member' ? 1 : 0;
         if (this.detailId) {
@@ -213,7 +208,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
             type: new FormControl(),
             enabled: new FormControl(false),
             description: new FormControl(''),
-            auditStatus: new FormControl('APPROVED'),
             beginDate: new FormControl('', Validators.required),
             endDate: new FormControl('', Validators.required)
         });
@@ -330,7 +324,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.strategyService.getMemberNode().subscribe(res => {
                     if (res && Array.isArray(res)) {
                         this.triggers = memberStrategy.triggers.filter(trigger => res.find(node => node.nodeTypeName === trigger.type));
-                        this.triggers.push(memberStrategy.triggers.filter(item => item['type'] === 'StopCarToMall')[0]); // 手动添加停车到场-后续会接口返回的
                         this.controls = memberStrategy.controls.filter(control => res.find(node => node.nodeTypeName === control.type));
                         this.actuators = memberStrategy.actuators.filter(actuator => res.find(node => node.nodeTypeName === actuator.type));
                     }
@@ -1856,12 +1849,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
                 });
             }
             this.strategy.patchValue(data);
-            if (data['auditStatus'] === null){
-                this.strategy.get('auditStatus').setValue('APPROVED');
-            }
-            if (this.isViewPage) {
-                this.strategy.disable();
-            }
             this.processId = jsonData.id;
             this.nodes = jsonData.sourceNodes;
             this.edges = jsonData.sourceEdges;
@@ -2380,7 +2367,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.process.json = JSON.stringify(process);
             console.log(JSON.stringify(process));
-            this.process['auditStatus'] = 'APPROVED'; // 手动将策略状态改成待审核
             if (this.isReload) {
                 this.strategyService.updateProcess(this.process).subscribe(res => {
                     this.finished = true;
@@ -2391,8 +2377,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.loading.hide();
                 });
             } else {
-                // this.process['id'] = null; // 中台的接口写的就是发神经，这种奇葩需求
-                delete this.process['id'];
                 this.strategyService.createProcess(this.process).subscribe(res => {
                     this.finished = true;
                     this.cancel();
@@ -2483,11 +2467,7 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     cancel() {
-        this.router.navigate(['apps/strategyView']).then();
-    }
-
-    goBack(){
-        history.go(-1);
+        this.router.navigate(['apps/strategy']).then();
     }
 
     ngOnDestroy(): void {
@@ -2497,47 +2477,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
             document.exitFullscreen();
         }
     }
-
-    // 通过/驳回
-    toReview(flag){
-        const data = JSON.parse(sessionStorage.getItem('resetStrategy'));
-        let info = '';
-        if (flag === 'pass'){
-            data['auditStatus'] = 'REVIEWED';
-            info = '通过成功！';
-        } else {
-            data['auditStatus'] = 'REJECT';
-            info = '驳回成功！';
-        }
-        this.strategyService.updateProcess(data).subscribe(res => {
-            this.snackBar.open(info);
-            this.router.navigate(['apps/strategy']).then();
-            this.loading.hide();
-        }, error1 => {
-            this.loading.hide();
-        });
-    }
-
-    // 启用/禁用
-    toReuse(flag){
-        const data = JSON.parse(sessionStorage.getItem('resetStrategy'));
-        let info = '';
-        if (flag === 'use'){
-            data['enabled'] = true;
-            info = '启用成功！';
-        } else {
-            data['enabled'] = false;
-            info = '禁用成功！';
-        }
-        this.strategyService.updateProcess(data).subscribe(res => {
-            this.snackBar.open(info);
-            this.router.navigate(['apps/strategy']).then();
-            this.loading.hide();
-        }, error1 => {
-            this.loading.hide();
-        });
-    }
-
 }
 
 // 策略

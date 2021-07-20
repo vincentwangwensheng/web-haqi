@@ -4,7 +4,7 @@
   "author": "Tech-Trans,WZ",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4202",
+    "start": "ng serve --port 4200",
     "ng-build-prod": "ng build --prod",
     "ng-build-prod-hq": "ng build --prod --baseHref=haqi",
     "start-hmr-4201": "ng serve --port 4201 --configuration hmr --source-map=true --hmr-warning=false",

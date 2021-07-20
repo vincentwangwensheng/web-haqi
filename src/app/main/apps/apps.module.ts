@@ -74,11 +74,6 @@ const routes: Routes =
             loadChildren: () => import('./haqi/market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
             data: {title: '营销策略列表'},
         },
-        {
-            path: 'strategyView',
-            loadChildren: () => import('./haqi/market-strategy/market-strategy.module').then(m => m.MarketStrategyModule),
-            data: {title: '营销策略审核'},
-        },
         // 新建营销策略
         {
             path: 'strategyCreate',
