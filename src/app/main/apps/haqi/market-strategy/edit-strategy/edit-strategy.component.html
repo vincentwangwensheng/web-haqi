@@ -9,8 +9,8 @@
         <!-- CONTENT HEADER -->
         <div class="header accent py-24 px-8"
              fxLayout="row" fxLayoutAlign="space-between center">
-            <h2 class="m-0" *ngIf="isReload">{{'nav.marketingStrategy.edit'|translate}}</h2>
-            <h2 class="m-0" *ngIf="!isReload">{{'nav.marketingStrategy.create'|translate}}</h2>
+            <h2 class="m-0" *ngIf="isReload">新建营销策略</h2>
+            <h2 class="m-0" *ngIf="!isReload">编辑营销策略</h2>
            <!--保存取消操作-->
             <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px">
                 <button mat-button (click)="save()" [disableRipple]="true" matRipple [matRippleRadius]="15" [matRippleColor]="'#000000'"
@@ -73,7 +73,7 @@
                 <mat-divider class="w-100-p"></mat-divider>
                 <!--过程控制面板-->
                 <div class="w-100-p py-16" fxLayout="column" fxLayoutAlign="start start">
-                    <span>{{'strategy.control'|translate}}</span>
+                    <span>过程控制</span>
                     <div class="w-100-p p-8 mt-8" fxLayout="row wrap" fxLayoutAlign="start center">
                         <div @fadeIn *ngFor="let control of controls" [id]="control.type" class="node-div" fxLayout="column" fxLayoutAlign="space-around center" data-type="control"
                              [title]="control.belongType|translate" draggable="true" (dragstart)="onDragStart($event)">
@@ -98,7 +98,7 @@
                 <mat-divider class="w-100-p"></mat-divider>
                 <!--执行器面板-->
                 <div class="w-100-p py-16" fxLayout="column" fxLayoutAlign="start start">
-                    <span>{{'strategy.actuator'|translate}}</span>
+                    <span>执行器</span>
                     <div class="w-100-p p-8 mt-8" fxLayout="row wrap" fxLayoutAlign="start center">
                         <div @fadeIn *ngFor="let control of actuators" [id]="control.type" class="node-div" fxLayout="column" fxLayoutAlign="space-around center" data-type="actuator"
                              [title]="control.belongType|translate" draggable="true" (dragstart)="onDragStart($event)">
@@ -239,7 +239,7 @@
                 <mat-divider *ngIf="selectElement.name!=='EndActuator'&&editControls.length>0" class="w-100-p"></mat-divider>
                 <div fxLayout="row wrap" fxLayoutAlign="start center">
                     <div *ngIf="selectElement.type!=='line'" fxLayout="row" fxLayoutAlign="space-around center"
-                         (click)="showChangeTypes()" [matTooltip]="'strategy.changeType'|translate" matTooltipPosition="above">
+                         (click)="showChangeTypes()" [matTooltip]="'更改类型'" matTooltipPosition="above">
                         <mat-icon class="mat-icon-20 theme-hover">build</mat-icon>
                     </div>
                     <div *ngIf="selectElement.type!=='line'&&selectElement.name!=='EndActuator'" fxLayout="row"
@@ -529,17 +529,17 @@
                             <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
                                 <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
                                     <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">{{'strategy.editInfo.addCoupon'|translate}}</span>
+                                    <span class="ml-4">添加券</span>
                                 </div>
                                 <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
                                      class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
                                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>{{'strategy.editInfo.couponName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
                                         <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
                                             <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
                                         </button>
                                     </div>
-                                    <span class="w-100-p">{{'strategy.editInfo.couponCoding'|translate}}&nbsp;:</span>
+                                    <span class="w-100-p">券编码&nbsp;:</span>
                                     <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
                                 </div>
                             </div>
@@ -549,17 +549,17 @@
                             <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
                                 <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
                                     <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">{{'strategy.editInfo.addCoupon'|translate}}</span>
+                                    <span class="ml-4">添加券</span>
                                 </div>
                                 <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
                                      class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
                                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>{{'strategy.editInfo.couponName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
                                         <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
                                             <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
                                         </button>
                                     </div>
-                                    <span class="w-100-p">{{'strategy.editInfo.couponCoding'|translate}}&nbsp;:</span>
+                                    <span class="w-100-p">券编码&nbsp;:</span>
                                     <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
                                 </div>
                             </div>
@@ -569,19 +569,19 @@
                             <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
                                 <div *ngIf="!selectElement.params['template']" class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
                                     <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">{{'strategy.editInfo.addMsgTemplate'|translate}}</span>
+                                    <span class="ml-4">添加消息模板</span>
                                 </div>
                                 <div *ngIf="selectElement.params['template']" [@animate]="{value:'*',params:{opacity:'0',delay:'100ms',duration:'500ms'}}"
                                      class="common-cell cursor-pointer" (click)="openMessageSelect(messageTemplate)" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
                                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>{{'strategy.editInfo.smsTemplateName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateName}}</span>
+                                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateName}}</span>
                                         <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage()" fxLayout="row" fxLayoutAlign="center center">
                                             <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
                                         </button>
                                     </div>
-                                    <span class="w-100-p">{{'strategy.editInfo.templateStatus'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{(selectElement.params['template'].templateStatus ? (selectElement.params['template'].templateStatus).toLowerCase() : '')|translate}}</span>
-                                    <span class="w-100-p">{{'strategy.editInfo.smsTemplateType'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateType}}</span>
-                                    <span class="w-100-p">{{'strategy.editInfo.smsSendSupport'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageSendSupport}}</span>
+                                    <span class="w-100-p">状态&nbsp;:&nbsp;&nbsp;&nbsp;{{(selectElement.params['template'].templateStatus ? (selectElement.params['template'].templateStatus).toLowerCase() : '')|translate}}</span>
+                                    <span class="w-100-p">模板类型&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateType}}</span>
+                                    <span class="w-100-p">短信供应商&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageSendSupport}}</span>
                                 </div>
                             </div>
                         </ng-container>
@@ -590,18 +590,18 @@
                             <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
                                 <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
                                     <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">{{'strategy.editInfo.addSmsTemplate'|translate}}</span>
+                                    <span class="ml-4">添加短信模板</span>
                                 </div>
                                 <div *ngFor="let item of selectElement.params['smsTemplates'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
                                      class="common-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
                                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>{{'strategy.editInfo.smsTemplateName'|translate}}&nbsp;:&nbsp;&nbsp;&nbsp;{{item.smsTemplateName}}</span>
+                                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{item.smsTemplateName}}</span>
                                         <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage(i)" fxLayout="row" fxLayoutAlign="center center">
                                             <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
                                         </button>
                                     </div>
-                                    <span class="w-100-p">{{'strategy.editInfo.templateStatus'|translate}}&nbsp;:{{item.templateStatus|translate}}</span>
-                                    <span class="w-100-p">{{'strategy.editInfo.smsTemplateContent'|translate}}&nbsp;:</span>
+                                    <span class="w-100-p">状态&nbsp;:{{item.templateStatus|translate}}</span>
+                                    <span class="w-100-p">模板内容&nbsp;:</span>
                                     <span class="w-100-p">{{item.smsTemplateContent}}</span>
                                 </div>
                             </div>
@@ -748,7 +748,7 @@
 </div>
 <!--清空确认弹框-->
 <ng-template #clearCanvas>
-    <app-confirm-dialog [content]="'strategy.clearCanvas'|translate"></app-confirm-dialog>
+    <app-confirm-dialog [content]="'点击确认将清空画布，所有节点、连线以及属性数据将被删除，确定要清空吗？'"></app-confirm-dialog>
 </ng-template>
 <!--清空确认弹框-->
 <ng-template #changeClear>
@@ -756,14 +756,14 @@
 </ng-template>
 <!--确认离开弹框-->
 <ng-template #canLeave>
-    <app-confirm-dialog [content]="'strategy.canLeave'|translate"></app-confirm-dialog>
+    <app-confirm-dialog [content]="'当前页面仍有内容未保存，离开后未保存的内容将丢失，您确定要离开当前页面吗？'"></app-confirm-dialog>
 </ng-template>
 <!--快捷键提示-->
 <ng-template #keyboard>
     <table class="keyboard w-100-p">
         <tr>
             <td colspan="2">
-                {{'strategy.tips.title'|translate}}
+                操作提示：
             </td>
         </tr>
         <tr *ngFor="let item of shortcutKeys">
