@@ -9,8 +9,8 @@
         <!-- CONTENT HEADER -->
         <div class="header accent py-24 px-8"
              fxLayout="row" fxLayoutAlign="space-between center">
-            <h2 class="m-0" *ngIf="isReload">新建营销策略</h2>
-            <h2 class="m-0" *ngIf="!isReload">编辑营销策略</h2>
+            <h2 class="m-0" *ngIf="isReload">编辑营销策略</h2>
+            <h2 class="m-0" *ngIf="!isReload">新建营销策略</h2>
            <!--保存取消操作-->
             <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px">
                 <button mat-button (click)="save()" [disableRipple]="true" matRipple [matRippleRadius]="15" [matRippleColor]="'#000000'"
@@ -18,8 +18,8 @@
                     <span class="iconfont iconsave  mr-8"></span>
                     <span>保存</span>
                 </button>
-                <button (click)="cancel()" mat-button [disableRipple]="true" matRipple [matRippleRadius]="15"
-                        [matRippleColor]="'#000000'" color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row"
+                <button (click)="cancel()" mat-button [disableRipple]="true" matRipple [matRippleRadius]="15" [matRippleColor]="'#000000'"
+                        color="accent" class="bg-white h-32 dark-box-shadow-hover" fxLayout="row"
                         fxLayoutAlign="space-between center">
                     <span class="iconfont iconreject mat-icon-12 mr-8"></span>
                     <span>取消</span>
@@ -255,6 +255,7 @@
                     </div>
                 </div>
             </div>
+
             <!--文本输入框 百分百分流-->
             <div *ngIf="selectElement&&showInput" @fadeInOut [ngStyle]="{'left':inputPosition.left+'px','top':inputPosition.top+'px'}"
                  class="text-input" fxLayout="column" fxLayoutAlign="space-around center">
@@ -268,6 +269,7 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
+
             <!--选择同种类节点替换-->
             <div *ngIf="selectElement&&showChangeType" [ngStyle]="{'left':changeTypePosition.left+'px','top':changeTypePosition.top+'px'}"
                  @fadeInOut class="change-type" fxLayout="column" fxLayoutAlign="space-around center">
