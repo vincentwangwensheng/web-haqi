@@ -48,8 +48,8 @@
                     </div>
                     <div class="w-100-p p-8 mt-8" fxLayout="row wrap" fxLayoutAlign="start center">
                         <div @fadeIn *ngFor="let control of triggers" [id]="control.type" class="node-div" fxLayout="column" fxLayoutAlign="space-around center" data-type="trigger"
-                             [title]="control.belongType|translate" draggable="true" (touchmove)="onTouchMove($event)"
-                             (touchend)="onTouchEnd($event)" (touchstart)="onTouchStart($event)" (dragstart)="onDragStart($event)">
+                             [title]="control.belongType|translate" draggable="true" (dragstart)="onDragStart($event)"
+                             (touchend)="onTouchEnd($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)">
                             <svg width="55" height="80" viewBox="0 0 55 80">
                                 <rect opacity="0" rx="2" class="rect-fill-theme" x="5" y="5" height="45" width="45"></rect>
                                 <circle r="20" cx="27.5" cy="27.5" stroke="#aaaaaa" fill="#ffffff"></circle>

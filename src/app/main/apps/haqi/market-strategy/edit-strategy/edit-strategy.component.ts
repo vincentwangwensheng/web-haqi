@@ -613,6 +613,20 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
         event.dataTransfer.effectAllowed = 'move';
     }
 
+    onDragOver(event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+    }
+
+    onControlDrop(event) {
+        event.preventDefault();
+        if (event.target.id === 'canvas') {
+            const type = this.dragControl.getAttribute('data-type');
+            this.drawNode(event, type);
+        }
+    }
+
+    // （touchstart、touchmove和touchend）- 移动Safari浏览器就提供了一些与触摸(touch)操作相关的新事件，Android上的浏览器也实现了相同的事件
     onTouchStart(event) {
         let svg: HTMLElement;
         if (event.target.parentNode) {
@@ -642,19 +656,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
     onTouchEnd(event) {
         if (d3.select('#dragSvg').node()) {
             d3.select('#dragSvg').remove();
-        }
-    }
-
-    onDragOver(event) {
-        event.preventDefault();
-        event.dataTransfer.dropEffect = 'move';
-    }
-
-    onControlDrop(event) {
-        event.preventDefault();
-        if (event.target.id === 'canvas') {
-            const type = this.dragControl.getAttribute('data-type');
-            this.drawNode(event, type);
         }
     }
 
