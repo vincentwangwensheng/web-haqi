@@ -298,443 +298,7 @@
                             <mat-icon class="mat-icon-20">close</mat-icon>
                         </button>
                     </div>
-                    <div ngSwitch="{{selectElement.name}}" class="info-content p-8 w-100-p" fxLayout="column" fxLayoutAlign="start center">
-                        <!--流程控制：标签过滤-->
-                        <ng-container *ngSwitchCase="'TagFilter'">
-                            <div class="p-8 tag-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-chip-list>
-                                    <button class="add-button" mat-stroked-button color="accent" (click)="openTagSelect(tagTemplate)">
-                                        <mat-icon class="mat-icon-20">add</mat-icon>
-                                    </button>
-                                    <ng-container *ngFor="let tag of selectElement.params['selectedTag'];let i=index">
-                                        <mat-chip [removable]="true" [selectable]="false" [matTooltip]="tag.tagName+'('+(currentProject+'.'+tag.tagType|translate)+')'"
-                                                matTooltipPosition="above" [ngClass]="{'accent':tag.tagType==='MEMBER','green-button':tag.tagType==='STORE','dark-yellow-button':tag.tagType==='ACTIVITY'}"
-                                                (removed)="removeTag(i)" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:50*i+'ms',duration:'500ms'}}">
-                                            <span>{{tag.tagName}}</span>
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-                                    </ng-container>
-                                </mat-chip-list>
-                            </div>
-                        </ng-container>
-                        <!--流程控制：有效积分-->
-                        <ng-container *ngSwitchCase="'EffectivePointsFilter'">
-                            <form autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>优先级</mat-label>
-                                    <input matInput>
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>条件</mat-label>
-                                    <mat-select>
-                                        <mat-option [value]="'='">等于</mat-option>
-                                        <mat-option [value]="'<'">小于</mat-option>
-                                        <mat-option [value]="'>'">大于</mat-option>
-                                        <mat-option [value]="'<='">小于等于</mat-option>
-                                        <mat-option [value]="'>='">大于等于</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>有效积分</mat-label>
-                                    <input matInput>
-                                </mat-form-field>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button mat-raised-button color="accent" (click)="showEditPanel=false">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-                        <!--流程控制：消费店铺-->
-                        <ng-container *ngSwitchCase="'ConsumeStoreFilter'">
-                            <div class="p-8 tag-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-chip-list>
-                                    <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'other')">
-                                        <mat-icon class="mat-icon-20">add</mat-icon>
-                                    </button>
-                                    <ng-container *ngFor="let store of selectElement.params['selectedStores'];let i=index">
-                                        <mat-chip [removable]="true" [selectable]="false" [matTooltip]="store.name" matTooltipPosition="above" (removed)="removeStore(i, 'other')"
-                                                [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:50*i+'ms',duration:'500ms'}}">
-                                            <span>{{store.tagName}}</span>
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-                                    </ng-container>
-                                </mat-chip-list>
-                            </div>
-                        </ng-container>
-                        <!--流程控制：会员等级-->
-<!--                        <ng-container *ngSwitchCase="'MemberLevelFilter'">-->
-<!--                            <form autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>-->
-<!--                                <mat-form-field class="w-96-p" appearance="outline">-->
-<!--                                    <mat-label>会员等级</mat-label>-->
-<!--                                    <mat-select>-->
-<!--                                        <mat-option [value]="'white'">普卡</mat-option>-->
-<!--                                    </mat-select>-->
-<!--                                </mat-form-field>-->
-<!--                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">-->
-<!--                                    <button mat-raised-button (click)="showEditPanel=false">取消</button>-->
-<!--                                    <button mat-raised-button color="accent" (click)="showEditPanel=false">确定</button>-->
-<!--                                </div>-->
-<!--                            </form>-->
-<!--                        </ng-container>-->
-                        <!--流程控制：消费金额-->
-                        <ng-container *ngSwitchCase="'OrderAmountFilter'">
-                            <form [formGroup]="consumeAmountGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>过滤条件</mat-label>
-                                    <mat-select formControlName="operator">
-                                        <mat-option [value]="'EQUALS'">等于</mat-option>
-                                        <mat-option [value]="'LESSTHAN'">小于</mat-option>
-                                        <mat-option [value]="'LESSTHANEQUAL'">小于等于</mat-option>
-                                        <mat-option [value]="'GREATEREQUAL'">大于</mat-option>
-                                        <mat-option [value]="'GREATEREQUALEQUAL'">大于等于</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>金额</mat-label>
-                                    <input matInput formControlName="value">
-                                    <mat-error>金额不能为空</mat-error>
-                                </mat-form-field>
-                            </form>
-                            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="toConsumeAmountFilter()" [disabled]="!consumeAmountGroup.valid">确定</button>
-                            </div>
-                        </ng-container>
-                        <!--执行器：店铺过滤-->
-                        <ng-container *ngSwitchCase="'StoreFilter'">
-                            <form [formGroup]="storeFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
-                                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
-                                    <span class="mb-8">店铺范围</span>
-                                    <mat-chip-list class="mb-16">
-                                        <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'storeFilterGroup')">
-                                            <mat-icon class="mat-icon-20">add</mat-icon>
-                                        </button>
-                                        <ng-container *ngFor="let store of storeFilterGroup.get('store').value;let i=index">
-                                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="store.storeName" matTooltipPosition="above" (removed)="removeStore(i, 'storeFilterGroup')" @fadeIn>
-                                                <span>{{store.storeName}}</span>
-                                                <mat-icon matChipRemove>cancel</mat-icon>
-                                            </mat-chip>
-                                        </ng-container>
-                                    </mat-chip-list>
-                                </div>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button type="button" mat-raised-button color="accent" (click)="saveStoreFilterParams()">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-                        <!--执行器：商场过滤-->
-                        <ng-container *ngSwitchCase="'MemberMallFilter'">
-                            <form [formGroup]="mallFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
-                                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
-                                    <span class="mb-8">商场范围</span>
-                                    <mat-chip-list class="mb-16">
-                                        <button class="add-button" mat-stroked-button color="accent" (click)="openMallSelect(mallTemplate, 'mallFilterGroup')">
-                                            <mat-icon class="mat-icon-20">add</mat-icon>
-                                        </button>
-                                        <ng-container *ngFor="let mall of mallFilterGroup.get('mall').value;let i=index">
-                                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="mall.mallName" matTooltipPosition="above" (removed)="removeMall(i, 'mallFilterGroup')" @fadeIn>
-                                                <span>{{mall.mallName}}</span>
-                                                <mat-icon matChipRemove>cancel</mat-icon>
-                                            </mat-chip>
-                                        </ng-container>
-                                    </mat-chip-list>
-                                </div>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button type="button" mat-raised-button color="accent" (click)="saveMallFilterParams()">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-                        <!--执行器：积分过滤-->
-                        <ng-container *ngSwitchCase="'OrderPointFilter'">
-                            <div fxLayout="row" fxLayoutAlign="start center" class="normal-form-fields">
-                                <p fxFlex="42" class="mt-0 mb-20">有效积分大于等于</p>
-                                <mat-form-field fxFlex="58" appearance="outline">
-                                    <input matInput [formControl]="orderPointFilterControl">
-                                    <mat-error>值不能为空</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="toOrderPointFilter()" [disabled]="!orderPointFilterControl.valid">确定</button>
-                            </div>
-                        </ng-container>
-                        <!--流程控制：订单日期过滤-->
-                        <ng-container *ngSwitchCase="'OrderDateFilter'">
-                            <form [formGroup]="dateFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p h-56" appearance="outline">
-                                    <mat-label>生效类型</mat-label>
-                                    <mat-select formControlName="type">
-                                        <mat-option [value]="'WEEK'">每周固定日期生效</mat-option>
-                                        <mat-option [value]="'DAY'">每月固定日期生效</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <div *ngIf="dateFilterGroup.value['type']==='WEEK'" class="pr-8 pl-8">
-                                    <p class="mt-0 mb-8">每周固定日期范围：</p>
-                                    <div class="weekOrDayRow">
-                                        <mat-checkbox *ngFor="let item of weekList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
-                                    </div>
-                                </div>
-                                <div *ngIf="dateFilterGroup.value['type']==='DAY'" class="pr-8 pl-8">
-                                    <p class="mt-0 mb-8">每月固定日期范围：</p>
-                                    <div class="weekOrDayRow">
-                                        <mat-checkbox *ngFor="let item of dayList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="toDateFilter()">确定</button>
-                            </div>
-                        </ng-container>
-                        <!--流程控制：会员日期过滤-->
-                        <ng-container *ngSwitchCase="'MemberDateFilter'">
-                            <form [formGroup]="dateFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p h-56" appearance="outline">
-                                    <mat-label>生效类型</mat-label>
-                                    <mat-select formControlName="type">
-                                        <mat-option [value]="'WEEK'">每周固定日期生效</mat-option>
-                                        <mat-option [value]="'DAY'">每月固定日期生效</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <div *ngIf="dateFilterGroup.value['type']==='WEEK'" class="pr-8 pl-8">
-                                    <p class="mt-0 mb-8">每周固定日期范围：</p>
-                                    <div class="weekOrDayRow">
-                                        <mat-checkbox *ngFor="let item of weekList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
-                                    </div>
-                                </div>
-                                <div *ngIf="dateFilterGroup.value['type']==='DAY'" class="pr-8 pl-8">
-                                    <p class="mt-0 mb-8">每月固定日期范围：</p>
-                                    <div class="weekOrDayRow">
-                                        <mat-checkbox *ngFor="let item of dayList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="toDateFilter()">确定</button>
-                            </div>
-                        </ng-container>
-
-                        <!--执行器：会员发券-->
-                        <ng-container *ngSwitchCase="'SendCouponActuator'">
-                            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
-                                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
-                                    <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">添加券</span>
-                                </div>
-                                <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
-                                     class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
-                                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
-                                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
-                                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
-                                        </button>
-                                    </div>
-                                    <span class="w-100-p">券编码&nbsp;:</span>
-                                    <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <!--执行器：订单发券 （与上面写在一起ngSwitchCase识别不了）-->
-                        <ng-container *ngSwitchCase="'OrderSendCouponActuator'">
-                            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
-                                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
-                                    <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">添加券</span>
-                                </div>
-                                <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
-                                     class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
-                                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
-                                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
-                                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
-                                        </button>
-                                    </div>
-                                    <span class="w-100-p">券编码&nbsp;:</span>
-                                    <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <!--执行器：消息-->
-                        <ng-container *ngSwitchCase="'MessageActuator'">
-                            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
-                                <div *ngIf="!selectElement.params['template']" class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
-                                    <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">添加消息模板</span>
-                                </div>
-                                <div *ngIf="selectElement.params['template']" [@animate]="{value:'*',params:{opacity:'0',delay:'100ms',duration:'500ms'}}"
-                                     class="common-cell cursor-pointer" (click)="openMessageSelect(messageTemplate)" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
-                                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateName}}</span>
-                                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage()" fxLayout="row" fxLayoutAlign="center center">
-                                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
-                                        </button>
-                                    </div>
-                                    <span class="w-100-p">状态&nbsp;:&nbsp;&nbsp;&nbsp;{{(selectElement.params['template'].templateStatus ? (selectElement.params['template'].templateStatus).toLowerCase() : '')|translate}}</span>
-                                    <span class="w-100-p">模板类型&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateType}}</span>
-                                    <span class="w-100-p">短信供应商&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageSendSupport}}</span>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <!--执行器：短信-->
-                        <ng-container *ngSwitchCase="'SMSActuator'">
-                            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
-                                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
-                                    <mat-icon>add_circle_outline</mat-icon>
-                                    <span class="ml-4">添加短信模板</span>
-                                </div>
-                                <div *ngFor="let item of selectElement.params['smsTemplates'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
-                                     class="common-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
-                                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{item.smsTemplateName}}</span>
-                                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage(i)" fxLayout="row" fxLayoutAlign="center center">
-                                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
-                                        </button>
-                                    </div>
-                                    <span class="w-100-p">状态&nbsp;:{{item.templateStatus|translate}}</span>
-                                    <span class="w-100-p">模板内容&nbsp;:</span>
-                                    <span class="w-100-p">{{item.smsTemplateContent}}</span>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <!--执行器：等级调整-->
-                        <ng-container *ngSwitchCase="'OrderSetLevelActuator'">
-                            <mat-form-field class="w-96-p" appearance="outline">
-                                <mat-label>调整至</mat-label>
-                                <mat-select [(ngModel)]="memberLevelInfo">
-                                    <mat-option [value]="item['id'] + ',' + item['level']" *ngFor="let item of memberLevelList">{{item['levelName']}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="saveMemberLevelId()">确定</button>
-                            </div>
-                        </ng-container>
-                        <!--控制器：等级过滤-->
-                        <ng-container *ngSwitchCase="'MemberLevelFilter'">
-                            <mat-form-field class="w-96-p" appearance="outline">
-                                <mat-label>当前等级</mat-label>
-                                <mat-select [(ngModel)]="memberLevelFilter">
-                                    <mat-option [value]="item['id'] + ',' + item['level']" *ngFor="let item of memberLevelList">{{item['levelName']}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                <button mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button mat-raised-button color="accent" (click)="saveMemberLevelFilter()">确定</button>
-                            </div>
-                        </ng-container>
-                        <!--执行器：等级多倍积分-->
-                        <ng-container *ngSwitchCase="'LevelMagnificationActuator'">
-                            <form [formGroup]="levelGroup" autocomplete="off" class="form-scroll normal-form-fields w-252 pt-20"
-                                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field *ngFor="let level of levels" class="w-96-p" appearance="outline">
-                                    <mat-label>{{level?.levelName}}</mat-label>
-                                    <input matInput [formControlName]="level.level">
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>有效期类型</mat-label>
-                                    <mat-select formControlName="periodType">
-                                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="levelGroup.get('validPeriod')" [config]="dateConfig">
-                                </app-material-date-picker>
-                            </form>
-                            <div class="w-100-p operate-buttons mb-8" fxLayout="row" fxLayoutAlign="end center">
-                                <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                <button type="button" mat-raised-button color="accent" (click)="saveLevelParams()">确定
-                                </button>
-                            </div>
-                        </ng-container>
-                        <!--执行器：生日多倍积分-->
-                        <ng-container *ngSwitchCase="'BirthdayMagnificationActuator'">
-                            <form [formGroup]="birthGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>积分倍数</mat-label>
-                                    <input formControlName="magnification" matInput>
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>生日范围</mat-label>
-                                    <mat-select formControlName="range">
-                                        <mat-option [value]="'DAY'">当日</mat-option>
-                                        <mat-option [value]="'WEEK'">当周</mat-option>
-                                        <mat-option [value]="'MONTH'">当月</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>有效期类型</mat-label>
-                                    <mat-select formControlName="periodType">
-                                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="birthGroup.get('validPeriod')" [config]="dateConfig">
-                                </app-material-date-picker>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button type="button" mat-raised-button color="accent" [disabled]="!birthGroup.valid" (click)="saveBirthParams()">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-                        <!--执行器：店铺多倍积分-->
-                        <ng-container *ngSwitchCase="'StoreMagnificationActuator'">
-                            <form [formGroup]="storeGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
-                                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>积分倍数</mat-label>
-                                    <input formControlName="magnification" matInput>
-                                </mat-form-field>
-                                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
-                                    <span class="mb-8">店铺范围</span>
-                                    <mat-chip-list class="mb-16">
-                                        <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'storeGroup')">
-                                            <mat-icon class="mat-icon-20">add</mat-icon>
-                                        </button>
-                                        <ng-container *ngFor="let store of storeGroup.get('store').value;let i=index">
-                                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="store.storeName" matTooltipPosition="above" (removed)="removeStore(i, 'storeGroup')" @fadeIn>
-                                                <span>{{store.storeName}}</span>
-                                                <mat-icon matChipRemove>cancel</mat-icon>
-                                            </mat-chip>
-                                        </ng-container>
-                                    </mat-chip-list>
-                                </div>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>有效期类型</mat-label>
-                                    <mat-select formControlName="periodType">
-                                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="storeGroup.get('validPeriod')" [config]="dateConfig">
-                                </app-material-date-picker>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button type="button" mat-raised-button color="accent" [disabled]="!storeGroup.valid" (click)="saveStoreParams()">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-
-                        <!--执行器：送积分-->
-                        <ng-container *ngSwitchCase="'GivePointActuator'">
-                            <form [formGroup]="givePointGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-                                <mat-form-field class="w-96-p" appearance="outline">
-                                    <mat-label>积分增加</mat-label>
-                                    <input formControlName="point" matInput>
-                                </mat-form-field>
-                                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="givePointGroup.get('expireDate')" [config]="dateConfig">
-                                </app-material-date-picker>
-                                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
-                                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
-                                    <button type="button" mat-raised-button color="accent" [disabled]="!givePointGroup.valid" (click)="saveGivePointParams()">确定</button>
-                                </div>
-                            </form>
-                        </ng-container>
-                    </div>
+                    <ng-container *ngTemplateOutlet="editInfo"></ng-container>
                 </div>
                 <div class="expand-panel"></div>
             </div>
@@ -770,38 +334,453 @@
         </tr>
     </table>
 </ng-template>
-<!--选择常旅客会员标签-->
+
+<!--编辑详情-->
+<ng-template #editInfo>
+    <div ngSwitch="{{selectElement.name}}" class="info-content p-8 w-100-p" fxLayout="column" fxLayoutAlign="start center">
+        <!--流程控制：标签过滤-->
+        <ng-container *ngSwitchCase="'TagFilter'">
+            <div class="p-8 tag-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-chip-list>
+                    <button class="add-button" mat-stroked-button color="accent" (click)="openTagSelect(tagTemplate)">
+                        <mat-icon class="mat-icon-20">add</mat-icon>
+                    </button>
+                    <ng-container *ngFor="let tag of selectElement.params['selectedTag'];let i=index">
+                        <mat-chip [removable]="true" [selectable]="false" [matTooltip]="tag.tagName+'('+(currentProject+'.'+tag.tagType|translate)+')'"
+                                  matTooltipPosition="above" [ngClass]="{'accent':tag.tagType==='MEMBER','green-button':tag.tagType==='STORE','dark-yellow-button':tag.tagType==='ACTIVITY'}"
+                                  (removed)="removeTag(i)" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:50*i+'ms',duration:'500ms'}}">
+                            <span>{{tag.tagName}}</span>
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </ng-container>
+                </mat-chip-list>
+            </div>
+        </ng-container>
+        <!--流程控制：有效积分-->
+        <ng-container *ngSwitchCase="'EffectivePointsFilter'">
+            <form autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>优先级</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>条件</mat-label>
+                    <mat-select>
+                        <mat-option [value]="'='">等于</mat-option>
+                        <mat-option [value]="'<'">小于</mat-option>
+                        <mat-option [value]="'>'">大于</mat-option>
+                        <mat-option [value]="'<='">小于等于</mat-option>
+                        <mat-option [value]="'>='">大于等于</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>有效积分</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button mat-raised-button color="accent" (click)="showEditPanel=false">确定</button>
+                </div>
+            </form>
+        </ng-container>
+        <!--流程控制：消费店铺-->
+        <ng-container *ngSwitchCase="'ConsumeStoreFilter'">
+            <div class="p-8 tag-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-chip-list>
+                    <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'other')">
+                        <mat-icon class="mat-icon-20">add</mat-icon>
+                    </button>
+                    <ng-container *ngFor="let store of selectElement.params['selectedStores'];let i=index">
+                        <mat-chip [removable]="true" [selectable]="false" [matTooltip]="store.name" matTooltipPosition="above" (removed)="removeStore(i, 'other')"
+                                  [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:50*i+'ms',duration:'500ms'}}">
+                            <span>{{store.tagName}}</span>
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </ng-container>
+                </mat-chip-list>
+            </div>
+        </ng-container>
+        <!--流程控制：消费金额-->
+        <ng-container *ngSwitchCase="'OrderAmountFilter'">
+            <form [formGroup]="consumeAmountGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>过滤条件</mat-label>
+                    <mat-select formControlName="operator">
+                        <mat-option [value]="'EQUALS'">等于</mat-option>
+                        <mat-option [value]="'LESSTHAN'">小于</mat-option>
+                        <mat-option [value]="'LESSTHANEQUAL'">小于等于</mat-option>
+                        <mat-option [value]="'GREATEREQUAL'">大于</mat-option>
+                        <mat-option [value]="'GREATEREQUALEQUAL'">大于等于</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>金额</mat-label>
+                    <input matInput formControlName="value">
+                    <mat-error>金额不能为空</mat-error>
+                </mat-form-field>
+            </form>
+            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="toConsumeAmountFilter()" [disabled]="!consumeAmountGroup.valid">确定</button>
+            </div>
+        </ng-container>
+        <!--执行器：店铺过滤-->
+        <ng-container *ngSwitchCase="'StoreFilter'">
+            <form [formGroup]="storeFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
+                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
+                    <span class="mb-8">店铺范围</span>
+                    <mat-chip-list class="mb-16">
+                        <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'storeFilterGroup')">
+                            <mat-icon class="mat-icon-20">add</mat-icon>
+                        </button>
+                        <ng-container *ngFor="let store of storeFilterGroup.get('store').value;let i=index">
+                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="store.storeName" matTooltipPosition="above" (removed)="removeStore(i, 'storeFilterGroup')" @fadeIn>
+                                <span>{{store.storeName}}</span>
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </ng-container>
+                    </mat-chip-list>
+                </div>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button type="button" mat-raised-button color="accent" (click)="saveStoreFilterParams()">确定</button>
+                </div>
+            </form>
+        </ng-container>
+        <!--执行器：商场过滤-->
+        <ng-container *ngSwitchCase="'MemberMallFilter'">
+            <form [formGroup]="mallFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
+                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
+                    <span class="mb-8">商场范围</span>
+                    <mat-chip-list class="mb-16">
+                        <button class="add-button" mat-stroked-button color="accent" (click)="openMallSelect(mallTemplate, 'mallFilterGroup')">
+                            <mat-icon class="mat-icon-20">add</mat-icon>
+                        </button>
+                        <ng-container *ngFor="let mall of mallFilterGroup.get('mall').value;let i=index">
+                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="mall.mallName" matTooltipPosition="above" (removed)="removeMall(i, 'mallFilterGroup')" @fadeIn>
+                                <span>{{mall.mallName}}</span>
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </ng-container>
+                    </mat-chip-list>
+                </div>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button type="button" mat-raised-button color="accent" (click)="saveMallFilterParams()">确定</button>
+                </div>
+            </form>
+        </ng-container>
+        <!--执行器：积分过滤-->
+        <ng-container *ngSwitchCase="'OrderPointFilter'">
+            <div fxLayout="row" fxLayoutAlign="start center" class="normal-form-fields">
+                <p fxFlex="42" class="mt-0 mb-20">有效积分大于等于</p>
+                <mat-form-field fxFlex="58" appearance="outline">
+                    <input matInput [formControl]="orderPointFilterControl">
+                    <mat-error>值不能为空</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="toOrderPointFilter()" [disabled]="!orderPointFilterControl.valid">确定</button>
+            </div>
+        </ng-container>
+        <!--流程控制：订单日期过滤-->
+        <ng-container *ngSwitchCase="'OrderDateFilter'">
+            <form [formGroup]="dateFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p h-56" appearance="outline">
+                    <mat-label>生效类型</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option [value]="'WEEK'">每周固定日期生效</mat-option>
+                        <mat-option [value]="'DAY'">每月固定日期生效</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="dateFilterGroup.value['type']==='WEEK'" class="pr-8 pl-8">
+                    <p class="mt-0 mb-8">每周固定日期范围：</p>
+                    <div class="weekOrDayRow">
+                        <mat-checkbox *ngFor="let item of weekList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
+                    </div>
+                </div>
+                <div *ngIf="dateFilterGroup.value['type']==='DAY'" class="pr-8 pl-8">
+                    <p class="mt-0 mb-8">每月固定日期范围：</p>
+                    <div class="weekOrDayRow">
+                        <mat-checkbox *ngFor="let item of dayList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
+                    </div>
+                </div>
+            </form>
+            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="toDateFilter()">确定</button>
+            </div>
+        </ng-container>
+        <!--流程控制：会员日期过滤-->
+        <ng-container *ngSwitchCase="'MemberDateFilter'">
+            <form [formGroup]="dateFilterGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p h-56" appearance="outline">
+                    <mat-label>生效类型</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option [value]="'WEEK'">每周固定日期生效</mat-option>
+                        <mat-option [value]="'DAY'">每月固定日期生效</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="dateFilterGroup.value['type']==='WEEK'" class="pr-8 pl-8">
+                    <p class="mt-0 mb-8">每周固定日期范围：</p>
+                    <div class="weekOrDayRow">
+                        <mat-checkbox *ngFor="let item of weekList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
+                    </div>
+                </div>
+                <div *ngIf="dateFilterGroup.value['type']==='DAY'" class="pr-8 pl-8">
+                    <p class="mt-0 mb-8">每月固定日期范围：</p>
+                    <div class="weekOrDayRow">
+                        <mat-checkbox *ngFor="let item of dayList" class="w-72" [(ngModel)]="item['checked']" [ngModelOptions]="{standalone: true}">{{item['desc']}}</mat-checkbox>
+                    </div>
+                </div>
+            </form>
+            <!-- 发现放在form里面会产生表单提交页面刷新情况，所以移出来 -->
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="toDateFilter()">确定</button>
+            </div>
+        </ng-container>
+        <!--执行器：会员发券-->
+        <ng-container *ngSwitchCase="'SendCouponActuator'">
+            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
+                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <span class="ml-4">添加券</span>
+                </div>
+                <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                     class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                        </button>
+                    </div>
+                    <span class="w-100-p">券编码&nbsp;:</span>
+                    <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
+                </div>
+            </div>
+        </ng-container>
+        <!--执行器：订单发券 （与上面写在一起ngSwitchCase识别不了）-->
+        <ng-container *ngSwitchCase="'OrderSendCouponActuator'">
+            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
+                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openCouponRuleSelect(couponTemplate)">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <span class="ml-4">添加券</span>
+                </div>
+                <div *ngFor="let coupon of selectElement.params['couponRules'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                     class="coupon-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>券名称&nbsp;:&nbsp;&nbsp;&nbsp;{{coupon.name}}</span>
+                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeCoupon(i)" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                        </button>
+                    </div>
+                    <span class="w-100-p">券编码&nbsp;:</span>
+                    <span class="w-100-p text-ellipsis">{{coupon.number}}</span>
+                </div>
+            </div>
+        </ng-container>
+        <!--执行器：消息-->
+        <ng-container *ngSwitchCase="'MessageActuator'">
+            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
+                <div *ngIf="!selectElement.params['template']" class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <span class="ml-4">添加消息模板</span>
+                </div>
+                <div *ngIf="selectElement.params['template']" [@animate]="{value:'*',params:{opacity:'0',delay:'100ms',duration:'500ms'}}"
+                     class="common-cell cursor-pointer" (click)="openMessageSelect(messageTemplate)" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateName}}</span>
+                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage()" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                        </button>
+                    </div>
+                    <span class="w-100-p">状态&nbsp;:&nbsp;&nbsp;&nbsp;{{(selectElement.params['template'].templateStatus ? (selectElement.params['template'].templateStatus).toLowerCase() : '')|translate}}</span>
+                    <span class="w-100-p">模板类型&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageTemplateType}}</span>
+                    <span class="w-100-p">短信供应商&nbsp;:&nbsp;&nbsp;&nbsp;{{selectElement.params['template'].messageSendSupport}}</span>
+                </div>
+            </div>
+        </ng-container>
+        <!--执行器：短信-->
+        <ng-container *ngSwitchCase="'SMSActuator'">
+            <div class="p-8 params-container" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill>
+                <div class="add-button" fxLayout="row" fxLayoutAlign="center center" (click)="openMessageSelect(messageTemplate)">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <span class="ml-4">添加短信模板</span>
+                </div>
+                <div *ngFor="let item of selectElement.params['smsTemplates'];let i=index" [@animate]="{value:'*',params:{y:'100%',opacity:'0',delay:100*i+'ms',duration:'500ms'}}"
+                     class="common-cell" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px">
+                    <div class="w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>模板名称&nbsp;:&nbsp;&nbsp;&nbsp;{{item.smsTemplateName}}</span>
+                        <button mat-icon-button class="w-24 h-24 remove-button" (click)="removeMessage()" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon class="mat-icon-20" color="warn">cancel</mat-icon>
+                        </button>
+                    </div>
+                    <span class="w-100-p">状态&nbsp;:{{item.templateStatus|translate}}</span>
+                    <span class="w-100-p">模板内容&nbsp;:</span>
+                    <span class="w-100-p">{{item.smsTemplateContent}}</span>
+                </div>
+            </div>
+        </ng-container>
+        <!--执行器：等级调整-->
+        <ng-container *ngSwitchCase="'OrderSetLevelActuator'">
+            <mat-form-field class="w-96-p" appearance="outline">
+                <mat-label>调整至</mat-label>
+                <mat-select [(ngModel)]="memberLevelInfo">
+                    <mat-option [value]="item['id'] + ',' + item['level']" *ngFor="let item of memberLevelList">{{item['levelName']}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="saveMemberLevelId()">确定</button>
+            </div>
+        </ng-container>
+        <!--控制器：等级过滤-->
+        <ng-container *ngSwitchCase="'MemberLevelFilter'">
+            <mat-form-field class="w-96-p" appearance="outline">
+                <mat-label>当前等级</mat-label>
+                <mat-select [(ngModel)]="memberLevelFilter">
+                    <mat-option [value]="item['id'] + ',' + item['level']" *ngFor="let item of memberLevelList">{{item['levelName']}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button mat-raised-button color="accent" (click)="saveMemberLevelFilter()">确定</button>
+            </div>
+        </ng-container>
+        <!--执行器：等级多倍积分-->
+        <ng-container *ngSwitchCase="'LevelMagnificationActuator'">
+            <form [formGroup]="levelGroup" autocomplete="off" class="form-scroll normal-form-fields w-252 pt-20"
+                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field *ngFor="let level of levels" class="w-96-p" appearance="outline">
+                    <mat-label>{{level?.levelName}}</mat-label>
+                    <input matInput [formControlName]="level.level">
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>有效期类型</mat-label>
+                    <mat-select formControlName="periodType">
+                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="levelGroup.get('validPeriod')" [config]="dateConfig">
+                </app-material-date-picker>
+            </form>
+            <div class="w-100-p operate-buttons mb-8" fxLayout="row" fxLayoutAlign="end center">
+                <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                <button type="button" mat-raised-button color="accent" (click)="saveLevelParams()">确定
+                </button>
+            </div>
+        </ng-container>
+        <!--执行器：生日多倍积分-->
+        <ng-container *ngSwitchCase="'BirthdayMagnificationActuator'">
+            <form [formGroup]="birthGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>积分倍数</mat-label>
+                    <input formControlName="magnification" matInput>
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>生日范围</mat-label>
+                    <mat-select formControlName="range">
+                        <mat-option [value]="'DAY'">当日</mat-option>
+                        <mat-option [value]="'WEEK'">当周</mat-option>
+                        <mat-option [value]="'MONTH'">当月</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>有效期类型</mat-label>
+                    <mat-select formControlName="periodType">
+                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="birthGroup.get('validPeriod')" [config]="dateConfig">
+                </app-material-date-picker>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button type="button" mat-raised-button color="accent" [disabled]="!birthGroup.valid" (click)="saveBirthParams()">确定</button>
+                </div>
+            </form>
+        </ng-container>
+        <!--执行器：店铺多倍积分-->
+        <ng-container *ngSwitchCase="'StoreMagnificationActuator'">
+            <form [formGroup]="storeGroup" autocomplete="off" class="normal-form-fields w-252 mt-8"
+                  fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>积分倍数</mat-label>
+                    <input formControlName="magnification" matInput>
+                </mat-form-field>
+                <div class="p-8 tag-container w-100-p" fxLayout="column" fxLayoutAlign="start start">
+                    <span class="mb-8">店铺范围</span>
+                    <mat-chip-list class="mb-16">
+                        <button class="add-button" mat-stroked-button color="accent" (click)="openStoreSelect(storeTemplate, 'storeGroup')">
+                            <mat-icon class="mat-icon-20">add</mat-icon>
+                        </button>
+                        <ng-container *ngFor="let store of storeGroup.get('store').value;let i=index">
+                            <mat-chip [removable]="true" [selectable]="false" class="accent" [matTooltip]="store.storeName" matTooltipPosition="above" (removed)="removeStore(i, 'storeGroup')" @fadeIn>
+                                <span>{{store.storeName}}</span>
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </ng-container>
+                    </mat-chip-list>
+                </div>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>有效期类型</mat-label>
+                    <mat-select formControlName="periodType">
+                        <mat-option [value]="'CUSTOM'">自定义日期</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="storeGroup.get('validPeriod')" [config]="dateConfig">
+                </app-material-date-picker>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button type="button" mat-raised-button color="accent" [disabled]="!storeGroup.valid" (click)="saveStoreParams()">确定</button>
+                </div>
+            </form>
+        </ng-container>
+        <!--执行器：送积分-->
+        <ng-container *ngSwitchCase="'GivePointActuator'">
+            <form [formGroup]="givePointGroup" autocomplete="off" class="normal-form-fields w-252 mt-8" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+                <mat-form-field class="w-96-p" appearance="outline">
+                    <mat-label>积分增加</mat-label>
+                    <input formControlName="point" matInput>
+                </mat-form-field>
+                <app-material-date-picker class="w-96-p" [label]="'积分有效期'" [timeControl]="givePointGroup.get('expireDate')" [config]="dateConfig">
+                </app-material-date-picker>
+                <div class="w-100-p operate-buttons" fxLayout="row" fxLayoutAlign="end center">
+                    <button type="button" mat-raised-button (click)="showEditPanel=false">取消</button>
+                    <button type="button" mat-raised-button color="accent" [disabled]="!givePointGroup.valid" (click)="saveGivePointParams()">确定</button>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</ng-template>
+
+<!------------------------------------选择弹框列表数据-------------------------------->
 <ng-template #tagTemplate>
-    <app-merchants-tag-management [selectedRows]="selectedTags" [checkbox]="true" [overPanel]="true"
-                                  [showButton]="false"
-                                  (dataSelect)="onTagSelect($event)"></app-merchants-tag-management>
+    <!--选择常旅客会员标签-->
+    <app-merchants-tag-management [selectedRows]="selectedTags" [checkbox]="true" [overPanel]="true" [showButton]="false" (dataSelect)="onTagSelect($event)"></app-merchants-tag-management>
 </ng-template>
-<!--选择营销活动-->
 <ng-template #activities>
-    <app-activity-list [overPanel]="true" [createButton]="false" [singleSelect]="true"
-                       [selectedRow]="selectedActivity"
-                       (dataSelect)="onActivitySelect($event)"></app-activity-list>
+    <!--选择营销活动-->
+    <app-activity-list [overPanel]="true" [createButton]="false" [singleSelect]="true" [selectedRow]="selectedActivity" (dataSelect)="onActivitySelect($event)"></app-activity-list>
 </ng-template>
-<!--执行器选择参数⬇-->
-<!--选择电子券规则-->
 <ng-template #couponTemplate>
-    <app-coupon-list [overPanel]="true" [checkbox]="true" [selectedRows]="selectedCouponRules"
-                     (dataSelect)="onCouponSelect($event)"></app-coupon-list>
+    <!--选择电子券规则-->
+    <app-coupon-list [overPanel]="true" [checkbox]="true" [selectedRows]="selectedCouponRules" (dataSelect)="onCouponSelect($event)"></app-coupon-list>
 </ng-template>
-<!--选择消息模板-->
 <ng-template #messageTemplate>
-    <app-message-template [overPanel]="true" [createButton]="false" [singleSelect]="true"
-                          [selectedRow]="selectedMsgTemplate" (dataSelect)="onMessageSelect($event)"></app-message-template>
+    <!--选择消息模板-->
+    <app-message-template [overPanel]="true" [createButton]="false" [singleSelect]="true" [selectedRow]="selectedMsgTemplate" (dataSelect)="onMessageSelect($event)"></app-message-template>
 </ng-template>
-
-<!--选择商户模板-->
 <ng-template #storeTemplate>
-    <app-store-manage [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedStores"
-                      (dataSelect)="onStoreSelect($event)"></app-store-manage>
+    <!--选择商户模板-->
+    <app-store-manage [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedStores" (dataSelect)="onStoreSelect($event)"></app-store-manage>
 </ng-template>
-
-<!--选择商场模板-->
 <ng-template #mallTemplate>
-    <app-mall-manage [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedMalls"
-                      (dataSelect)="onMallSelect($event)"></app-mall-manage>
+    <!--选择商场模板-->
+    <app-mall-manage [overPanel]="true" [createButton]="false" [checkbox]="true" [selectedRows]="selectedMalls" (dataSelect)="onMallSelect($event)"></app-mall-manage>
 </ng-template>
