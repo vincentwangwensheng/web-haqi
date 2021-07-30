@@ -300,9 +300,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
             default:
             case 0: {
                 this.strategy.get('type').setValue(EngineType.Order);
-                // this.triggers = orderStrategy.triggers; // 触发器  name和type要保持一直，因为后面用到了strategy.+name来取翻译的问题
-                // this.controls = orderStrategy.controls; // 过程控制
-                // this.actuators = orderStrategy.actuators; // 执行器
                 this.strategyService.getOrderNode().subscribe(res => {
                     if (res && Array.isArray(res)) {
                         this.triggers = orderStrategy.triggers.filter(trigger => res.find(node => node.nodeTypeName === trigger.type));
@@ -318,9 +315,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             case 1: {
                 this.strategy.get('type').setValue(EngineType.Member);
-                // this.triggers = memberStrategy.triggers; // 触发器  name和type要保持一直，因为后面用到了strategy.+name来取翻译的问题
-                // this.controls = memberStrategy.controls; // 过程控制
-                // this.actuators = memberStrategy.actuators; // 执行器
                 this.strategyService.getMemberNode().subscribe(res => {
                     if (res && Array.isArray(res)) {
                         this.triggers = memberStrategy.triggers.filter(trigger => res.find(node => node.nodeTypeName === trigger.type));
@@ -470,11 +464,6 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.showEditControls) {
             this.getPanelPosition();
         }
-    }
-
-    // 设置svg字体中内容
-    setTextToLine(text) {
-        d3.select('#' + this.selectElement.id + '_text').text(text);
     }
 
     // 转化节点参数 一般是选择了多个对象数组，转化为id数组或特定字段数组方便传输
@@ -828,17 +817,16 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // 点击节点中心 连接节点
         mainCircle.on('mousedown', () => {
-                const nodeId = d3.event.target.parentNode.parentNode.id;
-                this.targetNode = this.nodes.find(item => item.id === nodeId);
-                if (this.drawFlag && !this.checkNodeCanLinkTo()) { // 连接节点
-                    this.drawLine.remove();
-                    this.drawFlag = false;
-                    this.drawNewLinePointToPoint(this.sourceNode.center, this.targetNode.center);
-                }
-                this.errorMsg = '';
-                mainCircle.style('stroke', null);
+            const nodeId = d3.event.target.parentNode.parentNode.id;
+            this.targetNode = this.nodes.find(item => item.id === nodeId);
+            if (this.drawFlag && !this.checkNodeCanLinkTo()) { // 连接节点
+                this.drawLine.remove();
+                this.drawFlag = false;
+                this.drawNewLinePointToPoint(this.sourceNode.center, this.targetNode.center);
             }
-        );
+            this.errorMsg = '';
+            mainCircle.style('stroke', null);
+        });
     }
 
     // 点到点连接 创建新连线
@@ -1492,21 +1480,8 @@ export class EditStrategyComponent implements OnInit, AfterViewInit, OnDestroy {
                         node.params['selectedTag'] = res;
                     }
                 });
-                // const observables = [];
-                // node.params['selectedTag'].forEach(item => {
-                //     observables.push(this.strategyService.getTagById(item).pipe(takeUntil(this.unsubscribeAll))
-                //     );
-                // });
-                // forkJoin(observables).subscribe(res => {
-                //     node.params['selectedTag'] = res;
-                // });
             } else if ((node.name === 'SendCouponActuator' || node.name === 'OrderSendCouponActuator') && node.params['couponRules']) {
                 const ids = node.params['couponRules'];
-                // this.strategyService.getCoupons(0, 0x3f3f3f3f, 'lastModifiedDate,desc', ids).subscribe(res => {
-                //     if (res.length > 0) {
-                //         node.params['couponRules'] = res;
-                //     }
-                // });
                 const observables = [];
                 node.params['couponRules'].forEach(item => {
                     observables.push(this.strategyService.getCouponRuleById(item).pipe(takeUntil(this.unsubscribeAll))
